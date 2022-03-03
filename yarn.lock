@@ -1575,9 +1575,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
-    "@jil/common": ^0.2.26
-    "@jil/config": ^0.3.4
-    "@jil/ncommon": ^0.2.6
+    "@jil/common": ^0.2.27
+    "@jil/config": ^0.3.5
+    "@jil/ncommon": ^0.2.7
     "@loopback/core": ^3.1.1
     "@loopback/testlab": ^4.1.1
     "@nutol/build": ^0.2.6
@@ -1627,19 +1627,19 @@ __metadata:
     "@types/proxyquire": ^1.3.28
     "@types/pubnub": ^4.29.6
     "@types/socket.io-client": ^3.0.0
-    aws-sdk: ^2.1084.0
+    aws-sdk: ^2.1085.0
     firebase-admin: ^10.0.2
     nodemailer: ^6.7.2
     proxyquire: ^2.1.3
-    pubnub: ^5.0.0
+    pubnub: ^5.0.1
     socket.io-client: ^4.4.1
     source-map-support: ^0.5.21
     tslib: ^2.3.1
   peerDependencies:
-    aws-sdk: ^2.1084.0
+    aws-sdk: ^2.1085.0
     firebase-admin: ^10.0.2
     nodemailer: ^6.7.2
-    pubnub: ^5.0.0
+    pubnub: ^5.0.1
     socket.io-client: ^4.4.1
   languageName: unknown
   linkType: soft
@@ -2477,76 +2477,76 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jil/common@npm:^0.2.26":
-  version: 0.2.26
-  resolution: "@jil/common@npm:0.2.26"
+"@jil/common@npm:^0.2.27":
+  version: 0.2.27
+  resolution: "@jil/common@npm:0.2.27"
   dependencies:
     optimal: ^5.1.1
-    tily: ^2.14.3
-  checksum: bd5460f519d39d3271fb9436229c5ec776654e17fab716f2d3e89aa4fdb410f8275f88791a96fc1345ea67deb3e8225668531c8fea8dbc726d8d70093d59a6c3
+    tily: ^2.14.4
+  checksum: 199e29f4672b89dfe8c5ad8fd00e9ed74d08eb1cbdac4aca5057f60b07f2a6566035d156da745068e3fc27c5f7aa17470825fb9a66ca55c78b7166d17336f96d
   languageName: node
   linkType: hard
 
-"@jil/config@npm:^0.3.4":
-  version: 0.3.4
-  resolution: "@jil/config@npm:0.3.4"
+"@jil/config@npm:^0.3.5":
+  version: 0.3.5
+  resolution: "@jil/config@npm:0.3.5"
   dependencies:
-    "@jil/common": ^0.2.26
-    "@jil/debug": ^0.2.6
-    "@jil/module": ^0.2.3
-    "@jil/ncommon": ^0.2.6
-    "@jil/support": ^0.2.5
+    "@jil/common": ^0.2.27
+    "@jil/debug": ^0.2.7
+    "@jil/module": ^0.2.4
+    "@jil/ncommon": ^0.2.7
+    "@jil/support": ^0.2.6
     minimatch: ^5.0.1
-    tily: ^2.14.3
-  checksum: edef0c6da6e4428d3fdab70dab475dcaee0f1e3f5b7132dee8b3c19c46d24fe8393a41c59384389b00ca604ef48666e94c770a320392b3fd83ca3123e308e774
+    tily: ^2.14.4
+  checksum: 9f9884b7c1dcbc029039448da39f15b46ec576a8fb14a626f38b0e77617d5373dc351782c10f38b6a6b75f93ab207f7f3d48ad3c2bc83eee01c985fabe33238e
   languageName: node
   linkType: hard
 
-"@jil/debug@npm:^0.2.6":
-  version: 0.2.6
-  resolution: "@jil/debug@npm:0.2.6"
+"@jil/debug@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "@jil/debug@npm:0.2.7"
   dependencies:
-    "@jil/support": ^0.2.5
+    "@jil/support": ^0.2.6
     "@types/debug": ^4.1.7
     debug: ^4.3.3
-    tily: ^2.14.3
-  checksum: 0e5e71e0ba2a850fa75b96b91ac4ee5cd6617449045e705983f43c860fd42b5770a936ef9e50e60066a3a7ff13e66568174925138662fc18f81b9f492b861f4b
+    tily: ^2.14.4
+  checksum: ccc2f52bf2b23667e2bdaaa3d210d16458aed4c47c7843b48d54c9bb07b1c6a06a5e9b46476bddba04cb26d879caad6f6ef9d5947fbcb1149147913f8aef4bcf
   languageName: node
   linkType: hard
 
-"@jil/decorators@npm:^0.2.8":
-  version: 0.2.8
-  resolution: "@jil/decorators@npm:0.2.8"
-  checksum: 87abb81df0b6a05d726e36aa63715cc908ee92e5bcad0534a433d02fbe5c06dde0ca352f89baaa8001129f2ecea90c91039979d04f707dec9f9f912e242cb28e
+"@jil/decorators@npm:^0.2.9":
+  version: 0.2.9
+  resolution: "@jil/decorators@npm:0.2.9"
+  checksum: d457aec45d2390148f6b38184b3283beee9e3bfcf84eb5752acfd727271e73c0b880f080a07f5933f0160779d5bbc636b00a338a046e1f519f14b937599e7d25
   languageName: node
   linkType: hard
 
-"@jil/module@npm:^0.2.3":
-  version: 0.2.3
-  resolution: "@jil/module@npm:0.2.3"
-  checksum: 195bb1337241c4109158ac4a2f72dff4bf3ab8e947072220781aa07fca1462d19007dac05dc36395c78fe8aeae06812a2051fad2eab61ce6418656b97d420cd0
+"@jil/module@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "@jil/module@npm:0.2.4"
+  checksum: f6deaab7186d6a7c0c9850afe26644e8b9367e246f25bb1b52d7504d6c609518756ff69c31d3eee8429d6b51b0d6a0a6b720d8c948f27321148a63c87b9d4e07
   languageName: node
   linkType: hard
 
-"@jil/ncommon@npm:^0.2.6":
-  version: 0.2.6
-  resolution: "@jil/ncommon@npm:0.2.6"
+"@jil/ncommon@npm:^0.2.7":
+  version: 0.2.7
+  resolution: "@jil/ncommon@npm:0.2.7"
   dependencies:
-    "@jil/common": ^0.2.26
-    "@jil/decorators": ^0.2.8
+    "@jil/common": ^0.2.27
+    "@jil/decorators": ^0.2.9
     resolve: ^1.22.0
-    tily: ^2.14.3
-  checksum: cabb26f69d8746aae829ff5ef720bb8a324c32701e216c4145f556fd7ab786558f095a27d8e1af5eadf14bdb1fbefb12fd4adc1f8f44bb522b5816600bfa55e5
+    tily: ^2.14.4
+  checksum: f17abe7a4182f33f86bcdf2656f7fe4d93167342ba6091ff6422f342480c0950ce682b1832dbbb1509efca1024ccbd007f55f2304a66f2f3827119e2a2f9fb04
   languageName: node
   linkType: hard
 
-"@jil/support@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@jil/support@npm:0.2.5"
+"@jil/support@npm:^0.2.6":
+  version: 0.2.6
+  resolution: "@jil/support@npm:0.2.6"
   dependencies:
     "@types/debug": ^4.1.7
     debug: ^4.3.3
-  checksum: 6ab5025046ba9dbe4427473d0f94f0bc65c56bc1ffdc306e7838e3bb0479b10b388b148733c395c41271bdf3fc3f0c73271806bd8536827af6eaa5b1280e2f77
+  checksum: d83a5af354256feeb4bc5d89a49f6e22e845400cb3f6c1f96f857d0def2ffd0e753dbd48d52a773e070a33068f70046784a0e2778278310aad7c2babd0135366
   languageName: node
   linkType: hard
 
@@ -5536,9 +5536,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1084.0":
-  version: 2.1084.0
-  resolution: "aws-sdk@npm:2.1084.0"
+"aws-sdk@npm:^2.1085.0":
+  version: 2.1085.0
+  resolution: "aws-sdk@npm:2.1085.0"
   dependencies:
     buffer: 4.9.2
     events: 1.1.1
@@ -5549,7 +5549,7 @@ __metadata:
     url: 0.10.3
     uuid: 3.3.2
     xml2js: 0.4.19
-  checksum: 1854bd426ee604eacc37740b0bb47b13cd40893de076d8118e91780350293d06acdad649e84aa843d4c4c140d6ec90191fe6b41665c6e16c8e502df37e7d1e0b
+  checksum: 0545a4a4459b78773b87407e4a163bbe83cee52568121549506db5d4ab1caecb7abcd6d40208638fc24599c7df256944e4d265e039fc8976714c23426aaf53a8
   languageName: node
   linkType: hard
 
@@ -5757,7 +5757,7 @@ __metadata:
     cross-env: ^7.0.3
     cz-conventional-changelog: ^3.3.0
     eslint: ^8.10.0
-    eslint-config-prettier: ^8.4.0
+    eslint-config-prettier: ^8.5.0
     eslint-plugin-eslint-plugin: ^4.1.0
     eslint-plugin-jest: ^26.1.1
     eslint-plugin-prettier: ^4.0.0
@@ -7660,6 +7660,17 @@ __metadata:
   bin:
     eslint-config-prettier: bin/cli.js
   checksum: ee8dc343f1fed15dc0658e190a966cc23644477f2331a7f56ae2bb79dd74892e3cde8ea5c142e7a3329a8291a1de041e13ca96e54d0c85ff4a2aba13390c5f10
+  languageName: node
+  linkType: hard
+
+"eslint-config-prettier@npm:^8.5.0":
+  version: 8.5.0
+  resolution: "eslint-config-prettier@npm:8.5.0"
+  peerDependencies:
+    eslint: ">=7.0.0"
+  bin:
+    eslint-config-prettier: bin/cli.js
+  checksum: 0d0f5c32e7a0ad91249467ce71ca92394ccd343178277d318baf32063b79ea90216f4c81d1065d60f96366fdc60f151d4d68ae7811a58bd37228b84c2083f893
   languageName: node
   linkType: hard
 
@@ -13856,9 +13867,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pubnub@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "pubnub@npm:5.0.0"
+"pubnub@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "pubnub@npm:5.0.1"
   dependencies:
     "@babel/runtime": ^7.10.5
     "@tsconfig/node12": ^1.0.9
@@ -13869,7 +13880,7 @@ __metadata:
     lil-uuid: ^0.1.1
     superagent: ^6.1.0
     superagent-proxy: ^3.0.0
-  checksum: b10d2180ae06244e9d6aae4fbe985c84930854d1a35f68c28079a012646378a10dcf5eac0ba68e0da829146787850ed85a0f8bffe1f3cbbf6314429dc52891f9
+  checksum: 02be120ac3f7a06b40ceb049aae59a68d42167458a9bc80b0dee2c2190a2c102a414e16ec305ec255801940616c86d54c023183a11e39664412d2a1c6a71da3a
   languageName: node
   linkType: hard
 
@@ -15860,7 +15871,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tily@npm:^2.14.3, tily@npm:^2.14.4":
+"tily@npm:^2.14.4":
   version: 2.14.4
   resolution: "tily@npm:2.14.4"
   peerDependencies:

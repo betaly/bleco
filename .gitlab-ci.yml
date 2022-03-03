@@ -8,11 +8,12 @@ image: node:lts
 cache:
   paths:
     - node_modules/
+    - .yarn
 
 before_script:
   - node --version
   - npm --version
-  - npm i yarn -g
+  - yarn --version
   - yarn install
   - yarn build
 
