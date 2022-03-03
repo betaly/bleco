@@ -12,7 +12,7 @@
     "link-workspaces": "nb-lnw",
     "postinstall": "husky install && yarn run link-workspaces && yarn run build",
     "prerelease": "yarn run build:full && yarn run lint",
-    "release": "cross-env CI=1 lerna version && lerna publish from-git --yes",
+    "release": "yarn prerelease && cross-env CI=1 lerna version && lerna publish from-git --yes",
     "lint": "yarn run eslint",
     "lint:fix": "yarn run eslint:fix",
     "eslint": "nb-eslint --report-unused-disable-directives --cache .",
@@ -23,7 +23,7 @@
     "clean": "lerna run clean && nb-clean 'packages/*/dist'",
     "clean:lerna": "lerna clean",
     "build": "yarn workspaces foreach run build",
-    "build:full": "yarn install --frozen-lockfile --ignore-scripts && yarn run clean && yarn run build",
+    "build:full": "yarn install && yarn run clean && yarn run build",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn pretest && yarn workspaces foreach run test && yarn posttest",
     "posttest": "yarn run lint"
