@@ -1,0 +1,58 @@
+{
+  "name": "@bleco/ratelimiter",
+  "description": "A loopback-next rate limiting extension",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "ty",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc",
+    "clean": "nb-clean 'bleco-ratelimiter*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && npm run build",
+    "test": "yarn run jest",
+    "jest": "jest"
+  },
+  "peerDependencies": {
+    "loopback-connector-kv-redis": "^4.0.0",
+    "memcached": "^2.2.2"
+  },
+  "dependencies": {
+    "@loopback/boot": "^4.1.1",
+    "@loopback/context": "^4.1.1",
+    "@loopback/core": "^3.1.1",
+    "@loopback/repository": "^4.1.1",
+    "@loopback/rest": "^11.1.1",
+    "express-rate-limit": "^6.3.0",
+    "rate-limit-memcached": "^0.6.0",
+    "rate-limit-mongo": "^2.3.2",
+    "rate-limit-redis": "^3.0.0",
+    "ts-essentials": "^9.1.2"
+  },
+  "devDependencies": {
+    "@loopback/testlab": "^4.1.1",
+    "@nutol/build": "^0.2.6",
+    "@nutol/eslint-config": "^0.2.2",
+    "@types/express-rate-limit": "^6.0.0",
+    "@types/jest": "^27.4.1",
+    "@types/memcached": "^2.2.7",
+    "@types/node": "^17.0.21",
+    "@types/rate-limit-redis": "^1.7.4",
+    "fs-extra": "^10.0.1",
+    "loopback-connector-kv-redis": "^4.0.0",
+    "memcached": "^2.2.2"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}

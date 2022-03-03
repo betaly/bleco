@@ -1,0 +1,46 @@
+{
+  "name": "@bleco/authorization",
+  "description": "A loopback-next authorization extension",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "ty",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc",
+    "clean": "nb-clean 'bleco-authorization*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && npm run build",
+    "test": "yarn run jest",
+    "jest": "jest"
+  },
+  "dependencies": {
+    "@loopback/core": "^3.1.1",
+    "casbin": "^5.13.2",
+    "casbin-pg-adapter": "^1.4.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@loopback/boot": "^4.1.1",
+    "@loopback/context": "^4.1.1",
+    "@loopback/rest": "^11.1.1",
+    "@loopback/testlab": "^4.1.1",
+    "@nutol/build": "^0.2.6",
+    "@nutol/eslint-config": "^0.2.2",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.21",
+    "fs-extra": "^10.0.1"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}

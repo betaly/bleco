@@ -1,0 +1,44 @@
+{
+  "name": "@bleco/vault",
+  "description": "A loopback-next extension for HashiCorp's Vault integration in loopback-next applications",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "ty",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc",
+    "clean": "nb-clean 'bleco-vault*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && npm run build",
+    "test": "yarn run jest",
+    "jest": "jest"
+  },
+  "dependencies": {
+    "@loopback/boot": "^4.1.1",
+    "@loopback/core": "^3.1.1",
+    "@loopback/rest": "^11.1.1",
+    "node-vault": "^0.9.22",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@loopback/testlab": "^4.1.1",
+    "@nutol/build": "^0.2.6",
+    "@nutol/eslint-config": "^0.2.2",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21",
+    "fs-extra": "^10.0.1"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}

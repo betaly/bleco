@@ -1,0 +1,75 @@
+{
+  "name": "@bleco/authentication",
+  "description": "A loopback-next extension for authentication feature. Oauth strategies supported.",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "ty",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc",
+    "clean": "nb-clean 'bleco-authentication*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && npm run build",
+    "test": "yarn run jest",
+    "jest": "jest"
+  },
+  "peerDependencies": {
+    "@loopback/boot": "^4.0.0",
+    "@loopback/rest": "^11.0.0"
+  },
+  "dependencies": {
+    "@exlinc/keycloak-passport": "^1.0.2",
+    "@loopback/context": "^4.1.1",
+    "@loopback/core": "^3.1.1",
+    "ajv": "^8.10.0",
+    "eslint": "^8.10.0",
+    "https-proxy-agent": "^5.0.0",
+    "passport": "^0.5.2",
+    "passport-apple": "^2.0.1",
+    "passport-azure-ad": "^4.3.1",
+    "passport-facebook": "^3.0.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-http-bearer": "^1.0.1",
+    "passport-instagram": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "passport-oauth2-client-password": "^0.1.2",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@loopback/boot": "^4.1.1",
+    "@loopback/metadata": "^4.1.1",
+    "@loopback/rest": "^11.1.1",
+    "@loopback/testlab": "^4.1.1",
+    "@nutol/build": "^0.2.6",
+    "@nutol/eslint-config": "^0.2.2",
+    "@types/express": "^4.17.13",
+    "@types/lodash": "^4.14.179",
+    "@types/node": "^17.0.21",
+    "@types/passport": "^1.0.7",
+    "@types/passport-apple": "^1.1.1",
+    "@types/passport-azure-ad": "^4.3.1",
+    "@types/passport-facebook": "^2.1.11",
+    "@types/passport-google-oauth20": "^2.0.11",
+    "@types/passport-http-bearer": "^1.0.37",
+    "@types/passport-instagram": "^1.0.2",
+    "@types/passport-local": "^1.0.34",
+    "@types/passport-oauth2-client-password": "^0.1.2",
+    "@types/uuid": "^8.3.4",
+    "fs-extra": "^10.0.1",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}

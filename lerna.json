@@ -1,0 +1,33 @@
+{
+  "version": "independent",
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "packages": [
+    "packages/*",
+    "examples/*"
+  ],
+  "command": {
+    "bootstrap": {
+      "concurrency": 4,
+      "forceLocal": true,
+      "npmClientArgs": []
+    },
+    "version": {
+      "conventionalCommits": true,
+      "message": "chore: publish release"
+    },
+    "publish": {},
+    "run": {
+      "prefix": false,
+      "loglevel": "silent",
+      "stream": true,
+      "concurrency": 8,
+      "sort": false
+    },
+    "clean": {
+      "loglevel": "silent",
+      "concurrency": 8,
+      "yes": true
+    }
+  }
+}

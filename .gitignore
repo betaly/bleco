@@ -1,0 +1,29 @@
+# Cache
+.eslintcache
+.idea
+.npm
+.vscode
+.yarnclean
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+node_modules
+npm-debug.log
+.DS_Store
+coverage
+.nyc_output
+**/*.tgz
+**/package
+.sandbox
+*.tsbuildinfo
+
+# ignore dist conetents but dist directory for `flat` modules
+packages/*/dist/*
+examples/*/dist/*
