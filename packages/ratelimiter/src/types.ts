@@ -17,7 +17,7 @@ export interface RateLimitAction {
   (request: Request, response: Response): Promise<void>;
 }
 
-export type RateLimitOptions = Options & DataSourceConfig;
+export type RateLimitOptions = Partial<Options> & DataSourceConfig;
 
 /**
  * Rate limit metadata interface for the method decorator
