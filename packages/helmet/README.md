@@ -17,7 +17,7 @@ In order to use this component into your LoopBack application, please follow bel
 - Add component to application.
 
 ```ts
-this.component(Loopback4HelmetComponent);
+this.component(HelmetComponent);
 ```
 
 - By default, helmet will be initialized with only the default middlewares enabled as per
