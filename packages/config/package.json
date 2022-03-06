@@ -28,7 +28,7 @@
     "@jil/config": "^0.3.5",
     "@jil/ncommon": "^0.2.7",
     "read-env": "^2.0.0",
-    "tily": "^2.14.4",
+    "tily": "^2.15.0",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
