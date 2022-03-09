@@ -27,9 +27,7 @@ export class VaultConnector {
     }
     const config = this._config;
     const opts = {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       secret_shares: config?.secretShares ?? 1,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       secret_threshold: config?.secretThreshold ?? 1,
     };
     const health = await this._vaultClient.health({
@@ -48,14 +46,12 @@ export class VaultConnector {
       this._unsealKey = keys[0];
       // unseal vault server
       await this._vaultClient.unseal({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         secret_shares: 1,
         key: this._unsealKey ?? config?.unsealKey ?? '',
       });
     } else if (health.sealed) {
       // unseal vault server
       await this._vaultClient.unseal({
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         secret_shares: 1,
         key: config?.unsealKey ?? '',
       });

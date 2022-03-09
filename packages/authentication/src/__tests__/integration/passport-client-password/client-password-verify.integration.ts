@@ -1,5 +1,3 @@
-/* eslint-disable  @typescript-eslint/naming-convention */
-
 import {IAuthClient} from '../../../types';
 import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {RestServer} from '@loopback/rest';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import * as express from 'express';
 import * as oauth2 from 'passport-oauth2';
 import * as AppleStrategy from 'passport-apple';

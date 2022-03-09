@@ -1,7 +1,6 @@
 jest.mock('node-vault', () => {
   return () => ({
     health: jest.fn().mockImplementation(() => ({promise: () => Promise.resolve()})),
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     init: jest.fn().mockImplementation(() => ({keys: 'dummykeys', root_token: 'token'})),
     unseal: jest.fn().mockImplementation(() => ({promise: () => Promise.resolve()})),
     seal: jest.fn().mockImplementation(() => ({promise: () => Promise.resolve()})),

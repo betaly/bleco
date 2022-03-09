@@ -1,5 +1,3 @@
-/* eslint-disable  @typescript-eslint/naming-convention */
-
 import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {RestServer} from '@loopback/rest';
 import {Application, inject} from '@loopback/core';
