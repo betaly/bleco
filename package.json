@@ -12,7 +12,7 @@
     "link-workspaces": "nb-lnw",
     "postinstall": "husky install && yarn run link-workspaces && yarn run build",
     "prerelease": "yarn run build:full && yarn run lint",
-    "release": "yarn prerelease && cross-env CI=1 lerna version && yarn && lerna publish from-git --yes",
+    "release": "yarn prerelease && cross-env CI=1 lerna version && lerna publish from-git --yes",
     "lint": "yarn run eslint",
     "lint:fix": "yarn run eslint:fix",
     "eslint": "nb-eslint --report-unused-disable-directives --cache .",
