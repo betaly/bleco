@@ -19,5 +19,5 @@ export namespace NodemailerBindings {
    *    rejectUnauthorized: true
    *   }
    */
-  export const Config = BindingKey.create<SMTPTransport.Options | null>('sf.notification.config.nodemailer');
+  export const Config = BindingKey.create<SMTPTransport.Options | null>('eco.notification.config.nodemailer');
 }

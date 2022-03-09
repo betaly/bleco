@@ -10,29 +10,29 @@ export * from './strategies/keys';
  * Binding keys used by this component.
  */
 export namespace AuthenticationBindings {
-  export const USER_STRATEGY = BindingKey.create<Strategy | undefined>('sf.userAuthentication.strategy');
+  export const USER_STRATEGY = BindingKey.create<Strategy | undefined>('eco.userAuthentication.strategy');
 
-  export const CLIENT_STRATEGY = BindingKey.create<Strategy | undefined>('sf.clientAuthentication.strategy');
+  export const CLIENT_STRATEGY = BindingKey.create<Strategy | undefined>('eco.clientAuthentication.strategy');
 
   export const USER_AUTH_ACTION = BindingKey.create<AuthenticateFn<IAuthUser | undefined>>(
-    'sf.userAuthentication.actions.authenticate',
+    'eco.userAuthentication.actions.authenticate',
   );
 
   export const CLIENT_AUTH_ACTION = BindingKey.create<AuthenticateFn<IAuthClient | undefined>>(
-    'sf.clientAuthentication.actions.authenticate',
+    'eco.clientAuthentication.actions.authenticate',
   );
 
   export const USER_METADATA = BindingKey.create<AuthenticationMetadata | undefined>(
-    'sf.userAuthentication.operationMetadata',
+    'eco.userAuthentication.operationMetadata',
   );
 
   export const CLIENT_METADATA = BindingKey.create<AuthenticationMetadata | undefined>(
-    'sf.clientAuthentication.operationMetadata',
+    'eco.clientAuthentication.operationMetadata',
   );
 
-  export const CURRENT_USER = BindingKey.create<IAuthUser | undefined>('sf.userAuthentication.currentUser');
+  export const CURRENT_USER = BindingKey.create<IAuthUser | undefined>('eco.userAuthentication.currentUser');
 
-  export const CURRENT_CLIENT = BindingKey.create<IAuthClient | undefined>('sf.clientAuthentication.currentClient');
+  export const CURRENT_CLIENT = BindingKey.create<IAuthClient | undefined>('eco.clientAuthentication.currentClient');
 }
 
 export const USER_AUTHENTICATION_METADATA_KEY = MetadataAccessor.create<AuthenticationMetadata, MethodDecorator>(
