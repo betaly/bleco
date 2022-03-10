@@ -2,7 +2,14 @@
 import * as passport from 'passport';
 
 export namespace Oauth2ResourceOwnerPassword {
-  export interface StrategyOptionsWithRequestInterface {
+  export interface StrategyFields {
+    usernameField?: string | undefined;
+    passwordField?: string | undefined;
+    clientIdField?: string | undefined;
+    clientSecretField?: string | undefined;
+  }
+
+  export interface StrategyOptionsWithRequestInterface extends StrategyFields {
     passReqToCallback: boolean;
   }
 
@@ -28,40 +35,49 @@ export namespace Oauth2ResourceOwnerPassword {
   }
 
   export class Strategy extends passport.Strategy {
+    name: string;
+    fields: Required<StrategyFields>;
+    private readonly verify: VerifyFunction | VerifyFunctionWithRequest;
+    private readonly passReqToCallback: boolean;
+
     constructor(verify: VerifyFunction);
+
     constructor(
       options: StrategyOptionsWithRequestInterface | VerifyFunction,
       verify?: VerifyFunctionWithRequest | VerifyFunction,
     );
+
     constructor(
       options: StrategyOptionsWithRequestInterface | VerifyFunction,
       verify?: VerifyFunctionWithRequest | VerifyFunction,
     ) {
       super();
+      let opts: StrategyOptionsWithRequestInterface = {passReqToCallback: false};
       if (verify) {
-        this.passReqToCallback = (options as StrategyOptionsWithRequestInterface).passReqToCallback;
-        this.verify = verify;
-      } else {
-        this.passReqToCallback = false;
-        this.verify = options as VerifyFunction;
+        opts = options as StrategyOptionsWithRequestInterface;
       }
+      this.verify = verify ? verify : (options as VerifyFunction);
       this.name = 'oauth2-resource-owner-password';
+      this.passReqToCallback = opts.passReqToCallback;
+      this.fields = {
+        usernameField: opts.usernameField ?? 'username',
+        passwordField: opts.passwordField ?? 'password',
+        clientIdField: opts.clientIdField ?? 'client_id',
+        clientSecretField: opts.clientSecretField ?? 'client_secret',
+      };
     }
 
-    name: string;
-    private readonly verify: VerifyFunction | VerifyFunctionWithRequest;
-    private readonly passReqToCallback: boolean;
-
     authenticate(req: any, options?: {}): void {
-      if (!req.body || !req.body['client_id'] || !req.body['username'] || !req.body['password']) {
+      const {usernameField, passwordField, clientIdField, clientSecretField} = this.fields;
+      if (!req.body || !req.body[clientIdField] || !req.body[usernameField] || !req.body[passwordField]) {
         this.fail();
         return;
       }
 
-      const clientId = req.body['client_id'];
-      const clientSecret = req.body['client_secret'];
-      const username = req.body['username'];
-      const password = req.body['password'];
+      const clientId = req.body[clientIdField];
+      const clientSecret = req.body[clientSecretField];
+      const username = req.body[usernameField];
+      const password = req.body[passwordField];
 
       const verified = (err: any, client: any, user: any) => {
         if (err) {
