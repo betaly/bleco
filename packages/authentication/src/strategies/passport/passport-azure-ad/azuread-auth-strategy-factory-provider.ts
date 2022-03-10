@@ -14,12 +14,10 @@ import {
 } from 'passport-azure-ad';
 import {AuthConfig} from '../../../keys';
 
-export interface AzureADAuthStrategyFactory {
-  (
-    options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
-    verifierPassed?: VerifyFunction.AzureADAuthFn,
-  ): OIDCStrategy;
-}
+export type AzureADAuthStrategyFactory = (
+  options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
+  verifierPassed?: VerifyFunction.AzureADAuthFn,
+) => OIDCStrategy;
 
 export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthStrategyFactory> {
   constructor(

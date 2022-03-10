@@ -13,12 +13,10 @@ interface ExtendedStrategyOption extends StrategyOption {
   passReqToCallback?: false;
 }
 
-export interface FacebookAuthStrategyFactory {
-  (
-    options: ExtendedStrategyOption | StrategyOptionWithRequest,
-    verifierPassed?: VerifyFunction.FacebookAuthFn,
-  ): Strategy;
-}
+export type FacebookAuthStrategyFactory = (
+  options: ExtendedStrategyOption | StrategyOptionWithRequest,
+  verifierPassed?: VerifyFunction.FacebookAuthFn,
+) => Strategy;
 
 export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAuthStrategyFactory> {
   constructor(

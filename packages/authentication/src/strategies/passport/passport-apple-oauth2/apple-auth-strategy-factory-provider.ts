@@ -15,12 +15,10 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
-export interface AppleAuthStrategyFactory {
-  (
-    options: AuthenticateOptions | AuthenticateOptionsWithRequest,
-    verifierPassed?: VerifyFunction.AppleAuthFn,
-  ): Strategy;
-}
+export type AppleAuthStrategyFactory = (
+  options: AuthenticateOptions | AuthenticateOptionsWithRequest,
+  verifierPassed?: VerifyFunction.AppleAuthFn,
+) => Strategy;
 
 export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrategyFactory> {
   constructor(

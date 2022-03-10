@@ -10,9 +10,10 @@ import {AuthConfig} from '../../../keys';
 
 export const KeycloakStrategy = require('@exlinc/keycloak-passport');
 
-export interface KeycloakStrategyFactory {
-  (options: Keycloak.StrategyOptions, verifierPassed?: VerifyFunction.KeycloakAuthFn): typeof KeycloakStrategy;
-}
+export type KeycloakStrategyFactory = (
+  options: Keycloak.StrategyOptions,
+  verifierPassed?: VerifyFunction.KeycloakAuthFn,
+) => typeof KeycloakStrategy;
 
 export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrategyFactory> {
   constructor(

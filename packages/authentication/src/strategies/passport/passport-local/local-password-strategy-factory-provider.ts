@@ -10,12 +10,10 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
-export interface LocalPasswordStrategyFactory {
-  (
-    options?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
-    verifierPassed?: VerifyFunction.LocalPasswordFn,
-  ): PassportLocal.Strategy;
-}
+export type LocalPasswordStrategyFactory = (
+  options?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
+  verifierPassed?: VerifyFunction.LocalPasswordFn,
+) => PassportLocal.Strategy;
 
 export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPasswordStrategyFactory> {
   constructor(

@@ -9,12 +9,10 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
-export interface ClientPasswordStrategyFactory {
-  (
-    options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
-    verifierPassed?: VerifyFunction.OauthClientPasswordFn,
-  ): ClientPasswordStrategy.Strategy;
-}
+export type ClientPasswordStrategyFactory = (
+  options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
+  verifierPassed?: VerifyFunction.OauthClientPasswordFn,
+) => ClientPasswordStrategy.Strategy;
 
 export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPasswordStrategyFactory> {
   constructor(

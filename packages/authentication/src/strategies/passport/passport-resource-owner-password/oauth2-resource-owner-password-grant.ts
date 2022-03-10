@@ -13,26 +13,22 @@ export namespace Oauth2ResourceOwnerPassword {
     passReqToCallback: boolean;
   }
 
-  export interface VerifyFunctionWithRequest {
-    (
-      req: any,
-      clientId: string,
-      clientSecret: string,
-      username: string,
-      password: string,
-      done: (error: any, client?: any, info?: any) => void,
-    ): void;
-  }
+  export type VerifyFunctionWithRequest = (
+    req: any,
+    clientId: string,
+    clientSecret: string,
+    username: string,
+    password: string,
+    done: (error: any, client?: any, info?: any) => void,
+  ) => void;
 
-  export interface VerifyFunction {
-    (
-      clientId: string,
-      clientSecret: string,
-      username: string,
-      password: string,
-      done: (error: any, client?: any, info?: any) => void,
-    ): void;
-  }
+  export type VerifyFunction = (
+    clientId: string,
+    clientSecret: string,
+    username: string,
+    password: string,
+    done: (error: any, client?: any, info?: any) => void,
+  ) => void;
 
   export class Strategy extends passport.Strategy {
     name: string;

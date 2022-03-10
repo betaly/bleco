@@ -10,12 +10,10 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
-export interface BearerStrategyFactory {
-  (
-    options?: PassportBearer.IStrategyOptions,
-    verifierPassed?: VerifyFunction.BearerFn,
-  ): PassportBearer.Strategy<VerifyFunction.BearerFn>;
-}
+export type BearerStrategyFactory = (
+  options?: PassportBearer.IStrategyOptions,
+  verifierPassed?: VerifyFunction.BearerFn,
+) => PassportBearer.Strategy<VerifyFunction.BearerFn>;
 
 export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFactory> {
   constructor(

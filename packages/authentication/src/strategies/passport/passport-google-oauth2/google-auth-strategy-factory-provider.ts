@@ -10,9 +10,10 @@ import {VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
 //import * as GoogleStrategy from 'passport-google-oauth20';
-export interface GoogleAuthStrategyFactory {
-  (options: StrategyOptions | StrategyOptionsWithRequest, verifierPassed?: VerifyFunction.GoogleAuthFn): Strategy;
-}
+export type GoogleAuthStrategyFactory = (
+  options: StrategyOptions | StrategyOptionsWithRequest,
+  verifierPassed?: VerifyFunction.GoogleAuthFn,
+) => Strategy;
 
 export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStrategyFactory> {
   constructor(

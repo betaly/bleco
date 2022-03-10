@@ -9,9 +9,10 @@ import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
 import {AuthConfig} from '../../../keys';
 
-export interface InstagramAuthStrategyFactory {
-  (options: StrategyOption | StrategyOptionWithRequest, verifierPassed?: VerifyFunction.InstagramAuthFn): Strategy;
-}
+export type InstagramAuthStrategyFactory = (
+  options: StrategyOption | StrategyOptionWithRequest,
+  verifierPassed?: VerifyFunction.InstagramAuthFn,
+) => Strategy;
 
 export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramAuthStrategyFactory> {
   constructor(
