@@ -5,7 +5,7 @@ import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
 import {authenticateClient} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {AuthenticationBindings} from '../../../keys';
@@ -127,7 +127,7 @@ describe('Client-password strategy', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 
@@ -180,7 +180,7 @@ describe('integration test for client-password and no verifier', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 

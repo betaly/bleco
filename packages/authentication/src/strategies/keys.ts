@@ -1,13 +1,13 @@
 import {BindingKey} from '@loopback/core';
+import {VerifyFunction} from './types';
 import {LocalPasswordStrategyFactory} from './passport/passport-local';
 import {BearerStrategyFactory} from './passport/passport-bearer';
 import {ResourceOwnerPasswordStrategyFactory} from './passport/passport-resource-owner-password';
-import {ClientPasswordStrategyFactory} from './passport/passport-client-password/client-password-strategy-factory-provider';
+import {ClientPasswordStrategyFactory} from './passport/passport-client-password';
 import {GoogleAuthStrategyFactoryProvider} from './passport/passport-google-oauth2';
 import {KeycloakStrategyFactoryProvider} from './passport/passport-keycloak';
 import {AzureADAuthStrategyFactoryProvider} from './passport/passport-azure-ad';
-import {VerifyFunction} from './types';
-import {InstagramAuthStrategyFactoryProvider} from './passport';
+import {InstagramAuthStrategyFactoryProvider} from './passport/passport-insta-oauth2';
 import {AppleAuthStrategyFactoryProvider} from './passport/passport-apple-oauth2';
 import {FacebookAuthStrategyFactoryProvider} from './passport/passport-facebook-oauth2';
 
@@ -33,7 +33,9 @@ export namespace Strategies {
     export const BEARER_STRATEGY_FACTORY = BindingKey.create<BearerStrategyFactory>(
       'eco.passport.strategyFactory.bearer',
     );
-    export const BEARER_TOKEN_VERIFIER = BindingKey.create<VerifyFunction.BearerFn>('eco.passport.verifier.bearerToken');
+    export const BEARER_TOKEN_VERIFIER = BindingKey.create<VerifyFunction.BearerFn>(
+      'eco.passport.verifier.bearerToken',
+    );
 
     // Passport-oauth2-resource-owner-password strategy
     export const RESOURCE_OWNER_STRATEGY_FACTORY = BindingKey.create<ResourceOwnerPasswordStrategyFactory>(

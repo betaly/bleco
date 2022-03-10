@@ -4,7 +4,7 @@ import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
 import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {ResourceOwnerVerifyProvider} from '../../fixtures/providers/resource-owner.provider';
@@ -191,7 +191,7 @@ describe('Resource-owner-password strategy', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 
@@ -250,7 +250,7 @@ describe('Resource-owner strategy with no verifier', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 

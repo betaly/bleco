@@ -11,8 +11,6 @@ export * from './strategies/keys';
  * Binding keys used by this component.
  */
 export namespace AuthenticationBindings {
-  export const CONFIG: BindingKey<object> = CoreBindings.APPLICATION_CONFIG.deepProperty('auth');
-
   export const USER_STRATEGY = BindingKey.create<Strategy | undefined>('eco.userAuthentication.strategy');
 
   export const CLIENT_STRATEGY = BindingKey.create<Strategy | undefined>('eco.clientAuthentication.strategy');
@@ -45,3 +43,5 @@ export const USER_AUTHENTICATION_METADATA_KEY = MetadataAccessor.create<Authenti
 export const CLIENT_AUTHENTICATION_METADATA_KEY = MetadataAccessor.create<AuthenticationMetadata, MethodDecorator>(
   'clientAuthentication.operationsMetadata',
 );
+
+export const AuthConfig = (prop: string) => CoreBindings.APPLICATION_CONFIG.deepProperty(`auth.${prop}`);

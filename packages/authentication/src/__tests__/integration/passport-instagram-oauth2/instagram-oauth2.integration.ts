@@ -4,13 +4,14 @@ import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
 import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {VerifyCallback, VerifyFunction} from '../../../strategies';
 import {userWithoutReqObj} from '../../fixtures/data/bearer-data';
 import * as InstagramStrategy from 'passport-instagram';
 import {Request} from '@loopback/rest';
+import {set} from 'lodash';
 
 describe('getting instagram oauth2 strategy with options', () => {
   let app: Application;
@@ -20,11 +21,13 @@ describe('getting instagram oauth2 strategy with options', () => {
   beforeEach(getAuthVerifier);
 
   it('should return 200 when client id is passed and passReqToCallback is set true', async () => {
+    set(app.options, 'auth.insta', {
+      clientID: 'string',
+      clientSecret: 'string',
+    });
     class TestController {
       @get('/test')
       @authenticate(STRATEGY.INSTAGRAM_OAUTH2, {
-        clientID: 'string',
-        clientSecret: 'string',
         passReqToCallback: true,
       })
       test() {
@@ -42,7 +45,7 @@ describe('getting instagram oauth2 strategy with options', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 

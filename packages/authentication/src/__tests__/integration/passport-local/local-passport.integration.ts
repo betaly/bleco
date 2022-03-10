@@ -4,13 +4,14 @@ import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
 import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {LocalVerifyProvider} from '../../fixtures/providers/local-password.provider';
 import {AuthenticationBindings} from '../../../keys';
 import {IAuthUser} from '../../../types';
 import {Authuser} from '../../../models';
+
 /**
  * Testing overall flow of authentication with bearer strategy
  */
@@ -157,7 +158,7 @@ describe('Local passport strategy', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 
@@ -203,7 +204,7 @@ describe('Local strategy with no verifier', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 

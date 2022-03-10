@@ -1,3 +1,4 @@
+import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
@@ -6,6 +7,7 @@ import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCa
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
+import {AuthConfig} from '../../../keys';
 
 //import * as GoogleStrategy from 'passport-google-oauth20';
 export interface GoogleAuthStrategyFactory {
@@ -16,6 +18,8 @@ export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStr
   constructor(
     @inject(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER)
     private readonly verifierGoogleAuth: VerifyFunction.GoogleAuthFn,
+    @inject(AuthConfig('google'), {optional: true})
+    private readonly config?: StrategyOptions | StrategyOptionsWithRequest,
   ) {}
 
   value(): GoogleAuthStrategyFactory {
@@ -26,6 +30,7 @@ export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStr
     options: StrategyOptions | StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.GoogleAuthFn,
   ): Strategy {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierGoogleAuth;
     let strategy;
     if (options && options.passReqToCallback === true) {

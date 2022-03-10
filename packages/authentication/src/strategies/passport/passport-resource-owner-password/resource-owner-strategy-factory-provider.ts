@@ -1,3 +1,5 @@
+import merge from 'tily/object/merge';
+import isEmpty from 'tily/is/empty';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 
@@ -6,7 +8,7 @@ import {IAuthClient, IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-grant';
-import {isEmpty} from 'lodash';
+import {AuthConfig} from '../../../keys';
 
 export interface ResourceOwnerPasswordStrategyFactory {
   (
@@ -19,6 +21,8 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
   constructor(
     @inject(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER)
     private readonly verifierResourceOwner: VerifyFunction.ResourceOwnerPasswordFn,
+    @inject(AuthConfig('resourceOwnerPassword'), {optional: true})
+    private readonly config?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
   ) {}
 
   value(): ResourceOwnerPasswordStrategyFactory {
@@ -29,6 +33,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
     options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
     verifierPassed?: VerifyFunction.ResourceOwnerPasswordFn,
   ): Oauth2ResourceOwnerPassword.Strategy {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierResourceOwner;
     if (options?.passReqToCallback) {
       return new Oauth2ResourceOwnerPassword.Strategy(

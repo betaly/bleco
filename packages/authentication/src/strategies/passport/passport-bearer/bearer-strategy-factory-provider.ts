@@ -1,3 +1,5 @@
+import merge from 'tily/object/merge';
+import isEmpty from 'tily/is/empty';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as PassportBearer from 'passport-http-bearer';
@@ -6,7 +8,7 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {isEmpty} from 'lodash';
+import {AuthConfig} from '../../../keys';
 
 export interface BearerStrategyFactory {
   (
@@ -19,6 +21,8 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
   constructor(
     @inject(Strategies.Passport.BEARER_TOKEN_VERIFIER)
     private readonly verifierBearer: VerifyFunction.BearerFn,
+    @inject(AuthConfig('bearer'), {optional: true})
+    private readonly config?: PassportBearer.IStrategyOptions,
   ) {}
 
   value(): BearerStrategyFactory {
@@ -29,6 +33,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
     options?: PassportBearer.IStrategyOptions,
     verifierPassed?: VerifyFunction.BearerFn,
   ): PassportBearer.Strategy<VerifyFunction.BearerFn> {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierBearer;
     if (options?.passReqToCallback) {
       return new PassportBearer.Strategy(

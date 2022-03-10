@@ -1,12 +1,12 @@
-import {Application} from '@loopback/core';
+import {Application, ApplicationConfig} from '@loopback/core';
 import {AuthenticationComponent} from '../../../component';
 import {RestComponent} from '@loopback/rest';
 
 /**
  *Gives an instance of application
  */
-export function getApp(): Application {
-  const app = new Application();
+export function givenApp(options?: ApplicationConfig): Application {
+  const app = new Application(options);
   app.component(AuthenticationComponent);
   app.component(RestComponent);
   return app;

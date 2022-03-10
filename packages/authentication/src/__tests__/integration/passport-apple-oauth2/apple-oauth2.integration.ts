@@ -1,16 +1,16 @@
 import {Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
+import {Request, RestServer} from '@loopback/rest';
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
 import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {VerifyFunction} from '../../../strategies';
 import {userWithoutReqObj} from '../../fixtures/data/bearer-data';
-import {Request} from '@loopback/rest';
 import AppleStrategy, {DecodedIdToken} from 'passport-apple';
+import {set} from 'lodash';
 
 describe('getting apple oauth2 strategy with options', () => {
   let app: Application;
@@ -20,12 +20,16 @@ describe('getting apple oauth2 strategy with options', () => {
   afterEach(closeServer);
 
   it('should return 200 when client id is passed and passReqToCallback is set true', async () => {
-    getAuthVerifier();
+    givenAuthVerifier();
+
+    set(app.options, 'auth.apple', {
+      clientID: 'string',
+      clientSecret: 'string',
+    });
+
     class TestController {
       @get('/test')
       @authenticate(STRATEGY.APPLE_OAUTH2, {
-        clientID: 'string',
-        clientSecret: 'string',
         passReqToCallback: true,
       })
       test() {
@@ -43,11 +47,11 @@ describe('getting apple oauth2 strategy with options', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER).toProvider(AppleAuthVerifyProvider);
   }
 

@@ -1,19 +1,20 @@
+import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {
-  Profile,
+import Strategy, {
   AuthenticateOptions,
   AuthenticateOptionsWithRequest,
-  VerifyCallback,
   DecodedIdToken,
+  Profile,
+  VerifyCallback,
 } from 'passport-apple';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
+import {AuthConfig} from '../../../keys';
 
-import Strategy from 'passport-apple';
 export interface AppleAuthStrategyFactory {
   (
     options: AuthenticateOptions | AuthenticateOptionsWithRequest,
@@ -25,6 +26,8 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
   constructor(
     @inject(Strategies.Passport.APPLE_OAUTH2_VERIFIER)
     private readonly verifierAppleAuth: VerifyFunction.AppleAuthFn,
+    @inject(AuthConfig('apple'), {optional: true})
+    private readonly config?: AuthenticateOptions | AuthenticateOptionsWithRequest,
   ) {}
 
   value(): AppleAuthStrategyFactory {
@@ -32,14 +35,15 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
   }
 
   getAppleAuthStrategyVerifier(
-    options: AuthenticateOptions | AuthenticateOptionsWithRequest,
+    options?: Partial<AuthenticateOptions | AuthenticateOptionsWithRequest>,
     verifierPassed?: VerifyFunction.AppleAuthFn,
   ): Strategy {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierAppleAuth;
     let strategy;
     if (options && options.passReqToCallback === true) {
       strategy = new Strategy(
-        options,
+        options as AuthenticateOptionsWithRequest,
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async (
@@ -63,7 +67,7 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
       );
     } else {
       strategy = new Strategy(
-        options,
+        options as AuthenticateOptions,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async (
           accessToken: string,

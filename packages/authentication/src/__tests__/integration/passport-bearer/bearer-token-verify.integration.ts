@@ -1,11 +1,11 @@
 import {IAuthUser} from '../../../types';
-import {expect, Client, createClientForHandler} from '@loopback/testlab';
+import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {RestServer} from '@loopback/rest';
 import {Application, inject} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
 import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
+import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
 import {Strategies} from '../../../strategies/keys';
 import {AuthenticationBindings} from '../../../keys';
@@ -76,14 +76,14 @@ describe('Bearer-token strategy', () => {
 
   it('should return the user passed via verifier and options are passed with passRequestCallback true', async () => {
     class BearerForCallbackController {
+      options = {
+        passRequestToCallback: false,
+      };
+
       constructor(
         @inject(AuthenticationBindings.CURRENT_USER) // tslint:disable-next-line: no-shadowed-variable
         private readonly user: IAuthUser | undefined,
       ) {}
-
-      options = {
-        passRequestToCallback: false,
-      };
 
       @get('/auth/bearer/callback')
       @authenticate(STRATEGY.BEARER, {passReqToCallback: true})
@@ -105,14 +105,14 @@ describe('Bearer-token strategy', () => {
 
   it('should return the user passed via verifier and options are passed with passRequestCallback false', async () => {
     class BearerNoCallbackController {
+      options = {
+        passRequestToCallback: false,
+      };
+
       constructor(
         @inject(AuthenticationBindings.CURRENT_USER) // tslint:disable-next-line: no-shadowed-variable
         private readonly user: IAuthUser | undefined,
       ) {}
-
-      options = {
-        passRequestToCallback: false,
-      };
 
       @get('/auth/bearer/no-callback')
       @authenticate(STRATEGY.BEARER, {passReqToCallback: false})
@@ -170,14 +170,14 @@ describe('Bearer-token strategy', () => {
 
   it('should return error when passRequestCallback is true and provider is not returning user', async () => {
     class BearerNoUserFromCallbackController {
+      options = {
+        passRequestToCallback: false,
+      };
+
       constructor(
         @inject(AuthenticationBindings.CURRENT_USER) // tslint:disable-next-line: no-shadowed-variable
         private readonly user: IAuthUser | undefined,
       ) {}
-
-      options = {
-        passRequestToCallback: false,
-      };
 
       @get('/auth/bearer/no-user-with-callback')
       @authenticate(STRATEGY.BEARER, {passReqToCallback: true})
@@ -196,14 +196,14 @@ describe('Bearer-token strategy', () => {
 
   it('should return error when options are passed with passRequestCallback false and provider does not return user', async () => {
     class BearerCallbackFalseController {
+      options = {
+        passRequestToCallback: false,
+      };
+
       constructor(
         @inject(AuthenticationBindings.CURRENT_USER) // tslint:disable-next-line: no-shadowed-variable
         private readonly user: IAuthUser | undefined,
       ) {}
-
-      options = {
-        passRequestToCallback: false,
-      };
 
       @get('/auth/bearer/no-user-when-callback-false')
       @authenticate(STRATEGY.BEARER, {passReqToCallback: false})
@@ -225,7 +225,7 @@ describe('Bearer-token strategy', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 
@@ -247,14 +247,14 @@ describe('integration test when no provider was implemented', () => {
 
   it('should return error as the verifier is not implemented', async () => {
     class BearerNoVerifierController {
+      options = {
+        passRequestToCallback: false,
+      };
+
       constructor(
         @inject(AuthenticationBindings.CURRENT_USER) // tslint:disable-next-line: no-shadowed-variable
         private readonly user: IAuthUser | undefined,
       ) {}
-
-      options = {
-        passRequestToCallback: false,
-      };
 
       @get('/auth/bearer/no-verifier')
       @authenticate(STRATEGY.BEARER, {passReqToCallback: false})
@@ -276,7 +276,7 @@ describe('integration test when no provider was implemented', () => {
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = givenApp();
     server = await app.getServer(RestServer);
   }
 

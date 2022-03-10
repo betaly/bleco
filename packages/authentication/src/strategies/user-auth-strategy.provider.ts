@@ -34,6 +34,8 @@ interface ExtendedStrategyOption extends FacebookStrategy.StrategyOption {
 
 export class AuthStrategyProvider implements Provider<Strategy | undefined> {
   constructor(
+    @inject.context()
+    private readonly ctx: Context,
     @inject(AuthenticationBindings.USER_METADATA)
     private readonly metadata: AuthenticationMetadata,
     @inject(Strategies.Passport.LOCAL_STRATEGY_FACTORY)
@@ -48,7 +50,6 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     private readonly getAzureADAuthVerifier: AzureADAuthStrategyFactory,
     @inject(Strategies.Passport.KEYCLOAK_STRATEGY_FACTORY)
     private readonly getKeycloakVerifier: KeycloakStrategyFactory,
-    @inject.context() private readonly ctx: Context,
     @inject(Strategies.Passport.INSTAGRAM_OAUTH2_STRATEGY_FACTORY)
     private readonly getInstagramAuthVerifier: InstagramAuthStrategyFactory,
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_STRATEGY_FACTORY)

@@ -1,3 +1,4 @@
+import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
@@ -5,6 +6,7 @@ import {HttpsProxyAgent} from 'https-proxy-agent';
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {Keycloak, VerifyFunction} from '../../types';
+import {AuthConfig} from '../../../keys';
 
 export const KeycloakStrategy = require('@exlinc/keycloak-passport');
 
@@ -16,6 +18,8 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
   constructor(
     @inject(Strategies.Passport.KEYCLOAK_VERIFIER)
     private readonly verifierKeycloak: VerifyFunction.KeycloakAuthFn,
+    @inject(AuthConfig('keycloak'), {optional: true})
+    private readonly config?: Keycloak.StrategyOptions,
   ) {}
 
   value(): KeycloakStrategyFactory {
@@ -26,6 +30,7 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
     options: Keycloak.StrategyOptions,
     verifierPassed?: VerifyFunction.KeycloakAuthFn,
   ): typeof KeycloakStrategy {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierKeycloak;
     const strategy = new KeycloakStrategy(
       options,

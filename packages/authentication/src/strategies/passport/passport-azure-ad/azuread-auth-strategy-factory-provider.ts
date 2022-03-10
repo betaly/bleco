@@ -1,3 +1,4 @@
+import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 
@@ -5,12 +6,13 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {
-  IProfile,
-  VerifyCallback,
-  OIDCStrategy,
-  IOIDCStrategyOptionWithRequest,
   IOIDCStrategyOptionWithoutRequest,
+  IOIDCStrategyOptionWithRequest,
+  IProfile,
+  OIDCStrategy,
+  VerifyCallback,
 } from 'passport-azure-ad';
+import {AuthConfig} from '../../../keys';
 
 export interface AzureADAuthStrategyFactory {
   (
@@ -23,6 +25,8 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
   constructor(
     @inject(Strategies.Passport.AZURE_AD_VERIFIER)
     private readonly verifierAzureADAuth: VerifyFunction.AzureADAuthFn,
+    @inject(AuthConfig('azuread'), {optional: true})
+    private readonly config?: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
   ) {}
 
   value(): AzureADAuthStrategyFactory {
@@ -30,9 +34,10 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
   }
 
   getAzureADAuthStrategyVerifier(
-    options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
+    options?: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
     verifierPassed?: VerifyFunction.AzureADAuthFn,
   ): OIDCStrategy {
+    options = merge({passReqToCallback: true}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifierAzureADAuth;
     if (options && options.passReqToCallback === true) {
       return new OIDCStrategy(

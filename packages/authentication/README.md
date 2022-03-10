@@ -77,7 +77,7 @@ export class ToDoApplication extends BootMixin(ServiceMixin(RepositoryMixin(Rest
 
 Once this is done, you are ready to configure any of the available strategy in the application.
 
-### Oauth2-client-password
+### OAuth2 Client Password
 
 First, create an AuthClient model implementing the IAuthClient interface. The purpose of this model is to store oauth
 registered clients for the app in the DB. See sample below.
@@ -209,7 +209,7 @@ After this, you can use decorator to apply auth to controller functions wherever
 ```ts
 class SomeController {
   @authenticateClient(STRATEGY.CLIENT_PASSWORD, {
-    passReqToCallback: true
+    passReqToCallback: true,
   })
   @post('/auth/login', {
     responses: {
@@ -221,9 +221,7 @@ class SomeController {
       },
     },
   })
-  async login(
-    @requestBody() req: LoginRequest,
-  ): Promise<{code: string}> {
+  async login(@requestBody() req: LoginRequest): Promise<{code: string}> {
     //....
   }
 }
@@ -243,7 +241,7 @@ class SomeClass {
 }
 ```
 
-### Http-bearer
+### Http Bearer
 
 First, create a AuthUser model implementing the IAuthUser interface. You can implement the interface in the user model
 itself. See sample below.
@@ -405,9 +403,7 @@ class SomeController {
       },
     },
   })
-  async find(
-    @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
-  ): Promise<User[]> {
+  async find(@param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter): Promise<User[]> {
     return await this.userRepository.find(filter);
   }
 }
@@ -425,7 +421,7 @@ class SomeClass {
 }
 ```
 
-### local
+### Local
 
 First, create a AuthUser model implementing the IAuthUser interface. You can implement the interface in the user model
 itself. See sample below.
@@ -574,7 +570,7 @@ class SomeController {
   })
   async login(
     @requestBody()
-      req: LoginRequest,
+    req: LoginRequest,
   ): Promise<{
     code: string;
   }> {
@@ -595,7 +591,7 @@ class SomeClass {
 }
 ```
 
-### Oauth2-resource-owner-password
+### OAuth2 Resource Owner Password
 
 First, create an AuthClient model implementing the IAuthClient interface. The purpose of this model is to store oauth
 registered clients for the app in the DB. See sample below.
@@ -800,9 +796,7 @@ class SomeController {
       },
     },
   })
-  async loginWithClientUser(
-    @requestBody() req: LoginRequest,
-  ): Promise<TokenResponse> {
+  async loginWithClientUser(@requestBody() req: LoginRequest): Promise<TokenResponse> {
     //...
   }
 }
@@ -818,12 +812,11 @@ class SomeClass {
     private readonly getCurrentUser: Getter<User>,
     @inject.getter(AuthenticationBindings.CURRENT_CLIENT)
     private readonly getCurrentClient: Getter<AuthClient>,
-  ) {
-  }
+  ) {}
 }
 ```
 
-### Google Oauth 2
+### Google OAuth 2
 
 First, create a AuthUser model implementing the IAuthUser interface. You can implement the interface in the user model
 itself. See sample below.
@@ -969,7 +962,7 @@ this.component(AuthenticationComponent);
 this.bind(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER).toProvider(GoogleOauth2VerifyProvider);
 ```
 
-Finally, add the authenticate function as a sequence action to sequence.ts.
+Then, add the authenticate function as a sequence action to sequence.ts.
 
 ```ts
 export class MySequence implements SequenceHandler {
@@ -1000,6 +993,21 @@ export class MySequence implements SequenceHandler {
 }
 ```
 
+Finally, sure configs have been set to application config.
+
+```yaml
+# ApplicationConfig
+auth:
+  google:
+    accessType: 'offline'
+    scope: ['profile', 'email']
+    authorizationURL:
+    callbackURL:
+    clientID:
+    clientSecret:
+    tokenURL:
+```
+
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
@@ -1008,13 +1016,15 @@ class SomeController {
   @authenticate(
     STRATEGY.GOOGLE_OAUTH2,
     {
-      accessType: 'offline',
-      scope: ['profile', 'email'],
-      authorizationURL: process.env.GOOGLE_AUTH_URL,
-      callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
-      clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // scope: ['profile', 'email'],
+      // authorizationURL: process.env.GOOGLE_AUTH_URL,
+      // callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      // clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+      // clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -1040,22 +1050,23 @@ class SomeController {
   })
   async loginViaGoogle(
     @param.query.string('client_id')
-      clientId?: string,
+    clientId?: string,
     @param.query.string('client_secret')
-      clientSecret?: string,
-  ): Promise<void> {
-  }
+    clientSecret?: string,
+  ): Promise<void> {}
 
   @authenticate(
     STRATEGY.GOOGLE_OAUTH2,
     {
-      accessType: 'offline',
-      scope: ['profile', 'email'],
-      authorizationURL: process.env.GOOGLE_AUTH_URL,
-      callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
-      clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // scope: ['profile', 'email'],
+      // authorizationURL: process.env.GOOGLE_AUTH_URL,
+      // callbackURL: process.env.GOOGLE_AUTH_CALLBACK_URL,
+      // clientID: process.env.GOOGLE_AUTH_CLIENT_ID,
+      // clientSecret: process.env.GOOGLE_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.GOOGLE_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -1133,7 +1144,7 @@ class SomeClass {
 }
 ```
 
-### Instagram Oauth 2
+### Instagram OAuth 2
 
 First, create a AuthUser model implementing the IAuthUser interface. You can implement the interface in the user model
 itself. See sample below.
@@ -1279,7 +1290,7 @@ this.component(AuthenticationComponent);
 this.bind(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER).toProvider(InstagramOauth2VerifyProvider);
 ```
 
-Finally, add the authenticate function as a sequence action to sequence.ts.
+Then, add the authenticate function as a sequence action to sequence.ts.
 
 ```ts
 export class MySequence implements SequenceHandler {
@@ -1310,6 +1321,20 @@ export class MySequence implements SequenceHandler {
 }
 ```
 
+Finally, sure configs have been set to application config.
+
+```yaml
+# ApplicationConfig
+auth:
+  insta:
+    accessType: 'offline'
+    authorizationURL:
+    callbackURL:
+    clientID:
+    clientSecret:
+    tokenURL:
+```
+
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
@@ -1318,12 +1343,14 @@ class SomeController {
   @authenticate(
     STRATEGY.INSTAGRAM_OAUTH2,
     {
-      accessType: 'offline',
-      authorizationURL: process.env.INSTAGRAM_AUTH_URL,
-      callbackURL: process.env.INSTAGRAM_AUTH_CALLBACK_URL,
-      clientID: process.env.INSTAGRAM_AUTH_CLIENT_ID,
-      clientSecret: process.env.INSTAGRAM_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.INSTAGRAM_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // authorizationURL: process.env.INSTAGRAM_AUTH_URL,
+      // callbackURL: process.env.INSTAGRAM_AUTH_CALLBACK_URL,
+      // clientID: process.env.INSTAGRAM_AUTH_CLIENT_ID,
+      // clientSecret: process.env.INSTAGRAM_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.INSTAGRAM_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -1349,21 +1376,22 @@ class SomeController {
   })
   async loginViaInstagram(
     @param.query.string('client_id')
-      clientId?: string,
+    clientId?: string,
     @param.query.string('client_secret')
-      clientSecret?: string,
-  ): Promise<void> {
-  }
+    clientSecret?: string,
+  ): Promise<void> {}
 
   @authenticate(
     STRATEGY.INSTAGRAM_OAUTH2,
     {
-      accessType: 'offline',
-      authorizationURL: process.env.INSTAGRAM_AUTH_URL,
-      callbackURL: process.env.INSTAGRAM_AUTH_CALLBACK_URL,
-      clientID: process.env.INSTAGRAM_AUTH_CLIENT_ID,
-      clientSecret: process.env.INSTAGRAM_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.INSTAGRAM_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // authorizationURL: process.env.INSTAGRAM_AUTH_URL,
+      // callbackURL: process.env.INSTAGRAM_AUTH_CALLBACK_URL,
+      // clientID: process.env.INSTAGRAM_AUTH_CLIENT_ID,
+      // clientSecret: process.env.INSTAGRAM_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.INSTAGRAM_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -1587,7 +1615,7 @@ this.component(AuthenticationComponent);
 this.bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER).toProvider(AppleOauth2VerifyProvider);
 ```
 
-Finally, add the authenticate function as a sequence action to sequence.ts.
+Then, add the authenticate function as a sequence action to sequence.ts.
 
 ```ts
 export class MySequence implements SequenceHandler {
@@ -1618,6 +1646,21 @@ export class MySequence implements SequenceHandler {
 }
 ```
 
+Finally, sure configs have been set to application config.
+
+```yaml
+# ApplicationConfig
+auth:
+  apple:
+    accessType: 'offline',
+    scope: ['name', 'email'],
+    callbackURL:
+    clientID:
+    teamID:
+    keyID:
+    privateKeyLocation:
+```
+
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
@@ -1626,13 +1669,15 @@ class SomeController {
   @authenticate(
     STRATEGY.APPLE_OAUTH2,
     {
-      accessType: 'offline',
-      scope: ['name', 'email'],
-      callbackURL: process.env.APPLE_AUTH_CALLBACK_URL,
-      clientID: process.env.APPLE_AUTH_CLIENT_ID,
-      teamID: process.env.APPLE_AUTH_TEAM_ID,
-      keyID: process.env.APPLE_AUTH_KEY_ID,
-      privateKeyLocation: process.env.APPLE_AUTH_PRIVATE_KEY_LOCATION,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // scope: ['name', 'email'],
+      // callbackURL: process.env.APPLE_AUTH_CALLBACK_URL,
+      // clientID: process.env.APPLE_AUTH_CLIENT_ID,
+      // teamID: process.env.APPLE_AUTH_TEAM_ID,
+      // keyID: process.env.APPLE_AUTH_KEY_ID,
+      // privateKeyLocation: process.env.APPLE_AUTH_PRIVATE_KEY_LOCATION,
     },
     (req: Request) => {
       return {
@@ -1658,22 +1703,23 @@ class SomeController {
   })
   async loginViaApple(
     @param.query.string('client_id')
-      clientId?: string,
+    clientId?: string,
     @param.query.string('client_secret')
-      clientSecret?: string,
-  ): Promise<void> {
-  }
+    clientSecret?: string,
+  ): Promise<void> {}
 
   @authenticate(
     STRATEGY.APPLE_OAUTH2,
     {
-      accessType: 'offline',
-      scope: ['name', 'email'],
-      callbackURL: process.env.APPLE_AUTH_CALLBACK_URL,
-      clientID: process.env.APPLE_AUTH_CLIENT_ID,
-      teamID: process.env.APPLE_AUTH_TEAM_ID,
-      keyID: process.env.APPLE_AUTH_KEY_ID,
-      privateKeyLocation: process.env.APPLE_AUTH_PRIVATE_KEY_LOCATION,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // scope: ['name', 'email'],
+      // callbackURL: process.env.APPLE_AUTH_CALLBACK_URL,
+      // clientID: process.env.APPLE_AUTH_CLIENT_ID,
+      // teamID: process.env.APPLE_AUTH_TEAM_ID,
+      // keyID: process.env.APPLE_AUTH_KEY_ID,
+      // privateKeyLocation: process.env.APPLE_AUTH_PRIVATE_KEY_LOCATION,
     },
     (req: Request) => {
       return {
@@ -1928,6 +1974,20 @@ export class MySequence implements SequenceHandler {
 }
 ```
 
+Finally, sure configs have been set to application config.
+
+```yaml
+# ApplicationConfig
+auth:
+  facebook:
+    accessType: 'offline',
+    authorizationURL:
+    callbackURL:
+    clientID:
+    clientSecret:
+    tokenURL:
+```
+
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
@@ -1936,12 +1996,14 @@ class SomeController {
   @authenticate(
     STRATEGY.FACEBOOK_OAUTH2,
     {
-      accessType: 'offline',
-      authorizationURL: process.env.FACEBOOK_AUTH_URL,
-      callbackURL: process.env.FACEBOOK_AUTH_CALLBACK_URL,
-      clientID: process.env.FACEBOOK_AUTH_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.FACEBOOK_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // authorizationURL: process.env.FACEBOOK_AUTH_URL,
+      // callbackURL: process.env.FACEBOOK_AUTH_CALLBACK_URL,
+      // clientID: process.env.FACEBOOK_AUTH_CLIENT_ID,
+      // clientSecret: process.env.FACEBOOK_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.FACEBOOK_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -1967,21 +2029,22 @@ class SomeController {
   })
   async loginViaFacebook(
     @param.query.string('client_id')
-      clientId?: string,
+    clientId?: string,
     @param.query.string('client_secret')
-      clientSecret?: string,
-  ): Promise<void> {
-  }
+    clientSecret?: string,
+  ): Promise<void> {}
 
   @authenticate(
     STRATEGY.FACEBOOK_OAUTH2,
     {
-      accessType: 'offline',
-      authorizationURL: process.env.FACEBOOK_AUTH_URL,
-      callbackURL: process.env.FACEBOOK_AUTH_CALLBACK_URL,
-      clientID: process.env.FACEBOOK_AUTH_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_AUTH_CLIENT_SECRET,
-      tokenURL: process.env.FACEBOOK_AUTH_TOKEN_URL,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // accessType: 'offline',
+      // authorizationURL: process.env.FACEBOOK_AUTH_URL,
+      // callbackURL: process.env.FACEBOOK_AUTH_CALLBACK_URL,
+      // clientID: process.env.FACEBOOK_AUTH_CLIENT_ID,
+      // clientSecret: process.env.FACEBOOK_AUTH_CLIENT_SECRET,
+      // tokenURL: process.env.FACEBOOK_AUTH_TOKEN_URL,
     },
     (req: Request) => {
       return {
@@ -2248,6 +2311,22 @@ export class MySequence implements SequenceHandler {
 }
 ```
 
+Finally, sure configs have been set to application config.
+
+```yaml
+# ApplicationConfig
+auth:
+  keycloak:
+    host:
+    realm: # 'Tenant1',
+    clientID: # 'onboarding',
+    clientSecret: # 'e607fd75-adc8-4af7-9f03-c9e79a4b8b72',
+    callbackURL: # 'http://localhost:3001/auth/keycloak-auth-redirect',
+    authorizationURL: # `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
+    tokenURL: # `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+    userInfoURL: # `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+```
+
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
@@ -2256,14 +2335,16 @@ class SomeController {
   @authenticate(
     STRATEGY.KEYCLOAK,
     {
-      host: process.env.KEYCLOAK_HOST,
-      realm: process.env.KEYCLOAK_REALM, //'Tenant1',
-      clientID: process.env.KEYCLOAK_CLIENT_ID, //'onboarding',
-      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET, //'e607fd75-adc8-4af7-9f03-c9e79a4b8b72',
-      callbackURL: process.env.KEYCLOAK_CALLBACK_URL, //'http://localhost:3001/auth/keycloak-auth-redirect',
-      authorizationURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
-      tokenURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
-      userInfoURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // host: process.env.KEYCLOAK_HOST,
+      // realm: process.env.KEYCLOAK_REALM, //'Tenant1',
+      // clientID: process.env.KEYCLOAK_CLIENT_ID, //'onboarding',
+      // clientSecret: process.env.KEYCLOAK_CLIENT_SECRET, //'e607fd75-adc8-4af7-9f03-c9e79a4b8b72',
+      // callbackURL: process.env.KEYCLOAK_CALLBACK_URL, //'http://localhost:3001/auth/keycloak-auth-redirect',
+      // authorizationURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
+      // tokenURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      // userInfoURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
     },
     keycloakQueryGen,
   )
@@ -2282,23 +2363,24 @@ class SomeController {
   })
   async loginViaKeycloak(
     @param.query.string('client_id')
-      clientId?: string,
+    clientId?: string,
     @param.query.string('client_secret')
-      clientSecret?: string,
-  ): Promise<void> {
-  }
+    clientSecret?: string,
+  ): Promise<void> {}
 
   @authenticate(
     STRATEGY.KEYCLOAK,
     {
-      host: process.env.KEYCLOAK_HOST,
-      realm: process.env.KEYCLOAK_REALM,
-      clientID: process.env.KEYCLOAK_CLIENT_ID,
-      clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
-      callbackURL: process.env.KEYCLOAK_CALLBACK_URL,
-      authorizationURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
-      tokenURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
-      userInfoURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+      // below is optional. if set, them will overridde configs from application config
+      // -------
+      // host: process.env.KEYCLOAK_HOST,
+      // realm: process.env.KEYCLOAK_REALM,
+      // clientID: process.env.KEYCLOAK_CLIENT_ID,
+      // clientSecret: process.env.KEYCLOAK_CLIENT_SECRET,
+      // callbackURL: process.env.KEYCLOAK_CALLBACK_URL,
+      // authorizationURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
+      // tokenURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+      // userInfoURL: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
     },
     keycloakQueryGen,
   )
@@ -2343,9 +2425,7 @@ class SomeController {
         subject: this.user.username,
         issuer: process.env.JWT_ISSUER,
       });
-      response.redirect(
-        `${client.redirectUrl}?code=${token}&user=${this.user.username}`,
-      );
+      response.redirect(`${client.redirectUrl}?code=${token}&user=${this.user.username}`);
     } catch (error) {
       this.logger.error(error);
       throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);

@@ -1,3 +1,4 @@
+import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as ClientPasswordStrategy from 'passport-oauth2-client-password';
@@ -6,6 +7,7 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
+import {AuthConfig} from '../../../keys';
 
 export interface ClientPasswordStrategyFactory {
   (
@@ -18,6 +20,8 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
   constructor(
     @inject(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER)
     private readonly verifier: VerifyFunction.OauthClientPasswordFn,
+    @inject(AuthConfig('clientPassword'), {optional: true})
+    private readonly config?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
   ) {}
 
   value(): ClientPasswordStrategyFactory {
@@ -28,6 +32,7 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
     options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
     verifierPassed?: VerifyFunction.OauthClientPasswordFn,
   ): ClientPasswordStrategy.Strategy {
+    options = merge({}, this.config, options);
     const verifyFn = verifierPassed ?? this.verifier;
     if (options?.passReqToCallback) {
       return new ClientPasswordStrategy.Strategy(
