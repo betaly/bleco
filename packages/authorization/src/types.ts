@@ -135,9 +135,10 @@ export interface IAuthUserWithPermissions<ID = string> extends IAuthUser {
   authClientId: number;
   userPreferences?: IUserPrefs;
   email?: string;
+  phone?: string;
   role: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   middleName?: string;
   allowedResources?: string[];
 }
