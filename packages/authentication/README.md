@@ -207,26 +207,25 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD, {
-  passReqToCallback: true
-})
-@post('/auth/login', {
-  responses: {
-    [STATUS_CODE.OK]: {
-      description: 'Auth Code',
-      content: {
-        [CONTENT_TYPE.JSON]: Object,
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD, {
+    passReqToCallback: true
+  })
+  @post('/auth/login', {
+    responses: {
+      [STATUS_CODE.OK]: {
+        description: 'Auth Code',
+        content: {
+          [CONTENT_TYPE.JSON]: Object,
+        },
       },
     },
-  },
-})
-async login(
-  @requestBody()
-  req: LoginRequest,
-): Promise<{
-  code: string;
-}> {
-  ....
+  })
+  async login(
+    @requestBody() req: LoginRequest,
+  ): Promise<{code: string}> {
+    //....
+  }
 }
 ```
 
@@ -234,8 +233,14 @@ For accessing the authenticated AuthClient model reference, you can inject the C
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_CLIENT)
-  private readonly getCurrentClient: Getter<AuthClient>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_CLIENT)
+    private readonly getCurrentClient: Getter<AuthClient>,
+  ) {
+    // ...
+  }
+}
 ```
 
 ### Http-bearer
@@ -386,23 +391,25 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticate(STRATEGY.BEARER)
-@get('/users', {
-  responses: {
-    '200': {
-      description: 'Array of User model instances',
-      content: {
-        'application/json': {
-          schema: {type: 'array', items: {'x-ts-type': User}},
+class SomeController {
+  @authenticate(STRATEGY.BEARER)
+  @get('/users', {
+    responses: {
+      '200': {
+        description: 'Array of User model instances',
+        content: {
+          'application/json': {
+            schema: {type: 'array', items: {'x-ts-type': User}},
+          },
         },
       },
     },
-  },
-})
-async find(
-  @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
-): Promise<User[]> {
-  return await this.userRepository.find(filter);
+  })
+  async find(
+    @param.query.object('filter', getFilterSchemaFor(User)) filter?: Filter,
+  ): Promise<User[]> {
+    return await this.userRepository.find(filter);
+  }
 }
 ```
 
@@ -410,8 +417,12 @@ For accessing the authenticated AuthUser model reference, you can inject the CUR
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### local
@@ -549,6 +560,7 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
+class SomeController {
   @authenticate(STRATEGY.LOCAL)
   @post('/auth/login', {
     responses: {
@@ -562,20 +574,25 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async login(
     @requestBody()
-    req: LoginRequest,
+      req: LoginRequest,
   ): Promise<{
     code: string;
   }> {
-    ......
+    //......
   }
+}
 ```
 
 For accessing the authenticated AuthUser model reference, you can inject the CURRENT_USER provider, provided by the
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Oauth2-resource-owner-password
@@ -769,6 +786,7 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
+class SomeController {
   @authenticate(STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT)
   @post('/auth/login-token', {
     responses: {
@@ -785,18 +803,24 @@ After this, you can use decorator to apply auth to controller functions wherever
   async loginWithClientUser(
     @requestBody() req: LoginRequest,
   ): Promise<TokenResponse> {
-    ......
+    //...
   }
+}
 ```
 
 For accessing the authenticated AuthUser and AuthClient model reference, you can inject the CURRENT_USER and
 CURRENT_CLIENT provider, provided by the extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
-  @inject.getter(AuthenticationBindings.CURRENT_CLIENT)
-  private readonly getCurrentClient: Getter<AuthClient>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+    @inject.getter(AuthenticationBindings.CURRENT_CLIENT)
+    private readonly getCurrentClient: Getter<AuthClient>,
+  ) {
+  }
+}
 ```
 
 ### Google Oauth 2
@@ -979,7 +1003,8 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD)
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(
     STRATEGY.GOOGLE_OAUTH2,
     {
@@ -1015,10 +1040,11 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async loginViaGoogle(
     @param.query.string('client_id')
-    clientId?: string,
+      clientId?: string,
     @param.query.string('client_secret')
-    clientSecret?: string,
-  ): Promise<void> {}
+      clientSecret?: string,
+  ): Promise<void> {
+  }
 
   @authenticate(
     STRATEGY.GOOGLE_OAUTH2,
@@ -1086,20 +1112,25 @@ After this, you can use decorator to apply auth to controller functions wherever
       throw new HttpErrors.InternalServerError(AuthErrorKeys.UnknownError);
     }
   }
+}
 ```
 
-Please note above that we are creating two new APIs for google auth. The first one is for UI clients to hit. We are
-authenticating client as well, then passing the details to the google auth. Then, the actual authentication is done by
+Please note above that we are creating two new APIs for Google auth. The first one is for UI clients to hit. We are
+authenticating client as well, then passing the details to the Google auth. Then, the actual authentication is done by
 google authorization url, which redirects to the second API we created after success. The first API method body is empty
-as we do not need to handle its response. The google auth provider in this package will do the redirection for you
+as we do not need to handle its response. The Google auth provider in this package will do the redirection for you
 automatically.
 
 For accessing the authenticated AuthUser model reference, you can inject the CURRENT_USER provider, provided by the
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Instagram Oauth 2
@@ -1282,7 +1313,8 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD)
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(
     STRATEGY.INSTAGRAM_OAUTH2,
     {
@@ -1317,10 +1349,11 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async loginViaInstagram(
     @param.query.string('client_id')
-    clientId?: string,
+      clientId?: string,
     @param.query.string('client_secret')
-    clientSecret?: string,
-  ): Promise<void> {}
+      clientSecret?: string,
+  ): Promise<void> {
+  }
 
   @authenticate(
     STRATEGY.INSTAGRAM_OAUTH2,
@@ -1387,6 +1420,7 @@ After this, you can use decorator to apply auth to controller functions wherever
       throw new HttpErrors.InternalServerError(AuthErrorKeys.UnknownError);
     }
   }
+}
 ```
 
 Please note above that we are creating two new APIs for instagram auth. The first one is for UI clients to hit. We are
@@ -1399,8 +1433,12 @@ For accessing the authenticated AuthUser model reference, you can inject the CUR
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Apple Oauth 2
@@ -1583,7 +1621,8 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD)
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(
     STRATEGY.APPLE_OAUTH2,
     {
@@ -1619,10 +1658,11 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async loginViaApple(
     @param.query.string('client_id')
-    clientId?: string,
+      clientId?: string,
     @param.query.string('client_secret')
-    clientSecret?: string,
-  ): Promise<void> {}
+      clientSecret?: string,
+  ): Promise<void> {
+  }
 
   @authenticate(
     STRATEGY.APPLE_OAUTH2,
@@ -1690,6 +1730,7 @@ After this, you can use decorator to apply auth to controller functions wherever
       throw new HttpErrors.InternalServerError(AuthErrorKeys.UnknownError);
     }
   }
+}
 ```
 
 Please note above that we are creating two new APIs for apple auth. The first one is for UI clients to hit. We are
@@ -1702,8 +1743,12 @@ For accessing the authenticated AuthUser model reference, you can inject the CUR
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Facebook Oauth 2
@@ -1886,7 +1931,8 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD)
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(
     STRATEGY.FACEBOOK_OAUTH2,
     {
@@ -1921,10 +1967,11 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async loginViaFacebook(
     @param.query.string('client_id')
-    clientId?: string,
+      clientId?: string,
     @param.query.string('client_secret')
-    clientSecret?: string,
-  ): Promise<void> {}
+      clientSecret?: string,
+  ): Promise<void> {
+  }
 
   @authenticate(
     STRATEGY.FACEBOOK_OAUTH2,
@@ -1991,6 +2038,7 @@ After this, you can use decorator to apply auth to controller functions wherever
       throw new HttpErrors.InternalServerError(AuthErrorKeys.UnknownError);
     }
   }
+}
 ```
 
 Please note above that we are creating two new APIs for facebook auth. The first one is for UI clients to hit. We are
@@ -2003,8 +2051,12 @@ For accessing the authenticated AuthUser model reference, you can inject the CUR
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Keycloak
@@ -2199,7 +2251,8 @@ export class MySequence implements SequenceHandler {
 After this, you can use decorator to apply auth to controller functions wherever needed. See below.
 
 ```ts
-@authenticateClient(STRATEGY.CLIENT_PASSWORD)
+class SomeController {
+  @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(
     STRATEGY.KEYCLOAK,
     {
@@ -2229,10 +2282,11 @@ After this, you can use decorator to apply auth to controller functions wherever
   })
   async loginViaKeycloak(
     @param.query.string('client_id')
-    clientId?: string,
+      clientId?: string,
     @param.query.string('client_secret')
-    clientSecret?: string,
-  ): Promise<void> {}
+      clientSecret?: string,
+  ): Promise<void> {
+  }
 
   @authenticate(
     STRATEGY.KEYCLOAK,
@@ -2297,6 +2351,7 @@ After this, you can use decorator to apply auth to controller functions wherever
       throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
     }
   }
+}
 ```
 
 Please note above that we are creating two new APIs for keycloak auth. The first one is for UI clients to hit. We are
@@ -2309,8 +2364,12 @@ For accessing the authenticated AuthUser model reference, you can inject the CUR
 extension, which is populated by the auth action sequence above.
 
 ```ts
-  @inject.getter(AuthenticationBindings.CURRENT_USER)
-  private readonly getCurrentUser: Getter<User>,
+class SomeClass {
+  constructor(
+    @inject.getter(AuthenticationBindings.CURRENT_USER)
+    private readonly getCurrentUser: Getter<User>,
+  ) {}
+}
 ```
 
 ### Custom Verifier for Individual Routes
