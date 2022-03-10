@@ -1503,7 +1503,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/authentication@^0.2.2, @bleco/authentication@workspace:packages/authentication":
+"@bleco/authentication@^0.2.3, @bleco/authentication@workspace:packages/authentication":
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
@@ -1704,7 +1704,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
-    "@bleco/authentication": ^0.2.2
+    "@bleco/authentication": ^0.2.3
     "@loopback/boot": ^4.1.1
     "@loopback/build": ^8.1.1
     "@loopback/context": ^4.1.1
