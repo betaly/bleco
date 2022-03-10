@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as passport from 'passport';
 
+export const CLIENT_ID = 'client_id';
+export const CLIENT_SECRET = 'client_secret';
+
 export namespace Oauth2ResourceOwnerPassword {
-  export interface StrategyFields {
+  export interface CredentialsFields {
     usernameField?: string | undefined;
     passwordField?: string | undefined;
-    clientIdField?: string | undefined;
-    clientSecretField?: string | undefined;
   }
 
-  export interface StrategyOptionsWithRequestInterface extends StrategyFields {
+  export interface StrategyOptionsWithRequestInterface extends CredentialsFields {
     passReqToCallback: boolean;
   }
 
@@ -32,7 +33,7 @@ export namespace Oauth2ResourceOwnerPassword {
 
   export class Strategy extends passport.Strategy {
     name: string;
-    fields: Required<StrategyFields>;
+    credentialsFields: Required<CredentialsFields>;
     private readonly verify: VerifyFunction | VerifyFunctionWithRequest;
     private readonly passReqToCallback: boolean;
 
@@ -55,23 +56,21 @@ export namespace Oauth2ResourceOwnerPassword {
       this.verify = verify ? verify : (options as VerifyFunction);
       this.name = 'oauth2-resource-owner-password';
       this.passReqToCallback = opts.passReqToCallback;
-      this.fields = {
+      this.credentialsFields = {
         usernameField: opts.usernameField ?? 'username',
         passwordField: opts.passwordField ?? 'password',
-        clientIdField: opts.clientIdField ?? 'client_id',
-        clientSecretField: opts.clientSecretField ?? 'client_secret',
       };
     }
 
     authenticate(req: any, options?: {}): void {
-      const {usernameField, passwordField, clientIdField, clientSecretField} = this.fields;
-      if (!req.body || !req.body[clientIdField] || !req.body[usernameField] || !req.body[passwordField]) {
+      const {usernameField, passwordField} = this.credentialsFields;
+      if (!req.body || !req.body[CLIENT_ID] || !req.body[usernameField] || !req.body[passwordField]) {
         this.fail();
         return;
       }
 
-      const clientId = req.body[clientIdField];
-      const clientSecret = req.body[clientSecretField];
+      const clientId = req.body[CLIENT_ID];
+      const clientSecret = req.body[CLIENT_SECRET];
       const username = req.body[usernameField];
       const password = req.body[passwordField];
 
