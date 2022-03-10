@@ -6,6 +6,9 @@ image: node:lts
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 cache:
+  key:
+    files:
+      - yarn.lock
   paths:
     - node_modules/
     - .yarn
@@ -14,9 +17,8 @@ before_script:
   - node --version
   - npm --version
   - yarn --version
-  - yarn install
-  - yarn build
 
 test:
   script:
+    - yarn
     - yarn test
