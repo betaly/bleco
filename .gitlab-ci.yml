@@ -20,5 +20,5 @@ before_script:
 
 test:
   script:
-    - yarn
+    - yarn --no-immutable
     - yarn test
