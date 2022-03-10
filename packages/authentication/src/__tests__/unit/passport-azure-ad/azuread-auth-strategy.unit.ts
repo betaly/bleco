@@ -53,7 +53,7 @@ describe('getting azuread auth strategy with options', () => {
 async function getStrategy() {
   const provider = new AzureADAuthStrategyFactoryProvider(verifierBearer);
 
-  //this fuction will return a function which will then accept options.
+  //this function will return a function which will then accept options.
   return provider.value();
 }
 
