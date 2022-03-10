@@ -1,5 +1,5 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
+import {IAuthUser} from '../../../types';
 import {Keycloak, KeycloakStrategyFactory, KeycloakStrategyFactoryProvider} from '../../../strategies';
 
 describe('getting keycloak-auth strategy with options', () => {

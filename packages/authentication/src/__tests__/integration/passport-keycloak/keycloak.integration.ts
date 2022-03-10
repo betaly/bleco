@@ -21,7 +21,7 @@ describe('getting keycloak oauth2 strategy with options', () => {
   beforeEach(getAuthVerifier);
 
   it('should return 200 when host and client id is passed and passReqToCallback is set true', async () => {
-    set(app.options, 'auth.insta', {
+    set(app.options, 'auth.keycloak', {
       host: 'localhost',
       realm: 'localhost',
       callbackURL: 'localhost',

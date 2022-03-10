@@ -25,7 +25,7 @@
     "build": "yarn workspaces foreach run build",
     "build:full": "yarn install && yarn run clean && yarn run build",
     "pretest": "yarn run clean && yarn run build",
-    "test": "yarn pretest && yarn workspaces foreach run test && yarn posttest",
+    "test": "yarn workspaces foreach run test && yarn posttest",
     "posttest": "yarn run lint"
   },
   "devDependencies": {

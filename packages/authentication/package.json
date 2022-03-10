@@ -17,7 +17,7 @@
     "build": "nb-tsc",
     "clean": "nb-clean 'bleco-authentication*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && npm run build",
-    "test": "yarn run jest",
+    "test": "yarn pretest && yarn jest",
     "jest": "jest"
   },
   "peerDependencies": {
