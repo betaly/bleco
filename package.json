@@ -25,9 +25,8 @@
     "build": "yarn workspaces foreach run build",
     "build:full": "yarn install && yarn run clean && yarn run build",
     "pretest": "yarn run clean && yarn run build",
-    "test": "yarn jest && yarn posttest",
-    "posttest": "yarn run lint",
-    "jest": "jest"
+    "test": "yarn workspaces foreach run test && yarn posttest",
+    "posttest": "yarn run lint"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",
