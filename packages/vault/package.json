@@ -1,7 +1,7 @@
 {
   "name": "@bleco/vault",
   "description": "A loopback-next extension for HashiCorp's Vault integration in loopback-next applications",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
