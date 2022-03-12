@@ -11,7 +11,7 @@ import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-gran
 import {AuthConfig} from '../../../keys';
 
 export type ResourceOwnerPasswordStrategyFactory = (
-  options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
+  options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
   verifierPassed?: VerifyFunction.ResourceOwnerPasswordFn,
 ) => Oauth2ResourceOwnerPassword.Strategy;
 
@@ -20,7 +20,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
     @inject(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER)
     private readonly verifierResourceOwner: VerifyFunction.ResourceOwnerPasswordFn,
     @inject(AuthConfig('resourceOwnerPassword'), {optional: true})
-    private readonly config?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
+    private readonly config?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
   ) {}
 
   value(): ResourceOwnerPasswordStrategyFactory {
@@ -28,7 +28,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
   }
 
   getResourceOwnerVerifier(
-    options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
+    options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.ResourceOwnerPasswordFn,
   ): Oauth2ResourceOwnerPassword.Strategy {
     options = merge({}, this.config, options);

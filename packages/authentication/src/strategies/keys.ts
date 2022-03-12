@@ -1,15 +1,18 @@
 import {BindingKey} from '@loopback/core';
 import {VerifyFunction} from './types';
-import {LocalPasswordStrategyFactory} from './passport/passport-local';
-import {BearerStrategyFactory} from './passport/passport-bearer';
-import {ResourceOwnerPasswordStrategyFactory} from './passport/passport-resource-owner-password';
-import {ClientPasswordStrategyFactory} from './passport/passport-client-password';
-import {GoogleAuthStrategyFactoryProvider} from './passport/passport-google-oauth2';
-import {KeycloakStrategyFactoryProvider} from './passport/passport-keycloak';
-import {AzureADAuthStrategyFactoryProvider} from './passport/passport-azure-ad';
-import {InstagramAuthStrategyFactoryProvider} from './passport/passport-insta-oauth2';
-import {AppleAuthStrategyFactoryProvider} from './passport/passport-apple-oauth2';
-import {FacebookAuthStrategyFactoryProvider} from './passport/passport-facebook-oauth2';
+import {
+  AppleAuthStrategyFactoryProvider,
+  AzureADAuthStrategyFactoryProvider,
+  BearerStrategyFactory,
+  ClientPasswordStrategyFactory,
+  FacebookAuthStrategyFactoryProvider,
+  GoogleAuthStrategyFactoryProvider,
+  InstagramAuthStrategyFactoryProvider,
+  KeycloakStrategyFactoryProvider,
+  LocalPasswordStrategyFactory,
+  OtpStrategyFactoryProvider,
+  ResourceOwnerPasswordStrategyFactory,
+} from './passport';
 
 export namespace Strategies {
   export namespace Passport {
@@ -87,5 +90,11 @@ export namespace Strategies {
     export const APPLE_OAUTH2_VERIFIER = BindingKey.create<VerifyFunction.AppleAuthFn>(
       'eco.passport.verifier.appleOauth2',
     );
+
+    // Passport-OTP strategy
+    export const OTP_STRATEGY_FACTORY = BindingKey.create<OtpStrategyFactoryProvider>(
+      'eco.passport.strategyFactory.otp',
+    );
+    export const OTP_VERIFIER = BindingKey.create<VerifyFunction.OtpAuthFn>('eco.passport.verifier.otp');
   }
 }

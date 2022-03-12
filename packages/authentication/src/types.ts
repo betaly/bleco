@@ -16,7 +16,9 @@ export interface IAuthClient {
 
 export interface IAuthUser {
   id?: number | string;
-  username: string;
+  username?: string;
+  email?: string;
+  phone?: string;
   password?: string;
 }
 

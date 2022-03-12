@@ -12,19 +12,19 @@ import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';
 import {AuthenticationMetadata} from '../types';
 import {Strategies} from './keys';
-import {BearerStrategyFactory} from './passport/passport-bearer';
-import {GoogleAuthStrategyFactory} from './passport/passport-google-oauth2';
-import {LocalPasswordStrategyFactory} from './passport/passport-local';
-import {
-  Oauth2ResourceOwnerPassword,
-  ResourceOwnerPasswordStrategyFactory,
-} from './passport/passport-resource-owner-password';
-import {AzureADAuthStrategyFactory} from './passport/passport-azure-ad';
 import {
   AppleAuthStrategyFactory,
+  AzureADAuthStrategyFactory,
+  BearerStrategyFactory,
+  FacebookAuthStrategyFactory,
+  GoogleAuthStrategyFactory,
   InstagramAuthStrategyFactory,
   KeycloakStrategyFactory,
-  FacebookAuthStrategyFactory,
+  LocalPasswordStrategyFactory,
+  Oauth2ResourceOwnerPassword,
+  OtpStrategyFactory,
+  PassportOtp,
+  ResourceOwnerPasswordStrategyFactory,
 } from './passport';
 import {Keycloak, VerifyFunction} from './types';
 
@@ -56,6 +56,8 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     private readonly getFacebookAuthVerifier: FacebookAuthStrategyFactory,
     @inject(Strategies.Passport.APPLE_OAUTH2_STRATEGY_FACTORY)
     private readonly getAppleAuthVerifier: AppleAuthStrategyFactory,
+    @inject(Strategies.Passport.OTP_STRATEGY_FACTORY)
+    private readonly getOtpAuthVerifier: OtpStrategyFactory,
   ) {}
 
   async value(): Promise<Strategy | undefined> {
@@ -82,7 +84,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       );
     } else if (name === STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT) {
       return this.getResourceOwnerVerifier(
-        this.metadata.options as Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
+        this.metadata.options as Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
         verifier as VerifyFunction.ResourceOwnerPasswordFn,
       );
     } else if (name === STRATEGY.GOOGLE_OAUTH2) {
@@ -116,6 +118,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       return this.getFacebookAuthVerifier(
         this.metadata.options as FacebookStrategy.StrategyOptionWithRequest | ExtendedStrategyOption,
         verifier as VerifyFunction.FacebookAuthFn,
+      );
+    } else if (name === STRATEGY.OTP) {
+      return this.getOtpAuthVerifier(
+        this.metadata.options as PassportOtp.StrategyOptionsWithRequest,
+        verifier as VerifyFunction.OtpAuthFn,
       );
     } else {
       return Promise.reject(`The strategy ${name} is not available.`);

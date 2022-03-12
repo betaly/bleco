@@ -30,6 +30,8 @@ import {
   LocalPasswordVerifyProvider,
   ResourceOwnerPasswordStrategyFactoryProvider,
   ResourceOwnerVerifyProvider,
+  OtpStrategyFactoryProvider,
+  OtpVerifyProvider,
 } from './strategies';
 import {Strategies} from './strategies/keys';
 
@@ -54,6 +56,7 @@ export class AuthenticationComponent implements Component {
       [Strategies.Passport.APPLE_OAUTH2_STRATEGY_FACTORY.key]: AppleAuthStrategyFactoryProvider,
       [Strategies.Passport.AZURE_AD_STRATEGY_FACTORY.key]: AzureADAuthStrategyFactoryProvider,
       [Strategies.Passport.KEYCLOAK_STRATEGY_FACTORY.key]: KeycloakStrategyFactoryProvider,
+      [Strategies.Passport.OTP_STRATEGY_FACTORY.key]: OtpStrategyFactoryProvider,
 
       // Verifier functions
       [Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER.key]: ClientPasswordVerifyProvider,
@@ -66,6 +69,7 @@ export class AuthenticationComponent implements Component {
       [Strategies.Passport.APPLE_OAUTH2_VERIFIER.key]: AppleAuthVerifyProvider,
       [Strategies.Passport.AZURE_AD_VERIFIER.key]: AzureADAuthVerifyProvider,
       [Strategies.Passport.KEYCLOAK_VERIFIER.key]: KeycloakVerifyProvider,
+      [Strategies.Passport.OTP_VERIFIER.key]: OtpVerifyProvider,
     };
   }
 

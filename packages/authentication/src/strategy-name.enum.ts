@@ -9,4 +9,5 @@ export const enum STRATEGY {
   FACEBOOK_OAUTH2 = 'Facebook OAuth 2.0',
   AZURE_AD = 'Azure AD',
   KEYCLOAK = 'keycloak',
+  OTP = 'One-Time Password',
 }

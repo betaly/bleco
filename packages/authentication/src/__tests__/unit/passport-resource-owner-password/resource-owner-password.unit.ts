@@ -1,17 +1,17 @@
-import {IAuthUser, IAuthClient} from '../../../types';
 import {expect} from '@loopback/testlab';
+import {Request} from '@loopback/rest';
+import {IAuthUser, IAuthClient} from '../../../types';
 import {
   ResourceOwnerPasswordStrategyFactoryProvider,
   ResourceOwnerPasswordStrategyFactory,
   Oauth2ResourceOwnerPassword,
 } from '../../../strategies';
-import {Request} from '@loopback/rest';
 
 describe('getting resource-owner strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
     const strategyVerifier: ResourceOwnerPasswordStrategyFactory = await getStrategy();
 
-    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface = {
+    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest = {
       passReqToCallback: true,
     };
 
@@ -24,7 +24,7 @@ describe('getting resource-owner strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as false', async () => {
     const strategyVerifier: ResourceOwnerPasswordStrategyFactory = await getStrategy();
 
-    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface = {
+    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest = {
       passReqToCallback: false,
     };
 
