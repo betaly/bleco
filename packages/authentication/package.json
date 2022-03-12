@@ -29,7 +29,7 @@
     "@loopback/context": "^4.1.1",
     "@loopback/core": "^3.1.1",
     "ajv": "^8.10.0",
-    "eslint": "^8.10.0",
+    "eslint": "^8.11.0",
     "https-proxy-agent": "^5.0.0",
     "passport": "^0.5.2",
     "passport-apple": "^2.0.1",
