@@ -1,7 +1,7 @@
 {
   "name": "@bleco/authentication",
   "description": "A loopback-next extension for authentication feature. Oauth strategies supported.",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
