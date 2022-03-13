@@ -7,14 +7,14 @@ export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.OtpAuthFn {
-    return async (code: string, owner: string, token: string, req?: Request) => {
-      if (!code || !owner || !token) {
+    return async (code: string, contact: string, token: string, req?: Request) => {
+      if (!code || !contact || !token) {
         return null;
       }
 
       const userToPass: IAuthUser = {
         id: 1,
-        email: owner || 'xyz',
+        email: contact || 'xyz',
       };
 
       return userToPass;

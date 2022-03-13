@@ -4,7 +4,7 @@ import passport from 'passport';
 
 export namespace PassportOtp {
   export const CODE_FIELD = 'code';
-  export const OWNER_FIELD = 'owner';
+  export const CONTACT_FIELD = 'contact';
   export const TOKEN_FIELD = 'token';
 
   export interface StrategyOptionsWithRequest {
@@ -14,14 +14,14 @@ export namespace PassportOtp {
   export type VerifyWithRequest = (
     req: Request,
     code: string,
-    owner: string,
+    contact: string,
     token: string,
     done: (error?: string | Error | null, user?: any, info?: any) => void,
   ) => void;
 
   export type Verify = (
     code: string,
-    owner: string,
+    contact: string,
     token: string,
     done: (error?: string | Error | null, user?: any, info?: any) => void,
   ) => void;
@@ -47,13 +47,13 @@ export namespace PassportOtp {
     }
 
     authenticate(req: any, options?: {}): void {
-      if (!req.body || !req.body[CODE_FIELD] || !req.body[OWNER_FIELD] || !req.body[TOKEN_FIELD]) {
+      if (!req.body || !req.body[CODE_FIELD] || !req.body[CONTACT_FIELD] || !req.body[TOKEN_FIELD]) {
         this.fail();
         return;
       }
 
       const code = req.body[CODE_FIELD];
-      const owner = req.body[OWNER_FIELD];
+      const contact = req.body[CONTACT_FIELD];
       const token = req.body[TOKEN_FIELD];
 
       const verified = (err: any, user: any) => {
@@ -69,9 +69,9 @@ export namespace PassportOtp {
       };
 
       if (this.passReqToCallback) {
-        (this.verify as VerifyWithRequest)(req, code, owner, token, verified);
+        (this.verify as VerifyWithRequest)(req, code, contact, token, verified);
       } else {
-        (this.verify as Verify)(code, owner, token, verified);
+        (this.verify as Verify)(code, contact, token, verified);
       }
     }
   }

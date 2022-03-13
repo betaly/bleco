@@ -1,6 +1,6 @@
-import {VerifyFunction} from '../../types';
 import {Provider} from '@loopback/context';
 import {HttpErrors} from '@loopback/rest';
+import {VerifyFunction} from '../../types';
 
 /**
  * A provider for default implementation of VerifyFunction.OtpAuthFn
@@ -11,7 +11,7 @@ export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.OtpAuthFn {
-    return async (code, owner, token) => {
+    return async (code, contact, token) => {
       throw new HttpErrors.NotImplemented(`VerifyFunction.OtpPasswordFn is not implemented`);
     };
   }

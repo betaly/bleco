@@ -48,7 +48,7 @@ async function getStrategy() {
 }
 
 //returning a user
-function verifierOtp(code: string, owner: string, token: string, req?: Request): Promise<IAuthUser | null> {
+function verifierOtp(code: string, contact: string, token: string, req?: Request): Promise<IAuthUser | null> {
   const userToPass: IAuthUser = {
     id: 1,
     email: 'sample@microloop.com',

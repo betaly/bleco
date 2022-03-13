@@ -21,7 +21,7 @@ describe('OTP strategy', () => {
     class TestController {
       @post('/auth/otp')
       @authenticate(STRATEGY.OTP)
-      test(@requestBody() body: {code: string; owner: string; token: string}) {
+      test(@requestBody() body: {code: string; contact: string; token: string}) {
         return 'test successful';
       }
     }
@@ -44,7 +44,7 @@ describe('OTP strategy', () => {
         @requestBody()
         body: {
           code: string;
-          owner: string;
+          contact: string;
           token: string;
         },
       ) {
@@ -58,7 +58,7 @@ describe('OTP strategy', () => {
       .post('/auth/otp/no-options')
       .send({
         code: '111111',
-        owner: 'torry@microloop.com',
+        contact: 'torry@microloop.com',
         token: 'hello token',
       })
       .expect(200);
@@ -82,7 +82,7 @@ describe('OTP strategy', () => {
         @requestBody()
         body: {
           code: string;
-          owner: string;
+          contact: string;
           token: string;
         },
       ) {
@@ -96,7 +96,7 @@ describe('OTP strategy', () => {
       .post('/auth/otp/passReqToCallback')
       .send({
         code: '222222',
-        owner: 'torry@microloop.com',
+        contact: 'torry@microloop.com',
         token: 'hello token',
       })
       .expect(200);
@@ -120,7 +120,7 @@ describe('OTP strategy', () => {
         @requestBody()
         body: {
           code: string;
-          owner: string;
+          contact: string;
           token: string;
         },
       ) {
@@ -134,7 +134,7 @@ describe('OTP strategy', () => {
       .post('/auth/otp/passReqToCallback-false')
       .send({
         code: '333333',
-        owner: 'torry@microloop.com',
+        contact: 'torry@microloop.com',
         token: 'hello token',
       })
       .expect(200);
@@ -151,7 +151,7 @@ describe('OTP strategy', () => {
         @requestBody()
         body: {
           code: string;
-          owner: string;
+          contact: string;
           token: string;
         },
       ) {
@@ -165,7 +165,7 @@ describe('OTP strategy', () => {
       .post('/test')
       .send({
         code: '',
-        owner: 'torry@microloop.com',
+        contact: 'torry@microloop.com',
         token: 'hello token',
       })
       .expect(401);
@@ -208,7 +208,7 @@ describe('OTP strategy with no verifier', () => {
         @requestBody()
         body: {
           code: string;
-          owner: string;
+          contact: string;
           token: string;
         },
       ) {
@@ -222,7 +222,7 @@ describe('OTP strategy with no verifier', () => {
       .post('/test')
       .send({
         code: '123456',
-        owner: 'torry@microloop.com',
+        contact: 'torry@microloop.com',
         token: 'hello token',
       })
       .expect(401);

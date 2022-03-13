@@ -1,12 +1,12 @@
-import {PassportOtp} from './otp-strategy';
-import {VerifyFunction} from '../../types';
+import isEmpty from 'tily/is/empty';
+import merge from 'tily/object/merge';
 import {Provider} from '@loopback/context';
 import {inject} from '@loopback/core';
-import {Strategies} from '../../keys';
-import merge from 'tily/object/merge';
 import {HttpErrors, Request} from '@loopback/rest';
+import {PassportOtp} from './otp-strategy';
+import {VerifyFunction} from '../../types';
+import {Strategies} from '../../keys';
 import {IAuthUser} from '../../../types';
-import isEmpty from 'tily/is/empty';
 import {AuthErrorKeys} from '../../../error-keys';
 import {OtpAuthBindings} from './keys';
 
@@ -40,12 +40,12 @@ export class OtpStrategyFactoryProvider implements Provider<OtpStrategyFactory> 
         async (
           req: Request,
           code: string,
-          owner: string,
+          contact: string,
           token: string,
           cb: (err?: Error | null, user?: IAuthUser | false) => void,
         ) => {
           try {
-            const userInfo = await verifyFn(code, owner, token, req);
+            const userInfo = await verifyFn(code, contact, token, req);
             if (!userInfo || isEmpty(userInfo)) {
               throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
@@ -60,12 +60,12 @@ export class OtpStrategyFactoryProvider implements Provider<OtpStrategyFactory> 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async (
           code: string,
-          owner: string,
+          contact: string,
           token: string,
           cb: (err?: Error | null, user?: IAuthUser | false) => void,
         ) => {
           try {
-            const userInfo = await verifyFn(code, owner, token);
+            const userInfo = await verifyFn(code, contact, token);
             if (!userInfo || isEmpty(userInfo)) {
               throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
