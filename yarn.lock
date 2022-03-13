@@ -1492,14 +1492,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.1.0, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
+    "@loopback/context": ^4.1.1
+    "@loopback/core": ^3.1.1
     "@nutol/build": ^0.2.4
     "@nutol/eslint-config": ^0.2.1
     "@types/jest": ^27.4.1
     "@types/node": ^17.0.21
+    tily: ^2.15.0
   languageName: unknown
   linkType: soft
 
@@ -1525,6 +1528,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
+    "@bleco/aliaser": ^0.1.0
     "@exlinc/keycloak-passport": ^1.0.2
     "@loopback/boot": ^4.1.1
     "@loopback/context": ^4.1.1
@@ -1633,6 +1637,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
+    "@bleco/aliaser": ^0.1.0
     "@loopback/boot": ^4.1.1
     "@loopback/context": ^4.1.1
     "@loopback/core": ^3.1.1
