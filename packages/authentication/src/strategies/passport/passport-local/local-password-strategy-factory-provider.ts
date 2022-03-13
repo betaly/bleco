@@ -8,7 +8,7 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {LocalAuthBindings} from './keys';
 
 export type LocalPasswordStrategyFactory = (
   options?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
@@ -19,7 +19,7 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
   constructor(
     @inject(Strategies.Passport.LOCAL_PASSWORD_VERIFIER)
     private readonly verifierLocal: VerifyFunction.LocalPasswordFn,
-    @inject(AuthConfig('local'), {optional: true})
+    @inject(LocalAuthBindings.Config, {optional: true})
     private readonly config?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
   ) {}
 

@@ -7,7 +7,7 @@ import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCa
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {GoogleAuthBindings} from './keys';
 
 //import * as GoogleStrategy from 'passport-google-oauth20';
 export type GoogleAuthStrategyFactory = (
@@ -19,7 +19,7 @@ export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStr
   constructor(
     @inject(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER)
     private readonly verifierGoogleAuth: VerifyFunction.GoogleAuthFn,
-    @inject(AuthConfig('google'), {optional: true})
+    @inject(GoogleAuthBindings.Config, {optional: true})
     private readonly config?: StrategyOptions | StrategyOptionsWithRequest,
   ) {}
 

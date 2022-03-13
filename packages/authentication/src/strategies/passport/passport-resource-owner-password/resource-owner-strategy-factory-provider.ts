@@ -8,7 +8,7 @@ import {IAuthClient, IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-grant';
-import {AuthConfig} from '../../../keys';
+import {ResourceOwnerPasswordAuthBindings} from './keys';
 
 export type ResourceOwnerPasswordStrategyFactory = (
   options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
@@ -19,7 +19,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
   constructor(
     @inject(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER)
     private readonly verifierResourceOwner: VerifyFunction.ResourceOwnerPasswordFn,
-    @inject(AuthConfig('resourceOwnerPassword'), {optional: true})
+    @inject(ResourceOwnerPasswordAuthBindings.Config, {optional: true})
     private readonly config?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,
   ) {}
 

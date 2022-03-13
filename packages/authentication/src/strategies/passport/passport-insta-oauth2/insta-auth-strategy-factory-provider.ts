@@ -7,7 +7,7 @@ import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'pass
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {InstagramAuthBindings} from './keys';
 
 export type InstagramAuthStrategyFactory = (
   options: StrategyOption | StrategyOptionWithRequest,
@@ -18,7 +18,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
   constructor(
     @inject(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER)
     private readonly verifierInstagramAuth: VerifyFunction.InstagramAuthFn,
-    @inject(AuthConfig('insta'), {optional: true})
+    @inject(InstagramAuthBindings.Config, {optional: true})
     private readonly config?: StrategyOption | StrategyOptionWithRequest,
   ) {}
 

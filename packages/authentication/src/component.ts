@@ -1,4 +1,4 @@
-import {Component, ProviderMap} from '@loopback/core';
+import {Application, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 
 import {AuthenticationBindings} from './keys';
 import {
@@ -8,6 +8,8 @@ import {
   ClientAuthMetadataProvider,
 } from './providers';
 import {
+  AppleAuthStrategyFactoryProvider,
+  AppleAuthVerifyProvider,
   AuthStrategyProvider,
   AzureADAuthStrategyFactoryProvider,
   AzureADAuthVerifyProvider,
@@ -16,62 +18,64 @@ import {
   ClientAuthStrategyProvider,
   ClientPasswordStrategyFactoryProvider,
   ClientPasswordVerifyProvider,
+  FacebookAuthStrategyFactoryProvider,
+  FacebookAuthVerifyProvider,
   GoogleAuthStrategyFactoryProvider,
   GoogleAuthVerifyProvider,
   InstagramAuthStrategyFactoryProvider,
   InstagramAuthVerifyProvider,
-  FacebookAuthStrategyFactoryProvider,
-  FacebookAuthVerifyProvider,
-  AppleAuthStrategyFactoryProvider,
-  AppleAuthVerifyProvider,
   KeycloakStrategyFactoryProvider,
   KeycloakVerifyProvider,
   LocalPasswordStrategyFactoryProvider,
   LocalPasswordVerifyProvider,
-  ResourceOwnerPasswordStrategyFactoryProvider,
-  ResourceOwnerVerifyProvider,
   OtpStrategyFactoryProvider,
   OtpVerifyProvider,
+  ResourceOwnerPasswordStrategyFactoryProvider,
+  ResourceOwnerVerifyProvider,
+  Strategies,
 } from './strategies';
-import {Strategies} from './strategies/keys';
+import {StrategiesAliaser} from './alias';
 
 export class AuthenticationComponent implements Component {
-  constructor() {
-    this.providers = {
-      [AuthenticationBindings.USER_AUTH_ACTION.key]: AuthenticateActionProvider,
-      [AuthenticationBindings.CLIENT_AUTH_ACTION.key]: ClientAuthenticateActionProvider,
-      [AuthenticationBindings.USER_METADATA.key]: AuthMetadataProvider,
-      [AuthenticationBindings.CLIENT_METADATA.key]: ClientAuthMetadataProvider,
-      [AuthenticationBindings.USER_STRATEGY.key]: AuthStrategyProvider,
-      [AuthenticationBindings.CLIENT_STRATEGY.key]: ClientAuthStrategyProvider,
+  providers?: ProviderMap = {
+    [AuthenticationBindings.USER_AUTH_ACTION.key]: AuthenticateActionProvider,
+    [AuthenticationBindings.CLIENT_AUTH_ACTION.key]: ClientAuthenticateActionProvider,
+    [AuthenticationBindings.USER_METADATA.key]: AuthMetadataProvider,
+    [AuthenticationBindings.CLIENT_METADATA.key]: ClientAuthMetadataProvider,
+    [AuthenticationBindings.USER_STRATEGY.key]: AuthStrategyProvider,
+    [AuthenticationBindings.CLIENT_STRATEGY.key]: ClientAuthStrategyProvider,
 
-      // Strategy function factories
-      [Strategies.Passport.LOCAL_STRATEGY_FACTORY.key]: LocalPasswordStrategyFactoryProvider,
-      [Strategies.Passport.CLIENT_PASSWORD_STRATEGY_FACTORY.key]: ClientPasswordStrategyFactoryProvider,
-      [Strategies.Passport.BEARER_STRATEGY_FACTORY.key]: BearerStrategyFactoryProvider,
-      [Strategies.Passport.RESOURCE_OWNER_STRATEGY_FACTORY.key]: ResourceOwnerPasswordStrategyFactoryProvider,
-      [Strategies.Passport.GOOGLE_OAUTH2_STRATEGY_FACTORY.key]: GoogleAuthStrategyFactoryProvider,
-      [Strategies.Passport.INSTAGRAM_OAUTH2_STRATEGY_FACTORY.key]: InstagramAuthStrategyFactoryProvider,
-      [Strategies.Passport.FACEBOOK_OAUTH2_STRATEGY_FACTORY.key]: FacebookAuthStrategyFactoryProvider,
-      [Strategies.Passport.APPLE_OAUTH2_STRATEGY_FACTORY.key]: AppleAuthStrategyFactoryProvider,
-      [Strategies.Passport.AZURE_AD_STRATEGY_FACTORY.key]: AzureADAuthStrategyFactoryProvider,
-      [Strategies.Passport.KEYCLOAK_STRATEGY_FACTORY.key]: KeycloakStrategyFactoryProvider,
-      [Strategies.Passport.OTP_STRATEGY_FACTORY.key]: OtpStrategyFactoryProvider,
+    // Strategy function factories
+    [Strategies.Passport.LOCAL_STRATEGY_FACTORY.key]: LocalPasswordStrategyFactoryProvider,
+    [Strategies.Passport.CLIENT_PASSWORD_STRATEGY_FACTORY.key]: ClientPasswordStrategyFactoryProvider,
+    [Strategies.Passport.BEARER_STRATEGY_FACTORY.key]: BearerStrategyFactoryProvider,
+    [Strategies.Passport.RESOURCE_OWNER_STRATEGY_FACTORY.key]: ResourceOwnerPasswordStrategyFactoryProvider,
+    [Strategies.Passport.GOOGLE_OAUTH2_STRATEGY_FACTORY.key]: GoogleAuthStrategyFactoryProvider,
+    [Strategies.Passport.INSTAGRAM_OAUTH2_STRATEGY_FACTORY.key]: InstagramAuthStrategyFactoryProvider,
+    [Strategies.Passport.FACEBOOK_OAUTH2_STRATEGY_FACTORY.key]: FacebookAuthStrategyFactoryProvider,
+    [Strategies.Passport.APPLE_OAUTH2_STRATEGY_FACTORY.key]: AppleAuthStrategyFactoryProvider,
+    [Strategies.Passport.AZURE_AD_STRATEGY_FACTORY.key]: AzureADAuthStrategyFactoryProvider,
+    [Strategies.Passport.KEYCLOAK_STRATEGY_FACTORY.key]: KeycloakStrategyFactoryProvider,
+    [Strategies.Passport.OTP_STRATEGY_FACTORY.key]: OtpStrategyFactoryProvider,
 
-      // Verifier functions
-      [Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER.key]: ClientPasswordVerifyProvider,
-      [Strategies.Passport.LOCAL_PASSWORD_VERIFIER.key]: LocalPasswordVerifyProvider,
-      [Strategies.Passport.BEARER_TOKEN_VERIFIER.key]: BearerTokenVerifyProvider,
-      [Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER.key]: ResourceOwnerVerifyProvider,
-      [Strategies.Passport.GOOGLE_OAUTH2_VERIFIER.key]: GoogleAuthVerifyProvider,
-      [Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER.key]: InstagramAuthVerifyProvider,
-      [Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER.key]: FacebookAuthVerifyProvider,
-      [Strategies.Passport.APPLE_OAUTH2_VERIFIER.key]: AppleAuthVerifyProvider,
-      [Strategies.Passport.AZURE_AD_VERIFIER.key]: AzureADAuthVerifyProvider,
-      [Strategies.Passport.KEYCLOAK_VERIFIER.key]: KeycloakVerifyProvider,
-      [Strategies.Passport.OTP_VERIFIER.key]: OtpVerifyProvider,
-    };
+    // Verifier functions
+    [Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER.key]: ClientPasswordVerifyProvider,
+    [Strategies.Passport.LOCAL_PASSWORD_VERIFIER.key]: LocalPasswordVerifyProvider,
+    [Strategies.Passport.BEARER_TOKEN_VERIFIER.key]: BearerTokenVerifyProvider,
+    [Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER.key]: ResourceOwnerVerifyProvider,
+    [Strategies.Passport.GOOGLE_OAUTH2_VERIFIER.key]: GoogleAuthVerifyProvider,
+    [Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER.key]: InstagramAuthVerifyProvider,
+    [Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER.key]: FacebookAuthVerifyProvider,
+    [Strategies.Passport.APPLE_OAUTH2_VERIFIER.key]: AppleAuthVerifyProvider,
+    [Strategies.Passport.AZURE_AD_VERIFIER.key]: AzureADAuthVerifyProvider,
+    [Strategies.Passport.KEYCLOAK_VERIFIER.key]: KeycloakVerifyProvider,
+    [Strategies.Passport.OTP_VERIFIER.key]: OtpVerifyProvider,
+  };
+
+  constructor(
+    @inject(CoreBindings.APPLICATION_INSTANCE)
+    app: Application,
+  ) {
+    StrategiesAliaser.alias(app);
   }
-
-  providers?: ProviderMap;
 }

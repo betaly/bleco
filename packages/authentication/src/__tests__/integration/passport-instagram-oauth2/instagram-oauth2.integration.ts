@@ -6,7 +6,7 @@ import {authenticate} from '../../../decorators';
 import {STRATEGY} from '../../../strategy-name.enum';
 import {givenApp} from '../helpers/helpers';
 import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
-import {Strategies} from '../../../strategies/keys';
+import {Strategies} from '../../../strategies';
 import {VerifyCallback, VerifyFunction} from '../../../strategies';
 import {userWithoutReqObj} from '../../fixtures/data/bearer-data';
 import * as InstagramStrategy from 'passport-instagram';
@@ -21,7 +21,7 @@ describe('getting instagram oauth2 strategy with options', () => {
   beforeEach(getAuthVerifier);
 
   it('should return 200 when client id is passed and passReqToCallback is set true', async () => {
-    set(app.options, 'auth.insta', {
+    set(app.options, 'auth.instagram', {
       clientID: 'string',
       clientSecret: 'string',
     });

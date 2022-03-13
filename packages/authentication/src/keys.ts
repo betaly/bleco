@@ -1,9 +1,7 @@
 import {BindingKey} from '@loopback/context';
 import {MetadataAccessor} from '@loopback/metadata';
 import {Strategy} from 'passport';
-
 import {AuthenticateFn, AuthenticationMetadata, IAuthClient, IAuthUser} from './types';
-import {CoreBindings} from '@loopback/core';
 
 export * from './strategies/keys';
 
@@ -43,5 +41,3 @@ export const USER_AUTHENTICATION_METADATA_KEY = MetadataAccessor.create<Authenti
 export const CLIENT_AUTHENTICATION_METADATA_KEY = MetadataAccessor.create<AuthenticationMetadata, MethodDecorator>(
   'clientAuthentication.operationsMetadata',
 );
-
-export const AuthConfig = (prop: string) => CoreBindings.APPLICATION_CONFIG.deepProperty(`auth.${prop}`);

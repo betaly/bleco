@@ -6,7 +6,7 @@ import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';
 import {AuthenticationMetadata} from '../types';
 import {Strategies} from './keys';
-import {ClientPasswordStrategyFactory} from './passport/passport-client-password';
+import {ClientPasswordStrategyFactory} from './passport';
 
 export class ClientAuthStrategyProvider implements Provider<Strategy | undefined> {
   constructor(

@@ -6,7 +6,7 @@ import {HttpsProxyAgent} from 'https-proxy-agent';
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {Keycloak, VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {KeycloakAuthBindings} from './keys';
 
 export const KeycloakStrategy = require('@exlinc/keycloak-passport');
 
@@ -19,7 +19,7 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
   constructor(
     @inject(Strategies.Passport.KEYCLOAK_VERIFIER)
     private readonly verifierKeycloak: VerifyFunction.KeycloakAuthFn,
-    @inject(AuthConfig('keycloak'), {optional: true})
+    @inject(KeycloakAuthBindings.Config, {optional: true})
     private readonly config?: Keycloak.StrategyOptions,
   ) {}
 

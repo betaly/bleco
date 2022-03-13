@@ -7,7 +7,7 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {ClientPasswordAuthBindings} from './keys';
 
 export type ClientPasswordStrategyFactory = (
   options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
@@ -18,7 +18,7 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
   constructor(
     @inject(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER)
     private readonly verifier: VerifyFunction.OauthClientPasswordFn,
-    @inject(AuthConfig('clientPassword'), {optional: true})
+    @inject(ClientPasswordAuthBindings.Config, {optional: true})
     private readonly config?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
   ) {}
 

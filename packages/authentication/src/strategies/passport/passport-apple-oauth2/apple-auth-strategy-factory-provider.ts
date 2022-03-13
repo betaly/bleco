@@ -13,7 +13,7 @@ import Strategy, {
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {AppleAuthBindings} from './keys';
 
 export type AppleAuthStrategyFactory = (
   options: AuthenticateOptions | AuthenticateOptionsWithRequest,
@@ -24,7 +24,7 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
   constructor(
     @inject(Strategies.Passport.APPLE_OAUTH2_VERIFIER)
     private readonly verifierAppleAuth: VerifyFunction.AppleAuthFn,
-    @inject(AuthConfig('apple'), {optional: true})
+    @inject(AppleAuthBindings.Config, {optional: true})
     private readonly config?: AuthenticateOptions | AuthenticateOptionsWithRequest,
   ) {}
 

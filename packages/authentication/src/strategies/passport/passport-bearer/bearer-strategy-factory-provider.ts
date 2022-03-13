@@ -8,7 +8,7 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
+import {BearerAuthBindings} from './keys';
 
 export type BearerStrategyFactory = (
   options?: PassportBearer.IStrategyOptions,
@@ -19,7 +19,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
   constructor(
     @inject(Strategies.Passport.BEARER_TOKEN_VERIFIER)
     private readonly verifierBearer: VerifyFunction.BearerFn,
-    @inject(AuthConfig('bearer'), {optional: true})
+    @inject(BearerAuthBindings.Config, {optional: true})
     private readonly config?: PassportBearer.IStrategyOptions,
   ) {}
 

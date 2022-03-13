@@ -3,12 +3,12 @@ import {VerifyFunction} from '../../types';
 import {Provider} from '@loopback/context';
 import {inject} from '@loopback/core';
 import {Strategies} from '../../keys';
-import {AuthConfig} from '../../../keys';
 import merge from 'tily/object/merge';
 import {HttpErrors, Request} from '@loopback/rest';
 import {IAuthUser} from '../../../types';
 import isEmpty from 'tily/is/empty';
 import {AuthErrorKeys} from '../../../error-keys';
+import {OtpAuthBindings} from './keys';
 
 export type OtpStrategyFactory = (
   options?: PassportOtp.StrategyOptionsWithRequest,
@@ -19,7 +19,7 @@ export class OtpStrategyFactoryProvider implements Provider<OtpStrategyFactory> 
   constructor(
     @inject(Strategies.Passport.OTP_VERIFIER)
     private readonly verifierOtpAuth: VerifyFunction.OtpAuthFn,
-    @inject(AuthConfig('otp'), {optional: true})
+    @inject(OtpAuthBindings.Config, {optional: true})
     private readonly config?: PassportOtp.StrategyOptionsWithRequest,
   ) {}
 

@@ -1,10 +1,6 @@
 import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
-
-import {AuthErrorKeys} from '../../../error-keys';
-import {Strategies} from '../../keys';
-import {VerifyFunction} from '../../types';
 import {
   IOIDCStrategyOptionWithoutRequest,
   IOIDCStrategyOptionWithRequest,
@@ -12,7 +8,11 @@ import {
   OIDCStrategy,
   VerifyCallback,
 } from 'passport-azure-ad';
-import {AuthConfig} from '../../../keys';
+
+import {AuthErrorKeys} from '../../../error-keys';
+import {Strategies} from '../../keys';
+import {VerifyFunction} from '../../types';
+import {AzureAdAuthBindings} from './keys';
 
 export type AzureADAuthStrategyFactory = (
   options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
@@ -23,7 +23,7 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
   constructor(
     @inject(Strategies.Passport.AZURE_AD_VERIFIER)
     private readonly verifierAzureADAuth: VerifyFunction.AzureADAuthFn,
-    @inject(AuthConfig('azuread'), {optional: true})
+    @inject(AzureAdAuthBindings.Config, {optional: true})
     private readonly config?: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
   ) {}
 

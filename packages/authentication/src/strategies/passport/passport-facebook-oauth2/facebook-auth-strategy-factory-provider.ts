@@ -2,16 +2,13 @@ import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-facebook';
+import {Profile, Strategy, StrategyOptionWithRequest} from 'passport-facebook';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
-import {AuthConfig} from '../../../keys';
-
-interface ExtendedStrategyOption extends StrategyOption {
-  passReqToCallback?: false;
-}
+import {FacebookAuthBindings} from './keys';
+import {ExtendedStrategyOption} from './types';
 
 export type FacebookAuthStrategyFactory = (
   options: ExtendedStrategyOption | StrategyOptionWithRequest,
@@ -22,7 +19,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
   constructor(
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER)
     private readonly verifierFacebookAuth: VerifyFunction.FacebookAuthFn,
-    @inject(AuthConfig('facebook'), {optional: true})
+    @inject(FacebookAuthBindings.Config, {optional: true})
     private readonly config?: ExtendedStrategyOption | StrategyOptionWithRequest,
   ) {}
 
