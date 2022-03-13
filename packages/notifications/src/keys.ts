@@ -1,5 +1,6 @@
 import {BindingKey} from '@loopback/core';
 import {INotification, INotificationConfig} from './types';
+import {Aliaser} from '@bleco/aliaser';
 
 export namespace NotificationBindings {
   export const NotificationProvider = BindingKey.create<INotification>('eco.notification');
@@ -9,3 +10,7 @@ export namespace NotificationBindings {
 
   export const Config = BindingKey.create<INotificationConfig | null>('eco.notification.config');
 }
+
+export const NotificationAliaser = Aliaser.create({
+  notification: NotificationBindings.Config,
+});
