@@ -9,7 +9,6 @@ import {
   InstagramAuthBindings,
   KeycloakAuthBindings,
   LocalAuthBindings,
-  OtpAuthBindings,
   ResourceOwnerPasswordAuthBindings,
 } from './strategies';
 
@@ -24,7 +23,6 @@ export const StrategiesAliaser = Aliaser.create({
     instagram: InstagramAuthBindings.Config,
     keycloak: KeycloakAuthBindings.Config,
     local: LocalAuthBindings.Config,
-    otp: OtpAuthBindings.Config,
     resourceOwnerPassword: ResourceOwnerPasswordAuthBindings.Config,
   },
 });

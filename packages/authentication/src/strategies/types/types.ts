@@ -89,10 +89,6 @@ export namespace VerifyFunction {
     ): Promise<T | null>;
   }
 
-  export interface OtpAuthFn<T = IAuthUser> extends GenericAuthFn<T> {
-    (code: string, owner: string, token: string, req?: Request): Promise<T | null>;
-  }
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export interface GenericAuthFn<T = any> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

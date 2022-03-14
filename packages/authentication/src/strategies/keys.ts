@@ -10,7 +10,6 @@ import {
   InstagramAuthStrategyFactoryProvider,
   KeycloakStrategyFactoryProvider,
   LocalPasswordStrategyFactory,
-  OtpStrategyFactoryProvider,
   ResourceOwnerPasswordStrategyFactory,
 } from './passport';
 
@@ -67,7 +66,7 @@ export namespace Strategies {
     );
     export const KEYCLOAK_VERIFIER = BindingKey.create<VerifyFunction.KeycloakAuthFn>('eco.passport.verifier.keycloak');
 
-    // Passport-instagram startegy
+    // Passport-instagram strategy
     export const INSTAGRAM_OAUTH2_STRATEGY_FACTORY = BindingKey.create<InstagramAuthStrategyFactoryProvider>(
       'eco.passport.strategyFactory.instagramOauth2',
     );
@@ -75,7 +74,7 @@ export namespace Strategies {
       'eco.passport.verifier.instagramOauth2',
     );
 
-    // Passport-facebook startegy
+    // Passport-facebook strategy
     export const FACEBOOK_OAUTH2_STRATEGY_FACTORY = BindingKey.create<FacebookAuthStrategyFactoryProvider>(
       'eco.passport.strategyFactory.facebookOauth2',
     );
@@ -90,11 +89,5 @@ export namespace Strategies {
     export const APPLE_OAUTH2_VERIFIER = BindingKey.create<VerifyFunction.AppleAuthFn>(
       'eco.passport.verifier.appleOauth2',
     );
-
-    // Passport-OTP strategy
-    export const OTP_STRATEGY_FACTORY = BindingKey.create<OtpStrategyFactoryProvider>(
-      'eco.passport.strategyFactory.otp',
-    );
-    export const OTP_VERIFIER = BindingKey.create<VerifyFunction.OtpAuthFn>('eco.passport.verifier.otp');
   }
 }

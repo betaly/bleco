@@ -22,8 +22,6 @@ import {
   KeycloakStrategyFactory,
   LocalPasswordStrategyFactory,
   Oauth2ResourceOwnerPassword,
-  OtpStrategyFactory,
-  PassportOtp,
   ResourceOwnerPasswordStrategyFactory,
 } from './passport';
 import {Keycloak, VerifyFunction} from './types';
@@ -56,8 +54,6 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     private readonly getFacebookAuthVerifier: FacebookAuthStrategyFactory,
     @inject(Strategies.Passport.APPLE_OAUTH2_STRATEGY_FACTORY)
     private readonly getAppleAuthVerifier: AppleAuthStrategyFactory,
-    @inject(Strategies.Passport.OTP_STRATEGY_FACTORY)
-    private readonly getOtpAuthVerifier: OtpStrategyFactory,
   ) {}
 
   async value(): Promise<Strategy | undefined> {
@@ -118,11 +114,6 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       return this.getFacebookAuthVerifier(
         this.metadata.options as FacebookStrategy.StrategyOptionWithRequest | ExtendedStrategyOption,
         verifier as VerifyFunction.FacebookAuthFn,
-      );
-    } else if (name === STRATEGY.OTP) {
-      return this.getOtpAuthVerifier(
-        this.metadata.options as PassportOtp.StrategyOptionsWithRequest,
-        verifier as VerifyFunction.OtpAuthFn,
       );
     } else {
       return Promise.reject(`The strategy ${name} is not available.`);
