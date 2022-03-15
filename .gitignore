@@ -23,6 +23,7 @@ coverage
 **/package
 .sandbox
 *.tsbuildinfo
+junit.xml
 
 # ignore dist conetents but dist directory for `flat` modules
 packages/*/dist/*

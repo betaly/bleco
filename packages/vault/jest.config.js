@@ -7,5 +7,5 @@ module.exports = {
   testPathIgnorePatterns: ['node_modules', 'dist'],
   testEnvironment: 'node',
   coverageReporters: ['html', 'text', 'text-summary', 'cobertura'],
-  setupFiles: ['./src/__tests__/mocks.ts'],
+  setupFiles: ['./jest.setup.ts'],
 };

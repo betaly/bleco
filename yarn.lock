@@ -1524,7 +1524,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/authentication@^0.2.8, @bleco/authentication@workspace:packages/authentication":
+"@bleco/authentication@^0.2.9, @bleco/authentication@workspace:packages/authentication":
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
@@ -1591,6 +1591,17 @@ __metadata:
     casbin-pg-adapter: ^1.4.0
     fs-extra: ^10.0.1
     lodash: ^4.17.21
+  languageName: unknown
+  linkType: soft
+
+"@bleco/boot@workspace:packages/boot":
+  version: 0.0.0-use.local
+  resolution: "@bleco/boot@workspace:packages/boot"
+  dependencies:
+    "@nutol/build": ^0.2.4
+    "@nutol/eslint-config": ^0.2.1
+    "@types/jest": ^27.4.1
+    "@types/node": ^17.0.21
   languageName: unknown
   linkType: soft
 
@@ -1727,7 +1738,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
-    "@bleco/authentication": ^0.2.8
+    "@bleco/authentication": ^0.2.9
     "@loopback/boot": ^4.1.1
     "@loopback/build": ^8.1.1
     "@loopback/context": ^4.1.1
