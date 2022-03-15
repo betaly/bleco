@@ -18,6 +18,7 @@ before_script:
   - npm --version
   - yarn --version
   - yarn install --no-immutable
+  - yarn build
 
 test:
   script:
