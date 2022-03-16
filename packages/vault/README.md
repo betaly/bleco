@@ -26,8 +26,14 @@ this.bind(VaultSecurityBindings.CONFIG).to({
 - After this, you can just inject the `VaultSecurityBindings.VAULT_CONNECTOR` across application.
 
 ```ts
-@inject(VaultSecurityBindings.VAULT_CONNECTOR)
-private readonly vaultConnector: VaultConnect
+class SomeClass {
+  constructor(
+    @inject(VaultSecurityBindings.VAULT_CONNECTOR)
+    private readonly vaultConnector: VaultConnect,
+  ) {
+    //...
+  }
+}
 ```
 
 All the methods mentioned [here](https://github.com/kr1sp1n/node-vault/blob/master/features.md) are now available on
@@ -36,6 +42,7 @@ All the methods mentioned [here](https://github.com/kr1sp1n/node-vault/blob/mast
 Here is an example usage below
 
 ```ts
+class SomeClass {
   private async upsertKeyToVault(credKey: string): Promise<{data: AnyObject}> {
     let data: {data: AnyObject};
     try {
@@ -51,6 +58,7 @@ Here is an example usage below
     }
     return data;
   }
+}
 ```
 
 - If you need to update vault token or any other connection parameters, there is a
