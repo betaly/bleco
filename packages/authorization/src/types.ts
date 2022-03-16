@@ -42,7 +42,7 @@ export interface AuthorizationMetadata {
 /**
  * Authorization config type for providing config to the component
  */
-export interface AuthorizationConfig {
+export interface AuthorizationOptions {
   /**
    * Specify paths to always allow. No permissions check needed.
    */

@@ -4,7 +4,7 @@ import {
   AuthorizeFn,
   AuthorizationMetadata,
   UserPermissionsFn,
-  AuthorizationConfig,
+  AuthorizationOptions,
   CasbinAuthorizeFn,
   CasbinEnforcerConfigGetterFn,
   CasbinResourceModifierFn,
@@ -36,7 +36,7 @@ export namespace AuthorizationBindings {
     'eco.userAuthorization.actions.casbin.resourceModifier',
   );
 
-  export const CONFIG = BindingKey.create<AuthorizationConfig>('eco.userAuthorization.config');
+  export const OPTIONS = BindingKey.create<AuthorizationOptions>('eco.userAuthorization.options');
 
   export const PATHS_TO_ALLOW_ALWAYS = 'eco.userAuthorization.allowAlways';
 }
