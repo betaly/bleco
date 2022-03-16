@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://gitr.net/betaly/bleco/compare/@bleco/authorization@0.3.0...@bleco/authorization@0.4.0) (2022-03-16)
+
+
+### Features
+
+* **authorization:** rename binding key `CONFIG` -> `OPTIONS` for component options ([b0a57f6](https://gitr.net/betaly/bleco/commits/b0a57f6876d2acf2e28bab87c9706290de604efb))
+
+
+
+
+
 # [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/authorization@0.2.7...@bleco/authorization@0.3.0) (2022-03-15)
 
 
