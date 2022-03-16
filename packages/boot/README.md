@@ -1,13 +1,12 @@
 # @bleco/boot
 
-> A loopback boot extension library to allow boot from '*.ts' files.
-
+> A loopback boot extension library to allow boot from '\*.ts' files.
 
 ## Usage
 
 `@bleco/boot` exports all from `@loopback/boot`, just:
 
-```ts 
+```ts
 // import {/*...*/} from "@loopback/boot"; =>
-import {/*...*/} from "@bleco/boot";
+import /*...*/ '@bleco/boot';
 ```
