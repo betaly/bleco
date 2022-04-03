@@ -13,7 +13,7 @@ type OperationMeta = {
 const OAI3KEY_METHODS = 'openapi-v3:methods';
 
 export function authorize(metadata: AuthorizationMetadata) {
-  const authorizedecorator = MethodDecoratorFactory.createDecorator<AuthorizationMetadata>(
+  const authorizeDecorator = MethodDecoratorFactory.createDecorator<AuthorizationMetadata>(
     AUTHORIZATION_METADATA_ACCESSOR,
     {
       permissions: metadata.permissions || [],
@@ -21,7 +21,7 @@ export function authorize(metadata: AuthorizationMetadata) {
       isCasbinPolicy: metadata.isCasbinPolicy ?? false,
     },
   );
-  const authorizationWithMetadata = <T>(
+  return <T>(
     target: Object,
     propertyKey: string,
     descriptor: TypedPropertyDescriptor<T>,
@@ -31,9 +31,7 @@ export function authorize(metadata: AuthorizationMetadata) {
       meta.spec = specPreprocessor(target, propertyKey, metadata, meta.spec);
       Reflector.deleteMetadata(OAI3KEY_METHODS, target, propertyKey);
       Reflector.defineMetadata(OAI3KEY_METHODS, meta, target, propertyKey);
-      authorizedecorator(target, propertyKey, descriptor);
+      authorizeDecorator(target, propertyKey, descriptor);
     }
   };
-
-  return authorizationWithMetadata;
 }
