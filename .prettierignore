@@ -5,3 +5,4 @@ examples/*/dist
 *.json
 CHANGELOG.md
 *.yml
+.yarn
