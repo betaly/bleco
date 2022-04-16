@@ -21,20 +21,20 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/core": "^3.1.1",
+    "@loopback/core": "^3.1.2",
     "casbin": "^5.14.0",
     "casbin-pg-adapter": "^1.4.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@loopback/boot": "^4.1.1",
-    "@loopback/context": "^4.1.1",
-    "@loopback/rest": "^11.1.1",
-    "@loopback/testlab": "^4.1.1",
+    "@loopback/boot": "^4.1.2",
+    "@loopback/context": "^4.1.2",
+    "@loopback/rest": "^11.1.2",
+    "@loopback/testlab": "^4.1.2",
     "@nutol/build": "^0.2.6",
     "@nutol/eslint-config": "^0.2.2",
-    "@types/lodash": "^4.14.180",
-    "@types/node": "^17.0.21",
+    "@types/lodash": "^4.14.181",
+    "@types/node": "^17.0.24",
     "fs-extra": "^10.0.1"
   },
   "files": [

@@ -21,23 +21,23 @@
     "jest": "jest"
   },
   "peerDependencies": {
-    "@loopback/core": "^3.1.1"
+    "@loopback/core": "^3.1.2"
   },
   "dependencies": {
-    "@jil/common": "^0.2.29",
-    "@jil/config": "^0.3.7",
-    "@jil/ncommon": "^0.2.9",
+    "@jil/common": "^0.2.30",
+    "@jil/config": "^0.3.8",
+    "@jil/ncommon": "^0.2.10",
     "read-env": "^2.0.0",
-    "tily": "^2.15.1",
+    "tily": "^2.16.1",
     "tslib": "^2.3.1"
   },
   "devDependencies": {
-    "@loopback/core": "^3.1.1",
-    "@loopback/testlab": "^4.1.1",
+    "@loopback/core": "^3.1.2",
+    "@loopback/testlab": "^4.1.2",
     "@nutol/build": "^0.2.6",
     "@nutol/eslint-config": "^0.2.2",
     "@types/jest": "^27.4.1",
-    "@types/node": "^17.0.21",
+    "@types/node": "^17.0.24",
     "cross-env": "^7.0.3"
   },
   "files": [
