@@ -3,17 +3,14 @@ import {
   HasManyDefinition,
   HasOneDefinition,
   PropertyDefinition,
-  RelationType
-} from "@loopback/repository";
-import {resolveBelongsToMetadata} from "@loopback/repository/dist/relations/belongs-to/belongs-to.helpers";
-import {resolveHasOneMetadata} from "@loopback/repository/dist/relations/has-one/has-one.helpers";
-import {resolveHasManyThroughMetadata} from "@loopback/repository/dist/relations/has-many/has-many-through.helpers";
-import {resolveHasManyMetadata} from "@loopback/repository/dist/relations/has-many/has-many.helpers";
+  RelationType,
+} from '@loopback/repository';
+import {resolveBelongsToMetadata} from '@loopback/repository/dist/relations/belongs-to/belongs-to.helpers';
+import {resolveHasOneMetadata} from '@loopback/repository/dist/relations/has-one/has-one.helpers';
+import {resolveHasManyThroughMetadata} from '@loopback/repository/dist/relations/has-many/has-many-through.helpers';
+import {resolveHasManyMetadata} from '@loopback/repository/dist/relations/has-many/has-many.helpers';
 
-export type QueryRelationMetadata =
-  | HasManyDefinition
-  | BelongsToDefinition
-  | HasOneDefinition;
+export type QueryRelationMetadata = HasManyDefinition | BelongsToDefinition | HasOneDefinition;
 
 export interface RelationJoin {
   prefix: string;
@@ -30,11 +27,7 @@ export interface RelationConstraint {
   property: PropertyDefinition;
 }
 
-export const SupportedRelationTypes = [
-  RelationType.hasMany,
-  RelationType.belongsTo,
-  RelationType.hasOne
-]
+export const SupportedRelationTypes = [RelationType.hasMany, RelationType.belongsTo, RelationType.hasOne];
 
 export function resolveRelation(relation: QueryRelationMetadata) {
   if (relation.type === RelationType.belongsTo) {

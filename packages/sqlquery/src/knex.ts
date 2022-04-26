@@ -33,7 +33,9 @@ export interface KnexQueryContext {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function createKnex<TRecord extends {} = any, TResult = unknown[]>(ds: juggler.DataSource): Knex<TRecord, TResult> {
+export function createKnex<TRecord extends {} = any, TResult = unknown[]>(
+  ds: juggler.DataSource,
+): Knex<TRecord, TResult> {
   const client = resolveKnexClientWithDataSource(ds);
   if (!client) {
     throw new Error('Can not detect knex client, you can specify it in dataSource.settings.knex');

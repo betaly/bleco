@@ -1,5 +1,5 @@
-import {RelationConstraint, RelationJoin} from "./relation";
-import {DataObject} from "@loopback/repository";
+import {RelationConstraint, RelationJoin} from './relation';
+import {DataObject} from '@loopback/repository';
 
 export class QuerySession {
   readonly relationJoins: RelationJoin[];

@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Knex} from "knex";
-import {Filter} from "@loopback/filter";
-import {DB, givenDb, givenOrderResolvers, mockPg} from "../../support";
-import {QuerySession} from "../../../session";
-import {createKnex} from "../../../knex";
-import {OrderResolver} from "../../../resolvers";
-import {Foo} from "../../fixtures/models/foo";
+import {Knex} from 'knex';
+import {Filter} from '@loopback/filter';
+import {DB, givenDb, givenOrderResolvers, mockPg} from '../../support';
+import {QuerySession} from '../../../session';
+import {createKnex} from '../../../knex';
+import {OrderResolver} from '../../../resolvers';
+import {Foo} from '../../fixtures/models/foo';
 
 mockPg();
 
 describe('resolvers/order integration tests', () => {
   let db: DB;
   let resolvers: Record<string, OrderResolver<any>>;
-  let knex: Knex
+  let knex: Knex;
   let session: QuerySession;
 
   beforeAll(() => {
@@ -33,7 +33,7 @@ describe('resolvers/order integration tests', () => {
       {},
 
       'select * from "public"."foo"',
-    )
+    );
   });
 
   it('should resolve query with order without direction', () => {
@@ -43,7 +43,7 @@ describe('resolvers/order integration tests', () => {
       session,
       {order: ['a', 'b', 'c']},
       'select * from "public"."foo" order by "foo"."a" asc, "foo"."b" asc, "foo"."c" asc',
-    )
+    );
   });
 
   it('should resolve query with order with direction', () => {
@@ -53,7 +53,7 @@ describe('resolvers/order integration tests', () => {
       session,
       {order: ['a desc', 'b asc', 'c']},
       'select * from "public"."foo" order by "foo"."a" desc, "foo"."b" asc, "foo"."c" asc',
-    )
+    );
   });
 
   it('should resolve query with deep order and relative info', () => {
@@ -65,14 +65,14 @@ describe('resolvers/order integration tests', () => {
           'a.b.c': {
             prefix: 't_0_0_',
             model: 'User',
-            property: {key: 'c'}
-          }
-        }
+            property: {key: 'c'},
+          },
+        },
       }),
       {order: ['a.b.c desc']},
       'select * from "public"."foo" order by "t_0_0_user"."c" desc',
-    )
-  })
+    );
+  });
 
   it('should resolve query as deep json order without relation info', () => {
     testOrder(
@@ -81,8 +81,8 @@ describe('resolvers/order integration tests', () => {
       session,
       {order: ['a.b.c desc']},
       'select * from "public"."foo" order by "foo"."a"->\'b\'->>\'c\' desc',
-    )
-  })
+    );
+  });
 });
 
 function testOrder(

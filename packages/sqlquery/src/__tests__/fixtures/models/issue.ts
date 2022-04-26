@@ -1,6 +1,6 @@
-import {belongsTo, Entity, model, property} from "@loopback/repository";
-import {Proj} from "./proj";
-import {User} from "./user";
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Proj} from './proj';
+import {User} from './user';
 
 @model()
 export class Issue extends Entity {
@@ -27,7 +27,7 @@ export class Issue extends Entity {
     {
       name: 'projId',
       required: false,
-    }
+    },
   )
   projId: number;
 
@@ -37,11 +37,10 @@ export class Issue extends Entity {
     {
       name: 'creatorId',
       required: false,
-    }
+    },
   )
   creatorId: number;
 }
-
 
 export interface IssueRelations {
   proj: Proj;

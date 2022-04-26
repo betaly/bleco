@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Connector, ensurePromise, juggler, Options, PositionalParameters} from "@loopback/repository";
-import {Filter} from "@loopback/filter";
-import {assert} from "tily/assert";
+import {Connector, ensurePromise, juggler, Options, PositionalParameters} from '@loopback/repository';
+import {Filter} from '@loopback/filter';
+import {assert} from 'tily/assert';
 
 export interface SqlConnector extends Connector {
   idNames(model: string): string[];
@@ -126,11 +126,7 @@ export interface Mapper {
    * database driver. The output type (data structure) is database specific and
    * often depends on the command executed.
    */
-  execute(
-    command: string | object,
-    parameters?: any[] | object,
-    options?: Options,
-  ): Promise<any>;
+  execute(command: string | object, parameters?: any[] | object, options?: Options): Promise<any>;
 
   /**
    * Execute a MongoDB command.
@@ -160,11 +156,7 @@ export interface Mapper {
    * @returns A promise which resolves to the command output as returned by the
    * database driver.
    */
-  execute(
-    collectionName: string,
-    command: string,
-    ...parameters: any[]
-  ): Promise<any>;
+  execute(collectionName: string, command: string, ...parameters: any[]): Promise<any>;
 
   /**
    * Execute a raw database command using a connector that's not described
@@ -181,15 +173,11 @@ export interface Mapper {
    */
   execute(...args: any[]): Promise<any>;
 
-
   fromRow(model: string, rowData: Record<string, any>): Record<string, any>;
 }
 
-
 export class DefaultMapper implements Mapper {
-
-  constructor(protected ds?: juggler.DataSource) {
-  }
+  constructor(protected ds?: juggler.DataSource) {}
 
   get connector() {
     return this.ds?.connector as SqlConnector;
@@ -220,11 +208,7 @@ export class DefaultMapper implements Mapper {
     if (this.connector) {
       const column = this.connector.columnEscaped(model, property);
       if (withTable) {
-        return (
-          this.connector.escapeName(prefix + this.connector.table(model)) +
-          '.' +
-          column
-        )
+        return this.connector.escapeName(prefix + this.connector.table(model)) + '.' + column;
       }
       return column;
     }
@@ -265,4 +249,3 @@ export class DefaultMapper implements Mapper {
     return rowData;
   }
 }
-

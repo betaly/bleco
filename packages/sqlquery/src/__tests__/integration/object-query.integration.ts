@@ -115,6 +115,20 @@ describe('ObjectQuery', () => {
     });
   });
 
+  describe('findOne', function () {
+    it('should findOne without relations', async () => {
+      const user = await userQuery.findOne();
+      expect(user).toBeInstanceOf(User);
+      expect(user!.email).toEqual('user1@example.com');
+    });
+
+    it('should find with hasOne', async () => {
+      const user = await userQuery.findOne({where: {'userInfo.info': {like: `%user1%`}}});
+      expect(user).toBeInstanceOf(User);
+      expect(user!.email).toEqual('user1@example.com');
+    });
+  });
+
   describe('find and include', () => {
     it('should include hasOne relation', async () => {
       const users = await userQuery.find({where: {email: 'user1@example.com'}, include: ['userInfo']});

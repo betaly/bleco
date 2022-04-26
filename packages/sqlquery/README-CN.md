@@ -1,23 +1,30 @@
 # @bleco/sqlquery
 
-> 一个基于 [Kenx](https://knexjs.org/)  支持 INNER JOIN 的 loopback-next sql 查询器
+> 一个基于 [Kenx](https://knexjs.org/) 支持 INNER JOIN 的 loopback-next sql 查询器
 
 ## 功能
 
 - 支持级联过滤查询(通过类如 `{where: {'relation_ab.relation_bc.relation_cd.property': 'value'}}` 的 `where` 子句方式)
 - 完全兼容 loopback-next 的 Where Filter
-- 支持 [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html), [belongsTo](https://loopback.io/doc/en/lb4/BelongsTo-relation.html), [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) 和 [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) 关系
-- 支持 `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` 关系型数据库，其他数据库，通过 Mixin 方式扩展的 Repository 将委托给父类的原生查询方法。
-- 不支持通过 `find` 和 `findOne` 加载对象的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和 [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件。
+- 支持 [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html),
+  [belongsTo](https://loopback.io/doc/en/lb4/BelongsTo-relation.html),
+  [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) 和
+  [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) 关系
+- 支持 `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` 关系型数据库，其他数据库，通过 Mixin 方式扩展的
+  Repository 将委托给父类的原生查询方法。
+- 不支持通过 `find` 和 `findOne` 加载对象的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
+  [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件。
 
 ## 安装
 
-NPM: 
+NPM:
+
 ```shell
 npm install @bleco/sqlquery
 ```
 
 Yarn:
+
 ```shell
 yarn add @bleco/sqlquery
 ```
@@ -25,20 +32,20 @@ yarn add @bleco/sqlquery
 ## 入门
 
 ```ts
-import { ObjectQuery } from "@bleco/sqlquery";
-import { typequery } from "./decorators";
+import {ObjectQuery} from '@bleco/sqlquery';
+import {typequery} from './decorators';
 import repository = typequery.repository;
 
 class SomeClass {
   objectQuery: ObjectQuery<SomeEntity>;
-  
+
   constructor(
     @repository(OrgRepository)
-    public orgRepository: OrgRepository
+    public orgRepository: OrgRepository,
   ) {
     this.objectQuery = new ObjectQuery(this.orgRepository);
   }
-  
+
   async findSomeEntity() {
     return this.orgRepository.find({
       where: {
@@ -46,20 +53,20 @@ class SomeClass {
         'projects.name': 'bleco',
         age: {
           gt: 10,
-          lt: 20
-        }
+          lt: 20,
+        },
       },
-      include: [ 
+      include: [
         // 包含关联对象 projects
         {
-          relation: "projects",
+          relation: 'projects',
           scope: {
             where: {
-              name: "bleco"
-            }
-          }
-        }
-      ]
+              name: 'bleco',
+            },
+          },
+        },
+      ],
     });
   }
 }
@@ -81,7 +88,9 @@ class SomeClass {
 
 #### `ObjectQueryRepositoryMixin`
 
-通过 `ObjectQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持 `find` 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和 [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
+通过 `ObjectQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持
+`find` 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
+[loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
 
 ```ts
 export class FooRepository extends ObjectQueryRepositoryMixin<
@@ -106,7 +115,8 @@ export class FooRepository extends ObjectQueryRepositoryMixin<
 
 #### 查询过滤器
 
-兼容 loopback 原生 [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters)。扩展支持级联路径作为 `where` 子句查询条件。
+兼容 loopback 原生 [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters)。扩展支持级联路径作为 `where` 子
+句查询条件。
 
 ```ts
 export type QueryWhere<MT extends object = AnyObject> = Where<MT & Record<string, any>>;
@@ -160,7 +170,7 @@ export class Org extends Entity {
   name: string;
 
   @hasMany(() => User, {through: {model: () => OrgUser}})
-  users: User[]
+  users: User[];
 
   @hasMany(() => Proj, {keyTo: 'org_id'})
   projs: Proj[];
@@ -168,7 +178,6 @@ export class Org extends Entity {
   constructor(data?: Partial<Org>) {
     super(data);
   }
-
 }
 ```
 
@@ -176,7 +185,6 @@ export class Org extends Entity {
 // proj.model.ts
 @model()
 export class Proj extends Entity {
-
   @property({
     type: 'number',
     id: true,
@@ -211,9 +219,9 @@ const userQuery = new ObjectQuery(userRepository);
 const users = await userQuery.find({
   where: {
     'orgs.name': {
-      like: '%bleco%'
-    }
-  }
+      like: '%bleco%',
+    },
+  },
 });
 ```
 
@@ -225,14 +233,17 @@ const userQuery = new ObjectQuery(userRepository);
 const users = await userQuery.find({
   where: {
     'orgs.projs.title': {
-      like: '%bleco%'
-    }
-  }
+      like: '%bleco%',
+    },
+  },
 });
 ```
 
 ## 感谢
 
-- [knex-filter-loopback](https://github.com/joostvunderink/knex-filter-loopback): Declarative filtering for `knex.js` based on the Loopback Where Filter.
-- [loopback-connector-postgresql](https://github.com/Wikodit/loopback-connector-postgresql): supports INNER JOIN only across one postgres datasource
-- [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`
+- [knex-filter-loopback](https://github.com/joostvunderink/knex-filter-loopback): Declarative filtering for `knex.js`
+  based on the Loopback Where Filter.
+- [loopback-connector-postgresql](https://github.com/Wikodit/loopback-connector-postgresql): supports INNER JOIN only
+  across one postgres datasource
+- [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving
+  [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`

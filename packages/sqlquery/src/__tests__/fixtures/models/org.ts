@@ -1,7 +1,7 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
-import {User} from "./user";
-import {OrgUser} from "./org-user";
-import {Proj} from "./proj";
+import {User} from './user';
+import {OrgUser} from './org-user';
+import {Proj} from './proj';
 
 @model()
 export class Org extends Entity {
@@ -24,12 +24,12 @@ export class Org extends Entity {
 
   @property({
     type: 'string',
-    name: 'billing_address'
+    name: 'billing_address',
   })
   billingAddress: string;
 
   @hasMany(() => User, {through: {model: () => OrgUser}})
-  users: User[]
+  users: User[];
 
   @hasMany(() => Proj, {keyTo: 'org_id'})
   projs: Proj[];
@@ -37,5 +37,4 @@ export class Org extends Entity {
   constructor(data?: Partial<Org>) {
     super(data);
   }
-
 }

@@ -1,12 +1,12 @@
-import each from "tily/object/each";
-import isArray from "tily/is/array";
-import isString from "tily/is/string";
-import isEmpty from "tily/is/empty";
-import {juggler} from "@loopback/repository";
-import {Mapper, SqlConnector} from "./mapper";
+import each from 'tily/object/each';
+import isArray from 'tily/is/array';
+import isString from 'tily/is/string';
+import isEmpty from 'tily/is/empty';
+import {juggler} from '@loopback/repository';
+import {Mapper, SqlConnector} from './mapper';
 
 export function omit<T extends object = object>(obj: T, fn: (value: unknown) => boolean): Partial<T> {
-  const result:  Partial<T> = {};
+  const result: Partial<T> = {};
   each((v, k) => {
     if (!fn(v)) {
       result[k] = v;
@@ -16,17 +16,12 @@ export function omit<T extends object = object>(obj: T, fn: (value: unknown) => 
 }
 
 export function compactWhere(where: object) {
-  return omit(where, (v) => v === undefined || ((isArray(v) || isString(v)) && isEmpty(v)));
+  return omit(where, v => v === undefined || ((isArray(v) || isString(v)) && isEmpty(v)));
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isDataSource(x: any): x is juggler.DataSource {
-  return (
-    x &&
-    typeof x === 'object' &&
-    typeof x.connect === 'function' &&
-    typeof x.discoverSchemas === 'function'
-  );
+  return x && typeof x === 'object' && typeof x.connect === 'function' && typeof x.discoverSchemas === 'function';
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

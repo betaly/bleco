@@ -52,7 +52,7 @@ export class ObjectQuery<T extends Entity, ID = unknown, Relations extends objec
     return entities as (T & Relations)[];
   }
 
-  async findOne(filter?: Filter<T>, options?: Options): Promise<(T & Relations) | null> {
+  async findOne(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations) | null> {
     filter = filter ?? {};
     filter.limit = 1;
     const result = await this.find(filter, options);

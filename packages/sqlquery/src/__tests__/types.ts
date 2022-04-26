@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {QuerySession} from "../session";
+import {QuerySession} from '../session';
 
 export interface WhereSpec {
   only?: boolean;

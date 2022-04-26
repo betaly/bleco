@@ -1,6 +1,6 @@
-import {parseRelationChain} from "../../resolvers";
-import {Org} from "../fixtures/models/org";
-import {User} from "../fixtures/models/user";
+import {parseRelationChain} from '../../resolvers';
+import {Org} from '../fixtures/models/org';
+import {User} from '../fixtures/models/user';
 
 describe('resolver/order unit tests', () => {
   describe('parseRelationChain', () => {
@@ -9,7 +9,7 @@ describe('resolver/order unit tests', () => {
       expect(result?.property).toBeTruthy();
       expect(result).toMatchObject({
         relationChain: ['users'],
-        propertyKey: 'email'
+        propertyKey: 'email',
       });
     });
 
@@ -18,7 +18,7 @@ describe('resolver/order unit tests', () => {
       expect(result?.property).toBeTruthy();
       expect(result).toMatchObject({
         relationChain: ['users'],
-        propertyKey: 'address.city'
+        propertyKey: 'address.city',
       });
     });
 
@@ -39,7 +39,9 @@ describe('resolver/order unit tests', () => {
     });
 
     it('should throw an error if property is not in last relation target', () => {
-      expect(() => parseRelationChain(Org.definition, 'users.userInfo.__not_exist__')).toThrow(/"__not_exist__" is not in model/);
+      expect(() => parseRelationChain(Org.definition, 'users.userInfo.__not_exist__')).toThrow(
+        /"__not_exist__" is not in model/,
+      );
     });
   });
 });

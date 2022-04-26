@@ -30,7 +30,7 @@ export default [
   {
     name: 'query with value using "gt" operator',
     model: 'Foo',
-    where: {a: {'gt': 5}},
+    where: {a: {gt: 5}},
     sql: 'select * from "public"."foo" where "a" > ?',
     bindings: [5],
   },
@@ -44,7 +44,7 @@ export default [
   {
     name: 'query with value using "lt" operator',
     model: 'Foo',
-    where: {a: {'lt': 5}},
+    where: {a: {lt: 5}},
     sql: 'select * from "public"."foo" where "a" < ?',
     bindings: [5],
   },
@@ -58,7 +58,7 @@ export default [
   {
     name: 'query with value using "gte" operator',
     model: 'Foo',
-    where: {a: {'gte': 5}},
+    where: {a: {gte: 5}},
     sql: 'select * from "public"."foo" where "a" >= ?',
     bindings: [5],
   },
@@ -72,35 +72,35 @@ export default [
   {
     name: 'query with value using "lte" operator',
     model: 'Foo',
-    where: {a: {'lte': 5}},
+    where: {a: {lte: 5}},
     sql: 'select * from "public"."foo" where "a" <= ?',
     bindings: [5],
   },
   {
     name: 'query with value using "in" operator',
     model: 'Foo',
-    where: {a: {'in': [5, 8, 12]}},
+    where: {a: {in: [5, 8, 12]}},
     sql: 'select * from "public"."foo" where "a" in (?, ?, ?)',
     bindings: [5, 8, 12],
   },
   {
     name: 'query with value using "between" operator',
     model: 'Foo',
-    where: {a: {'between': [5, 12]}},
+    where: {a: {between: [5, 12]}},
     sql: 'select * from "public"."foo" where "a" between ? and ?',
     bindings: [5, 12],
   },
   {
     name: 'query with value using "like" operator',
     model: 'Foo',
-    where: {a: {'like': '%banana%'}},
+    where: {a: {like: '%banana%'}},
     sql: 'select * from "public"."foo" where "a" like ?',
     bindings: ['%banana%'],
   },
   {
     name: 'query with value using "ilike" operator',
     model: 'Foo',
-    where: {a: {'ilike': '%banana%'}},
+    where: {a: {ilike: '%banana%'}},
     sql: 'select * from "public"."foo" where "a" ilike ?',
     bindings: ['%banana%'],
   },
@@ -135,14 +135,14 @@ export default [
   {
     name: 'query with value using "not" operator',
     model: 'Foo',
-    where: {not: {'a': 5}},
+    where: {not: {a: 5}},
     sql: 'select * from "public"."foo" where not ("a" = ?)',
     bindings: [5],
   },
   {
     name: 'query with value using "!" operator',
     model: 'Foo',
-    where: {'!': {'a': 5}},
+    where: {'!': {a: 5}},
     sql: 'select * from "public"."foo" where not ("a" = ?)',
     bindings: [5],
   },
@@ -170,7 +170,12 @@ export default [
   {
     name: 'query with "or" with two variables per or',
     model: 'Foo',
-    where: {or: [{a: 5, b: 3}, {a: 2, b: 6}]},
+    where: {
+      or: [
+        {a: 5, b: 3},
+        {a: 2, b: 6},
+      ],
+    },
     sql: 'select * from "public"."foo" where (("a" = ? and "b" = ?) or ("a" = ? and "b" = ?))',
     bindings: [5, 3, 2, 6],
   },
@@ -194,20 +199,14 @@ export default [
     where: {
       or: [
         {
-          and: [
-            {a: {'>': 10}},
-            {b: {'>': 20}},
-          ]
+          and: [{a: {'>': 10}}, {b: {'>': 20}}],
         },
         {
-          and: [
-            {a: {'<': 4}},
-            {b: {'<': 6}},
-          ]
+          and: [{a: {'<': 4}}, {b: {'<': 6}}],
         },
-      ]
+      ],
     },
     sql: 'select * from "public"."foo" where (((("a" > ?) and ("b" > ?))) or ((("a" < ?) and ("b" < ?))))',
     bindings: [10, 20, 4, 6],
   },
-]
+];

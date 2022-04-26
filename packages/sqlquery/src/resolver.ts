@@ -1,18 +1,15 @@
-import {DefaultMapper, Mapper} from "./mapper";
-import {Entity, juggler} from "@loopback/repository";
-import {isMapper} from "./utils";
-import {EntityClass} from "./types";
-import {Knex} from "knex";
-import {Filter} from "@loopback/filter";
-import {QuerySession} from "./session";
+import {DefaultMapper, Mapper} from './mapper';
+import {Entity, juggler} from '@loopback/repository';
+import {isMapper} from './utils';
+import {EntityClass} from './types';
+import {Knex} from 'knex';
+import {Filter} from '@loopback/filter';
+import {QuerySession} from './session';
 
 export class ClauseResolver<TModel extends Entity> {
   public readonly mapper: Mapper;
 
-  constructor(
-    public entityClass: EntityClass<TModel>,
-    mapper: Mapper | juggler.DataSource
-  ) {
+  constructor(public entityClass: EntityClass<TModel>, mapper: Mapper | juggler.DataSource) {
     this.mapper = isMapper(mapper) ? mapper : new DefaultMapper(mapper);
   }
 

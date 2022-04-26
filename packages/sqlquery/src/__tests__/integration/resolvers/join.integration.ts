@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Filter} from "@loopback/filter";
-import {Knex} from "knex";
-import each from "tily/object/each";
-import {DeepPartial} from "ts-essentials";
-import {JoinResolver} from "../../../resolvers";
-import {QuerySession} from "../../../session";
-import {createKnex} from "../../../knex";
-import {RelationConstraint} from "../../../relation";
-import {DB, givenDb, givenJoinResolvers, mockPg} from "../../support";
-import {Issue} from "../../fixtures/models/issue";
-import {Foo} from "../../fixtures/models/foo";
-import {Proj} from "../../fixtures/models/proj";
-import {User} from "../../fixtures/models/user";
-import {Org} from "../../fixtures/models/org";
+import {Filter} from '@loopback/filter';
+import {Knex} from 'knex';
+import each from 'tily/object/each';
+import {DeepPartial} from 'ts-essentials';
+import {JoinResolver} from '../../../resolvers';
+import {QuerySession} from '../../../session';
+import {createKnex} from '../../../knex';
+import {RelationConstraint} from '../../../relation';
+import {DB, givenDb, givenJoinResolvers, mockPg} from '../../support';
+import {Issue} from '../../fixtures/models/issue';
+import {Foo} from '../../fixtures/models/foo';
+import {Proj} from '../../fixtures/models/proj';
+import {User} from '../../fixtures/models/user';
+import {Org} from '../../fixtures/models/org';
 
 mockPg();
 
 describe('resolvers/join integration tests', () => {
   let db: DB;
   let resolvers: Record<string, JoinResolver<any>>;
-  let knex: Knex
+  let knex: Knex;
   let session: QuerySession;
 
   beforeAll(() => {
@@ -40,7 +40,7 @@ describe('resolvers/join integration tests', () => {
       {},
 
       'select * from "public"."foo"',
-    )
+    );
   });
 
   it('should resolve query with belongsTo join', () => {
@@ -55,13 +55,13 @@ describe('resolvers/join integration tests', () => {
       },
       'select * from "public"."issue" inner join "public"."proj" as "t_0_0_proj" on "issue"."projId" = "t_0_0_proj"."id"',
       {
-        "proj.name": {
-          "prefix": "t_0_0_",
-          "model": "Proj",
-          "property": {key: 'name'},
-        }
-      }
-    )
+        'proj.name': {
+          prefix: 't_0_0_',
+          model: 'Proj',
+          property: {key: 'name'},
+        },
+      },
+    );
   });
 
   it('should resolve query with hasOne join', () => {
@@ -76,15 +76,14 @@ describe('resolvers/join integration tests', () => {
       },
       'select * from "public"."user" inner join "public"."userinfo" as "t_0_0_userinfo" on "user"."id" = "t_0_0_userinfo"."userid"',
       {
-        "userInfo.info": {
-          "prefix": "t_0_0_",
-          "model": "UserInfo",
-          "property": {key: 'info'},
-        }
-      }
-    )
+        'userInfo.info': {
+          prefix: 't_0_0_',
+          model: 'UserInfo',
+          property: {key: 'info'},
+        },
+      },
+    );
   });
-
 
   it('should resolve query with hasMany join', () => {
     testJoin(
@@ -98,13 +97,13 @@ describe('resolvers/join integration tests', () => {
       },
       'select * from "public"."proj" inner join "public"."issue" as "t_0_0_issue" on "proj"."id" = "t_0_0_issue"."projId"',
       {
-        "issues.title": {
-          "prefix": "t_0_0_",
-          "model": "Issue",
-          "property": {key: 'title'},
-        }
-      }
-    )
+        'issues.title': {
+          prefix: 't_0_0_',
+          model: 'Issue',
+          property: {key: 'title'},
+        },
+      },
+    );
   });
 
   it('should resolve query with hasMany through join', () => {
@@ -115,19 +114,19 @@ describe('resolvers/join integration tests', () => {
       {
         where: {
           'users.email': {
-            ilike: '%@gmail.com'
+            ilike: '%@gmail.com',
           },
         },
       },
       'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
       {
-        "users.email": {
-          "prefix": "t_0_0_",
-          "model": "User",
-          "property": {key: 'email'},
-        }
-      }
-    )
+        'users.email': {
+          prefix: 't_0_0_',
+          model: 'User',
+          property: {key: 'email'},
+        },
+      },
+    );
   });
 
   it('should resolve query with hasMany through join and multiple conditions', () => {
@@ -137,31 +136,34 @@ describe('resolvers/join integration tests', () => {
       session,
       {
         where: {
-          or: [{
-            'users.email': {
-              ilike: '%@gmail.com'
+          or: [
+            {
+              'users.email': {
+                ilike: '%@gmail.com',
+              },
             },
-          }, {
-            'users.userInfo.info': {
-              ilike: '%abc%'
+            {
+              'users.userInfo.info': {
+                ilike: '%abc%',
+              },
             },
-          }],
-        }
+          ],
+        },
       },
       'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id" inner join "public"."userinfo" as "t_2_1_userinfo" on "t_0_0_user"."id" = "t_2_1_userinfo"."userid"',
       {
-        "users.email": {
-          "prefix": "t_0_0_",
-          "model": "User",
-          "property": {key: 'email'},
+        'users.email': {
+          prefix: 't_0_0_',
+          model: 'User',
+          property: {key: 'email'},
         },
-        "users.userInfo.info": {
-          "prefix": "t_2_1_",
-          "model": "UserInfo",
-          "property": {key: 'info'},
-        }
-      }
-    )
+        'users.userInfo.info': {
+          prefix: 't_2_1_',
+          model: 'UserInfo',
+          property: {key: 'info'},
+        },
+      },
+    );
   });
 
   it('should resolve query with deep hasMany join', () => {
@@ -176,13 +178,13 @@ describe('resolvers/join integration tests', () => {
       },
       'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
-        "projs.issues.title": {
-          "prefix": "t_1_1_",
-          "model": "Issue",
-          "property": {key: 'title'},
-        }
-      }
-    )
+        'projs.issues.title': {
+          prefix: 't_1_1_',
+          model: 'Issue',
+          property: {key: 'title'},
+        },
+      },
+    );
   });
 
   it('should resolve query with `or` operator', () => {
@@ -192,24 +194,26 @@ describe('resolvers/join integration tests', () => {
       session,
       {
         where: {
-          and: [{
-            'projs.issues.title': 'a'
-          }, {
-            'projs.issues.title': 'b'
-          }]
+          and: [
+            {
+              'projs.issues.title': 'a',
+            },
+            {
+              'projs.issues.title': 'b',
+            },
+          ],
         },
       },
       'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
-        "projs.issues.title": {
-          "prefix": "t_1_1_",
-          "model": "Issue",
-          "property": {key: 'title'},
-        }
-      }
-    )
+        'projs.issues.title': {
+          prefix: 't_1_1_',
+          model: 'Issue',
+          property: {key: 'title'},
+        },
+      },
+    );
   });
-
 
   it('should resolve query with `and` operator', () => {
     testJoin(
@@ -218,27 +222,30 @@ describe('resolvers/join integration tests', () => {
       session,
       {
         where: {
-          and: [{
-            'projs.issues.closed': false
-          }, {
-            'projs.issues.title': 'a'
-          }]
+          and: [
+            {
+              'projs.issues.closed': false,
+            },
+            {
+              'projs.issues.title': 'a',
+            },
+          ],
         },
       },
       'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
-        "projs.issues.closed": {
-          "prefix": "t_1_1_",
-          "model": "Issue",
-          "property": {key: 'closed'},
+        'projs.issues.closed': {
+          prefix: 't_1_1_',
+          model: 'Issue',
+          property: {key: 'closed'},
         },
-        "projs.issues.title": {
-          "prefix": "t_1_1_",
-          "model": "Issue",
-          "property": {key: 'title'},
-        }
-      }
-    )
+        'projs.issues.title': {
+          prefix: 't_1_1_',
+          model: 'Issue',
+          property: {key: 'title'},
+        },
+      },
+    );
   });
 
   it('should resolve query with join and deep json', () => {
@@ -253,13 +260,13 @@ describe('resolvers/join integration tests', () => {
       },
       'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
       {
-        "users.address.city": {
-          "prefix": "t_0_0_",
-          "model": "User",
-          "property": {key: 'address.city'},
-        }
-      }
-    )
+        'users.address.city': {
+          prefix: 't_0_0_',
+          model: 'User',
+          property: {key: 'address.city'},
+        },
+      },
+    );
   });
 });
 
@@ -287,6 +294,4 @@ function testJoin(
   each((value, key) => {
     expect(session.relationOrder[key]).toMatchObject(value);
   }, expectedRelationOrder);
-
 }
-
