@@ -1,37 +1,36 @@
-/* eslint-disable @typescript-eslint/no-floating-promises, @typescript-eslint/no-shadow */
-import {Knex} from "knex";
-import debugFactory from "debug";
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import {Knex} from 'knex';
+import debugFactory from 'debug';
 import {
   AnyObject,
   Entity,
   HasManyDefinition,
   ModelDefinition,
   PropertyDefinition,
-  RelationType
-} from "@loopback/repository";
-import {Filter} from "@loopback/filter";
-import {assert} from "tily/assert";
-import toArray from "tily/array/toArray";
-import {ClauseResolver} from "../resolver";
-import {QuerySession} from "../session";
+  RelationType,
+} from '@loopback/repository';
+import {Filter} from '@loopback/filter';
+import {assert} from 'tily/assert';
+import toArray from 'tily/array/toArray';
+import {ClauseResolver} from '../resolver';
+import {QuerySession} from '../session';
 import {
   QueryRelationMetadata,
   RelationConstraint,
   RelationJoin,
   resolveRelation,
-  SupportedRelationTypes
-} from "../relation";
-import includes from "tily/array/includes";
+  SupportedRelationTypes,
+} from '../relation';
+import includes from 'tily/array/includes';
 
-const debug = debugFactory("bleco:query:join");
+const debug = debugFactory('bleco:query:join');
 
 export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> {
-
   resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel>, session: QuerySession = new QuerySession()): void {
     debug(`Resolving where clause for model ${this.entityClass.modelName}:`, filter, session);
     const {where, order} = filter;
     if (!where && !order) {
-      debug("No where or order found, skip resolving");
+      debug('No where or order found, skip resolving');
       return;
     }
     if ((typeof where !== 'object' || Array.isArray(where)) && !order) {
@@ -52,34 +51,28 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     }
 
     this.buildJoins(qb, session);
-  };
+  }
 
   protected buildJoins(qb: Knex.QueryBuilder, session: QuerySession) {
     // TODO: support MySQL and Postgres "uuid" type for id column: https://github.com/Wikodit/loopback-connector-postgresql/blob/develop/lib/postgresql.js#L965
     const mapper = this.mapper;
     for (const relationJoin of session.relationJoins) {
-      assert(relationJoin.relation.keyFrom, "relation.keyFrom is required");
-      assert(relationJoin.relation.keyTo, "relation.keyTo is required");
+      assert(relationJoin.relation.keyFrom, 'relation.keyFrom is required');
+      assert(relationJoin.relation.keyTo, 'relation.keyTo is required');
 
       qb.innerJoin(
-        {[mapper.escapeName(relationJoin.prefix + mapper.table(relationJoin.model))]: mapper.tableEscaped(relationJoin.model)},
-        mapper.columnEscaped(
-          relationJoin.parentModel,
-          relationJoin.relation.keyFrom,
-          true,
-          relationJoin.parentPrefix,
-        ),
-        mapper.columnEscaped(
-          relationJoin.model,
-          relationJoin.relation.keyTo,
-          true,
-          relationJoin.prefix,
-        ),
-      )
+        {
+          [mapper.escapeName(relationJoin.prefix + mapper.table(relationJoin.model))]: mapper.tableEscaped(
+            relationJoin.model,
+          ),
+        },
+        mapper.columnEscaped(relationJoin.parentModel, relationJoin.relation.keyFrom, true, relationJoin.parentPrefix),
+        mapper.columnEscaped(relationJoin.model, relationJoin.relation.keyTo, true, relationJoin.prefix),
+      );
     }
   }
 
-  protected compile(key: string, session: QuerySession, constraints: Record<string, RelationConstraint>,) {
+  protected compile(key: string, session: QuerySession, constraints: Record<string, RelationConstraint>) {
     const {definition} = this.entityClass;
 
     let relationChain: string[];
@@ -170,7 +163,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
           parentPrefix,
           parentModel: parentEntity.modelName,
           relation: {
-            ...relation as QueryRelationMetadata,
+            ...(relation as QueryRelationMetadata),
             name: candidateRelation,
           },
           model: target.modelName,
@@ -192,7 +185,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
         ...property,
         key: propertyKey,
       },
-    }
+    };
   }
 }
 
@@ -229,14 +222,16 @@ export function parseRelationChain(definition: ModelDefinition, key: string) {
   const target = relation.target().definition;
   const property = target.properties[propertyName];
   if (!property) {
-    throw new Error(`"${propertyName}" is not in model "${target.name}" with relation chain "${relationChain.join('.')}"`);
+    throw new Error(
+      `"${propertyName}" is not in model "${target.name}" with relation chain "${relationChain.join('.')}"`,
+    );
   }
 
   return {
     relationChain,
     property,
     propertyKey: parts.slice(i).join('.'),
-  }
+  };
 }
 
 function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {

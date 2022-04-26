@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {DB, givenDb, mockPg, Repos} from '../support';
 import {seed} from '../fixtures/seed';
 import {ObjectQuery} from '../../queries';

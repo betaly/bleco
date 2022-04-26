@@ -123,7 +123,6 @@ export function givenColumnResolvers(ds: juggler.DataSource) {
   }, {} as Record<string, ColumnsResolver<any>>);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function filterSpecs(specs: any[]) {
   const filtered = specs.filter(spec => spec.only);
   return filtered.length ? filtered : specs;
