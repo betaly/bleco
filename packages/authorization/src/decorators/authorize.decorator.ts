@@ -21,11 +21,7 @@ export function authorize(metadata: AuthorizationMetadata) {
       isCasbinPolicy: metadata.isCasbinPolicy ?? false,
     },
   );
-  return <T>(
-    target: Object,
-    propertyKey: string,
-    descriptor: TypedPropertyDescriptor<T>,
-  ) => {
+  return <T>(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<T>) => {
     const meta: OperationMeta | undefined = MetadataInspector.getMethodMetadata(OAI3KEY_METHODS, target, propertyKey);
     if (meta) {
       meta.spec = specPreprocessor(target, propertyKey, metadata, meta.spec);
