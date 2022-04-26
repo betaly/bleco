@@ -1725,27 +1725,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/authorisation@workspace:packages/authorisation":
-  version: 0.0.0-use.local
-  resolution: "@bleco/authorisation@workspace:packages/authorisation"
-  dependencies:
-    "@loopback/core": ^3.1.2
-    "@loopback/repository": ^4.1.2
-    "@loopback/security": ^0.7.2
-    "@loopback/testlab": ^4.1.2
-    "@nutol/build": ^0.2.6
-    "@types/debug": ^4.1.7
-    "@types/node": ^17.0.27
-    casbin: ^5.15.0
-    debug: ^4.3.4
-    oso: ^0.26.0
-    tily: ^2.16.1
-    tslib: ^2.4.0
-  peerDependencies:
-    "@loopback/core": ^3.1.2
-  languageName: unknown
-  linkType: soft
-
 "@bleco/authorization@workspace:packages/authorization":
   version: 0.0.0-use.local
   resolution: "@bleco/authorization@workspace:packages/authorization"
@@ -1766,7 +1745,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/boot@^0.2.2, @bleco/boot@workspace:packages/boot":
+"@bleco/boot@workspace:packages/boot":
   version: 0.0.0-use.local
   resolution: "@bleco/boot@workspace:packages/boot"
   dependencies:
@@ -1849,25 +1828,6 @@ __metadata:
     nodemailer: ^6.7.3
     pubnub: ^5.0.1
     socket.io-client: ^4.5.0
-  languageName: unknown
-  linkType: soft
-
-"@bleco/oso@workspace:packages/oso":
-  version: 0.0.0-use.local
-  resolution: "@bleco/oso@workspace:packages/oso"
-  dependencies:
-    "@bleco/boot": ^0.2.2
-    "@loopback/boot": ^4.1.2
-    "@loopback/context": ^4.1.2
-    "@loopback/core": ^3.1.2
-    "@loopback/repository": ^4.1.2
-    "@loopback/rest": ^11.1.2
-    "@loopback/testlab": ^4.1.2
-    "@nutol/build": ^0.2.6
-    "@nutol/eslint-config": ^0.2.2
-    "@types/jest": ^27.4.1
-    "@types/node": ^17.0.27
-    oso: ^0.26.0
   languageName: unknown
   linkType: soft
 
@@ -3889,18 +3849,6 @@ __metadata:
   peerDependencies:
     "@loopback/core": ^3.1.2
   checksum: 5389adeb189a6c563643eeaa3115686f64927fe42ff93e41e177dfa8c5618003020ede0a16a979df1e5fbd9dd8e1fb053ce4e2e9cee16bba8334bdf1db8ff480
-  languageName: node
-  linkType: hard
-
-"@loopback/security@npm:^0.7.2":
-  version: 0.7.2
-  resolution: "@loopback/security@npm:0.7.2"
-  dependencies:
-    debug: ^4.3.4
-    tslib: ^2.3.1
-  peerDependencies:
-    "@loopback/core": ^3.1.2
-  checksum: 262df09a2c95a6ae45502e9b221a20d71cd6cb194b171a0a43c2a396fe60c565fcdf538bb6b40ffa030a4801435c66367c7f19fa9b8ed3cf82903c08035144a6
   languageName: node
   linkType: hard
 
@@ -11972,13 +11920,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash.isequal@npm:^4.5.0":
-  version: 4.5.0
-  resolution: "lodash.isequal@npm:4.5.0"
-  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
-  languageName: node
-  linkType: hard
-
 "lodash.isinteger@npm:^4.0.4":
   version: 4.0.4
   resolution: "lodash.isinteger@npm:4.0.4"
@@ -13802,17 +13743,6 @@ __metadata:
     os-homedir: ^1.0.0
     os-tmpdir: ^1.0.0
   checksum: 779d261920f2a13e5e18cf02446484f12747d3f2ff82280912f52b213162d43d312647a40c332373cbccd5e3fb8126915d3bfea8dde4827f70f82da76e52d359
-  languageName: node
-  linkType: hard
-
-"oso@npm:^0.26.0":
-  version: 0.26.0
-  resolution: "oso@npm:0.26.0"
-  dependencies:
-    lodash.isequal: ^4.5.0
-  bin:
-    oso: bin/repl.js
-  checksum: f7dcf260df6c9c4b2784f9fc24323d5c3061ba9d95fe82c8d973d7d62977713da36762a1080d80c6bf0b98a11346bb9e2b8fb3d8f11154ed720d2503b2ee94e6
   languageName: node
   linkType: hard
 
