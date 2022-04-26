@@ -1,6 +1,7 @@
 {
   "extends": "@nutol/build/config/tsconfig.common.json",
   "compilerOptions": {
-    "composite": true
+    "composite": true,
+    "lib": ["ES2022"],
   }
 }
