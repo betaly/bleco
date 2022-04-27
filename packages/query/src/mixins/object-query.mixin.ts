@@ -5,7 +5,7 @@ import {ObjectQuery} from '../queries';
 import {resolveKnexClientWithDataSource} from '../knex';
 import {QueryFilter, QueryWhere} from '../filter';
 
-const debug = require('debug')('bleco:sqlquery:object-query-mixin');
+const debug = require('debug')('bleco:query:object-query-mixin');
 
 export interface ObjectQueryRepository<M extends Entity, Relations extends object = {}> {
   readonly objectQuery?: ObjectQuery<M, Relations>;

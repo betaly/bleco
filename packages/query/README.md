@@ -1,38 +1,41 @@
-# @bleco/sqlquery
+# @bleco/query
 
-> 一个基于 [Kenx](https://knexjs.org/) 支持 INNER JOIN 的 loopback-next sql 查询器
+[中文 README](README-CN.md)
 
-## 功能
+> A loopback-next sql queryer based on [Kenx](https://knexjs.org/) that supports INNER JOIN
 
-- 支持级联过滤查询(通过类如 `{where: {'relation_ab.relation_bc.relation_cd.property': 'value'}}` 的 `where` 子句方式)
-- 完全兼容 loopback-next 的 Where Filter
-- 支持 [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html),
+## Features
+
+- Support cascading filter queries (through `where` clauses such as
+  `{where: {'relation_ab.relation_bc.relation_cd.property': 'value'}}`)
+- Fully compatible with loopback-next's Where Filter
+- Support [hasMany](https://loopback.io/doc/en/lb4/HasMany-relation.html),
   [belongsTo](https://loopback.io/doc/en/lb4/BelongsTo-relation.html),
-  [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) 和
-  [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) 关系
-- 支持 `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` 关系型数据库，其他数据库，通过 Mixin 方式扩展的
-  Repository 将委托给父类的原生查询方法。
-- 不支持通过 `find` 和 `findOne` 加载对象的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
-  [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件。
+  [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) and
+  [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) Relation
+- Support `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` relational databases, other databases, extended
+  by Mixin The Repository will delegate to the parent's native query method.
+- [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) and `findOne` loading objects are not supported
+  [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event.
 
-## 安装
+## Installation
 
-NPM:
+npm:
 
 ```shell
-npm install @bleco/sqlquery
+npm install @bleco/query
 ```
 
 Yarn:
 
 ```shell
-yarn add @bleco/sqlquery
+yarn add @bleco/query
 ```
 
-## 入门
+## Getting Started
 
 ```ts
-import {ObjectQuery} from '@bleco/sqlquery';
+import {ObjectQuery} from '@bleco/query';
 import {typequery} from './decorators';
 import repository = typequery.repository;
 
@@ -49,7 +52,7 @@ class SomeClass {
   async findSomeEntity() {
     return this.orgRepository.find({
       where: {
-        // 通过 projects 的 name 条件，级联查询 Org。但结果并不包含关联对象 projects。如需包含关联对象，可以使用 include 方法。
+        // Through the name condition of projects, cascade query Org. But the result does not contain the associated object projects. To include associated objects, use the include method.
         'projects.name': 'bleco',
         age: {
           gt: 10,
@@ -57,7 +60,7 @@ class SomeClass {
         },
       },
       include: [
-        // 包含关联对象 projects
+        // Contains the associated object projects
         {
           relation: 'projects',
           scope: {
@@ -74,23 +77,24 @@ class SomeClass {
 
 ## ObjectQuery
 
-通过关系级联条件，进行模型筛选查询的查询器。
+A querier that performs model filtering queries through relational cascading conditions.
 
-### 使用
+### use
 
-#### 构造
+#### Construct
 
-- `new ObjectQuery(repository)`: 通过 `new ObjectQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
-- `new ObjectQuery(entityClass, repository)`: 通过 `new ObjectQuery(entityClass, repository)` 构造，传入一个模型类和一个
-  Repository 实例, 不支持 include。
+- `new ObjectQuery(repository)`: Through the `new ObjectQuery(repository)` construct, a Repository instance is passed
+  in, which supports include.
+- `new ObjectQuery(entityClass, repository)`: Constructed by `new ObjectQuery(entityClass, repository)`, passing in a
+  model class and a Repository instance, does not support include.
 
-#### `ObjectQueryRepositoryMixin` 继承
+#### `ObjectQueryRepositoryMixin` inheritance
 
-通过 `ObjectQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持
-`find` 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
-[loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
+Extends native `find` and `findOne` support for seamless cascading queries by mixing in Repository with
+`ObjectQueryRepositoryMixin`. (Note: not supported [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access)
+for `find` and `findOne` and [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event)
 
-方法:
+syntax:
 
 ```ts
 declare function ObjectQueryRepositoryMixin<
@@ -101,11 +105,11 @@ declare function ObjectQueryRepositoryMixin<
 >(superClass: R, mixinOptions: boolean | ObjectQueryMixinOptions = {});
 ```
 
-参数：
+parameters:
 
-- `superClass`: 继承的类
-- `mixinOptions: boolean | ObjectQueryMixinOptions`: 混入选项
-  - `overrideCruds`: 是否覆盖原生 CRUD 方法，默认为 `false`
+- `superClass`: the inherited class
+- `mixinOptions: boolean | ObjectQueryMixinOptions`: mixin options
+  - `overrideCruds`: whether to override native CRUD methods, the default is `false`
 
 ```ts
 export class FooRepository
@@ -123,19 +127,19 @@ export class FooRepository
 }
 ```
 
-#### `mixinObjectQuery` 装饰器
+#### `mixinObjectQuery` decorator
 
-方法:
+syntax:
 
 ```ts
 declare function mixinObjectQuery(mixinOptions: boolean | ObjectQueryMixinOptions = false);
 ```
 
-参数：
+parameters:
 
-- `superClass`: 继承的类
-- `mixinOptions: boolean | ObjectQueryMixinOptions`: 混入选项
-  - `overrideCruds`: 是否覆盖原生 CRUD 方法，默认为 `false`
+- `superClass`: the inherited class
+- `mixinOptions: boolean | ObjectQueryMixinOptions`: mixin options
+  - `overrideCruds`: whether to override native CRUD methods, the default is `false`
 
 ```ts
 @mixinObjectQuery(true)
@@ -148,7 +152,8 @@ export class FooRepositoryWithObjectQueryDecorated extends DefaultCrudRepository
 export interface FooRepositoryWithObjectQueryDecorated extends ObjectQueryRepository<Foo> {}
 ```
 
-通过 `ObjectQueryRepositoryMixin` 或者 `mixinObjectQuery` 混入后的类，具备了 `ObjectQueryRepository` 的接口功能。
+The class mixed with `ObjectQueryRepositoryMixin` or `mixinObjectQuery` has the interface function of
+`ObjectQueryRepository`.
 
 ```ts
 // interface ObjectQueryRepositoryMixin
@@ -179,22 +184,23 @@ export interface ObjectQueryRepository<M extends Entity, Relations extends objec
 }
 ```
 
-#### 继承自 `DefaultCrudRepository` 并进行了 `mixinObjectQuery` 的 `DefaultCrudRepositoryWithObjectQuery`
+#### `DefaultCrudRepositoryWithObjectQuery` that inherits from `DefaultCrudRepository` and implements `mixinObjectQuery`
 
-`DefaultCrudRepository` 是 `loopback` 的默认 CRUD 接口实现，具备了 CRUD 接口的所有功能。大多数的业务 Repository 都继承自
-它。
+`DefaultCrudRepository` is the default CRUD interface implementation of `loopback`, which has all the functions of the
+CRUD interface. Most business repositories inherit from it.
 
-我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinObjectQuery` 的
-`DefaultCrudRepositoryWithObjectQuery` 平替类，用 `ObjectQuery` 接替 `find`, `findOne` 和 `count` 原生查询。对于非关系型
-数据库，将直接透传给原生查询。
+Here we provide a method that inherits from `DefaultCrudRepository` and implements `mixinObjectQuery`
+`DefaultCrudRepositoryWithObjectQuery` replacement class, `ObjectQuery` replaces `find`, `findOne` and `count` native
+queries. For non-relational The database will be passed directly to the native query.
 
 #### Patching
 
-对于历史项目，不太方便采用 Mixin 或者继承的方式，进行重构的。因此，我们提供了一个 Patching 方案，可以在应用初始化，尚未
-加载之前，对 `DefaultCrudRepository` 进行 `patching`。
+For historical projects, it is not convenient to use Mixin or inheritance for refactoring. Therefore, we provide a
+Patching scheme that can be initialized in the application, not yet `patching` the `DefaultCrudRepository` before
+loading.
 
 ```ts
-import {patchObjectQueryToRepositoryClass} from '@bleco/sqlquery';
+import {patchObjectQueryToRepositoryClass} from '@bleco/query';
 import {DefaultCrudRepository} from '@loopback/repository';
 
 export async function main(options: ApplicationConfig = {}) {
@@ -211,11 +217,11 @@ export async function main(options: ApplicationConfig = {}) {
 }
 ```
 
-- `patchObjectQueryToRepositoryClass(repoClass)`: Patching 一个 `Repository` 类
+- `patchObjectQueryToRepositoryClass(repoClass)`: Patching a `Repository` class
   ```ts
   patchObjectQueryToRepositoryClass(DefaultCrudRepository);
   ```
-- `patchObjectQueryToRepository(repo)`: Patching 一个 `Repository` 实例
+- `patchObjectQueryToRepository(repo)`: Patching a `Repository` instance
 
   ```ts
   // patching a repository instance
@@ -232,17 +238,17 @@ export async function main(options: ApplicationConfig = {}) {
 
 #### ObjectQuery API
 
-- `ObjectQuery.prototype.find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: 根据指定的过滤器，查找所
-  有模型实例
-- `ObjectQuery.prototype.findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: 根据指定的过滤器
-  ，查找第一个模型实例
-- `ObjectQuery.prototype.count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: 根据指定的过滤器，统计模型
-  实例的数量
+- `ObjectQuery.prototype.find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: According to the
+  specified filter, find all There are model instances
+- `ObjectQuery.prototype.findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: according to the
+  specified filter , to find the first model instance
+- `ObjectQuery.prototype.count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: According to the specified
+  filter, the statistical model number of instances
 
 #### QueryFilter
 
-兼容 loopback 原生 [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters)。扩展支持级联路径作为 `where` 子
-句查询条件。
+Compatible with loopback native [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters). Extended support
+for cascading paths as `where` children query condition.
 
 ```ts
 export type QueryWhere<MT extends object = AnyObject> = Where<MT & Record<string, any>>;
@@ -252,7 +258,7 @@ export interface QueryFilter<MT extends object = AnyObject> extends Filter<MT> {
 }
 ```
 
-例如有如下模型：
+For example, there are the following models:
 
 ```ts
 // user.model.ts
@@ -337,7 +343,7 @@ export class Proj extends Entity {
 }
 ```
 
-- 查找所有可以访问名称中含有 `bleco` 的`组织`的`用户`：
+- Find all `users` that have access to `organizations` with `bleco` in their name:
 
 ```ts
 const userQuery = new ObjectQuery(userRepository);
@@ -351,7 +357,7 @@ const users = await userQuery.find({
 });
 ```
 
-- 查找所有可以访问名称中含有 `bleco` 的`项目`的`用户`：
+- Find all `users` that have access to `projects` with `bleco` in their name:
 
 ```ts
 const userQuery = new ObjectQuery(userRepository);
@@ -365,7 +371,7 @@ const users = await userQuery.find({
 });
 ```
 
-## 感谢
+## Thanks
 
 - [knex-filter-loopback](https://github.com/joostvunderink/knex-filter-loopback): Declarative filtering for `knex.js`
   based on the Loopback Where Filter.

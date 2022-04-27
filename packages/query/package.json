@@ -1,5 +1,5 @@
 {
-  "name": "@bleco/sqlquery",
+  "name": "@bleco/query",
   "description": "A sql query with INNER JOIN supported for loopback-next based on knex",
   "version": "0.2.3",
   "keywords": [
@@ -41,7 +41,7 @@
   },
   "scripts": {
     "build": "nb-tsc",
-    "clean": "nb-clean 'bleco-sqlquery*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "nb-clean 'bleco-query*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest",

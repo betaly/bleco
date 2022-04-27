@@ -14,7 +14,7 @@ import {DefaultMapper, Mapper} from './mapper';
 import {createKnex} from './knex';
 import {assert} from 'tily/assert';
 
-const debug = require('debug')('bleco:sqlquery');
+const debug = require('debug')('bleco:query');
 
 export abstract class Query<T extends Entity, Relations extends object = {}> {
   public readonly entityClass: EntityClass<T>;

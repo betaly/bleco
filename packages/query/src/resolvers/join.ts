@@ -23,7 +23,7 @@ import {
 } from '../relation';
 import includes from 'tily/array/includes';
 
-const debug = debugFactory('bleco:sqlquery:join');
+const debug = debugFactory('bleco:query:join');
 
 export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> {
   resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel>, session: QuerySession = new QuerySession()): void {

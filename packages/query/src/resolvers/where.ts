@@ -17,7 +17,7 @@ import {compactWhere, isNested} from '../utils';
 import {QuerySession} from '../session';
 import {RelationConstraint} from '../relation';
 
-const debug = debugFactory('bleco:sqlquery:where');
+const debug = debugFactory('bleco:query:where');
 
 export type WhereOperators = Operators | '!' | '=' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'not';
 

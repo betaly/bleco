@@ -5,7 +5,7 @@ import {resolveKnexClientWithDataSource} from '../knex';
 import {ObjectQuery} from '../queries';
 import {originalProp} from '../utils';
 
-const debug = require('debug')('bleco:sqlquery:object-query-patch');
+const debug = require('debug')('bleco:query:object-query-patch');
 
 export type PatchResult = boolean | null;
 
