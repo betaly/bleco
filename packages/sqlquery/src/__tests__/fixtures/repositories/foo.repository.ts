@@ -1,9 +1,9 @@
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {ObjectQueryRepositoryMixin} from '../../../mixins';
+import {mixinObjectQuery, ObjectQueryRepository, ObjectQueryRepositoryMixin} from '../../../mixins';
 import {Foo} from '../models/foo';
 
-export class FooRepository extends ObjectQueryRepositoryMixin<
+export class FooRepositoryWithObjectQueryExtended extends ObjectQueryRepositoryMixin<
   Foo,
   typeof Foo.prototype.id,
   {},
@@ -13,3 +13,21 @@ export class FooRepository extends ObjectQueryRepositoryMixin<
     super(Foo, dataSource);
   }
 }
+
+@mixinObjectQuery()
+export class FooRepositoryWithObjectQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+  constructor(dataSource: juggler.DataSource) {
+    super(Foo, dataSource);
+  }
+}
+
+export interface FooRepositoryWithObjectQueryDecorated extends ObjectQueryRepository<Foo> {}
+
+@mixinObjectQuery(true)
+export class FooRepositoryWithObjectQueryDecoratedFull extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+  constructor(dataSource: juggler.DataSource) {
+    super(Foo, dataSource);
+  }
+}
+
+export interface FooRepositoryWithObjectQueryDecoratedFull extends ObjectQueryRepository<Foo> {}

@@ -48,3 +48,5 @@ export function isMapper(x: any): x is Mapper {
 export function isNested(property: string) {
   return property.split('.').length > 1;
 }
+
+export const originalProp = (method: string) => `__${method}__`;

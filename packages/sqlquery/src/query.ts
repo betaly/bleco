@@ -16,16 +16,19 @@ import {assert} from 'tily/assert';
 
 const debug = require('debug')('bleco:query');
 
-export abstract class Query<T extends Entity, ID = unknown, Relations extends object = {}> {
+export abstract class Query<T extends Entity, Relations extends object = {}> {
   public readonly entityClass: EntityClass<T>;
   public readonly dataSource: juggler.DataSource;
   protected knex: Knex;
   protected mapper: Mapper;
-  protected repo?: EntityCrudRepository<T, ID, Relations>;
+  protected repo?: EntityCrudRepository<T, unknown, Relations>;
 
-  constructor(repo: EntityCrudRepository<T, ID, Relations>, dataSource?: juggler.DataSource);
+  constructor(repo: EntityCrudRepository<T, unknown, Relations>, dataSource?: juggler.DataSource);
   constructor(entityClass: EntityClass<T>, dataSource: juggler.DataSource);
-  constructor(entityClassOrRepo: EntityClass<T> | EntityCrudRepository<T, ID, Relations>, ds?: juggler.DataSource) {
+  constructor(
+    entityClassOrRepo: EntityClass<T> | EntityCrudRepository<T, unknown, Relations>,
+    ds?: juggler.DataSource,
+  ) {
     if (typeof entityClassOrRepo === 'function') {
       this.entityClass = entityClassOrRepo;
       this.dataSource = ds!;

@@ -8,5 +8,6 @@ export * from './session';
 export * from './types';
 export * from './utils';
 export * from './resolvers';
-export * from './queries';
 export * from './mixins';
+export * from './queries';
+export * from './patches';

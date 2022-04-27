@@ -1,27 +1,55 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
 import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {MixinTarget} from '@loopback/core';
 import {ObjectQuery} from '../queries';
 import {resolveKnexClientWithDataSource} from '../knex';
 import {QueryFilter, QueryWhere} from '../filter';
 
+export interface ObjectQueryRepository<M extends Entity, Relations extends object = {}> {
+  readonly objectQuery?: ObjectQuery<M, Relations>;
+
+  /**
+   * Find all entities that match the given filter with ObjectQuery
+   * @param filter The filter to apply
+   * @param options Options for the query
+   */
+  select(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]>;
+
+  /**
+   * Find first entity that matches the given filter with ObjectQuery
+   * @param filter The filter to apply
+   * @param options Options for the query
+   */
+  selectOne(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null>;
+
+  /**
+   * Count all entities that match the given filter with ObjectQuery
+   * @param where The where to apply
+   * @param options Options for the query
+   */
+  selectCount(where?: QueryWhere<M>, options?: object): Promise<{count: number}>;
+}
+
+export interface ObjectQueryMixinOptions {
+  overrideCruds?: boolean;
+}
 /*
  * This function adds a new method 'findByTitle' to a repository class
  * where 'M' is a model which extends Model
  *
  * @param superClass - Base class
- *
- * @typeParam M - Model class which extends Model
- * @typeParam R - Repository class
  */
 export function ObjectQueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
   R extends MixinTarget<EntityCrudRepository<M, ID, Relations>>,
->(superClass: R) {
-  class MixedRepository extends superClass {
-    _objectQuery?: ObjectQuery<M, ID, Relations>;
+>(superClass: R, mixinOptions: boolean | ObjectQueryMixinOptions = {}) {
+  const opts = typeof mixinOptions === 'boolean' ? {overrideCruds: mixinOptions} : mixinOptions;
+  const {overrideCruds = true} = opts ?? {};
+
+  return class extends superClass implements ObjectQueryRepository<M, Relations> {
+    _objectQuery?: ObjectQuery<M, Relations>;
 
     get objectQuery() {
       if (!this._objectQuery) {
@@ -33,15 +61,7 @@ export function ObjectQueryRepositoryMixin<
       return this._objectQuery;
     }
 
-    count = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
-      const query = this.objectQuery;
-      if (query) {
-        return query.count(where, options);
-      }
-      return super.count(where, options);
-    };
-
-    find = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]> => {
+    select = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]> => {
       const objectQuery = this.objectQuery;
       if (objectQuery) {
         return objectQuery.find(filter, options);
@@ -49,7 +69,9 @@ export function ObjectQueryRepositoryMixin<
       return super.find(filter, options);
     };
 
-    findOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
+    find = async (...args: any[]): Promise<any> => (overrideCruds ? this.select(...args) : super.find(...args));
+
+    selectOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
       const objectQuery = this.objectQuery;
       if (objectQuery) {
         return objectQuery.findOne(filter, options);
@@ -59,7 +81,36 @@ export function ObjectQueryRepositoryMixin<
       const result = await super.find(filter, options);
       return result[0] ?? null;
     };
-  }
 
-  return MixedRepository;
+    findOne = async (...args: any[]): Promise<any> => {
+      if (overrideCruds) {
+        return this.selectOne(...args);
+      }
+      // @ts-ignore
+      if (!super.findOne) {
+        throw new Error('findOne is not implemented in this repository');
+      }
+      // @ts-ignore
+      return super.findOne(...args);
+    };
+
+    selectCount = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
+      const query = this.objectQuery;
+      if (query) {
+        return query.count(where, options);
+      }
+      return super.count(where, options);
+    };
+
+    count = async (...args: any[]): Promise<any> => (overrideCruds ? this.selectCount(...args) : super.count(...args));
+  };
+}
+
+/**
+ * A decorator to mixin ObjectQuery to a EntityCrudRepository
+ */
+export function mixinObjectQuery(mixinOptions: boolean | ObjectQueryMixinOptions = false) {
+  return function <T extends MixinTarget<EntityCrudRepository<any, any>>>(superClass: T) {
+    return ObjectQueryRepositoryMixin(superClass, mixinOptions);
+  };
 }
