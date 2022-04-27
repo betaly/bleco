@@ -1,5 +1,6 @@
 import {DefaultCrudRepository, Entity} from '@loopback/repository';
-import {mixinObjectQuery, ObjectQueryRepository} from './mixins';
+import {mixinObjectQuery} from './decorators';
+import {ObjectQueryRepository} from './mixins';
 
 @mixinObjectQuery(true)
 export class DefaultCrudRepositoryWithObjectQuery<

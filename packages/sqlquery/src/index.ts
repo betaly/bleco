@@ -12,3 +12,4 @@ export * from './mixins';
 export * from './queries';
 export * from './patches';
 export * from './repository';
+export * from './decorators';

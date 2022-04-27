@@ -114,12 +114,3 @@ export function ObjectQueryRepositoryMixin<
     count = async (...args: any[]): Promise<any> => (overrideCruds ? this.selectCount(...args) : super.count(...args));
   };
 }
-
-/**
- * A decorator to mixin ObjectQuery to a EntityCrudRepository
- */
-export function mixinObjectQuery(mixinOptions: boolean | ObjectQueryMixinOptions = false) {
-  return function <T extends MixinTarget<EntityCrudRepository<any, any>>>(superClass: T) {
-    return ObjectQueryRepositoryMixin(superClass, mixinOptions);
-  };
-}

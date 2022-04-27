@@ -1,6 +1,7 @@
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {mixinObjectQuery, ObjectQueryRepository, ObjectQueryRepositoryMixin} from '../../../mixins';
+import {mixinObjectQuery} from '../../../decorators';
+import {ObjectQueryRepository, ObjectQueryRepositoryMixin} from '../../../mixins';
 import {Foo} from '../models/foo';
 
 export class FooRepositoryWithObjectQueryExtended extends ObjectQueryRepositoryMixin<
