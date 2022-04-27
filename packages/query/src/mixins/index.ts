@@ -1,1 +1,1 @@
-export * from './object-query.mixin';
+export * from './select-query.mixin';

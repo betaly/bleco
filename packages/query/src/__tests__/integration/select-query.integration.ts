@@ -1,26 +1,26 @@
 import {DB, givenDb, mockPg, Repos} from '../support';
 import {seed} from '../fixtures/seed';
-import {ObjectQuery} from '../../queries';
+import {SelectQuery} from '../../queries';
 import {Org} from '../fixtures/models/org';
 import {User} from '../fixtures/models/user';
 import {ProjWithRelations} from '../fixtures/models/proj';
 
 mockPg();
 
-describe('ObjectQuery', () => {
+describe('SelectQuery', () => {
   let db: DB;
   let repos: Repos;
 
-  let userQuery: ObjectQuery<User>;
-  let orgQuery: ObjectQuery<Org>;
-  let projQuery: ObjectQuery<ProjWithRelations>;
+  let userQuery: SelectQuery<User>;
+  let orgQuery: SelectQuery<Org>;
+  let projQuery: SelectQuery<ProjWithRelations>;
 
   beforeAll(async () => {
     db = givenDb({connector: 'sqlite3', file: ':memory:'});
     repos = db.repos;
-    userQuery = new ObjectQuery<User>(repos.User);
-    orgQuery = new ObjectQuery<Org>(repos.Org);
-    projQuery = new ObjectQuery<ProjWithRelations>(repos.Proj);
+    userQuery = new SelectQuery<User>(repos.User);
+    orgQuery = new SelectQuery<Org>(repos.Org);
+    projQuery = new SelectQuery<ProjWithRelations>(repos.Proj);
 
     await db.ds.automigrate();
     await seed(repos);

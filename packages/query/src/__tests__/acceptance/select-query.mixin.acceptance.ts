@@ -2,25 +2,25 @@ import {Entity, EntityCrudRepository} from '@loopback/repository';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
 import {DB, givenDb} from '../support';
-import {ObjectQuery} from '../../queries';
+import {SelectQuery} from '../../queries';
 import {
-  FooRepositoryWithObjectQueryDecorated,
-  FooRepositoryWithObjectQueryDecoratedFull,
-  FooRepositoryWithObjectQueryExtended,
+  FooRepositoryWithSelectQueryDecorated,
+  FooRepositoryWithSelectQueryDecoratedFull,
+  FooRepositoryWithSelectQueryExtended,
 } from '../fixtures/repositories/foo.repository';
 import {seed} from '../fixtures/seed';
-import {ObjectQueryRepository} from '../../mixins';
+import {SelectQueryRepository} from '../../mixins';
 import {Foo} from '../fixtures/models/foo';
 
-type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & ObjectQueryRepository<T>;
+type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & SelectQueryRepository<T>;
 type ModelRepositoryCtor<T extends Entity> = Constructor<ModelRepository<T>>;
 
 const MixinSpecs: [string, ModelRepositoryCtor<Foo>][] = [
-  ['extends', FooRepositoryWithObjectQueryExtended],
-  ['decorator', FooRepositoryWithObjectQueryDecoratedFull],
+  ['extends', FooRepositoryWithSelectQueryExtended],
+  ['decorator', FooRepositoryWithSelectQueryDecoratedFull],
 ];
 
-describe('ObjectQuery Mixin', () => {
+describe('SelectQuery Mixin', () => {
   let db: DB;
 
   let findSpy: jest.SpyInstance;
@@ -34,13 +34,13 @@ describe('ObjectQuery Mixin', () => {
   });
 
   describe('mixin without overrideCruds', () => {
-    let repo: FooRepositoryWithObjectQueryDecorated;
+    let repo: FooRepositoryWithSelectQueryDecorated;
 
     beforeAll(() => {
-      repo = new FooRepositoryWithObjectQueryDecorated(db.ds);
-      findSpy = jest.spyOn(repo.objectQuery!, 'find');
-      findOneSpy = jest.spyOn(repo.objectQuery!, 'findOne');
-      countSpy = jest.spyOn(repo.objectQuery!, 'count');
+      repo = new FooRepositoryWithSelectQueryDecorated(db.ds);
+      findSpy = jest.spyOn(repo.selectQuery!, 'find');
+      findOneSpy = jest.spyOn(repo.selectQuery!, 'findOne');
+      countSpy = jest.spyOn(repo.selectQuery!, 'count');
     });
 
     afterAll(async () => {
@@ -70,9 +70,9 @@ describe('ObjectQuery Mixin', () => {
 
       beforeAll(() => {
         repo = new Repo(db.ds);
-        findSpy = jest.spyOn(repo.objectQuery!, 'find');
-        findOneSpy = jest.spyOn(repo.objectQuery!, 'findOne');
-        countSpy = jest.spyOn(repo.objectQuery!, 'count');
+        findSpy = jest.spyOn(repo.selectQuery!, 'find');
+        findOneSpy = jest.spyOn(repo.selectQuery!, 'findOne');
+        countSpy = jest.spyOn(repo.selectQuery!, 'count');
       });
 
       afterAll(async () => {
@@ -85,42 +85,42 @@ describe('ObjectQuery Mixin', () => {
         countSpy.mockClear();
       });
 
-      it('should initiate ObjectQuery mixed repository', async () => {
-        expect(repo.objectQuery).toBeInstanceOf(ObjectQuery);
+      it('should initiate SelectQuery mixed repository', async () => {
+        expect(repo.selectQuery).toBeInstanceOf(SelectQuery);
       });
 
-      it('find with ObjectQuery.find method', async () => {
+      it('find with SelectQuery.find method', async () => {
         const filter = {where: {name: {like: '%Foo%'}}};
         await repo.find(filter);
         expect(findSpy).toHaveBeenCalledWith(filter, undefined);
       });
 
-      it('findOne with ObjectQuery.findOne method', async () => {
+      it('findOne with SelectQuery.findOne method', async () => {
         const filter = {where: {name: {like: '%Foo%'}}};
         expect('findOne' in repo).toBe(true);
         await (repo as any).findOne(filter);
         expect(findOneSpy).toHaveBeenCalledWith(filter, undefined);
       });
 
-      it('count with ObjectQuery.count method', async () => {
+      it('count with SelectQuery.count method', async () => {
         const where = {name: {like: '%Foo%'}};
         await repo.count(where);
         expect(countSpy).toHaveBeenCalledWith(where, undefined);
       });
 
-      it('select with ObjectQuery.find method', async () => {
+      it('select with SelectQuery.find method', async () => {
         const filter = {where: {name: {like: '%Foo%'}}};
         await repo.select(filter);
         expect(findSpy).toHaveBeenCalledWith(filter, undefined);
       });
 
-      it('slectOne with ObjectQuery.findOne method', async () => {
+      it('slectOne with SelectQuery.findOne method', async () => {
         const filter = {where: {name: {like: '%Foo%'}}};
         await repo.selectOne(filter);
         expect(findOneSpy).toHaveBeenCalledWith(filter, undefined);
       });
 
-      it('selectCount with ObjectQuery.count method', async () => {
+      it('selectCount with SelectQuery.count method', async () => {
         const where = {name: {like: '%Foo%'}};
         await repo.selectCount(where);
         expect(countSpy).toHaveBeenCalledWith(where, undefined);

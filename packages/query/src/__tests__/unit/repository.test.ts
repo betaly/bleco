@@ -1,14 +1,14 @@
 import {Foo} from '../fixtures/models/foo';
-import {DefaultCrudRepositoryWithObjectQuery} from '../../repository';
-import {ObjectQuery} from '../../queries';
+import {DefaultCrudRepositoryWithSelectQuery} from '../../repository';
+import {SelectQuery} from '../../queries';
 import {juggler} from '@loopback/repository';
 import {DB, givenDb} from '../support';
 
-describe('DefaultCrudRepositoryWithObjectQuery', function () {
+describe('DefaultCrudRepositoryWithSelectQuery', function () {
   let db: DB;
   let findSpy: jest.SpyInstance;
 
-  class MyRepository extends DefaultCrudRepositoryWithObjectQuery<Foo, typeof Foo.prototype.id> {
+  class MyRepository extends DefaultCrudRepositoryWithSelectQuery<Foo, typeof Foo.prototype.id> {
     constructor(dataSource: juggler.DataSource) {
       super(Foo, dataSource);
     }
@@ -21,19 +21,19 @@ describe('DefaultCrudRepositoryWithObjectQuery', function () {
 
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    findSpy = jest.spyOn(ObjectQuery.prototype as any, 'find');
+    findSpy = jest.spyOn(SelectQuery.prototype as any, 'find');
   });
 
   afterEach(() => {
     findSpy.mockRestore();
   });
 
-  it('should mixin ObjectQueryRepository', function () {
+  it('should mixin SelectQueryRepository', function () {
     const myRepository = new MyRepository(db.ds);
-    expect(myRepository.objectQuery).toBeInstanceOf(ObjectQuery);
+    expect(myRepository.selectQuery).toBeInstanceOf(SelectQuery);
   });
 
-  it('should query with ObjectQuery', async () => {
+  it('should query with SelectQuery', async () => {
     const myRepository = new MyRepository(db.ds);
     await myRepository.find({where: {id: 1}});
     expect(findSpy).toHaveBeenCalledTimes(1);

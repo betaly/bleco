@@ -9,7 +9,7 @@ import {QueryFilter, QueryWhere} from '../filter';
 
 const debug = require('debug')('bleco:query:object-query');
 
-export class ObjectQuery<T extends Entity, Relations extends object = {}> extends Query<T, Relations> {
+export class SelectQuery<T extends Entity, Relations extends object = {}> extends Query<T, Relations> {
   protected columnsResolver: ColumnsResolver<T>;
   protected joinResolver: JoinResolver<T>;
   protected whereResolver: WhereResolver<T>;

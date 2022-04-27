@@ -17,9 +17,9 @@ import {Class, Entity, juggler, Model, Repository} from '@loopback/repository';
 //  *
 //  * @param repositoryName - Name of the repo
 //  */
-//  export function objectQuery(
+//  export function selectQuery(
 //   repositoryName: string | Class<Repository<Model>>,
-// ): ObjectQueryDecorator;
+// ): SelectQueryDecorator;
 
 // /**
 //  * Decorator for DefaultCrudRepository generation and injection on properties
@@ -48,12 +48,12 @@ import {Class, Entity, juggler, Model, Repository} from '@loopback/repository';
 //  * @param model - Name/class of the model
 //  * @param dataSource - Name/instance of the dataSource
 //  */
-// export function objectQuery(
+// export function selectQuery(
 //   model: string | typeof Entity,
 //   dataSource: string | juggler.DataSource,
-// ): ObjectQueryDecorator;
+// ): SelectQueryDecorator;
 
-export function objectQuery(
+export function selectQuery(
   modelOrRepo: string | Class<Repository<Model>> | typeof Entity,
   dataSource?: string | juggler.DataSource,
 ) {}

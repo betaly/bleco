@@ -1,38 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
 import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {MixinTarget} from '@loopback/core';
-import {ObjectQuery} from '../queries';
+import {SelectQuery} from '../queries';
 import {resolveKnexClientWithDataSource} from '../knex';
 import {QueryFilter, QueryWhere} from '../filter';
 
 const debug = require('debug')('bleco:query:object-query-mixin');
 
-export interface ObjectQueryRepository<M extends Entity, Relations extends object = {}> {
-  readonly objectQuery?: ObjectQuery<M, Relations>;
+export interface SelectQueryRepository<M extends Entity, Relations extends object = {}> {
+  readonly selectQuery?: SelectQuery<M, Relations>;
 
   /**
-   * Find all entities that match the given filter with ObjectQuery
+   * Find all entities that match the given filter with SelectQuery
    * @param filter The filter to apply
    * @param options Options for the query
    */
   select(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]>;
 
   /**
-   * Find first entity that matches the given filter with ObjectQuery
+   * Find first entity that matches the given filter with SelectQuery
    * @param filter The filter to apply
    * @param options Options for the query
    */
   selectOne(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null>;
 
   /**
-   * Count all entities that match the given filter with ObjectQuery
+   * Count all entities that match the given filter with SelectQuery
    * @param where The where to apply
    * @param options Options for the query
    */
   selectCount(where?: QueryWhere<M>, options?: object): Promise<{count: number}>;
 }
 
-export interface ObjectQueryMixinOptions {
+export interface SelectQueryMixinOptions {
   overrideCruds?: boolean;
 }
 /*
@@ -41,32 +41,32 @@ export interface ObjectQueryMixinOptions {
  *
  * @param superClass - Base class
  */
-export function ObjectQueryRepositoryMixin<
+export function SelectQueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
   R extends MixinTarget<EntityCrudRepository<M, ID, Relations>>,
->(superClass: R, mixinOptions: boolean | ObjectQueryMixinOptions = {}) {
+>(superClass: R, mixinOptions: boolean | SelectQueryMixinOptions = {}) {
   const opts = typeof mixinOptions === 'boolean' ? {overrideCruds: mixinOptions} : mixinOptions;
   const {overrideCruds = true} = opts ?? {};
 
-  return class extends superClass implements ObjectQueryRepository<M, Relations> {
-    _objectQuery?: ObjectQuery<M, Relations>;
+  return class extends superClass implements SelectQueryRepository<M, Relations> {
+    _selectQuery?: SelectQuery<M, Relations>;
 
-    get objectQuery() {
-      if (!this._objectQuery) {
+    get selectQuery() {
+      if (!this._selectQuery) {
         const ds = (this as any).dataSource;
         if (ds && resolveKnexClientWithDataSource(ds)) {
-          this._objectQuery = new ObjectQuery(this as any);
+          this._selectQuery = new SelectQuery(this as any);
         }
       }
-      return this._objectQuery;
+      return this._selectQuery;
     }
 
     select = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]> => {
-      const objectQuery = this.objectQuery;
-      if (objectQuery) {
-        return objectQuery.find(filter, options);
+      const selectQuery = this.selectQuery;
+      if (selectQuery) {
+        return selectQuery.find(filter, options);
       }
       return super.find(filter, options);
     };
@@ -74,10 +74,10 @@ export function ObjectQueryRepositoryMixin<
     find = async (...args: any[]): Promise<any> => (overrideCruds ? this.select(...args) : super.find(...args));
 
     selectOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
-      const objectQuery = this.objectQuery;
-      if (objectQuery) {
-        debug(`${this.constructor.name} selectOne() -> objectQuery.findOne()`);
-        return objectQuery.findOne(filter, options);
+      const selectQuery = this.selectQuery;
+      if (selectQuery) {
+        debug(`${this.constructor.name} selectOne() -> selectQuery.findOne()`);
+        return selectQuery.findOne(filter, options);
       }
       // @ts-ignore
       if (!super.findOne) {
@@ -102,9 +102,9 @@ export function ObjectQueryRepositoryMixin<
     };
 
     selectCount = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
-      const query = this.objectQuery;
+      const query = this.selectQuery;
       if (query) {
-        debug(`${this.constructor.name} selectCount() -> objectQuery.count()`);
+        debug(`${this.constructor.name} selectCount() -> selectQuery.count()`);
         return query.count(where, options);
       }
       debug(`${this.constructor.name} selectCount() -> super.count()`);

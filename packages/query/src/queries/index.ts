@@ -1,1 +1,1 @@
-export * from './object-query';
+export * from './select-query';

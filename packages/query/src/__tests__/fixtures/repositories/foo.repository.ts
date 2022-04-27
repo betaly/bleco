@@ -1,10 +1,10 @@
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {mixinObjectQuery} from '../../../decorators';
-import {ObjectQueryRepository, ObjectQueryRepositoryMixin} from '../../../mixins';
+import {mixinSelectQuery} from '../../../decorators';
+import {SelectQueryRepository, SelectQueryRepositoryMixin} from '../../../mixins';
 import {Foo} from '../models/foo';
 
-export class FooRepositoryWithObjectQueryExtended extends ObjectQueryRepositoryMixin<
+export class FooRepositoryWithSelectQueryExtended extends SelectQueryRepositoryMixin<
   Foo,
   typeof Foo.prototype.id,
   {},
@@ -15,20 +15,20 @@ export class FooRepositoryWithObjectQueryExtended extends ObjectQueryRepositoryM
   }
 }
 
-@mixinObjectQuery()
-export class FooRepositoryWithObjectQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+@mixinSelectQuery()
+export class FooRepositoryWithSelectQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
   constructor(dataSource: juggler.DataSource) {
     super(Foo, dataSource);
   }
 }
 
-export interface FooRepositoryWithObjectQueryDecorated extends ObjectQueryRepository<Foo> {}
+export interface FooRepositoryWithSelectQueryDecorated extends SelectQueryRepository<Foo> {}
 
-@mixinObjectQuery(true)
-export class FooRepositoryWithObjectQueryDecoratedFull extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+@mixinSelectQuery(true)
+export class FooRepositoryWithSelectQueryDecoratedFull extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
   constructor(dataSource: juggler.DataSource) {
     super(Foo, dataSource);
   }
 }
 
-export interface FooRepositoryWithObjectQueryDecoratedFull extends ObjectQueryRepository<Foo> {}
+export interface FooRepositoryWithSelectQueryDecoratedFull extends SelectQueryRepository<Foo> {}
