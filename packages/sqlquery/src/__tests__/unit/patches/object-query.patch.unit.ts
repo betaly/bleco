@@ -104,6 +104,51 @@ describe('patch/unpatch', () => {
         });
       }
     });
+
+    describe('patch DefaultCurdRepository', () => {
+      let findSpy: jest.SpyInstance;
+
+      beforeEach(() => {
+        findSpy = jest.spyOn(ObjectQuery.prototype as any, 'find');
+      });
+
+      afterEach(() => {
+        findSpy.mockRestore();
+        unpatchObjectQueryFromRepositoryClass(DefaultCrudRepository);
+      });
+
+      it('should patch DefaultCrudRepository', () => {
+        assertNotPatched(DefaultCrudRepository.prototype);
+        assertNotPatched(FooRepository.prototype);
+        const result = patchObjectQueryToRepositoryClass(DefaultCrudRepository);
+        expect(result).toBe(true);
+        assertPatched(DefaultCrudRepository.prototype);
+        assertPatched(FooRepository.prototype);
+        unpatchObjectQueryFromRepositoryClass(DefaultCrudRepository);
+        assertNotPatched(DefaultCrudRepository.prototype);
+        assertNotPatched(FooRepository.prototype);
+      });
+
+      it('should not be affected if base class has been patched after sub class definition', async () => {
+        let repo = new FooRepository(db.ds);
+        await repo.find();
+        expect(findSpy).not.toHaveBeenCalled();
+
+        patchObjectQueryToRepositoryClass(DefaultCrudRepository);
+
+        repo = new FooRepository(db.ds);
+        await repo.find();
+        expect(findSpy).not.toHaveBeenCalled();
+      });
+
+      it('should query with ObjectQuery if base class has been patched before sub class definition', async () => {
+        patchObjectQueryToRepositoryClass(DefaultCrudRepository);
+        const NewFooRepository = givenRepository();
+        const repo = new NewFooRepository(db.ds);
+        await repo.find();
+        expect(findSpy).toHaveBeenCalled();
+      });
+    });
   });
 
   describe('unpatch', function () {

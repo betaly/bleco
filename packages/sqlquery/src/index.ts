@@ -11,3 +11,4 @@ export * from './resolvers';
 export * from './mixins';
 export * from './queries';
 export * from './patches';
+export * from './repository';

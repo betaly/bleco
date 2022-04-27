@@ -21,16 +21,21 @@
     "jest": "jest",
     "jest:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@loopback/core": "^3.1.2",
     "@loopback/filter": "^2.1.2",
-    "@loopback/repository": "^4.1.2",
+    "@loopback/repository": "^4.1.2"
+  },
+  "dependencies": {
     "debug": "^4.3.4",
     "knex": "^2.0.0",
     "tily": "^2.16.1",
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {
+    "@loopback/core": "^3.1.2",
+    "@loopback/filter": "^2.1.2",
+    "@loopback/repository": "^4.1.2",
     "@nutol/build": "^0.2.6",
     "@nutol/eslint-config": "^0.2.2",
     "@types/jest": "^27.4.1",

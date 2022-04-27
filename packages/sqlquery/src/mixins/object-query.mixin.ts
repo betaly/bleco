@@ -5,6 +5,8 @@ import {ObjectQuery} from '../queries';
 import {resolveKnexClientWithDataSource} from '../knex';
 import {QueryFilter, QueryWhere} from '../filter';
 
+const debug = require('debug')('bleco:sqlquery:object-query-mixin');
+
 export interface ObjectQueryRepository<M extends Entity, Relations extends object = {}> {
   readonly objectQuery?: ObjectQuery<M, Relations>;
 
@@ -74,12 +76,16 @@ export function ObjectQueryRepositoryMixin<
     selectOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
       const objectQuery = this.objectQuery;
       if (objectQuery) {
+        debug(`${this.constructor.name} selectOne() -> objectQuery.findOne()`);
         return objectQuery.findOne(filter, options);
       }
-      filter = filter ?? {};
-      filter.limit = 1;
-      const result = await super.find(filter, options);
-      return result[0] ?? null;
+      // @ts-ignore
+      if (!super.findOne) {
+        throw new Error('findOne is not implemented in this repository');
+      }
+      debug(`${this.constructor.name} findOne() -> super.findOne()`);
+      // @ts-ignore
+      return super.findOne(...args);
     };
 
     findOne = async (...args: any[]): Promise<any> => {
@@ -90,6 +96,7 @@ export function ObjectQueryRepositoryMixin<
       if (!super.findOne) {
         throw new Error('findOne is not implemented in this repository');
       }
+      debug(`${this.constructor.name} findOne() -> super.findOne()`);
       // @ts-ignore
       return super.findOne(...args);
     };
@@ -97,8 +104,10 @@ export function ObjectQueryRepositoryMixin<
     selectCount = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
       const query = this.objectQuery;
       if (query) {
+        debug(`${this.constructor.name} selectCount() -> objectQuery.count()`);
         return query.count(where, options);
       }
+      debug(`${this.constructor.name} selectCount() -> super.count()`);
       return super.count(where, options);
     };
 

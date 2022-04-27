@@ -93,7 +93,7 @@ class SomeClass {
 方法:
 
 ```ts
-function ObjectQueryRepositoryMixin<
+declare function ObjectQueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
@@ -128,7 +128,7 @@ export class FooRepository
 方法:
 
 ```ts
-function mixinObjectQuery(mixinOptions: boolean | ObjectQueryMixinOptions = false);
+declare function mixinObjectQuery(mixinOptions: boolean | ObjectQueryMixinOptions = false);
 ```
 
 参数：
@@ -178,6 +178,57 @@ export interface ObjectQueryRepository<M extends Entity, Relations extends objec
   selectCount(where?: QueryWhere<M>, options?: object): Promise<{count: number}>;
 }
 ```
+
+#### 继承自 `DefaultCrudRepository` 并进行了 `mixinObjectQuery` 的 `DefaultCrudRepositoryWithObjectQuery`
+
+`DefaultCrudRepository` 是 `loopback` 的默认 CRUD 接口实现，具备了 CRUD 接口的所有功能。大多数的业务 Repository 都继承自
+它。
+
+我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinObjectQuery` 的
+`DefaultCrudRepositoryWithObjectQuery` 平替类，用 `ObjectQuery` 接替 `find`, `findOne` 和 `count` 原生查询。对于非关系型
+数据库，将直接透传给原生查询。
+
+#### Patching
+
+对于历史项目，不太方便采用 Mixin 或者继承的方式，进行重构的。因此，我们提供了一个 Patching 方案，可以在应用初始化，尚未
+加载之前，对 `DefaultCrudRepository` 进行 `patching`。
+
+```ts
+import {patchObjectQueryToRepositoryClass} from '@bleco/sqlquery';
+import {DefaultCrudRepository} from '@loopback/repository';
+
+export async function main(options: ApplicationConfig = {}) {
+  // patching `DefaultCrudRepository`
+  patchObjectQueryToRepositoryClass(DefaultCrudRepository);
+
+  const app = new TodoListApplication(options);
+  await app.boot();
+  await app.start();
+
+  const url = app.restServer.url;
+  console.log(`Server is running at ${url}`);
+  return app;
+}
+```
+
+- `patchObjectQueryToRepositoryClass(repoClass)`: Patching 一个 `Repository` 类
+  ```ts
+  patchObjectQueryToRepositoryClass(DefaultCrudRepository);
+  ```
+- `patchObjectQueryToRepository(repo)`: Patching 一个 `Repository` 实例
+
+  ```ts
+  // patching a repository instance
+  patchObjectQueryToRepository(repository);
+
+  // or in a Repository definition
+  class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototype.id> {
+    constructor(dataSource: juggler.DataSource) {
+      super(MyModel, dataSource);
+      patchObjectQueryToRepository(this);
+    }
+  }
+  ```
 
 #### ObjectQuery API
 

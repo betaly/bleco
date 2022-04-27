@@ -5,6 +5,8 @@ import {resolveKnexClientWithDataSource} from '../knex';
 import {ObjectQuery} from '../queries';
 import {originalProp} from '../utils';
 
+const debug = require('debug')('bleco:sqlquery:object-query-patch');
+
 export type PatchResult = boolean | null;
 
 export const ObjectQueryFns = ['find', 'findOne', 'count'];
@@ -62,8 +64,10 @@ function patchObjectQuery(target: any): PatchResult {
         target[method] = function (...args: any[]) {
           const query = this.__getObjectQuery__();
           if (query) {
+            debug(`${this.constructor.name} ${method}() -> objectQuery.${method}()`);
             return query[method](...args);
           }
+          debug(`${this.constructor.name} ${method}() -> super.${method}()`);
           return this[originalProp(method)](...args);
         };
       }

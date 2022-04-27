@@ -7,7 +7,7 @@ import {QuerySession} from '../session';
 import {Query} from '../query';
 import {QueryFilter, QueryWhere} from '../filter';
 
-const debug = require('debug')('bleco:query:object-query');
+const debug = require('debug')('bleco:sqlquery:object-query');
 
 export class ObjectQuery<T extends Entity, Relations extends object = {}> extends Query<T, Relations> {
   protected columnsResolver: ColumnsResolver<T>;
