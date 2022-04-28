@@ -1,7 +1,7 @@
 {
   "name": "@bleco/query",
   "description": "A sql query with INNER JOIN supported for loopback-next based on knex",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "keywords": [
     "bleco",
     "looback",

@@ -1,7 +1,7 @@
 {
   "name": "@bleco/vault",
   "description": "A loopback-next extension for HashiCorp's Vault integration in loopback-next applications",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/aliaser": "^0.3.3",
+    "@bleco/aliaser": "^0.3.4",
     "@loopback/boot": "^4.1.2",
     "@loopback/core": "^3.1.2",
     "@loopback/rest": "^11.1.2",
