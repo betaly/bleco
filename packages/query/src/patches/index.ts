@@ -1,1 +1,1 @@
-export * from './select-query.patch';
+export * from './query.patch';

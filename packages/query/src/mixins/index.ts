@@ -1,1 +1,1 @@
-export * from './select-query.mixin';
+export * from './query.mixin';

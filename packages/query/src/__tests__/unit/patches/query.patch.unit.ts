@@ -2,23 +2,17 @@
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
 import {Foo} from '../../fixtures/models/foo';
-import {
-  patchSelectQueryToRepositoryClass,
-  patchSelectQueryToRepository,
-  unpatchSelectQueryFromRepositoryClass,
-  unpatchSelectQueryFromRepository,
-  SelectQueryFns,
-} from '../../../patches';
 import {DB, givenDb} from '../../support';
-import {SelectQuery} from '../../../queries';
+import {SqlQuery} from '../../../queries';
 import {originalProp} from '../../../utils';
+import {QueryMethods, queryPatch, queryUnpatch} from '../../../patches';
 
 describe('patch/unpatch', () => {
   let db: DB;
   let memdb: DB;
   let FooRepository: Constructor<DefaultCrudRepository<any, any>>;
 
-  const selectQuerySpies: Record<string, jest.SpyInstance> = {};
+  const sqlQuerySpies: Record<string, jest.SpyInstance> = {};
   const originalSpies: Record<string, jest.SpyInstance> = {};
 
   beforeAll(async () => {
@@ -30,15 +24,15 @@ describe('patch/unpatch', () => {
 
   beforeEach(() => {
     FooRepository = givenRepository();
-    for (const method of SelectQueryFns) {
-      selectQuerySpies[method] = jest.spyOn(SelectQuery.prototype as any, method);
+    for (const method of QueryMethods) {
+      sqlQuerySpies[method] = jest.spyOn(SqlQuery.prototype as any, method);
       originalSpies[method] = jest.spyOn(FooRepository.prototype, method);
     }
   });
 
   afterEach(() => {
-    for (const method of SelectQueryFns) {
-      selectQuerySpies[method].mockRestore();
+    for (const method of QueryMethods) {
+      sqlQuerySpies[method].mockRestore();
       originalSpies[method].mockRestore();
     }
   });
@@ -47,7 +41,7 @@ describe('patch/unpatch', () => {
     it('should patch a Repository class', () => {
       const proto = FooRepository.prototype;
       assertNotPatched(proto);
-      const result = patchSelectQueryToRepositoryClass(FooRepository);
+      const result = queryPatch(FooRepository);
       expect(result).toBe(true);
       assertPatched(proto);
     });
@@ -55,51 +49,51 @@ describe('patch/unpatch', () => {
     it('should patch a Repository instance', () => {
       const repo = new FooRepository(db.ds);
       assertNotPatched(repo);
-      const result = patchSelectQueryToRepository(repo);
+      const result = queryPatch(repo);
       expect(result).toBe(true);
       assertPatched(repo);
     });
 
     it('should skip if has been patched', () => {
-      const result = patchSelectQueryToRepositoryClass(FooRepository);
+      const result = queryPatch(FooRepository);
       expect(result).toBe(true);
-      const result2 = patchSelectQueryToRepositoryClass(FooRepository);
+      const result2 = queryPatch(FooRepository);
       expect(result2).toBeNull();
     });
 
     it('should return false for null target', () => {
-      const result = patchSelectQueryToRepository(null as any);
+      const result = queryPatch(null as any);
       expect(result).toBe(false);
     });
 
     it('should return false for non-Repository target', () => {
       const target = {};
-      const result = patchSelectQueryToRepository(target as any);
+      const result = queryPatch(target as any);
       expect(result).toBe(false);
       assertNotPatched(target);
     });
 
-    describe('query with SelectQuery', () => {
-      for (const method of SelectQueryFns) {
-        it(`should query with SelectQuery "${method}"`, async () => {
-          const result = patchSelectQueryToRepositoryClass(FooRepository);
+    describe('query with SqlQuery', () => {
+      for (const method of QueryMethods) {
+        it(`should query with SqlQuery "${method}"`, async () => {
+          const result = queryPatch(FooRepository);
           expect(result).toBe(true);
           const repo = new FooRepository(db.ds) as any;
           await repo[method]();
-          expect(selectQuerySpies[method]).toHaveBeenCalledTimes(1);
+          expect(sqlQuerySpies[method]).toHaveBeenCalledTimes(1);
           expect(originalSpies[method]).not.toHaveBeenCalled();
         });
       }
     });
 
     describe('query with original', () => {
-      for (const method of SelectQueryFns) {
+      for (const method of QueryMethods) {
         it(`should query with original "${method}"`, async () => {
-          const result = patchSelectQueryToRepositoryClass(FooRepository);
+          const result = queryPatch(FooRepository);
           expect(result).toBe(true);
           const repo = new FooRepository(memdb.ds) as any;
           await repo[method]();
-          expect(selectQuerySpies[method]).not.toHaveBeenCalled();
+          expect(sqlQuerySpies[method]).not.toHaveBeenCalled();
           expect(originalSpies[method]).toHaveBeenCalledTimes(1);
         });
       }
@@ -109,22 +103,22 @@ describe('patch/unpatch', () => {
       let findSpy: jest.SpyInstance;
 
       beforeEach(() => {
-        findSpy = jest.spyOn(SelectQuery.prototype as any, 'find');
+        findSpy = jest.spyOn(SqlQuery.prototype as any, 'find');
       });
 
       afterEach(() => {
         findSpy.mockRestore();
-        unpatchSelectQueryFromRepositoryClass(DefaultCrudRepository);
+        queryUnpatch(DefaultCrudRepository);
       });
 
       it('should patch DefaultCrudRepository', () => {
         assertNotPatched(DefaultCrudRepository.prototype);
         assertNotPatched(FooRepository.prototype);
-        const result = patchSelectQueryToRepositoryClass(DefaultCrudRepository);
+        const result = queryPatch(DefaultCrudRepository);
         expect(result).toBe(true);
         assertPatched(DefaultCrudRepository.prototype);
         assertPatched(FooRepository.prototype);
-        unpatchSelectQueryFromRepositoryClass(DefaultCrudRepository);
+        queryUnpatch(DefaultCrudRepository);
         assertNotPatched(DefaultCrudRepository.prototype);
         assertNotPatched(FooRepository.prototype);
       });
@@ -134,15 +128,15 @@ describe('patch/unpatch', () => {
         await repo.find();
         expect(findSpy).not.toHaveBeenCalled();
 
-        patchSelectQueryToRepositoryClass(DefaultCrudRepository);
+        queryPatch(DefaultCrudRepository);
 
         repo = new FooRepository(db.ds);
         await repo.find();
         expect(findSpy).not.toHaveBeenCalled();
       });
 
-      it('should query with SelectQuery if base class has been patched before sub class definition', async () => {
-        patchSelectQueryToRepositoryClass(DefaultCrudRepository);
+      it('should query with SqlQuery if base class has been patched before sub class definition', async () => {
+        queryPatch(DefaultCrudRepository);
         const NewFooRepository = givenRepository();
         const repo = new NewFooRepository(db.ds);
         await repo.find();
@@ -154,17 +148,17 @@ describe('patch/unpatch', () => {
   describe('unpatch', function () {
     it('should unpatch a Repository class', () => {
       const proto = FooRepository.prototype;
-      patchSelectQueryToRepositoryClass(FooRepository);
+      queryPatch(FooRepository);
       assertPatched(proto);
-      unpatchSelectQueryFromRepositoryClass(FooRepository);
+      queryUnpatch(FooRepository);
       assertNotPatched(proto);
     });
 
     it('should unpatch a Repository instance', () => {
       const repo = new FooRepository(db.ds);
-      patchSelectQueryToRepository(repo);
+      queryPatch(repo);
       assertPatched(repo);
-      unpatchSelectQueryFromRepository(repo);
+      queryUnpatch(repo);
       assertNotPatched(repo);
     });
   });
@@ -176,20 +170,20 @@ function givenRepository(): Constructor<DefaultCrudRepository<any, any>> {
       super(Foo, dataSource);
     }
   }
+
   return FooRepository;
 }
 
 function assertNotPatched(target: any) {
-  expect(target.__getSelectQuery__).not.toBeDefined();
-  expect(target.__selectQuery__).not.toBeDefined();
-  for (const method of SelectQueryFns) {
+  expect(target.__getQuery__).not.toBeDefined();
+  for (const method of QueryMethods) {
     expect(target[originalProp(method)]).not.toBeDefined();
   }
 }
 
 function assertPatched(target: any) {
-  expect(target.__getSelectQuery__).toBeDefined();
-  for (const method of SelectQueryFns) {
+  expect(target.__getQuery__).toBeDefined();
+  for (const method of QueryMethods) {
     expect(target[originalProp(method)]).toBeDefined();
   }
 }

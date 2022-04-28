@@ -1,7 +1,6 @@
 export * from './filter';
 export * from './knex';
 export * from './mapper';
-export * from './query';
 export * from './relation';
 export * from './resolver';
 export * from './session';

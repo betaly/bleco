@@ -18,7 +18,7 @@
 - [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) and `findOne` loading objects are not supported
   [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event.
 
-## Installation
+## Install
 
 npm:
 
@@ -32,21 +32,21 @@ Yarn:
 yarn add @bleco/query
 ```
 
-## Getting Started
+## getting Started
 
 ```ts
-import {SelectQuery} from '@bleco/query';
+import {SqlQuery} from '@bleco/query';
 import {typequery} from './decorators';
 import repository = typequery.repository;
 
 class SomeClass {
-  selectQuery: SelectQuery<SomeEntity>;
+  query: SqlQuery<SomeEntity>;
 
   constructor(
     @repository(OrgRepository)
     public orgRepository: OrgRepository,
   ) {
-    this.selectQuery = new SelectQuery(this.orgRepository);
+    this.query = new SqlQuery(this.orgRepository);
   }
 
   async findSomeEntity() {
@@ -75,7 +75,7 @@ class SomeClass {
 }
 ```
 
-## SelectQuery
+## SqlQuery
 
 A querier that performs model filtering queries through relational cascading conditions.
 
@@ -83,37 +83,37 @@ A querier that performs model filtering queries through relational cascading con
 
 #### Construct
 
-- `new SelectQuery(repository)`: Through the `new SelectQuery(repository)` construct, a Repository instance is passed
-  in, which supports include.
-- `new SelectQuery(entityClass, repository)`: Constructed by `new SelectQuery(entityClass, repository)`, passing in a
-  model class and a Repository instance, does not support include.
+- `new SqlQuery(repository)`: Through the `new SqlQuery(repository)` construct, a Repository instance is passed in,
+  which supports include.
+- `new SqlQuery(entityClass, repository)`: Constructed by `new SqlQuery(entityClass, repository)`, passing in a model
+  class and a Repository instance, does not support include.
 
-#### `SelectQueryRepositoryMixin` inheritance
+#### `SqlQueryRepositoryMixin` inheritance
 
-Extends native `find` and `findOne` support for seamless cascading queries by mixing in Repository with
-`SelectQueryRepositoryMixin`. (Note: not supported [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access)
-for `find` and `findOne` and [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event)
+Mixed into Repository via `SqlQueryRepositoryMixin` to extend seamless cascading query support to native `find` and
+`findOne`. (Note: not supported [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) for `find` and
+`findOne` and [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) event)
 
-syntax:
+method:
 
 ```ts
-declare function SelectQueryRepositoryMixin<
+declare function SqlQueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
   R extends MixinTarget<EntityCrudRepository<M, ID, Relations>>,
->(superClass: R, mixinOptions: boolean | SelectQueryMixinOptions = {});
+>(superClass: R, options: boolean | QueryMixinOptions = {});
 ```
 
-parameters:
+parameter:
 
 - `superClass`: the inherited class
-- `mixinOptions: boolean | SelectQueryMixinOptions`: mixin options
+- `options: boolean | QueryMixinOptions`: mixin options
   - `overrideCruds`: whether to override native CRUD methods, the default is `false`
 
 ```ts
 export class FooRepository
-  extends SelectQueryRepositoryMixin<
+  extends SqlQueryRepositoryMixin<
     Foo,
     typeof Foo.prototype.id,
     FooRelations,
@@ -127,71 +127,39 @@ export class FooRepository
 }
 ```
 
-#### `mixinSelectQuery` decorator
+#### `mixinQuery` decorator
 
-syntax:
+method:
 
 ```ts
-declare function mixinSelectQuery(mixinOptions: boolean | SelectQueryMixinOptions = false);
+declare function mixinQuery(options: boolean | QueryMixinOptions = false);
 ```
 
-parameters:
+parameter:
 
-- `superClass`: the inherited class
-- `mixinOptions: boolean | SelectQueryMixinOptions`: mixin options
+- `options: boolean | QueryMixinOptions`: mixin options
   - `overrideCruds`: whether to override native CRUD methods, the default is `false`
 
 ```ts
-@mixinSelectQuery(true)
-export class FooRepositoryWithSelectQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+@mixinQuery(true)
+export class FooRepositoryWithQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
   constructor(dataSource: juggler.DataSource) {
     super(Foo, dataSource);
   }
 }
 
-export interface FooRepositoryWithSelectQueryDecorated extends SelectQueryRepository<Foo> {}
+export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 ```
 
-The class mixed with `SelectQueryRepositoryMixin` or `mixinSelectQuery` has the interface function of
-`SelectQueryRepository`.
-
-```ts
-// interface SelectQueryRepositoryMixin
-
-export interface SelectQueryRepository<M extends Entity, Relations extends object = {}> {
-  readonly selectQuery?: SelectQuery<M, Relations>;
-
-  /**
-   * Find all entities that match the given filter with SelectQuery
-   * @param filter The filter to apply
-   * @param options Options for the query
-   */
-  select(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]>;
-
-  /**
-   * Find first entity that matches the given filter with SelectQuery
-   * @param filter The filter to apply
-   * @param options Options for the query
-   */
-  selectOne(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null>;
-
-  /**
-   * Count all entities that match the given filter with SelectQuery
-   * @param where The where to apply
-   * @param options Options for the query
-   */
-  selectCount(where?: QueryWhere<M>, options?: object): Promise<{count: number}>;
-}
-```
-
-#### `DefaultCrudRepositoryWithSelectQuery` that inherits from `DefaultCrudRepository` and implements `mixinSelectQuery`
+#### `DefaultCrudRepositoryWithQuery` that inherits from `DefaultCrudRepository` and implements `mixinQuery`
 
 `DefaultCrudRepository` is the default CRUD interface implementation of `loopback`, which has all the functions of the
 CRUD interface. Most business repositories inherit from it.
 
-Here we provide a method that inherits from `DefaultCrudRepository` and implements `mixinSelectQuery`
-`DefaultCrudRepositoryWithSelectQuery` replacement class, `SelectQuery` replaces `find`, `findOne` and `count` native
-queries. For non-relational The database will be passed directly to the native query.
+Here we provide a method that inherits from `DefaultCrudRepository` and implements `mixinQuery`
+`DefaultCrudRepositoryWithQuery` replacement class, with `Query` replacing the `find`, `findOne` and `count` native
+queries. For data sources that are not yet supported (eg: non-relational database), which will be passed directly to the
+native query.
 
 #### Patching
 
@@ -200,12 +168,12 @@ Patching scheme that can be initialized in the application, not yet `patching` t
 loading.
 
 ```ts
-import {patchSelectQueryToRepositoryClass} from '@bleco/query';
+import {queryPatch} from '@bleco/query';
 import {DefaultCrudRepository} from '@loopback/repository';
 
 export async function main(options: ApplicationConfig = {}) {
   // patching `DefaultCrudRepository`
-  patchSelectQueryToRepositoryClass(DefaultCrudRepository);
+  queryPatch(DefaultCrudRepository);
 
   const app = new TodoListApplication(options);
   await app.boot();
@@ -217,33 +185,32 @@ export async function main(options: ApplicationConfig = {}) {
 }
 ```
 
-- `patchSelectQueryToRepositoryClass(repoClass)`: Patching a `Repository` class
-  ```ts
-  patchSelectQueryToRepositoryClass(DefaultCrudRepository);
-  ```
-- `patchSelectQueryToRepository(repo)`: Patching a `Repository` instance
+##### `queryPatch(repoClass)`: Patching a `Repository` class or instance
 
-  ```ts
-  // patching a repository instance
-  patchSelectQueryToRepository(repository);
+```ts
+// patching a repository class
+queryPatch(DefaultCrudRepository);
 
-  // or in a Repository definition
-  class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototype.id> {
-    constructor(dataSource: juggler.DataSource) {
-      super(MyModel, dataSource);
-      patchSelectQueryToRepository(this);
-    }
+// patching a repository instance
+queryPatch(repository);
+
+// or patching self
+class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototype.id> {
+  constructor(dataSource: juggler.DataSource) {
+    super(MyModel, dataSource);
+    queryPatch(this);
   }
-  ```
+}
+```
 
-#### SelectQuery API
+#### Query API
 
-- `SelectQuery.prototype.find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: According to the
-  specified filter, find all There are model instances
-- `SelectQuery.prototype.findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: according to the
-  specified filter , to find the first model instance
-- `SelectQuery.prototype.count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: According to the specified
-  filter, the statistical model number of instances
+- `find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: According to the specified filter, find all
+  There are model instances
+- `findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: according to the specified filter , to
+  find the first model instance
+- `count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: According to the specified filter, the
+  statistical model number of instances
 
 #### QueryFilter
 
@@ -346,7 +313,7 @@ export class Proj extends Entity {
 - Find all `users` that have access to `organizations` with `bleco` in their name:
 
 ```ts
-const userQuery = new SelectQuery(userRepository);
+const userQuery = new SqlQuery(userRepository);
 
 const users = await userQuery.find({
   where: {
@@ -360,7 +327,7 @@ const users = await userQuery.find({
 - Find all `users` that have access to `projects` with `bleco` in their name:
 
 ```ts
-const userQuery = new SelectQuery(userRepository);
+const userQuery = new SqlQuery(userRepository);
 
 const users = await userQuery.find({
   where: {

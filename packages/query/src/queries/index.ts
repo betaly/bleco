@@ -1,1 +1,2 @@
-export * from './select-query';
+export * from './query';
+export * from './sql.query';

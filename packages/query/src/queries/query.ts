@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Knex} from 'knex';
-import {
-  Entity,
-  EntityCrudRepository,
-  includeRelatedModels,
-  InclusionFilter,
-  juggler,
-  Options,
-} from '@loopback/repository';
+import {Entity, EntityCrudRepository, juggler, Options} from '@loopback/repository';
 import {Filter} from '@loopback/filter';
-import {EntityClass, IdSort} from './types';
-import {DefaultMapper, Mapper} from './mapper';
-import {createKnex} from './knex';
-import {assert} from 'tily/assert';
+import {EntityClass, IdSort} from '../types';
+import {DefaultMapper, Mapper} from '../mapper';
+import {createKnex} from '../knex';
+import {QueryFilter, QueryWhere} from '../filter';
 
 const debug = require('debug')('bleco:query');
 
-export abstract class Query<T extends Entity, Relations extends object = {}> {
+export interface Query<T extends Entity, Relations extends object = {}> {
+  find(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations)[]>;
+
+  findOne(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations) | null>;
+
+  count(where?: QueryWhere<T>, options?: Options): Promise<{count: number}>;
+}
+
+export abstract class AbstractQuery<T extends Entity, Relations extends object = {}> implements Query<T, Relations> {
   public readonly entityClass: EntityClass<T>;
   public readonly dataSource: juggler.DataSource;
   protected knex: Knex;
@@ -42,7 +43,13 @@ export abstract class Query<T extends Entity, Relations extends object = {}> {
     this.init();
   }
 
-  applySortPolicy(filter: Filter<T>) {
+  abstract count(where?: QueryWhere<T>, options?: Options): Promise<{count: number}>;
+
+  abstract find(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations)[]>;
+
+  abstract findOne(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations) | null>;
+
+  protected applySortPolicy(filter: Filter<T>) {
     const sortPolicy = this.getDefaultIdSortPolicy();
     const sortById = (() => {
       switch (sortPolicy) {
@@ -65,7 +72,7 @@ export abstract class Query<T extends Entity, Relations extends object = {}> {
     }
   }
 
-  getDefaultIdSortPolicy(): IdSort {
+  protected getDefaultIdSortPolicy(): IdSort {
     const definition = this.entityClass.definition;
     if (Object.hasOwn(definition.settings, 'defaultIdSort')) {
       return definition.settings.defaultIdSort;
@@ -74,7 +81,7 @@ export abstract class Query<T extends Entity, Relations extends object = {}> {
     return true;
   }
 
-  hasOnlyNumericIds() {
+  protected hasOnlyNumericIds() {
     const cols = this.entityClass.definition.properties;
     const idNames = this.mapper.idNames(this.entityClass.modelName);
     const numericIds = idNames.filter(idName => cols[idName].type === Number);
@@ -89,22 +96,5 @@ export abstract class Query<T extends Entity, Relations extends object = {}> {
 
   protected toEntities<R extends T>(models: Record<string, any>[]): R[] {
     return models.map(m => this.toEntity<R>(m));
-  }
-
-  /**
-   * Returns model instances that include related models of this repository
-   * that have a registered resolver.
-   *
-   * @param entities - An array of entity instances or data
-   * @param include -Inclusion filter
-   * @param options - Options for the operations
-   */
-  protected async includeRelatedModels(
-    entities: T[],
-    include?: InclusionFilter[],
-    options?: Options,
-  ): Promise<(T & Relations)[]> {
-    assert(this.repo, 'Query is missing repository to includeRelatedModels');
-    return includeRelatedModels<T, Relations>(this.repo, entities, include, options);
   }
 }

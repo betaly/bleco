@@ -4,12 +4,12 @@ import {Filter} from '@loopback/filter';
 import {Entity, includeRelatedModels, Options} from '@loopback/repository';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../resolvers';
 import {QuerySession} from '../session';
-import {Query} from '../query';
+import {AbstractQuery} from './query';
 import {QueryFilter, QueryWhere} from '../filter';
 
-const debug = require('debug')('bleco:query:object-query');
+const debug = require('debug')('bleco:query:sql-query');
 
-export class SelectQuery<T extends Entity, Relations extends object = {}> extends Query<T, Relations> {
+export class SqlQuery<T extends Entity, Relations extends object = {}> extends AbstractQuery<T, Relations> {
   protected columnsResolver: ColumnsResolver<T>;
   protected joinResolver: JoinResolver<T>;
   protected whereResolver: WhereResolver<T>;

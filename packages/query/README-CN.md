@@ -32,18 +32,18 @@ yarn add @bleco/query
 ## 入门
 
 ```ts
-import {SelectQuery} from '@bleco/query';
+import {SqlQuery} from '@bleco/query';
 import {typequery} from './decorators';
 import repository = typequery.repository;
 
 class SomeClass {
-  selectQuery: SelectQuery<SomeEntity>;
+  query: SqlQuery<SomeEntity>;
 
   constructor(
     @repository(OrgRepository)
     public orgRepository: OrgRepository,
   ) {
-    this.selectQuery = new SelectQuery(this.orgRepository);
+    this.query = new SqlQuery(this.orgRepository);
   }
 
   async findSomeEntity() {
@@ -72,7 +72,7 @@ class SomeClass {
 }
 ```
 
-## SelectQuery
+## SqlQuery
 
 通过关系级联条件，进行模型筛选查询的查询器。
 
@@ -80,36 +80,36 @@ class SomeClass {
 
 #### 构造
 
-- `new SelectQuery(repository)`: 通过 `new SelectQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
-- `new SelectQuery(entityClass, repository)`: 通过 `new SelectQuery(entityClass, repository)` 构造，传入一个模型类和一个
+- `new SqlQuery(repository)`: 通过 `new SqlQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
+- `new SqlQuery(entityClass, repository)`: 通过 `new SqlQuery(entityClass, repository)` 构造，传入一个模型类和一个
   Repository 实例, 不支持 include。
 
-#### `SelectQueryRepositoryMixin` 继承
+#### `SqlQueryRepositoryMixin` 继承
 
-通过 `SelectQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持
+通过 `SqlQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持
 `find` 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
 [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
 
 方法:
 
 ```ts
-declare function SelectQueryRepositoryMixin<
+declare function SqlQueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
   R extends MixinTarget<EntityCrudRepository<M, ID, Relations>>,
->(superClass: R, mixinOptions: boolean | SelectQueryMixinOptions = {});
+>(superClass: R, options: boolean | QueryMixinOptions = {});
 ```
 
 参数：
 
 - `superClass`: 继承的类
-- `mixinOptions: boolean | SelectQueryMixinOptions`: 混入选项
+- `options: boolean | QueryMixinOptions`: 混入选项
   - `overrideCruds`: 是否覆盖原生 CRUD 方法，默认为 `false`
 
 ```ts
 export class FooRepository
-  extends SelectQueryRepositoryMixin<
+  extends SqlQueryRepositoryMixin<
     Foo,
     typeof Foo.prototype.id,
     FooRelations,
@@ -123,70 +123,37 @@ export class FooRepository
 }
 ```
 
-#### `mixinSelectQuery` 装饰器
+#### `mixinQuery` 装饰器
 
 方法:
 
 ```ts
-declare function mixinSelectQuery(mixinOptions: boolean | SelectQueryMixinOptions = false);
+declare function mixinQuery(options: boolean | QueryMixinOptions = false);
 ```
 
 参数：
 
-- `superClass`: 继承的类
-- `mixinOptions: boolean | SelectQueryMixinOptions`: 混入选项
+- `options: boolean | QueryMixinOptions`: 混入选项
   - `overrideCruds`: 是否覆盖原生 CRUD 方法，默认为 `false`
 
 ```ts
-@mixinSelectQuery(true)
-export class FooRepositoryWithSelectQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
+@mixinQuery(true)
+export class FooRepositoryWithQueryDecorated extends DefaultCrudRepository<Foo, typeof Foo.prototype.id> {
   constructor(dataSource: juggler.DataSource) {
     super(Foo, dataSource);
   }
 }
 
-export interface FooRepositoryWithSelectQueryDecorated extends SelectQueryRepository<Foo> {}
+export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 ```
 
-通过 `SelectQueryRepositoryMixin` 或者 `mixinSelectQuery` 混入后的类，具备了 `SelectQueryRepository` 的接口功能。
-
-```ts
-// interface SelectQueryRepositoryMixin
-
-export interface SelectQueryRepository<M extends Entity, Relations extends object = {}> {
-  readonly selectQuery?: SelectQuery<M, Relations>;
-
-  /**
-   * Find all entities that match the given filter with SelectQuery
-   * @param filter The filter to apply
-   * @param options Options for the query
-   */
-  select(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]>;
-
-  /**
-   * Find first entity that matches the given filter with SelectQuery
-   * @param filter The filter to apply
-   * @param options Options for the query
-   */
-  selectOne(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null>;
-
-  /**
-   * Count all entities that match the given filter with SelectQuery
-   * @param where The where to apply
-   * @param options Options for the query
-   */
-  selectCount(where?: QueryWhere<M>, options?: object): Promise<{count: number}>;
-}
-```
-
-#### 继承自 `DefaultCrudRepository` 并进行了 `mixinSelectQuery` 的 `DefaultCrudRepositoryWithSelectQuery`
+#### 继承自 `DefaultCrudRepository` 并进行了 `mixinQuery` 的 `DefaultCrudRepositoryWithQuery`
 
 `DefaultCrudRepository` 是 `loopback` 的默认 CRUD 接口实现，具备了 CRUD 接口的所有功能。大多数的业务 Repository 都继承自
 它。
 
-我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinSelectQuery` 的
-`DefaultCrudRepositoryWithSelectQuery` 平替类，用 `SelectQuery` 接替 `find`, `findOne` 和 `count` 原生查询。对于非关系型
-数据库，将直接透传给原生查询。
+我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinQuery` 的 `DefaultCrudRepositoryWithQuery` 替换类，用
+`Query` 接替 `find`, `findOne` 和 `count` 原生查询。对于尚未支持的数据源（如：非关系型数据库），将直接透传给原生查询。
 
 #### Patching
 
@@ -194,12 +161,12 @@ export interface SelectQueryRepository<M extends Entity, Relations extends objec
 加载之前，对 `DefaultCrudRepository` 进行 `patching`。
 
 ```ts
-import {patchSelectQueryToRepositoryClass} from '@bleco/query';
+import {queryPatch} from '@bleco/query';
 import {DefaultCrudRepository} from '@loopback/repository';
 
 export async function main(options: ApplicationConfig = {}) {
   // patching `DefaultCrudRepository`
-  patchSelectQueryToRepositoryClass(DefaultCrudRepository);
+  queryPatch(DefaultCrudRepository);
 
   const app = new TodoListApplication(options);
   await app.boot();
@@ -211,33 +178,29 @@ export async function main(options: ApplicationConfig = {}) {
 }
 ```
 
-- `patchSelectQueryToRepositoryClass(repoClass)`: Patching 一个 `Repository` 类
-  ```ts
-  patchSelectQueryToRepositoryClass(DefaultCrudRepository);
-  ```
-- `patchSelectQueryToRepository(repo)`: Patching 一个 `Repository` 实例
+##### `queryPatch(repoClass)`: Patching 一个 `Repository` 类或者实例
 
-  ```ts
-  // patching a repository instance
-  patchSelectQueryToRepository(repository);
+```ts
+// patching a repository class
+queryPatch(DefaultCrudRepository);
 
-  // or in a Repository definition
-  class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototype.id> {
-    constructor(dataSource: juggler.DataSource) {
-      super(MyModel, dataSource);
-      patchSelectQueryToRepository(this);
-    }
+// patching a repository instance
+queryPatch(repository);
+
+// or patching self
+class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototype.id> {
+  constructor(dataSource: juggler.DataSource) {
+    super(MyModel, dataSource);
+    queryPatch(this);
   }
-  ```
+}
+```
 
-#### SelectQuery API
+#### Query API
 
-- `SelectQuery.prototype.find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: 根据指定的过滤器，查找所
-  有模型实例
-- `SelectQuery.prototype.findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: 根据指定的过滤器
-  ，查找第一个模型实例
-- `SelectQuery.prototype.count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: 根据指定的过滤器，统计模型
-  实例的数量
+- `find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: 根据指定的过滤器，查找所有模型实例
+- `findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: 根据指定的过滤器，查找第一个模型实例
+- `count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: 根据指定的过滤器，统计模型实例的数量
 
 #### QueryFilter
 
@@ -340,7 +303,7 @@ export class Proj extends Entity {
 - 查找所有可以访问名称中含有 `bleco` 的`组织`的`用户`：
 
 ```ts
-const userQuery = new SelectQuery(userRepository);
+const userQuery = new SqlQuery(userRepository);
 
 const users = await userQuery.find({
   where: {
@@ -354,7 +317,7 @@ const users = await userQuery.find({
 - 查找所有可以访问名称中含有 `bleco` 的`项目`的`用户`：
 
 ```ts
-const userQuery = new SelectQuery(userRepository);
+const userQuery = new SqlQuery(userRepository);
 
 const users = await userQuery.find({
   where: {
