@@ -24,7 +24,7 @@ export interface SqlConnector extends Connector {
 /**
  * Object-Persistence Mapping
  */
-export interface Mapper {
+export interface Orm {
   idNames(model: string): string[];
 
   escapeName(name: string): string;
@@ -93,6 +93,8 @@ export interface Mapper {
    * @returns {string[]} Escaped column names
    */
   buildColumnNames(model: string, filter: Filter): string[];
+
+  fromRow(model: string, rowData: Record<string, any>): Record<string, any>;
 
   /**
    * Execute a SQL command.
@@ -172,11 +174,9 @@ export interface Mapper {
    * database driver.
    */
   execute(...args: any[]): Promise<any>;
-
-  fromRow(model: string, rowData: Record<string, any>): Record<string, any>;
 }
 
-export class DefaultMapper implements Mapper {
+export class DefaultOrm implements Orm {
   constructor(protected ds?: juggler.DataSource) {}
 
   get connector() {
@@ -238,7 +238,7 @@ export class DefaultMapper implements Mapper {
   }
 
   async execute(...args: PositionalParameters): Promise<any> {
-    assert(this.ds, `Mapper is missing a datasource to execute the command.`);
+    assert(this.ds, `Orm is missing a datasource to execute the command.`);
     return ensurePromise(this.ds.execute(...args));
   }
 

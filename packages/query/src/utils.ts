@@ -3,7 +3,7 @@ import isArray from 'tily/is/array';
 import isString from 'tily/is/string';
 import isEmpty from 'tily/is/empty';
 import {juggler} from '@loopback/repository';
-import {Mapper, SqlConnector} from './mapper';
+import {Orm, SqlConnector} from './orm';
 
 export function omit<T extends object = object>(obj: T, fn: (value: unknown) => boolean): Partial<T> {
   const result: Partial<T> = {};
@@ -36,7 +36,7 @@ export function isSqlConnector(x: any): x is SqlConnector {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function isMapper(x: any): x is Mapper {
+export function isMapper(x: any): x is Orm {
   return x && typeof x.column === 'function' && typeof x.table === 'function' && !isDataSource(x) && !isSqlConnector(x);
 }
 

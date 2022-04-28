@@ -10,12 +10,12 @@ import isPlainObject from 'tily/is/plainObject';
 import {PickKeys} from 'ts-essentials';
 import {Filter, isFilter, Operators, Where} from '@loopback/filter';
 import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
-import {EntityClass, WhereValue} from '../types';
+import {EntityClass, WhereValue} from '../../../types';
 import {ClauseResolver} from '../resolver';
-import {Mapper} from '../mapper';
-import {compactWhere, isNested} from '../utils';
-import {QuerySession} from '../session';
-import {RelationConstraint} from '../relation';
+import {Orm} from '../../../orm';
+import {compactWhere, isNested} from '../../../utils';
+import {QuerySession} from '../../../session';
+import {RelationConstraint} from '../../../relation';
 
 const debug = debugFactory('bleco:query:where');
 
@@ -160,10 +160,10 @@ export const DefaultOperatorHandlerRegistry = new OperatorHandlerRegistry();
 export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel> {
   constructor(
     entityClass: EntityClass<TModel>,
-    mapper: Mapper | juggler.DataSource,
+    orm: Orm | juggler.DataSource,
     public registry: OperatorHandlerRegistry = DefaultOperatorHandlerRegistry,
   ) {
-    super(entityClass, mapper);
+    super(entityClass, orm);
   }
 
   resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel> | Where<TModel>, session: QuerySession): void {
@@ -228,7 +228,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
           }
 
           return constraint
-            ? this.mapper.columnEscaped(constraint.model, constraint.property.key, true, constraint.prefix)
+            ? this.orm.columnEscaped(constraint.model, constraint.property.key, true, constraint.prefix)
             : this.columnEscaped(field, session.hasRelationWhere());
         }
 

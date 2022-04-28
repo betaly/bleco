@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {Foo} from '../../fixtures/models/foo';
+import {DefaultQuery} from './../../../query';
 import {DB, givenDb} from '../../support';
-import {SqlQuery} from '../../../queries';
 import {originalProp} from '../../../utils';
 import {QueryMethods, queryPatch, queryUnpatch} from '../../../patches';
+import {Foo} from '../../fixtures/models/foo';
 
 describe('patch/unpatch', () => {
   let db: DB;
   let memdb: DB;
   let FooRepository: Constructor<DefaultCrudRepository<any, any>>;
 
-  const sqlQuerySpies: Record<string, jest.SpyInstance> = {};
+  const querySpies: Record<string, jest.SpyInstance> = {};
   const originalSpies: Record<string, jest.SpyInstance> = {};
 
   beforeAll(async () => {
@@ -25,14 +25,14 @@ describe('patch/unpatch', () => {
   beforeEach(() => {
     FooRepository = givenRepository();
     for (const method of QueryMethods) {
-      sqlQuerySpies[method] = jest.spyOn(SqlQuery.prototype as any, method);
+      querySpies[method] = jest.spyOn(DefaultQuery.prototype, method);
       originalSpies[method] = jest.spyOn(FooRepository.prototype, method);
     }
   });
 
   afterEach(() => {
     for (const method of QueryMethods) {
-      sqlQuerySpies[method].mockRestore();
+      querySpies[method].mockRestore();
       originalSpies[method].mockRestore();
     }
   });
@@ -73,14 +73,14 @@ describe('patch/unpatch', () => {
       assertNotPatched(target);
     });
 
-    describe('query with SqlQuery', () => {
+    describe('query with Query', () => {
       for (const method of QueryMethods) {
-        it(`should query with SqlQuery "${method}"`, async () => {
+        it(`should query with Query "${method}"`, async () => {
           const result = queryPatch(FooRepository);
           expect(result).toBe(true);
           const repo = new FooRepository(db.ds) as any;
           await repo[method]();
-          expect(sqlQuerySpies[method]).toHaveBeenCalledTimes(1);
+          expect(querySpies[method]).toHaveBeenCalledTimes(1);
           expect(originalSpies[method]).not.toHaveBeenCalled();
         });
       }
@@ -93,7 +93,7 @@ describe('patch/unpatch', () => {
           expect(result).toBe(true);
           const repo = new FooRepository(memdb.ds) as any;
           await repo[method]();
-          expect(sqlQuerySpies[method]).not.toHaveBeenCalled();
+          expect(querySpies[method]).not.toHaveBeenCalled();
           expect(originalSpies[method]).toHaveBeenCalledTimes(1);
         });
       }
@@ -103,7 +103,7 @@ describe('patch/unpatch', () => {
       let findSpy: jest.SpyInstance;
 
       beforeEach(() => {
-        findSpy = jest.spyOn(SqlQuery.prototype as any, 'find');
+        findSpy = jest.spyOn(DefaultQuery.prototype, 'find');
       });
 
       afterEach(() => {
@@ -135,7 +135,7 @@ describe('patch/unpatch', () => {
         expect(findSpy).not.toHaveBeenCalled();
       });
 
-      it('should query with SqlQuery if base class has been patched before sub class definition', async () => {
+      it('should query with Query if base class has been patched before sub class definition', async () => {
         queryPatch(DefaultCrudRepository);
         const NewFooRepository = givenRepository();
         const repo = new NewFooRepository(db.ds);

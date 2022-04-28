@@ -1,8 +1,8 @@
-import {Foo} from '../fixtures/models/foo';
-import {DefaultCrudRepositoryWithQuery} from '../../repository';
-import {SqlQuery} from '../../queries';
 import {juggler} from '@loopback/repository';
+import {DefaultQuery} from './../../query';
+import {DefaultCrudRepositoryWithQuery} from '../../repository';
 import {DB, givenDb} from '../support';
+import {Foo} from '../fixtures/models/foo';
 
 describe('DefaultCrudRepositoryWithQuery', function () {
   let db: DB;
@@ -21,19 +21,19 @@ describe('DefaultCrudRepositoryWithQuery', function () {
 
   beforeEach(() => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    findSpy = jest.spyOn(SqlQuery.prototype as any, 'find');
+    findSpy = jest.spyOn(DefaultQuery.prototype, 'find');
   });
 
   afterEach(() => {
     findSpy.mockRestore();
   });
 
-  it('should mixin SqlQueryRepository', function () {
+  it('should mixin QueryRepository', function () {
     const myRepository = new MyRepository(db.ds);
-    expect(myRepository.query).toBeInstanceOf(SqlQuery);
+    expect(myRepository.query).toBeInstanceOf(DefaultQuery);
   });
 
-  it('should query with SqlQuery', async () => {
+  it('should query with Query', async () => {
     const myRepository = new MyRepository(db.ds);
     await myRepository.find({where: {id: 1}});
     expect(findSpy).toHaveBeenCalledTimes(1);

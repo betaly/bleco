@@ -12,7 +12,7 @@ import {
   Options,
 } from '@loopback/repository';
 import noop from 'tily/function/noop';
-import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../resolvers';
+import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers/sql/resolvers';
 import {Org} from './fixtures/models/org';
 import {Proj} from './fixtures/models/proj';
 import {Issue} from './fixtures/models/issue';

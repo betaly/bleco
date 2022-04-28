@@ -6,4 +6,4 @@ export type WhereValue = any;
 
 export type IdSort = boolean | 'numericIdOnly';
 
-export type EntityClass<T extends Entity> = typeof Entity & {prototype: T};
+export type EntityClass<T extends Entity = Entity> = typeof Entity & {prototype: T};

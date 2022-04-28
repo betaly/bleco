@@ -1,11 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {isFunction} from 'tily/is/function';
-import {Constructor, Entity, EntityCrudRepository} from '@loopback/repository';
-import {resolveKnexClientWithDataSource} from '../knex';
-import {Query, SqlQuery} from '../queries';
-import {originalProp} from '../utils';
-import {isConstructor} from 'tily/is/constructor';
 import {PickKeys} from 'ts-essentials';
+import {isFunction} from 'tily/is/function';
+import {isConstructor} from 'tily/is/constructor';
+import {Constructor, Entity, EntityCrudRepository} from '@loopback/repository';
+import {originalProp} from '../utils';
+import {DefaultQuery, Query} from '../query';
 
 const debug = require('debug')('bleco:query:patch');
 
@@ -42,10 +41,11 @@ export function queryPatch(
 
   if (!target.__getQuery__) {
     target.__getQuery__ = function () {
-      if (!this.__query__) {
-        const ds = (this as any).dataSource;
-        if (ds && resolveKnexClientWithDataSource(ds)) {
-          this.__query__ = new SqlQuery(this as any);
+      if (this.__query__ === undefined && (this as any).dataSource) {
+        try {
+          this.__query__ = new DefaultQuery<Entity>(this);
+        } catch (e) {
+          this.__query__ = null;
         }
       }
       return this.__query__;

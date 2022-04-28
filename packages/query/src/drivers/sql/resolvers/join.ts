@@ -13,14 +13,14 @@ import {Filter} from '@loopback/filter';
 import {assert} from 'tily/assert';
 import toArray from 'tily/array/toArray';
 import {ClauseResolver} from '../resolver';
-import {QuerySession} from '../session';
+import {QuerySession} from '../../../session';
 import {
   QueryRelationMetadata,
   RelationConstraint,
   RelationJoin,
   resolveRelation,
   SupportedRelationTypes,
-} from '../relation';
+} from '../../../relation';
 import includes from 'tily/array/includes';
 
 const debug = debugFactory('bleco:query:join');
@@ -55,19 +55,17 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 
   protected buildJoins(qb: Knex.QueryBuilder, session: QuerySession) {
     // TODO: support MySQL and Postgres "uuid" type for id column: https://github.com/Wikodit/loopback-connector-postgresql/blob/develop/lib/postgresql.js#L965
-    const mapper = this.mapper;
+    const orm = this.orm;
     for (const relationJoin of session.relationJoins) {
       assert(relationJoin.relation.keyFrom, 'relation.keyFrom is required');
       assert(relationJoin.relation.keyTo, 'relation.keyTo is required');
 
       qb.innerJoin(
         {
-          [mapper.escapeName(relationJoin.prefix + mapper.table(relationJoin.model))]: mapper.tableEscaped(
-            relationJoin.model,
-          ),
+          [orm.escapeName(relationJoin.prefix + orm.table(relationJoin.model))]: orm.tableEscaped(relationJoin.model),
         },
-        mapper.columnEscaped(relationJoin.parentModel, relationJoin.relation.keyFrom, true, relationJoin.parentPrefix),
-        mapper.columnEscaped(relationJoin.model, relationJoin.relation.keyTo, true, relationJoin.prefix),
+        orm.columnEscaped(relationJoin.parentModel, relationJoin.relation.keyFrom, true, relationJoin.parentPrefix),
+        orm.columnEscaped(relationJoin.model, relationJoin.relation.keyTo, true, relationJoin.prefix),
       );
     }
   }
@@ -99,7 +97,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
       // Build a prefix for alias to prevent conflict
       const prefix = nextPrefix(session, i);
       const candidateRelation = relationChain[i];
-      const modelDefinition = parentEntity.definition; //this.mapper.getModelDefinition(parentModel);
+      const modelDefinition = parentEntity.definition; //this.orm.getModelDefinition(parentModel);
 
       if (!modelDefinition) {
         debug('No definition for model %s', parentEntity);

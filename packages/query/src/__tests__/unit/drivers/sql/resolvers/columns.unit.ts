@@ -2,17 +2,17 @@
 import {Knex} from 'knex';
 import {Entity, model} from '@loopback/repository';
 import {Filter} from '@loopback/filter';
-import {DB, givenColumnResolvers, givenDb, mockPg} from '../../support';
-import {ColumnsResolver} from '../../../resolvers';
-import {User} from '../../fixtures/models/user';
-import {createKnex} from '../../../knex';
+import {DB, givenColumnResolvers, givenDb, mockPg} from '../../../../support';
+import {ColumnsResolver} from '../../../../../drivers/sql/resolvers';
+import {User} from '../../../../fixtures/models/user';
+import {createKnex} from '../../../../../drivers/sql/knex';
 
 mockPg();
 
 @model()
 class EmptyEntity extends Entity {}
 
-describe('resolver/columns integration tests', () => {
+describe('resolvers/columns', () => {
   let db: DB;
   let resolvers: Record<string, ColumnsResolver<any>>;
 

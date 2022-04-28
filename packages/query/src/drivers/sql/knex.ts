@@ -28,6 +28,10 @@ export const KnexSupportedClientRegexps = {
   [KnexSupportedClients.BetterSQLite3]: /^better-sqlite3$/i,
 };
 
+export interface KenxCreationOptions {
+  client?: string | typeof Client;
+}
+
 export interface KnexQueryContext {
   skipEscape: boolean;
 }
@@ -35,13 +39,15 @@ export interface KnexQueryContext {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createKnex<TRecord extends {} = any, TResult = unknown[]>(
   ds: juggler.DataSource,
+  options?: KenxCreationOptions,
 ): Knex<TRecord, TResult> {
-  const client = resolveKnexClientWithDataSource(ds);
+  const dialect = options?.client ?? ds.connector?.name;
+  const client = resolveKnexClientWithDialect(dialect);
   if (!client) {
-    throw new Error('Can not detect knex client, you can specify it in dataSource.settings.knex');
+    throw new Error(`Unsupported dialect: ${dialect}`);
   }
 
-  const options: Knex.Config = {
+  const config: Knex.Config = {
     client,
     wrapIdentifier: (value: string, origImpl: (value: string) => string, queryContext?: KnexQueryContext) => {
       if (queryContext?.skipEscape) {
@@ -52,13 +58,9 @@ export function createKnex<TRecord extends {} = any, TResult = unknown[]>(
   };
   if (client === 'sqlite3') {
     // suppress knex sqlite3 useNullAsDefault warning
-    options.useNullAsDefault = true;
+    config.useNullAsDefault = true;
   }
-  return require('knex')(options);
-}
-
-export function resolveKnexClientWithDataSource(ds: juggler.DataSource) {
-  return resolveKnexClientWithDialect(ds.settings.knex) ?? resolveKnexClientWithDialect(ds.connector?.name);
+  return require('knex')(config);
 }
 
 function resolveKnexClientWithDialect(dialect?: string | typeof Client) {

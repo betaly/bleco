@@ -3,20 +3,20 @@ import {Filter} from '@loopback/filter';
 import {Knex} from 'knex';
 import each from 'tily/object/each';
 import {DeepPartial} from 'ts-essentials';
-import {JoinResolver} from '../../../resolvers';
-import {QuerySession} from '../../../session';
-import {createKnex} from '../../../knex';
-import {RelationConstraint} from '../../../relation';
-import {DB, givenDb, givenJoinResolvers, mockPg} from '../../support';
-import {Issue} from '../../fixtures/models/issue';
-import {Foo} from '../../fixtures/models/foo';
-import {Proj} from '../../fixtures/models/proj';
-import {User} from '../../fixtures/models/user';
-import {Org} from '../../fixtures/models/org';
+import {JoinResolver} from '../../../../../drivers/sql/resolvers';
+import {QuerySession} from '../../../../../session';
+import {createKnex} from '../../../../../drivers/sql/knex';
+import {RelationConstraint} from '../../../../../relation';
+import {DB, givenDb, givenJoinResolvers, mockPg} from '../../../../support';
+import {Issue} from '../../../../fixtures/models/issue';
+import {Foo} from '../../../../fixtures/models/foo';
+import {Proj} from '../../../../fixtures/models/proj';
+import {User} from '../../../../fixtures/models/user';
+import {Org} from '../../../../fixtures/models/org';
 
 mockPg();
 
-describe('resolvers/join integration tests', () => {
+describe('resolvers/join', () => {
   let db: DB;
   let resolvers: Record<string, JoinResolver<any>>;
   let knex: Knex;

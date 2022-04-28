@@ -1,16 +1,16 @@
-import {Entity, EntityCrudRepository} from '@loopback/repository';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
+import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {DB, givenDb} from '../support';
-import {SqlQuery} from '../../queries';
+import {seed} from '../fixtures/seed';
+import {QueryRepository} from '../../mixins';
+import {DefaultQuery} from './../../query';
+import {Foo} from '../fixtures/models/foo';
 import {
   FooRepositoryWithQueryDecorated,
   FooRepositoryWithQueryDecoratedFull,
   FooRepositoryWithQueryExtended,
 } from '../fixtures/repositories/foo.repository';
-import {seed} from '../fixtures/seed';
-import {QueryRepository} from '../../mixins';
-import {Foo} from '../fixtures/models/foo';
 
 type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & QueryRepository<T>;
 type ModelRepositoryCtor<T extends Entity> = Constructor<ModelRepository<T>>;
@@ -85,8 +85,8 @@ describe('Query Mixin', () => {
         countSpy.mockClear();
       });
 
-      it('should initiate SqlQuery mixed repository', async () => {
-        expect(repo.query).toBeInstanceOf(SqlQuery);
+      it('should initiate Query mixed repository', async () => {
+        expect(repo.query).toBeInstanceOf(DefaultQuery);
       });
 
       it('find with Query.find method', async () => {

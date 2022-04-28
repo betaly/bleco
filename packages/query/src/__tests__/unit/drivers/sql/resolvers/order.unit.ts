@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Knex} from 'knex';
 import {Filter} from '@loopback/filter';
-import {DB, givenDb, givenOrderResolvers, mockPg} from '../../support';
-import {QuerySession} from '../../../session';
-import {createKnex} from '../../../knex';
-import {OrderResolver} from '../../../resolvers';
-import {Foo} from '../../fixtures/models/foo';
+import {DB, givenDb, givenOrderResolvers, mockPg} from '../../../../support';
+import {QuerySession} from '../../../../../session';
+import {createKnex} from '../../../../../drivers/sql/knex';
+import {OrderResolver} from '../../../../../drivers/sql/resolvers';
+import {Foo} from '../../../../fixtures/models/foo';
 
 mockPg();
 
-describe('resolvers/order integration tests', () => {
+describe('resolvers/order', () => {
   let db: DB;
   let resolvers: Record<string, OrderResolver<any>>;
   let knex: Knex;

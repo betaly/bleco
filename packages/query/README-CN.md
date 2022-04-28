@@ -32,22 +32,21 @@ yarn add @bleco/query
 ## 入门
 
 ```ts
-import {SqlQuery} from '@bleco/query';
+import {Query, DefaultQuery} from '@bleco/query';
 import {typequery} from './decorators';
-import repository = typequery.repository;
 
 class SomeClass {
-  query: SqlQuery<SomeEntity>;
+  query: Query<SomeEntity>;
 
   constructor(
     @repository(OrgRepository)
     public orgRepository: OrgRepository,
   ) {
-    this.query = new SqlQuery(this.orgRepository);
+    this.query = new DefaultQuery(this.orgRepository);
   }
 
   async findSomeEntity() {
-    return this.orgRepository.find({
+    return this.query.find({
       where: {
         // 通过 projects 的 name 条件，级联查询 Org。但结果并不包含关联对象 projects。如需包含关联对象，可以使用 include 方法。
         'projects.name': 'bleco',
@@ -72,7 +71,7 @@ class SomeClass {
 }
 ```
 
-## SqlQuery
+## DefaultQuery
 
 通过关系级联条件，进行模型筛选查询的查询器。
 
@@ -80,20 +79,20 @@ class SomeClass {
 
 #### 构造
 
-- `new SqlQuery(repository)`: 通过 `new SqlQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
-- `new SqlQuery(entityClass, repository)`: 通过 `new SqlQuery(entityClass, repository)` 构造，传入一个模型类和一个
-  Repository 实例, 不支持 include。
+- `new DefaultQuery(repository)`: 通过 `new DefaultQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
+- `new DefaultQuery(entityClass, repository)`: 通过 `new DefaultQuery(entityClass, repository)` 构造，传入一个模型类和一
+  个 Repository 实例, 不支持 include。
 
-#### `SqlQueryRepositoryMixin` 继承
+#### `QueryRepositoryMixin` 继承
 
-通过 `SqlQueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持
-`find` 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
+通过 `QueryRepositoryMixin` 混入 Repository, 对原生 `find` 和 `findOne` 进行无缝级联查询支持扩展。(注意：不支持 `find`
+和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
 [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
 
 方法:
 
 ```ts
-declare function SqlQueryRepositoryMixin<
+declare function QueryRepositoryMixin<
   M extends Entity,
   ID,
   Relations extends object,
@@ -109,7 +108,7 @@ declare function SqlQueryRepositoryMixin<
 
 ```ts
 export class FooRepository
-  extends SqlQueryRepositoryMixin<
+  extends QueryRepositoryMixin<
     Foo,
     typeof Foo.prototype.id,
     FooRelations,
@@ -303,7 +302,7 @@ export class Proj extends Entity {
 - 查找所有可以访问名称中含有 `bleco` 的`组织`的`用户`：
 
 ```ts
-const userQuery = new SqlQuery(userRepository);
+const userQuery = new DefaultQuery(userRepository);
 
 const users = await userQuery.find({
   where: {
@@ -317,7 +316,7 @@ const users = await userQuery.find({
 - 查找所有可以访问名称中含有 `bleco` 的`项目`的`用户`：
 
 ```ts
-const userQuery = new SqlQuery(userRepository);
+const userQuery = new DefaultQuery(userRepository);
 
 const users = await userQuery.find({
   where: {

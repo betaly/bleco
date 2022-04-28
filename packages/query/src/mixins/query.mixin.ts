@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
 import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {MixinTarget} from '@loopback/core';
-import {Query, SqlQuery} from '../queries';
-import {resolveKnexClientWithDataSource} from '../knex';
 import {QueryFilter, QueryWhere} from '../filter';
+import {DefaultQuery, Query} from '../query';
 
-const debug = require('debug')('bleco:query:sql-query-mixin');
+const debug = require('debug')('bleco:query:query-mixin');
 
 export interface QueryRepository<M extends Entity, Relations extends object = {}> {
-  readonly query?: Query<M, Relations>;
+  readonly query?: Query<M, Relations> | null;
 }
 
 export interface QueryMixinOptions {
@@ -19,6 +18,7 @@ export interface QueryMixinOptions {
  * A mixin to add query support to a repository.
  *
  * @param superClass - Base class
+ * @param mixinOptions - Mixin options
  */
 export function QueryRepositoryMixin<
   M extends Entity,
@@ -30,15 +30,15 @@ export function QueryRepositoryMixin<
   const {overrideCruds = true} = opts ?? {};
 
   return class extends superClass implements QueryRepository<M, Relations> {
-    __query__?: SqlQuery<M, Relations>;
+    // null for unsupported data sources
+    __query__?: Query<M, Relations> | null;
 
     get query() {
-      if (!this.__query__) {
-        const ds = (this as any).dataSource;
-        if (ds) {
-          if (resolveKnexClientWithDataSource(ds)) {
-            this.__query__ = new SqlQuery(this as any);
-          }
+      if (this.__query__ === undefined && (this as any).dataSource) {
+        try {
+          this.__query__ = new DefaultQuery<M, Relations>(this);
+        } catch (e) {
+          this.__query__ = null;
         }
       }
       return this.__query__;
@@ -64,7 +64,7 @@ export function QueryRepositoryMixin<
       }
       debug(`${this.constructor.name} findOne() -> super.findOne()`);
       // @ts-ignore
-      return super.findOne(...args);
+      return super.findOne(filter, options);
     };
 
     count = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
