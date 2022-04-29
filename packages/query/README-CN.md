@@ -124,7 +124,7 @@ export class FooRepository
 
 #### `@mixinQuery` 装饰器
 
-语法:
+方法:
 
 `@mixinQuery(options: boolean | QueryMixinOptions = false)`
 
@@ -146,7 +146,7 @@ export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 
 #### `@query` 装饰器
 
-语法:
+方法:
 
 `@query(modelOrRepo: string | Class<Repository<Model>> | typeof Entity, dataSource?: string | juggler.DataSource)`
 
@@ -177,7 +177,7 @@ app.bind('models.Todo').to(Todo);
 
 export class TodoController {
   @query('Todo', 'db')
-  query: Query<Todo>;
+  todoQuery: Query<Todo>;
   // etc
 }
 ```

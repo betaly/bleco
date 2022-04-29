@@ -78,7 +78,7 @@ class SomeClass {
 
 A querier that performs model filtering queries through relational cascading conditions.
 
-### use
+### Usage
 
 #### Construct
 
@@ -129,7 +129,7 @@ export class FooRepository
 
 #### `@mixinQuery` decorator
 
-method:
+Syntax:
 
 `@mixinQuery(options: boolean | QueryMixinOptions = false)`
 
@@ -151,7 +151,7 @@ export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 
 #### `@query` decorator
 
-grammar:
+Syntax:
 
 `@query(modelOrRepo: string | Class<Repository<Model>> | typeof Entity, dataSource?: string | juggler.DataSource)`
 
@@ -184,7 +184,7 @@ app.bind('models.Todo').to(Todo);
 
 export class TodoController {
   @query('Todo', 'db')
-  query: Query<Todo>;
+  todoQuery: Query<Todo>;
   //etc
 }
 ```
