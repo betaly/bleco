@@ -1,18 +1,52 @@
-import {assert} from 'tily/assert';
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Entity, EntityCrudRepository, includeRelatedModels, juggler, Options} from '@loopback/repository';
+import {PickKeys} from 'ts-essentials';
+import {assert} from 'tily/assert';
+import {
+  DefaultCrudRepository,
+  Entity,
+  EntityCrudRepository,
+  includeRelatedModels,
+  juggler,
+  Options,
+} from '@loopback/repository';
 import {EntityClass} from './types';
 import {QueryFilter, QueryWhere} from './filter';
 import {Driver} from './driver';
 import {loadDriver} from './driver.loader';
 
 export interface Query<T extends Entity, Relations extends object = {}> {
+  entityClass: EntityClass<T>;
+
+  /**
+   * Find matching records
+   *
+   * @param filter - Query filter
+   * @param options - Options for the operations
+   * @returns A promise of an array of records found
+   */
   find(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations)[]>;
 
+  /**
+   * Find one record that matches filter specification. Same as find, but limited to one result; Returns object, not collection.
+   *
+   * @param filter - Query filter
+   * @param options - Options for the operations
+   * @returns A promise of a record found
+   */
   findOne(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations) | null>;
 
+  /**
+   * Count matching records
+   * @param where - Matching criteria
+   * @param options - Options for the operations
+   * @returns A promise of number of records matched
+   */
   count(where?: QueryWhere<T>, options?: Options): Promise<{count: number}>;
 }
+
+export const QueryMethods: PickKeys<Query<Entity>, (...args: any) => any>[] = ['find', 'findOne', 'count'];
+
+export const QueryProperties: (keyof Query<Entity>)[] = ['entityClass', ...QueryMethods];
 
 export class DefaultQuery<T extends Entity, Relations extends object = {}> implements Query<T, Relations> {
   public readonly entityClass: EntityClass<T>;
@@ -66,4 +100,11 @@ export class DefaultQuery<T extends Entity, Relations extends object = {}> imple
   protected toEntities<R extends T>(models: Record<string, any>[]): R[] {
     return models.map(m => this.toEntity<R>(m));
   }
+}
+
+export function isQuery<T extends Entity>(obj: any): obj is Query<T> {
+  return (
+    obj &&
+    (obj instanceof DefaultQuery || (QueryProperties.every(p => p in obj) && !(obj instanceof DefaultCrudRepository)))
+  );
 }

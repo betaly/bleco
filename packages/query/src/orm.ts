@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Connector, ensurePromise, juggler, Options, PositionalParameters} from '@loopback/repository';
-import {Filter} from '@loopback/filter';
 import {assert} from 'tily/assert';
+import {Filter} from '@loopback/filter';
+import {Connector, ensurePromise, juggler, ModelDefinition, Options, PositionalParameters} from '@loopback/repository';
 
 export interface SqlConnector extends Connector {
+  getModelDefinition(modelName: string): ModelDefinition | undefined;
+
   idNames(model: string): string[];
 
   escapeName(name: string): string;
@@ -25,6 +27,8 @@ export interface SqlConnector extends Connector {
  * Object-Persistence Mapping
  */
 export interface Orm {
+  getModelDefinition(modelName: string): ModelDefinition | undefined;
+
   idNames(model: string): string[];
 
   escapeName(name: string): string;
@@ -183,8 +187,16 @@ export class DefaultOrm implements Orm {
     return this.ds?.connector as SqlConnector;
   }
 
+  getModelDefinition(modelName: string): ModelDefinition | undefined {
+    if (this.connector) {
+      return this.connector.getModelDefinition(modelName);
+    }
+    throw new Error(`"connector" is required to get model definition for ${modelName}`);
+  }
+
   idNames(model: string): string[] {
-    if (this.connector.idNames) {
+    if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       return this.connector.idNames(model);
     }
     return [];
@@ -199,6 +211,7 @@ export class DefaultOrm implements Orm {
 
   column(model: string, prop: string): string {
     if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       return this.connector.column(model, prop);
     }
     return prop;
@@ -206,6 +219,7 @@ export class DefaultOrm implements Orm {
 
   columnEscaped(model: string, property: string, withTable = false, prefix = ''): string {
     if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       const column = this.connector.columnEscaped(model, property);
       if (withTable) {
         return this.connector.escapeName(prefix + this.connector.table(model)) + '.' + column;
@@ -217,6 +231,7 @@ export class DefaultOrm implements Orm {
 
   table(model: string): string {
     if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       return this.connector.table(model);
     }
     return model;
@@ -224,6 +239,7 @@ export class DefaultOrm implements Orm {
 
   tableEscaped(model: string): string {
     if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       return this.connector.tableEscaped(model);
     }
     return model;
@@ -231,10 +247,19 @@ export class DefaultOrm implements Orm {
 
   buildColumnNames(model: string, filter: Filter): string[] {
     if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
       const c = this.connector.buildColumnNames(model, filter);
       return Array.isArray(c) ? c : c.split(',').map(s => s.trim());
     }
     return [];
+  }
+
+  fromRow(model: string, rowData: Record<string, any>): Record<string, any> {
+    if (this.connector) {
+      this.ensureModelHasBeenDefined(model);
+      return this.connector.fromRow(model, rowData);
+    }
+    return rowData;
   }
 
   async execute(...args: PositionalParameters): Promise<any> {
@@ -242,10 +267,12 @@ export class DefaultOrm implements Orm {
     return ensurePromise(this.ds.execute(...args));
   }
 
-  fromRow(model: string, rowData: Record<string, any>): Record<string, any> {
-    if (this.connector) {
-      return this.connector.fromRow(model, rowData);
+  protected ensureModelHasBeenDefined(model: string): void {
+    if (!this.connector) {
+      throw new Error(`"connector" is required to check model for ${model}`);
     }
-    return rowData;
+    if (!this.connector.getModelDefinition(model)) {
+      throw new Error(`Model "${model}" is not defined in current connector "${this.connector.name}".`);
+    }
   }
 }

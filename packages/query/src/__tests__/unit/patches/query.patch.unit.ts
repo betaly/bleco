@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {DefaultQuery} from './../../../query';
+import {DefaultQuery, QueryMethods} from '../../../query';
 import {DB, givenDb} from '../../support';
 import {originalProp} from '../../../utils';
-import {QueryMethods, queryPatch, queryUnpatch} from '../../../patches';
+import {queryPatch, queryUnpatch} from '../../../patches';
 import {Foo} from '../../fixtures/models/foo';
 
 describe('patch/unpatch', () => {

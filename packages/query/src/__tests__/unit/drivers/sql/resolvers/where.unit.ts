@@ -1,11 +1,10 @@
 /* eslint-disable */
 import {Knex} from 'knex';
-import {WhereResolver} from '../../../../../drivers/sql/resolvers';
+import {createKnex, WhereResolver} from '../../../../../drivers';
 import {DB, filterSpecs, givenDb, givenWhereResolvers, mockPg} from '../../../../support';
-import {createKnex} from '../../../../../drivers/sql/knex';
-import {WhereSpec} from '../../../../types';
 import ComplexSpecs from '../../../../data/where-complex';
 import BasicSpecs from '../../../../data/where-basic';
+import {WhereSpec} from '../../../../types';
 
 mockPg();
 

@@ -30,7 +30,7 @@ export function QueryRepositoryMixin<
   const {overrideCruds = true} = opts ?? {};
 
   return class extends superClass implements QueryRepository<M, Relations> {
-    // null for unsupported data sources
+    // null for unsupported datasources
     __query__?: Query<M, Relations> | null;
 
     get query() {

@@ -89,7 +89,7 @@ class SomeClass {
 和 `findOne` 的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
 [loaded](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 事件)
 
-方法:
+语法:
 
 ```ts
 declare function QueryRepositoryMixin<
@@ -122,13 +122,11 @@ export class FooRepository
 }
 ```
 
-#### `mixinQuery` 装饰器
+#### `@mixinQuery` 装饰器
 
-方法:
+语法:
 
-```ts
-declare function mixinQuery(options: boolean | QueryMixinOptions = false);
-```
+`@mixinQuery(options: boolean | QueryMixinOptions = false)`
 
 参数：
 
@@ -144,6 +142,44 @@ export class FooRepositoryWithQueryDecorated extends DefaultCrudRepository<Foo, 
 }
 
 export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
+```
+
+#### `@query` 装饰器
+
+语法:
+
+`@query(modelOrRepo: string | Class<Repository<Model>> | typeof Entity, dataSource?: string | juggler.DataSource)`
+
+`@query` 装饰器通过注入一个现有 `repository` 实例，或者从一个 `model` 和 `datasource` 创建一个新的 `query` 实例。
+
+在一个 `controller` 中创建一个 `query` 实例，可以先定义 `model` 和 `datasource`，然后导入到 `controller` 中， 并使用
+`@query` 注入
+
+```ts
+import {query, Query} from '@bleco/query';
+import {repository} from '@loopback/repository';
+import {Todo} from '../models';
+import {db} from '../datasources/db.datasource';
+
+export class TodoController {
+  @query(Todo, db)
+  todoQuery: Query<Todo>;
+  // ...
+}
+```
+
+如果 `model` 或者 `datasource` 已经绑定到 `app`，可以把他们的名字直接传入 `@query` 注入器来创建，如下：
+
+```ts
+// with `db` and `Todo` already defined.
+app.bind('datasources.db').to(db);
+app.bind('models.Todo').to(Todo);
+
+export class TodoController {
+  @query('Todo', 'db')
+  query: Query<Todo>;
+  // etc
+}
 ```
 
 #### 继承自 `DefaultCrudRepository` 并进行了 `mixinQuery` 的 `DefaultCrudRepositoryWithQuery`
@@ -197,9 +233,37 @@ class MyRepository extends DefaultCrudRepository<MyModel, typeof MyModel.prototy
 
 #### Query API
 
-- `find(filter?: QueryFilter<M>, options?): Promise<(M & Relations)[]>`: 根据指定的过滤器，查找所有模型实例
-- `findOne(filter?: QueryFilter<M>, options?): Promise<(M & Relations) | null>`: 根据指定的过滤器，查找第一个模型实例
-- `count(filter?: QueryFilter<M>, options?): Promise<{count: numer}>`: 根据指定的过滤器，统计模型实例的数量
+```ts
+export interface Query<T extends Entity, Relations extends object = {}> {
+  entityClass: EntityClass<T>;
+
+  /**
+   * Find matching records
+   *
+   * @param filter - Query filter
+   * @param options - Options for the operations
+   * @returns A promise of an array of records found
+   */
+  find(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations)[]>;
+
+  /**
+   * Find one record that matches filter specification. Same as find, but limited to one result; Returns object, not collection.
+   *
+   * @param filter - Query filter
+   * @param options - Options for the operations
+   * @returns A promise of a record found
+   */
+  findOne(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations) | null>;
+
+  /**
+   * Count matching records
+   * @param where - Matching criteria
+   * @param options - Options for the operations
+   * @returns A promise of number of records matched
+   */
+  count(where?: QueryWhere<T>, options?: Options): Promise<{count: number}>;
+}
+```
 
 #### QueryFilter
 

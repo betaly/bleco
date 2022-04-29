@@ -1,10 +1,11 @@
-import {Query, DefaultQuery} from './../../query';
+import {DefaultQuery, Query} from '../../query';
 import {DB, givenDb, mockPg, Repos} from '../support';
 import {seed} from '../fixtures/seed';
 import {Org} from '../fixtures/models/org';
 import {User} from '../fixtures/models/user';
 import {ProjWithRelations} from '../fixtures/models/proj';
 import * as knex from '../../drivers/sql/knex';
+import {Foo} from '../fixtures/models/foo';
 
 mockPg();
 
@@ -28,6 +29,7 @@ describe('Query', () => {
     let db: DB;
     let repos: Repos;
 
+    let fooQuery: Query<Foo>;
     let userQuery: Query<User>;
     let orgQuery: Query<Org>;
     let projQuery: Query<ProjWithRelations>;
@@ -35,6 +37,7 @@ describe('Query', () => {
     beforeAll(async () => {
       db = givenDb({connector: 'sqlite3', file: ':memory:'});
       repos = db.repos;
+      fooQuery = new DefaultQuery<Foo>(repos.Foo);
       userQuery = new DefaultQuery<User>(repos.User);
       orgQuery = new DefaultQuery<Org>(repos.Org);
       projQuery = new DefaultQuery<ProjWithRelations>(repos.Proj);
@@ -146,7 +149,7 @@ describe('Query', () => {
       });
     });
 
-    describe('find and include', () => {
+    describe('find and include with where', () => {
       it('should include hasOne relation', async () => {
         const users = await userQuery.find({where: {email: 'user1@example.com'}, include: ['userInfo']});
         expect(users).toHaveLength(1);
@@ -175,6 +178,22 @@ describe('Query', () => {
         for (const user of users) {
           expect(user.orgs).toBeTruthy();
         }
+      });
+    });
+
+    describe('invalid relations', function () {
+      it('should throw error if relations are invalid', async () => {
+        await expect(fooQuery.find({where: {'__invalid_relation__.name': {like: '%FooA%'}}})).rejects.toThrowError(
+          /No relation and property found for key/,
+        );
+      });
+    });
+
+    describe('where crossing datasources', function () {
+      it('should throw error if entities are not in the same datasource', async () => {
+        await expect(fooQuery.find({where: {'bars.name': {like: '%FooA%'}}})).rejects.toThrow(
+          /is not defined in the current datasource for relation/,
+        );
       });
     });
   });

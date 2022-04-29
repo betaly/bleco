@@ -34,7 +34,7 @@
   "engines": {
     "node": ">=14"
   },
-  "author": "ty",
+  "author": "TY",
   "license": "MIT",
   "publishConfig": {
     "access": "public"

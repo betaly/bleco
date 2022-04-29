@@ -1,5 +1,6 @@
 import {Knex} from 'knex';
 import {juggler} from '@loopback/repository';
+import isString from 'tily/is/string';
 import Client = Knex.Client;
 
 export const KnexSupportedClients = {
@@ -56,7 +57,7 @@ export function createKnex<TRecord extends {} = any, TResult = unknown[]>(
       return origImpl(value);
     },
   };
-  if (client === 'sqlite3') {
+  if (isString(client) && client.match(/sqlite/i)) {
     // suppress knex sqlite3 useNullAsDefault warning
     config.useNullAsDefault = true;
   }

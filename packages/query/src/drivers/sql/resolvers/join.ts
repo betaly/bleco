@@ -60,6 +60,12 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
       assert(relationJoin.relation.keyFrom, 'relation.keyFrom is required');
       assert(relationJoin.relation.keyTo, 'relation.keyTo is required');
 
+      if (!orm.getModelDefinition(relationJoin.model)) {
+        throw new Error(
+          `Model "${relationJoin.model}" is not defined in the current datasource for relation "${relationJoin.relationPath}".`,
+        );
+      }
+
       qb.innerJoin(
         {
           [orm.escapeName(relationJoin.prefix + orm.table(relationJoin.model))]: orm.tableEscaped(relationJoin.model),
@@ -76,16 +82,12 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     let relationChain: string[];
     let property: PropertyDefinition;
     let propertyKey: string;
-    try {
-      const parsed = parseRelationChain(definition, key);
-      if (!parsed) {
-        return;
-      }
-      ({relationChain, property, propertyKey} = parsed);
-    } catch (e) {
-      debug('Relation chain parsing failed:', e.message);
+
+    const parsed = parseRelationChain(definition, key);
+    if (!parsed) {
       return;
     }
+    ({relationChain, property, propertyKey} = parsed);
 
     const relationPath = this.entityClass.modelName;
 
@@ -190,7 +192,17 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 export function parseRelationChain(definition: ModelDefinition, key: string) {
   const parts = key.split('.');
   if (parts.length < 2) {
-    throw new Error(`Invalid relation key ${key}`);
+    if (definition.relations[key]) {
+      throw new Error(
+        `Invalid relation key "${key}", it must be in the form of "relation_A.[relation_B.~relation_N]property".`,
+      );
+    }
+    if (!definition.properties[key]) {
+      throw new Error(`No relation and property found for key "${key}" in model "${definition.name}"`);
+    }
+
+    // ignore property
+    return;
   }
   let i = 0;
   let relation = definition.relations[parts[i]];
@@ -205,7 +217,7 @@ export function parseRelationChain(definition: ModelDefinition, key: string) {
   // no relation found
   if (!relation) {
     if (!definition.properties[parts[0]]) {
-      throw new Error(`No relation and property found in "${key}"`);
+      throw new Error(`No relation and property found for key "${key}" in model "${definition.name}"`);
     }
     // ignore nested properties
     return;

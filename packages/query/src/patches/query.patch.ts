@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {PickKeys} from 'ts-essentials';
 import {isFunction} from 'tily/is/function';
 import {isConstructor} from 'tily/is/constructor';
 import {Constructor, Entity, EntityCrudRepository} from '@loopback/repository';
 import {originalProp} from '../utils';
-import {DefaultQuery, Query} from '../query';
+import {DefaultQuery, QueryMethods} from '../query';
 
 const debug = require('debug')('bleco:query:patch');
-
-export const QueryMethods: PickKeys<Query<Entity>, Function>[] = ['find', 'findOne', 'count'];
 
 export type PatchResult = boolean | null;
 

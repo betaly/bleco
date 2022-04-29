@@ -6,13 +6,14 @@ import {
   createBelongsToInclusionResolver,
   createHasManyInclusionResolver,
   DefaultCrudRepository,
+  Entity,
   HasManyDefinition,
   HasOneDefinition,
   juggler,
   Options,
 } from '@loopback/repository';
 import noop from 'tily/function/noop';
-import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers/sql/resolvers';
+import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
 import {Org} from './fixtures/models/org';
 import {Proj} from './fixtures/models/proj';
 import {Issue} from './fixtures/models/issue';
@@ -22,6 +23,7 @@ import {UserInfo} from './fixtures/models/user-info';
 import {Foo} from './fixtures/models/foo';
 import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
 import {createHasManyThroughInclusionResolver} from './helper';
+import {DefaultQuery, Query} from '../query';
 
 export const EntityMap = {
   Foo: Foo,
@@ -126,6 +128,10 @@ export function givenColumnResolvers(ds: juggler.DataSource) {
 export function filterSpecs(specs: any[]) {
   const filtered = specs.filter(spec => spec.only);
   return filtered.length ? filtered : specs;
+}
+
+export function getRepoFromQuery(query: Query<Entity>) {
+  return (query as DefaultQuery<Entity>).repo;
 }
 
 export function mockPg() {
