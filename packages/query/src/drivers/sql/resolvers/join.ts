@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import {Knex} from 'knex';
 import debugFactory from 'debug';
-import {
-  AnyObject,
-  Entity,
-  HasManyDefinition,
-  ModelDefinition,
-  PropertyDefinition,
-  RelationType,
-} from '@loopback/repository';
+import {AnyObject, Entity, HasManyDefinition, ModelDefinition, RelationType,} from '@loopback/repository';
 import {Filter} from '@loopback/filter';
 import {assert} from 'tily/assert';
 import toArray from 'tily/array/toArray';
@@ -79,15 +72,11 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
   protected compile(key: string, session: QuerySession, constraints: Record<string, RelationConstraint>) {
     const {definition} = this.entityClass;
 
-    let relationChain: string[];
-    let property: PropertyDefinition;
-    let propertyKey: string;
-
     const parsed = parseRelationChain(definition, key);
     if (!parsed) {
       return;
     }
-    ({relationChain, property, propertyKey} = parsed);
+    const {relationChain, property, propertyKey} = parsed;
 
     const relationPath = this.entityClass.modelName;
 

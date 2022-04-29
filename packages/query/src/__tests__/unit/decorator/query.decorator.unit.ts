@@ -71,28 +71,28 @@ describe('query decorator', function () {
 
   it('supports @query(model, dataSource) by names', async () => {
     class Controller2 {
-      constructor(@query('Note', 'memory') public query: Query<Note>) {}
+      constructor(@query('Note', 'memory') public noteQuery: Query<Note>) {}
     }
     ctx.bind('controllers.Controller2').toClass(Controller2);
 
     const myController = await ctx.get<Controller2>('controllers.Controller2');
-    expect(myController.query).toBeTruthy();
+    expect(myController.noteQuery).toBeTruthy();
   });
 
   it('supports @query(model, dataSource)', async () => {
     class Controller3 {
-      constructor(@query(Note, ds) public query: Query<Note>) {}
+      constructor(@query(Note, ds) public noteQuery: Query<Note>) {}
     }
     ctx.bind('controllers.Controller3').toClass(Controller3);
     const myController = await ctx.get<Controller3>('controllers.Controller3');
-    const q = myController.query;
+    const q = myController.noteQuery;
     expect(q).toBeInstanceOf(DefaultQuery);
     expect((q as DefaultQuery<Note>).dataSource).toBe(ds);
   });
 
   it('rejects @query("")', async () => {
     class Controller4 {
-      constructor(@query('') public query: Query<Note>) {}
+      constructor(@query('') public noteQuery: Query<Note>) {}
     }
     ctx.bind('controllers.Controller4').toClass(Controller4);
 

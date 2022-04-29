@@ -59,8 +59,8 @@ export function givenDb(dsConfig: Options) {
   }, {} as Repos);
 
   Object.entries(repos).forEach(([name, repo]) => {
-    const Entity = EntityMap[name as EntityName];
-    const definition = Entity.definition;
+    const model = EntityMap[name as EntityName];
+    const definition = model.definition;
     for (const relationName in definition.relations) {
       const relation = definition.relations[relationName];
       const targetRepo = repos[relation.target().name as EntityName];

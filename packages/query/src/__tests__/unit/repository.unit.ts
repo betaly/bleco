@@ -1,5 +1,5 @@
 import {juggler} from '@loopback/repository';
-import {DefaultQuery} from './../../query';
+import {DefaultQuery} from '../../query';
 import {DefaultCrudRepositoryWithQuery} from '../../repository';
 import {DB, givenDb} from '../support';
 import {Foo} from '../fixtures/models/foo';
@@ -20,7 +20,6 @@ describe('DefaultCrudRepositoryWithQuery', function () {
   });
 
   beforeEach(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     findSpy = jest.spyOn(DefaultQuery.prototype, 'find');
   });
 
