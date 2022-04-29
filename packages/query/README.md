@@ -78,7 +78,7 @@ class SomeClass {
 
 A querier that performs model filtering queries through relational cascading conditions.
 
-### use
+### Usage
 
 #### Construct
 
