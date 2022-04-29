@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import {Knex} from 'knex';
 import debugFactory from 'debug';
-import {AnyObject, Entity, HasManyDefinition, ModelDefinition, RelationType,} from '@loopback/repository';
+import {AnyObject, Entity, HasManyDefinition, ModelDefinition, RelationType} from '@loopback/repository';
 import {Filter} from '@loopback/filter';
 import {assert} from 'tily/assert';
 import toArray from 'tily/array/toArray';
