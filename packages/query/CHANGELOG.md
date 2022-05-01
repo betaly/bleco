@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://gitr.net/betaly/bleco/compare/@bleco/query@0.3.1...@bleco/query@0.3.2) (2022-05-01)
+
+
+### Bug Fixes
+
+* export the missing query module ([fca783e](https://gitr.net/betaly/bleco/commits/fca783e88478ad6ea8e2395938efaa28159be91a))
+
+
+
+
+
 ## [0.3.1](https://gitr.net/betaly/bleco/compare/@bleco/query@0.3.0...@bleco/query@0.3.1) (2022-04-29)
 
 **Note:** Version bump only for package @bleco/query
