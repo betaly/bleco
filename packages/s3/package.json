@@ -21,8 +21,8 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.80.0",
-    "@aws-sdk/s3-request-presigner": "^3.80.0",
+    "@aws-sdk/client-s3": "^3.81.0",
+    "@aws-sdk/s3-request-presigner": "^3.81.0",
     "@loopback/boot": "^4.1.2",
     "@loopback/context": "^4.1.2",
     "@loopback/core": "^3.1.2",
