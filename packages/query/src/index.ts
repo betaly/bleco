@@ -8,5 +8,6 @@ export * from './mixins';
 export * from './patches';
 export * from './repository';
 export * from './decorators';
+export * from './driver';
 export * from './drivers';
 export * from './query';
