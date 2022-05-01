@@ -9,3 +9,4 @@ export * from './patches';
 export * from './repository';
 export * from './decorators';
 export * from './drivers';
+export * from './query';
