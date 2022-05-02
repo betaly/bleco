@@ -39,7 +39,6 @@ export default [
           prefix: 't_0_0_',
           model: 'Issue',
           property: {key: 'title'},
-          value: '%query%',
         },
       },
     },

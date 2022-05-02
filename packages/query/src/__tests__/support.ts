@@ -13,7 +13,10 @@ import {
   Options,
 } from '@loopback/repository';
 import noop from 'tily/function/noop';
+import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
+import {createHasManyThroughInclusionResolver} from './helper';
+import {DefaultQuery, Query} from '../query';
 import {Org} from './fixtures/models/org';
 import {Proj} from './fixtures/models/proj';
 import {Issue} from './fixtures/models/issue';
@@ -21,12 +24,11 @@ import {User} from './fixtures/models/user';
 import {OrgUser} from './fixtures/models/org-user';
 import {UserInfo} from './fixtures/models/user-info';
 import {Foo} from './fixtures/models/foo';
-import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
-import {createHasManyThroughInclusionResolver} from './helper';
-import {DefaultQuery, Query} from '../query';
+import {Bar} from './fixtures/models/bar';
 
 export const EntityMap = {
   Foo: Foo,
+  Bar: Bar,
   Org: Org,
   Proj: Proj,
   Issue: Issue,

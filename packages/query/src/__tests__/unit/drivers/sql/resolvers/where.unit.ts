@@ -2,7 +2,7 @@
 import {Knex} from 'knex';
 import {createKnex, WhereResolver} from '../../../../../drivers';
 import {DB, filterSpecs, givenDb, givenWhereResolvers, mockPg} from '../../../../support';
-import ComplexSpecs from '../../../../data/where-complex';
+import AdvancedSpecs from '../../../../data/where-advanced';
 import BasicSpecs from '../../../../data/where-basic';
 import {WhereSpec} from '../../../../types';
 
@@ -19,12 +19,12 @@ describe('resolvers/where', () => {
     knex = createKnex(db.ds);
   });
 
-  describe('BasicSpecs', function () {
+  describe('Basic', function () {
     testSpecs(filterSpecs(BasicSpecs));
   });
 
-  describe('ComplexSpecs', function () {
-    testSpecs(filterSpecs(ComplexSpecs));
+  describe('Advanced', function () {
+    testSpecs(filterSpecs(AdvancedSpecs));
   });
 
   function testSpecs(specs: WhereSpec[]) {

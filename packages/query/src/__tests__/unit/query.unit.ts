@@ -191,7 +191,7 @@ describe('Query', () => {
 
     describe('where crossing datasources', function () {
       it('should throw error if entities are not in the same datasource', async () => {
-        await expect(fooQuery.find({where: {'bars.name': {like: '%FooA%'}}})).rejects.toThrow(
+        await expect(fooQuery.find({where: {'birds.name': {like: '%sparrow%'}}})).rejects.toThrow(
           /is not defined in the current datasource for relation/,
         );
       });
