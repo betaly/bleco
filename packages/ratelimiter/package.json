@@ -43,7 +43,7 @@
     "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^27.4.1",
     "@types/memcached": "^2.2.7",
-    "@types/node": "^17.0.30",
+    "@types/node": "^17.0.31",
     "@types/rate-limit-redis": "^1.7.4",
     "fs-extra": "^10.1.0",
     "loopback-connector-kv-redis": "^4.0.0",
