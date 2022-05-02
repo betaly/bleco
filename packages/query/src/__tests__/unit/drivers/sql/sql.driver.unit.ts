@@ -26,6 +26,11 @@ describe('SqlDriver', () => {
   describe('count', () => {
     it('count without relations', async () => {
       const {count} = await driver.count(User);
+      expect(count).toEqual(4);
+    });
+
+    it('count without relation only', async () => {
+      const {count} = await driver.count(User, {userInfo: {}});
       expect(count).toEqual(3);
     });
 
@@ -65,7 +70,7 @@ describe('SqlDriver', () => {
   describe('find', () => {
     it('should find without relations', async () => {
       const result = await driver.find(User);
-      expect(result).toHaveLength(3);
+      expect(result).toHaveLength(4);
     });
 
     it('should find with hasOne', async () => {

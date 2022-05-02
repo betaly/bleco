@@ -279,13 +279,9 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 Compatible with loopback native [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters). Extended support
 for cascading paths as `where` children query condition.
 
-```ts
-export type QueryWhere<MT extends object = AnyObject> = Where<MT & Record<string, any>>;
-
-export interface QueryFilter<MT extends object = AnyObject> extends Filter<MT> {
-  where?: QueryWhere<MT>;
-}
-```
+- Query with inner join and where: `{where: {'relation_a.relation_b.property': {...}'}}`
+- Query with inner join only: `{where: {'relation_a.relation_b': {}'}}`
+- Query with where raw: `{where: {'? = ?': [1, 0]}}`
 
 For example, there are the following models:
 

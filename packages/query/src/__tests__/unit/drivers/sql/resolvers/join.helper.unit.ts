@@ -1,4 +1,4 @@
-import {parseRelationChain} from '../../../../../drivers/sql';
+import {parseRelationChain} from '../../../../../drivers';
 import {Org} from '../../../../fixtures/models/org';
 import {User} from '../../../../fixtures/models/user';
 
@@ -21,20 +21,20 @@ describe('parseRelationChain', () => {
     });
   });
 
+  it('should parse a relation without property', () => {
+    const result = parseRelationChain(Org.definition, 'users.userInfo');
+    expect(result?.property).toBeUndefined();
+    expect(result).toMatchObject({
+      relationChain: ['users', 'userInfo'],
+    });
+  });
+
   it('should return undefined for property key', () => {
     expect(parseRelationChain(User.definition, 'address.city')).toBeUndefined();
   });
 
-  it('should throw an error if key is invalid', () => {
-    expect(() => parseRelationChain(Org.definition, 'users')).toThrow(/Invalid relation key/);
-  });
-
   it('should throw an error for not existing relation', () => {
     expect(() => parseRelationChain(Org.definition, '__not_exist__.email')).toThrow(/No relation and property found/);
-  });
-
-  it('should throw an error without property in key', () => {
-    expect(() => parseRelationChain(Org.definition, 'users.userInfo')).toThrow(/No property in/);
   });
 
   it('should throw an error if property is not in last relation target', () => {

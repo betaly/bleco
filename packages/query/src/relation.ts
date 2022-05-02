@@ -24,7 +24,7 @@ export interface RelationJoin {
 export interface RelationConstraint {
   prefix: string;
   model: string;
-  property: PropertyDefinition;
+  property?: PropertyDefinition;
 }
 
 export const SupportedRelationTypes = [RelationType.hasMany, RelationType.belongsTo, RelationType.hasOne];

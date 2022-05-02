@@ -170,29 +170,19 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     constraints[key] = {
       prefix: join.prefix,
       model: join.model,
-      property: {
-        ...property,
-        key: propertyKey,
-      },
+      property: property
+        ? {
+            ...property,
+            key: propertyKey,
+          }
+        : undefined,
     };
   }
 }
 
 export function parseRelationChain(definition: ModelDefinition, key: string) {
   const parts = key.split('.');
-  if (parts.length < 2) {
-    if (definition.relations[key]) {
-      throw new Error(
-        `Invalid relation key "${key}", it must be in the form of "relation_A.[relation_B.~relation_N]property".`,
-      );
-    }
-    if (!definition.properties[key]) {
-      throw new Error(`No relation and property found for key "${key}" in model "${definition.name}"`);
-    }
 
-    // ignore property
-    return;
-  }
   let i = 0;
   let relation = definition.relations[parts[i]];
   if (relation) {
@@ -213,7 +203,10 @@ export function parseRelationChain(definition: ModelDefinition, key: string) {
   }
   // no property left
   if (i >= parts.length) {
-    throw new Error(`No property in "${key}"`);
+    // throw new Error(`No property in "${key}"`);
+    return {
+      relationChain: parts,
+    };
   }
 
   const relationChain = parts.slice(0, i);

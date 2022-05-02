@@ -49,7 +49,7 @@ describe('Query', () => {
     describe('count', () => {
       it('count without relations', async () => {
         const {count} = await userQuery.count();
-        expect(count).toEqual(3);
+        expect(count).toEqual(4);
       });
 
       it('should count with hasOne', async () => {
@@ -88,7 +88,7 @@ describe('Query', () => {
     describe('find', () => {
       it('should find without relations', async () => {
         const result = await userQuery.find();
-        expect(result).toHaveLength(3);
+        expect(result).toHaveLength(4);
         for (const item of result) {
           expect(item).toBeInstanceOf(User);
         }

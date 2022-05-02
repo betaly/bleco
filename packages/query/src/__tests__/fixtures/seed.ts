@@ -13,6 +13,7 @@ export async function seed(repos: Repos) {
     {email: 'user1@example.com', address: {city: 'city1', street: 'street1'}},
     {email: 'user2@example.com', address: {city: 'city2', street: 'street2'}},
     {email: 'user3@example.com', address: {city: 'city3', street: 'street3'}},
+    {email: 'user4@example.com', address: {city: 'city4', street: 'street4'}},
   ]);
 
   await userInfoRepo.createAll([

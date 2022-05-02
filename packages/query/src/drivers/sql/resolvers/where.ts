@@ -225,6 +225,10 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
           // It may be an innerWhere
           if (p == null) {
             constraint = relationWhere?.[key];
+            if (constraint && !constraint.property) {
+              debug('Ignore relation where with key "%s" for no property provided', key);
+              return '';
+            }
             p = constraint?.property;
           }
 
@@ -235,7 +239,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
           }
 
           return constraint
-            ? this.orm.columnEscaped(constraint.model, constraint.property.key, true, constraint.prefix)
+            ? this.orm.columnEscaped(constraint.model, p.key, true, constraint.prefix)
             : this.columnEscaped(key, session.hasRelationWhere());
         }
 
