@@ -5,7 +5,6 @@ import isArray from 'tily/is/array';
 import isEmpty from 'tily/is/empty';
 import isObject from 'tily/is/object';
 import each from 'tily/object/each';
-import includes from 'tily/array/includes';
 import isPlainObject from 'tily/is/plainObject';
 import {PickKeys} from 'ts-essentials';
 import {Filter, isFilter, Operators, Where} from '@loopback/filter';
@@ -19,20 +18,26 @@ import {RelationConstraint} from '../../../relation';
 
 const debug = debugFactory('bleco:query:where');
 
-export type WhereOperators = Operators | '!' | '=' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'not';
+export type FieldOperators = Operators | '!' | '=' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'not';
 
-export const FieldlessOperators = ['and', 'or', 'not', '!', 'related'];
+export const GroupOperators = ['and', 'or', 'not', '!', 'related'];
 
 export type OperatorHandler = (
   this: WhereResolver<any>,
   qb: Knex.QueryBuilder,
-  key: string,
-  value: WhereValue,
+  condition: Condition,
   session: QuerySession,
 ) => void;
 
+interface Condition {
+  key: string;
+  op: string;
+  value: WhereValue;
+  expression: unknown;
+}
+
 export class OperatorHandlerRegistry {
-  readonly handlers: {[key: string]: OperatorHandler} = {};
+  readonly handlers: { [key: string]: OperatorHandler } = {};
 
   constructor() {
     this.init();
@@ -65,7 +70,7 @@ export class OperatorHandlerRegistry {
     this.register('and', this.logical('where'));
   }
 
-  register(operator: WhereOperators, handler: OperatorHandler): void {
+  register(operator: FieldOperators, handler: OperatorHandler): void {
     this.handlers[operator] = handler;
   }
 
@@ -77,9 +82,10 @@ export class OperatorHandlerRegistry {
     return h;
   }
 
-  protected eq(): OperatorHandler {
-    return (qb: Knex.QueryBuilder, key: string, value: WhereValue) => {
-      debug('- eq:', key, value);
+  eq(): OperatorHandler {
+    return (qb: Knex.QueryBuilder, condition: Condition) => {
+      debug('- eq:', condition);
+      const {key, value} = condition;
       if (isField(key)) {
         if (value == null) {
           qb.whereNull(key);
@@ -93,8 +99,9 @@ export class OperatorHandlerRegistry {
   }
 
   comparison(operator: string): OperatorHandler {
-    return (qb: Knex.QueryBuilder, key: string, value: WhereValue) => {
-      debug('- comparison:', operator, key, value);
+    return (qb: Knex.QueryBuilder, condition: Condition) => {
+      debug('- comparison:', condition);
+      const {key, value} = condition;
       qb.where(key, operator, value);
     };
   }
@@ -103,18 +110,19 @@ export class OperatorHandlerRegistry {
     return function (
       this: WhereResolver<any>,
       qb: Knex.QueryBuilder,
-      key: string,
-      value: WhereValue,
+      condition: Condition,
       session: QuerySession,
     ) {
-      debug('- not:', key, value);
+      debug('- not:', condition);
+      const {value} = condition;
       qb.whereNot(qb => this.build(qb, value, session));
     };
   }
 
   whereFn(op: PickKeys<Knex.QueryBuilder, Function>, ignoreEmptyArray?: boolean): OperatorHandler {
-    return function (qb: Knex.QueryBuilder, key: string, value: WhereValue) {
-      debug('- whereOp:', op, key, value);
+    return function (qb: Knex.QueryBuilder, condition: Condition) {
+      debug('- whereOp:', op, condition);
+      const {key, value} = condition;
       if (ignoreEmptyArray) {
         if (!isArray(value) || isEmpty(value)) {
           debug('- whereOp(array): empty array');
@@ -129,11 +137,11 @@ export class OperatorHandlerRegistry {
     return function (
       this: WhereResolver<any>,
       qb: Knex.QueryBuilder,
-      key: string,
-      value: WhereValue,
+      condition: Condition,
       session: QuerySession,
     ) {
-      debug('- logical:', op, key, value);
+      debug('- logical:', op, condition);
+      const {value} = condition;
       if (isArray(value)) {
         if (isEmpty(value)) {
           debug('- logical(array): empty array');
@@ -183,25 +191,20 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   build(qb: Knex.QueryBuilder<TModel>, where: Where<TModel>, session: QuerySession): void {
     debug(`- build: building where clause for model ${this.entityClass.modelName}:`, where);
     each((v, k) => {
-      const {key, op, value} = normalizeOperation(k, v);
-      debug('- build: parsed clause:', key, op, value);
-      this.invoke(op, qb, key, value, session);
+      const condition = parseCondition(k, v);
+      debug('- build: parsed clause:', condition);
+      this.invoke(qb, condition, session);
     }, compactWhere(where));
   }
 
-  protected invoke(
-    operator: string,
-    qb: Knex.QueryBuilder,
-    key: string,
-    value: WhereValue,
-    session: QuerySession,
-  ): void {
+  protected invoke(qb: Knex.QueryBuilder, condition: Condition, session: QuerySession): void {
+    let {key, op} = condition;
     // skip escape
     qb.queryContext({skipEscape: true});
 
     // check is property for equality operation
     // support whereRaw with like: {'? = ?': [1, 2]}
-    if (key && (isField(key) || operator !== '=')) {
+    if (key && (isField(key) || op !== '=')) {
       const {relationWhere} = session;
       const {definition} = this.entityClass;
 
@@ -252,20 +255,20 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
       }
     }
 
-    this.registry.get(operator).call(this, qb, key, value, session);
+    this.registry.get(op).call(this, qb, {...condition, key}, session);
   }
 }
 
-function normalizeOperation(key: string, value: unknown): {key: string; op: string; value: unknown} {
-  if (value === null) {
-    return {key, op: '=', value};
+function parseCondition(key: string, expression: unknown): Condition {
+  if (expression === null) {
+    return {key, op: '=', value: expression, expression};
   }
-  if (includes(key, FieldlessOperators)) {
-    return {key: '', op: key, value};
+  if (GroupOperators.includes(key)) {
+    return {key: '', op: key, value: expression, expression};
   }
-  if (isPlainObject(value)) {
-    const op = Object.keys(value)[0];
-    return {key, op, value: value[op]};
+  if (isPlainObject(expression)) {
+    const op = Object.keys(expression)[0];
+    return {key, op, value: expression[op], expression};
   }
-  return {key, op: '=', value};
+  return {key, op: '=', value: expression, expression};
 }
