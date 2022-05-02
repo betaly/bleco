@@ -201,7 +201,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
 
     // check is property for equality operation
     // support whereRaw with like: {'? = ?': [1, 2]}
-    if (key && (isProperty(key) || operator != '=')) {
+    if (key && (isProperty(key) || operator !== '=')) {
       const {relationWhere} = session;
       const {definition} = this.entityClass;
 
