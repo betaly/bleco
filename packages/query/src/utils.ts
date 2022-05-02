@@ -42,11 +42,16 @@ export function isMapper(x: any): x is Orm {
 
 /**
  * Check if a value is attempting to use nested json keys
- * @param {String} property The property being queried from where clause
+ * @param {String} key The property being queried from where clause
  * @returns {Boolean} True of the property contains dots for nested json
  */
-export function isNested(property: string) {
-  return property.split('.').length > 1;
+export function isNested(key: string) {
+  return key.split('.').length > 1;
+}
+
+const PROPERTY_REGEX = /^[a-zA-Z0-9_$."`'\->]+$/;
+export function isProperty(key: string) {
+  return PROPERTY_REGEX.test(key);
 }
 
 export const originalProp = (method: string) => `__${method}__`;

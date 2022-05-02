@@ -13,7 +13,7 @@ import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
 import {EntityClass, WhereValue} from '../../../types';
 import {ClauseResolver} from '../resolver';
 import {Orm} from '../../../orm';
-import {compactWhere, isNested} from '../../../utils';
+import {compactWhere, isNested, isProperty} from '../../../utils';
 import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
 
@@ -26,7 +26,7 @@ export const FieldlessOperators = ['and', 'or', 'not', '!', 'related'];
 export type OperatorHandler = (
   this: WhereResolver<any>,
   qb: Knex.QueryBuilder,
-  field: string,
+  key: string,
   value: WhereValue,
   session: QuerySession,
 ) => void;
@@ -78,20 +78,24 @@ export class OperatorHandlerRegistry {
   }
 
   protected eq(): OperatorHandler {
-    return (qb: Knex.QueryBuilder, field: string, value: WhereValue) => {
-      debug('- eq:', field, value);
-      if (value == null) {
-        qb.whereNull(field);
+    return (qb: Knex.QueryBuilder, key: string, value: WhereValue) => {
+      debug('- eq:', key, value);
+      if (isProperty(key)) {
+        if (value == null) {
+          qb.whereNull(key);
+        } else {
+          qb.where(key, '=', value);
+        }
       } else {
-        qb.where(field, '=', value);
+        qb.whereRaw(key, value);
       }
     };
   }
 
   comparison(operator: string): OperatorHandler {
-    return (qb: Knex.QueryBuilder, field: string, value: WhereValue) => {
-      debug('- comparison:', operator, field, value);
-      qb.where(field, operator, value);
+    return (qb: Knex.QueryBuilder, key: string, value: WhereValue) => {
+      debug('- comparison:', operator, key, value);
+      qb.where(key, operator, value);
     };
   }
 
@@ -99,25 +103,25 @@ export class OperatorHandlerRegistry {
     return function (
       this: WhereResolver<any>,
       qb: Knex.QueryBuilder,
-      field: string,
+      key: string,
       value: WhereValue,
       session: QuerySession,
     ) {
-      debug('- not:', field, value);
+      debug('- not:', key, value);
       qb.whereNot(qb => this.build(qb, value, session));
     };
   }
 
   whereFn(op: PickKeys<Knex.QueryBuilder, Function>, ignoreEmptyArray?: boolean): OperatorHandler {
-    return function (qb: Knex.QueryBuilder, field: string, value: WhereValue) {
-      debug('- whereOp:', op, field, value);
+    return function (qb: Knex.QueryBuilder, key: string, value: WhereValue) {
+      debug('- whereOp:', op, key, value);
       if (ignoreEmptyArray) {
         if (!isArray(value) || isEmpty(value)) {
           debug('- whereOp(array): empty array');
           return;
         }
       }
-      (qb[op] as Function)(field, value);
+      (qb[op] as Function)(key, value);
     };
   }
 
@@ -125,11 +129,11 @@ export class OperatorHandlerRegistry {
     return function (
       this: WhereResolver<any>,
       qb: Knex.QueryBuilder,
-      field: string,
+      key: string,
       value: WhereValue,
       session: QuerySession,
     ) {
-      debug('- logical:', op, field, value);
+      debug('- logical:', op, key, value);
       if (isArray(value)) {
         if (isEmpty(value)) {
           debug('- logical(array): empty array');
@@ -179,82 +183,85 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   build(qb: Knex.QueryBuilder<TModel>, where: Where<TModel>, session: QuerySession): void {
     debug(`- build: building where clause for model ${this.entityClass.modelName}:`, where);
     each((v, k) => {
-      const {field, op, value} = normalizeOperation(k, v);
-      debug('- build: parsed clause:', field, op, value);
-      this.invoke(op, qb, field, value, session);
+      const {key, op, value} = normalizeOperation(k, v);
+      debug('- build: parsed clause:', key, op, value);
+      this.invoke(op, qb, key, value, session);
     }, compactWhere(where));
   }
 
   protected invoke(
     operator: string,
     qb: Knex.QueryBuilder,
-    field: string,
+    key: string,
     value: WhereValue,
     session: QuerySession,
   ): void {
     // skip escape
     qb.queryContext({skipEscape: true});
-    if (field) {
+
+    // check is property for equality operation
+    // support whereRaw with like: {'? = ?': [1, 2]}
+    if (key && (isProperty(key) || operator != '=')) {
       const {relationWhere} = session;
       const {definition} = this.entityClass;
 
-      field = (() => {
+      key = (() => {
         const props = definition.properties;
         if (props) {
           let constraint: RelationConstraint | undefined;
-          let p: PropertyDefinition | undefined = props[field];
+          let p: PropertyDefinition | undefined = props[key];
 
           // TODO we should ignore hidden property for `where`?
-          // if (p && includes(field, definition.settings.hiddenProperties ?? [])) {
+          // if (p && includes(key, definition.settings.hiddenProperties ?? [])) {
           //   debug('Hidden prop for model %s skipping', definition.name);
           //   return '';
           // }
 
-          if (p == null && isNested(field)) {
+          if (p == null && isNested(key)) {
             // See if we are querying nested json
-            p = props[field.split('.')[0]];
+            p = props[key.split('.')[0]];
           }
 
           // It may be an innerWhere
           if (p == null) {
-            constraint = relationWhere?.[field];
+            constraint = relationWhere?.[key];
             p = constraint?.property;
           }
 
           if (p == null) {
             // Unknown property, ignore it
-            debug('Unknown property "%s" is skipped for model "%s"', field, this.entityClass.modelName);
+            debug('Unknown key "%s" is skipped for model "%s"', key, this.entityClass.modelName);
             return '';
           }
 
           return constraint
             ? this.orm.columnEscaped(constraint.model, constraint.property.key, true, constraint.prefix)
-            : this.columnEscaped(field, session.hasRelationWhere());
+            : this.columnEscaped(key, session.hasRelationWhere());
         }
 
-        return field;
+        return key;
       })();
 
-      if (!field) {
-        // skip unknown field
+      if (!key) {
+        // skip unknown key
         return;
       }
     }
 
-    this.registry.get(operator).call(this, qb, field, value, session);
+    this.registry.get(operator).call(this, qb, key, value, session);
   }
 }
 
-function normalizeOperation(key: string, value: unknown): {field: string; op: string; value: unknown} {
+function normalizeOperation(key: string, value: unknown): {key: string; op: string; value: unknown} {
   if (value === null) {
-    return {field: key, op: '=', value};
+    return {key, op: '=', value};
   }
   if (includes(key, FieldlessOperators)) {
-    return {field: '', op: key, value};
+    return {key: '', op: key, value};
   }
   if (isPlainObject(value)) {
     const op = Object.keys(value)[0];
-    return {field: key, op, value: value[op]};
+    return {key, op, value: value[op]};
   }
-  return {field: key, op: '=', value};
+  return {key, op: '=', value};
 }

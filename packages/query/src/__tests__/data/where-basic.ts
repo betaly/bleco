@@ -209,4 +209,11 @@ export default [
     sql: 'select * from "public"."foo" where (((("a" > ?) and ("b" > ?))) or ((("a" < ?) and ("b" < ?))))',
     bindings: [10, 20, 4, 6],
   },
+  {
+    name: 'query with where raw',
+    model: 'Foo',
+    where: {'? = ?': [true, false]},
+    sql: 'select * from "public"."foo" where ? = ?',
+    bindings: [true, false],
+  },
 ];

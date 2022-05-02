@@ -7,4 +7,3 @@ export type QueryWhere<MT extends object = AnyObject> = Where<MT & Record<string
 export interface QueryFilter<MT extends object = AnyObject> extends Filter<MT> {
   where?: QueryWhere<MT>;
 }
-
