@@ -37,7 +37,7 @@ interface Condition {
 }
 
 export class OperatorHandlerRegistry {
-  readonly handlers: { [key: string]: OperatorHandler } = {};
+  readonly handlers: {[key: string]: OperatorHandler} = {};
 
   constructor() {
     this.init();
@@ -107,12 +107,7 @@ export class OperatorHandlerRegistry {
   }
 
   not(): OperatorHandler {
-    return function (
-      this: WhereResolver<any>,
-      qb: Knex.QueryBuilder,
-      condition: Condition,
-      session: QuerySession,
-    ) {
+    return function (this: WhereResolver<any>, qb: Knex.QueryBuilder, condition: Condition, session: QuerySession) {
       debug('- not:', condition);
       const {value} = condition;
       qb.whereNot(qb => this.build(qb, value, session));
@@ -134,12 +129,7 @@ export class OperatorHandlerRegistry {
   }
 
   logical(op: 'where' | 'orWhere'): OperatorHandler {
-    return function (
-      this: WhereResolver<any>,
-      qb: Knex.QueryBuilder,
-      condition: Condition,
-      session: QuerySession,
-    ) {
+    return function (this: WhereResolver<any>, qb: Knex.QueryBuilder, condition: Condition, session: QuerySession) {
       debug('- logical:', op, condition);
       const {value} = condition;
       if (isArray(value)) {
