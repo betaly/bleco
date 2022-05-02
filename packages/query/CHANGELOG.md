@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.3.2...@bleco/query@0.4.0) (2022-05-02)
+
+
+### Features
+
+* support inner join without where ([987b8e5](https://gitr.net/betaly/bleco/commits/987b8e5f289628b038739981085ebba08dfb6c27))
+* support where raw format with like: {where: {'? = ?': [0, 1]}} ([532e197](https://gitr.net/betaly/bleco/commits/532e19713a964a740adaa3c389a4decc1ea80c24))
+
+
+
+
+
 ## [0.3.2](https://gitr.net/betaly/bleco/compare/@bleco/query@0.3.1...@bleco/query@0.3.2) (2022-05-01)
 
 
