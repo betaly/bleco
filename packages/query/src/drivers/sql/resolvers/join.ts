@@ -15,6 +15,7 @@ import {
   SupportedRelationTypes,
 } from '../../../relation';
 import includes from 'tily/array/includes';
+import {isField} from '../../../utils';
 
 const debug = debugFactory('bleco:query:join');
 
@@ -71,6 +72,10 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 
   protected compile(key: string, session: QuerySession, constraints: Record<string, RelationConstraint>) {
     const {definition} = this.entityClass;
+
+    if (!isField(key)) {
+      return;
+    }
 
     const parsed = parseRelationChain(definition, key);
     if (!parsed) {

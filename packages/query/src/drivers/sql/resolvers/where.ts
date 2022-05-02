@@ -13,7 +13,7 @@ import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
 import {EntityClass, WhereValue} from '../../../types';
 import {ClauseResolver} from '../resolver';
 import {Orm} from '../../../orm';
-import {compactWhere, isNested, isProperty} from '../../../utils';
+import {compactWhere, isField, isNested} from '../../../utils';
 import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
 
@@ -80,7 +80,7 @@ export class OperatorHandlerRegistry {
   protected eq(): OperatorHandler {
     return (qb: Knex.QueryBuilder, key: string, value: WhereValue) => {
       debug('- eq:', key, value);
-      if (isProperty(key)) {
+      if (isField(key)) {
         if (value == null) {
           qb.whereNull(key);
         } else {
@@ -201,7 +201,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
 
     // check is property for equality operation
     // support whereRaw with like: {'? = ?': [1, 2]}
-    if (key && (isProperty(key) || operator !== '=')) {
+    if (key && (isField(key) || operator !== '=')) {
       const {relationWhere} = session;
       const {definition} = this.entityClass;
 

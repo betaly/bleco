@@ -50,7 +50,7 @@ export function isNested(key: string) {
 }
 
 const PROPERTY_REGEX = /^[a-zA-Z0-9_$."`'\->]+$/;
-export function isProperty(key: string) {
+export function isField(key: string) {
   return PROPERTY_REGEX.test(key);
 }
 

@@ -196,5 +196,18 @@ describe('Query', () => {
         );
       });
     });
+
+    describe('where raw', () => {
+      it('should find with raw #1', async () => {
+        const allFoos = await fooQuery.find();
+        const result = await fooQuery.find({where: {'? = ?': ['1', '1']}});
+        expect(result).toEqual(allFoos);
+      });
+
+      it('should find with raw #2', async () => {
+        const result = await fooQuery.find({where: {'? = ?': ['0', '1']}});
+        expect(result).toEqual([]);
+      });
+    });
   });
 });
