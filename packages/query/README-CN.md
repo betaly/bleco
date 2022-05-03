@@ -79,11 +79,16 @@ class SomeClass {
 
 #### 构造
 
-```ts
-// 通过一个 Repository 实例参数构造 DefaultQuery, 借助 repository include resolvers 支持 include 子句
-new DefaultQuery(repository);
+通过一个 Repository 实例参数构造 DefaultQuery, 借助
+[repository inclusion resolvers](https://loopback.io/doc/en/lb4/Relations.html) 支持 include 子句
 
-// 通过一个模型类和一个 datasource 实例参数构造 DefaultQuery, 不支持 include
+```ts
+new DefaultQuery(repository);
+```
+
+通过一个模型类和一个 datasource 实例参数构造 DefaultQuery, 不支持 include 子句
+
+```ts
 new DefaultQuery(entityClass, datasource);
 ```
 

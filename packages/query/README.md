@@ -76,17 +76,22 @@ class SomeClass {
 
 ## DefaultQuery
 
-A querier that performs model filtering queries through relational cascading conditions.
+A query that performs model filtering queries through relational cascading conditions.
 
 ### Usage
 
 #### Construct
 
-```ts
-// Construct DefaultQuery with a Repository instance parameter, support include clause with repository include resolvers
-new DefaultQuery(repository);
+Construct DefaultQuery with a Repository instance parameter, support include clause with
+[repository inclusion resolvers](https://loopback.io/doc/en/lb4/Relations.html)
 
-// Construct DefaultQuery with a model class and a datasource instance parameters, include is not supported
+```ts
+new DefaultQuery(repository);
+```
+
+Construct DefaultQuery with a model class and a datasource instance parameters, include is not supported clause
+
+```ts
 new DefaultQuery(entityClass, datasource);
 ```
 
