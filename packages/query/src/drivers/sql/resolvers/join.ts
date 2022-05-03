@@ -16,7 +16,7 @@ import {
 } from '../../../relation';
 import includes from 'tily/array/includes';
 import {isField} from '../../../utils';
-import {GroupOperators} from '../types';
+import {Directives, GroupOperators} from '../types';
 import isArray from 'tily/is/array';
 import {isString} from 'tily/is/string';
 
@@ -211,7 +211,6 @@ export function parseRelationChain(definition: ModelDefinition, key: string) {
   }
   // no property left
   if (i >= parts.length) {
-    // throw new Error(`No property in "${key}"`);
     return {
       relationChain: parts,
     };
@@ -239,7 +238,7 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
 
   for (const key in where) {
     if (!GroupOperators.includes(key)) {
-      if (key === '$expr') {
+      if (key === Directives.EXPR) {
         const expr = where[key];
         const op = Object.keys(expr)[0];
         if (!op) continue;
@@ -250,6 +249,9 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
             keys.add(v.substring(1));
           }
         }
+      } else if (key === Directives.REL) {
+        const rel = where[key];
+        toArray(rel).forEach((r: string) => keys.add(r));
       } else {
         keys.add(key);
       }

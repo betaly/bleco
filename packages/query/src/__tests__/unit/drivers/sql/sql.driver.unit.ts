@@ -30,7 +30,7 @@ describe('SqlDriver', () => {
     });
 
     it('count without relation only', async () => {
-      const {count} = await driver.count(User, {userInfo: true});
+      const {count} = await driver.count(User, {$rel: 'userInfo'});
       expect(count).toEqual(3);
     });
 

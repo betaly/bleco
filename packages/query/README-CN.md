@@ -268,15 +268,71 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 #### QueryFilter
 
 兼容 loopback 原生 [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters)。扩展支持级联路径作为 `where` 子
-句查询条件。
+句查询条件。 ``
 
-```ts
-export type QueryWhere<MT extends object = AnyObject> = Where<MT & Record<string, any>>;
-
-export interface QueryFilter<MT extends object = AnyObject> extends Filter<MT> {
-  where?: QueryWhere<MT>;
-}
-```
+- 用关系和字段为 `key` 进行关联查询（使用 `INNER JOIN`）
+  ```js
+  {
+    where: {
+      'relation_a.relation_b.property': value
+    }
+  }
+  ```
+- 用 `$rel` 进行关联查询（使用 `INNER JOIN`）
+  ```js
+  {
+    where: {
+      $rel: 'relation_a.relation_b';
+    }
+  }
+  // 或者同时定义多个关系
+  {
+    where: {
+      $rel: ['relation_a.relation_b', 'relation_c.relation_d'];
+    }
+  }
+  ```
+- 用 `$expr` 进行字段间的过滤查询
+  - 值 <-> 值：
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: [1, 0];
+        }
+      }
+    }
+    ```
+  - 字段 <-> 值：
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: ['$relation_a.$relation_b.property', value];
+        }
+      }
+    }
+    ```
+  - 值 <-> 字段：
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: [值, '$relation_a.$relation_b.property'];
+        }
+      }
+    }
+    ```
+  - 字段 <-> 字段：
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: ['$relation_a.$relation_b.property', '$relation_c.$relation_d.property'];
+        }
+      }
+    }
+    ```
 
 例如有如下模型：
 

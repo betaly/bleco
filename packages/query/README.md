@@ -279,11 +279,11 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 Compatible with loopback native [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters). Extended support
 for cascading paths as `where` children query condition.
 
-- Query with inner join and where
+- Related queries with relations and fields as `key` (using `INNER JOIN`)
   ```js
   {where: {'relation_a.relation_b.property': value}}
   ```
-- Query with `$rel` for `INNER JOIN`
+- Related queries with `$rel` (using `INNER JOIN`)
   ```js
   {
     where: {
@@ -297,7 +297,7 @@ for cascading paths as `where` children query condition.
     }
   }
   ```
-- Query with `$expr`
+- Filter queries between fields with `$expr`
   - value <-> value:
     ```js
     {

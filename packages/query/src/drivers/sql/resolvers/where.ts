@@ -17,7 +17,7 @@ import {Orm} from '../../../orm';
 import {compactWhere, isNested} from '../../../utils';
 import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
-import {Directive, FieldOperators, GroupOperators} from '../types';
+import {Directive, Directives, FieldOperators, GroupOperators} from '../types';
 
 const debug = debugFactory('bleco:query:where');
 
@@ -189,6 +189,9 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     debug(`- build: building where clause for model ${this.entityClass.modelName}:`, where);
     each((v, k) => {
       const condition = parseCondition(k, v);
+      if (!condition) {
+        return;
+      }
       debug('- build: parsed clause:', condition);
       this.invoke(qb, condition, session);
     }, compactWhere(where));
@@ -274,14 +277,18 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   }
 }
 
-function parseCondition(key: string, expression: unknown): RawCondition {
+function parseCondition(key: string, expression: unknown): RawCondition | undefined {
+  // skip relation where
+  if (key === Directives.REL) {
+    return;
+  }
   if (expression === null) {
     return {key, op: '=', value: expression, expression};
   }
   if (GroupOperators.includes(key)) {
     return {key: '', op: key, value: expression, expression};
   }
-  if (key === '$expr') {
+  if (key === Directives.EXPR) {
     assert(isPlainObject(expression), '$expr must be an object');
     const op = Object.keys(expression)[0];
     const value = expression[op];

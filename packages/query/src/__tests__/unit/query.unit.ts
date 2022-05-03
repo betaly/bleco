@@ -197,6 +197,13 @@ describe('Query', () => {
       });
     });
 
+    describe('$rel', function () {
+      it('should find with $rel', async () => {
+        const users = await userQuery.find({where: {$rel: ['userInfo']}});
+        expect(users).toHaveLength(3);
+      });
+    });
+
     describe('$expr', () => {
       it('values comparison with 1=1 ', async () => {
         const allFoos = await fooQuery.find();
