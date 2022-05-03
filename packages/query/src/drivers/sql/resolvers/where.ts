@@ -210,7 +210,8 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   }
 
   protected resolveCondition(condition: RawCondition, session: QuerySession): Condition {
-    let {directive, key, value} = condition;
+    const {directive} = condition;
+    let {key, value} = condition;
     const params: WhereValue = [];
     if (directive === '$expr') {
       [key, value] = [key, value].map(v => {
