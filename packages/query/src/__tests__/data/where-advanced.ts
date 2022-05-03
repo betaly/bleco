@@ -43,4 +43,28 @@ export default [
       },
     },
   },
+  // {
+  //   only: true,
+  //   name: 'query with relative reference key',
+  //   model: 'Bar',
+  //   where: {$raw: {eq: ['$foo.id', '$bar.foo_id']}},
+  //   sql: 'select * from "public"."bar" where "t_0_0_foo"."a" = "t_0_0_foo"."b"',
+  //   bindings: [],
+  //   session: {
+  //     relationWhere: {
+  //       'foo.a': {
+  //         prefix: 't_0_0_',
+  //         model: 'Foo',
+  //         property: {key: 'a'},
+  //       },
+  //       'foo.b': {
+  //         prefix: 't_0_0_',
+  //         model: 'Foo',
+  //         property: {key: 'b'},
+  //       },
+  //     },
+  //   },
+  // },
 ];
+
+

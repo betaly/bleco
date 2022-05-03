@@ -16,6 +16,7 @@ import {
 } from '../../../relation';
 import includes from 'tily/array/includes';
 import {isField} from '../../../utils';
+import {GroupOperators} from "../types";
 
 const debug = debugFactory('bleco:query:join');
 
@@ -235,7 +236,7 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
   if (!where) return keys;
 
   for (const key in where) {
-    if (key !== 'or' && key !== 'and') {
+    if (!GroupOperators.includes(key)) {
       keys.add(key);
       continue;
     }

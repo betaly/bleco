@@ -7,7 +7,7 @@ import isObject from 'tily/is/object';
 import each from 'tily/object/each';
 import isPlainObject from 'tily/is/plainObject';
 import {PickKeys} from 'ts-essentials';
-import {Filter, isFilter, Operators, Where} from '@loopback/filter';
+import {Filter, isFilter, Where} from '@loopback/filter';
 import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
 import {EntityClass, WhereValue} from '../../../types';
 import {ClauseResolver} from '../resolver';
@@ -15,12 +15,9 @@ import {Orm} from '../../../orm';
 import {compactWhere, isField, isNested} from '../../../utils';
 import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
+import {FieldOperators, GroupOperators} from "../types";
 
 const debug = debugFactory('bleco:query:where');
-
-export type FieldOperators = Operators | '!' | '=' | '!=' | '<' | '<=' | '>' | '>=' | 'in' | 'not';
-
-export const GroupOperators = ['and', 'or', 'not', '!', 'related'];
 
 export type OperatorHandler = (
   this: WhereResolver<any>,
@@ -86,6 +83,7 @@ export class OperatorHandlerRegistry {
     return (qb: Knex.QueryBuilder, condition: Condition) => {
       debug('- eq:', condition);
       const {key, value} = condition;
+
       if (isField(key)) {
         if (value == null) {
           qb.whereNull(key);
@@ -195,50 +193,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     // check is property for equality operation
     // support whereRaw with like: {'? = ?': [1, 2]}
     if (key && (isField(key) || op !== '=')) {
-      const {relationWhere} = session;
-      const {definition} = this.entityClass;
-
-      key = (() => {
-        const props = definition.properties;
-        if (props) {
-          let constraint: RelationConstraint | undefined;
-          let p: PropertyDefinition | undefined = props[key];
-
-          // TODO we should ignore hidden property for `where`?
-          // if (p && includes(key, definition.settings.hiddenProperties ?? [])) {
-          //   debug('Hidden prop for model %s skipping', definition.name);
-          //   return '';
-          // }
-
-          if (p == null && isNested(key)) {
-            // See if we are querying nested json
-            p = props[key.split('.')[0]];
-          }
-
-          // It may be an innerWhere
-          if (p == null) {
-            constraint = relationWhere?.[key];
-            if (constraint && !constraint.property) {
-              debug('Ignore relation where with key "%s" for no property provided', key);
-              return '';
-            }
-            p = constraint?.property;
-          }
-
-          if (p == null) {
-            // Unknown property, ignore it
-            debug('Unknown key "%s" is skipped for model "%s"', key, this.entityClass.modelName);
-            return '';
-          }
-
-          return constraint
-            ? this.orm.columnEscaped(constraint.model, p.key, true, constraint.prefix)
-            : this.columnEscaped(key, session.hasRelationWhere());
-        }
-
-        return key;
-      })();
-
+      key = this.resolveKey(key, session);
       if (!key) {
         // skip unknown key
         return;
@@ -246,6 +201,54 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     }
 
     this.registry.get(op).call(this, qb, {...condition, key}, session);
+  }
+
+  // protected resolveCondition(condition: Condition, session: QuerySession): Condition {
+  //   //
+  // }
+
+  protected resolveKey(key: string, session: QuerySession): string {
+    const {relationWhere} = session;
+    const {definition} = this.entityClass;
+
+    const props = definition.properties;
+    if (props) {
+      let constraint: RelationConstraint | undefined;
+      let p: PropertyDefinition | undefined = props[key];
+
+      // TODO we should ignore hidden property for `where`?
+      // if (p && includes(key, definition.settings.hiddenProperties ?? [])) {
+      //   debug('Hidden prop for model %s skipping', definition.name);
+      //   return '';
+      // }
+
+      if (p == null && isNested(key)) {
+        // See if we are querying nested json
+        p = props[key.split('.')[0]];
+      }
+
+      // It may be an innerWhere
+      if (p == null) {
+        constraint = relationWhere?.[key];
+        if (constraint && !constraint.property) {
+          debug('Ignore relation where with key "%s" for no property provided', key);
+          return '';
+        }
+        p = constraint?.property;
+      }
+
+      if (p == null) {
+        // Unknown property, ignore it
+        debug('Unknown key "%s" is skipped for model "%s"', key, this.entityClass.modelName);
+        return '';
+      }
+
+      return constraint
+        ? this.orm.columnEscaped(constraint.model, p.key, true, constraint.prefix)
+        : this.orm.columnEscaped(this.entityClass.modelName, key, session.hasRelationWhere());
+    }
+
+    return key;
   }
 }
 
@@ -262,3 +265,4 @@ function parseCondition(key: string, expression: unknown): Condition {
   }
   return {key, op: '=', value: expression, expression};
 }
+
