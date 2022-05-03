@@ -9,12 +9,13 @@ export async function seed(repos: Repos) {
   const projRepo = repos['Proj'] as ProjRepo;
   const issueRepo = repos['Issue'] as IssueRepo;
 
-  const users = await userRepo.createAll([
-    {email: 'user1@example.com', address: {city: 'city1', street: 'street1'}},
-    {email: 'user2@example.com', address: {city: 'city2', street: 'street2'}},
-    {email: 'user3@example.com', address: {city: 'city3', street: 'street3'}},
-    {email: 'user4@example.com', address: {city: 'city4', street: 'street4'}},
-  ]);
+  // create in order for findOne
+  const users = [
+    await userRepo.create({email: 'user1@example.com', address: {city: 'city1', street: 'street1'}}),
+    await userRepo.create({email: 'user2@example.com', address: {city: 'city2', street: 'street2'}}),
+    await userRepo.create({email: 'user3@example.com', address: {city: 'city3', street: 'street3'}}),
+    await userRepo.create({email: 'user4@example.com', address: {city: 'city4', street: 'street4'}}),
+  ];
 
   await userInfoRepo.createAll([
     {info: 'user1@example.com info', userId: users[0].id, a: 1, b: 1},
