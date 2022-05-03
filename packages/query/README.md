@@ -82,10 +82,13 @@ A querier that performs model filtering queries through relational cascading con
 
 #### Construct
 
-- `new DefaultQuery(repository)`: Through the `new DefaultQuery(repository)` construct, pass in a Repository instance,
-  which can support include.
-- `new DefaultQuery(entityClass, repository)`: Constructed by `new DefaultQuery(entityClass, repository)`, passing in a
-  model class and a A Repository instance, does not support include.
+```ts
+// Construct DefaultQuery with a Repository instance parameter, support include clause with repository include resolvers
+new DefaultQuery(repository);
+
+// Construct DefaultQuery with a model class and a datasource instance parameters, include is not supported
+new DefaultQuery(entityClass, datasource);
+```
 
 #### `QueryRepositoryMixin` inheritance
 

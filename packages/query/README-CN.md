@@ -79,9 +79,13 @@ class SomeClass {
 
 #### 构造
 
-- `new DefaultQuery(repository)`: 通过 `new DefaultQuery(repository)` 构造，传入一个 Repository 实例, 可支持 include。
-- `new DefaultQuery(entityClass, repository)`: 通过 `new DefaultQuery(entityClass, repository)` 构造，传入一个模型类和一
-  个 Repository 实例, 不支持 include。
+```ts
+// 通过一个 Repository 实例参数构造 DefaultQuery, 借助 repository include resolvers 支持 include 子句
+new DefaultQuery(repository);
+
+// 通过一个模型类和一个 datasource 实例参数构造 DefaultQuery, 不支持 include
+new DefaultQuery(entityClass, datasource);
+```
 
 #### `QueryRepositoryMixin` 继承
 
