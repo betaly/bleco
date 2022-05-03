@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.4.1...@bleco/query@0.5.0) (2022-05-03)
+
+
+### Features
+
+* implemented $rel for relation query without property comparison ([824199f](https://gitr.net/betaly/bleco/commits/824199f124daf571482ee1a23d5e97fccecdf901))
+* implemented $rel for relation query without property comparison ([bc305c3](https://gitr.net/betaly/bleco/commits/bc305c3284f1fd35496b9dbd10a17ce546516230))
+
+
+
+
+
 ## [0.4.1](https://gitr.net/betaly/bleco/compare/@bleco/query@0.4.0...@bleco/query@0.4.1) (2022-05-02)
 
 **Note:** Version bump only for package @bleco/query
