@@ -313,7 +313,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: ['$relation_a.$relation_b.property', value];
+          eq: ['$relation_a.relation_b.property', value];
         }
       }
     }
@@ -323,7 +323,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: [value, '$relation_a.$relation_b.property'];
+          eq: [value, '$relation_a.relation_b.property'];
         }
       }
     }
@@ -333,7 +333,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: ['$relation_a.$relation_b.property', '$relation_c.$relation_d.property'];
+          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'];
         }
       }
     }

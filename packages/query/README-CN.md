@@ -308,7 +308,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: ['$relation_a.$relation_b.property', value];
+          eq: ['$relation_a.relation_b.property', value];
         }
       }
     }
@@ -318,7 +318,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: [值, '$relation_a.$relation_b.property'];
+          eq: [值, '$relation_a.relation_b.property'];
         }
       }
     }
@@ -328,7 +328,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: ['$relation_a.$relation_b.property', '$relation_c.$relation_d.property'];
+          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'];
         }
       }
     }
