@@ -285,7 +285,7 @@ function parseCondition(key: string, expression: unknown): RawCondition {
     assert(isPlainObject(expression), '$expr must be an object');
     const op = Object.keys(expression)[0];
     const value = expression[op];
-    assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements at least`);
+    assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements`);
     return {directive: key, key: value[0], op, value: value[1], expression};
   }
   if (isPlainObject(expression)) {

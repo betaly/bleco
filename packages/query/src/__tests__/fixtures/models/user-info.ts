@@ -17,6 +17,12 @@ export class UserInfo extends Entity {
   @property()
   info: string;
 
+  @property()
+  a: number;
+
+  @property()
+  b: number;
+
   constructor(data?: Partial<UserInfo>) {
     super(data);
   }

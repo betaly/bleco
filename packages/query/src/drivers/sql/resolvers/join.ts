@@ -17,6 +17,8 @@ import {
 import includes from 'tily/array/includes';
 import {isField} from '../../../utils';
 import {GroupOperators} from '../types';
+import isArray from 'tily/is/array';
+import {isString} from 'tily/is/string';
 
 const debug = debugFactory('bleco:query:join');
 
@@ -237,7 +239,20 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
 
   for (const key in where) {
     if (!GroupOperators.includes(key)) {
-      keys.add(key);
+      if (key === '$expr') {
+        const expr = where[key];
+        const op = Object.keys(expr)[0];
+        if (!op) continue;
+        const value = expr[op];
+        assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements`);
+        for (const v of value) {
+          if (isString(v) && v.startsWith('$')) {
+            keys.add(v.substring(1));
+          }
+        }
+      } else {
+        keys.add(key);
+      }
       continue;
     }
 

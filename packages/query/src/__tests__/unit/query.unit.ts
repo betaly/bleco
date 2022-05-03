@@ -197,16 +197,34 @@ describe('Query', () => {
       });
     });
 
-    describe('where raw', () => {
-      it('should find with raw #1', async () => {
+    describe('$expr', () => {
+      it('values comparison with 1=1 ', async () => {
         const allFoos = await fooQuery.find();
-        const result = await fooQuery.find({where: {'? = ?': ['1', '1']}});
+        const result = await fooQuery.find({where: {$expr: {eq: [1, 1]}}});
         expect(result).toEqual(allFoos);
       });
 
-      it('should find with raw #2', async () => {
-        const result = await fooQuery.find({where: {'? = ?': ['0', '1']}});
+      it('values comparison with 1=0', async () => {
+        const result = await fooQuery.find({where: {$expr: {eq: [1, 0]}}});
         expect(result).toEqual([]);
+      });
+
+      it('projection and value comparison', async () => {
+        const result = await userQuery.find({where: {$expr: {eq: ['$userInfo.a', 2]}}});
+        expect(result).toHaveLength(1);
+        expect(result[0].email).toEqual('user2@example.com');
+      });
+
+      it('value and projection comparison', async () => {
+        const result = await userQuery.find({where: {$expr: {eq: [2, '$userInfo.a']}}});
+        expect(result).toHaveLength(1);
+        expect(result[0].email).toEqual('user2@example.com');
+      });
+
+      it('projection and projection comparison', async () => {
+        const result = await userQuery.find({where: {$expr: {eq: ['$userInfo.a', '$userInfo.b']}}});
+        expect(result).toHaveLength(1);
+        expect(result[0].email).toEqual('user1@example.com');
       });
     });
   });

@@ -17,9 +17,9 @@ export async function seed(repos: Repos) {
   ]);
 
   await userInfoRepo.createAll([
-    {info: 'user1@example.com info', userId: users[0].id},
-    {info: 'user2@example.com info', userId: users[1].id},
-    {info: 'user3@example.com info', userId: users[2].id},
+    {info: 'user1@example.com info', userId: users[0].id, a: 1, b: 1},
+    {info: 'user2@example.com info', userId: users[1].id, a: 2, b: 3},
+    {info: 'user3@example.com info', userId: users[2].id, a: 5, b: 4},
   ]);
 
   const orgs = await orgRepo.createAll([{name: 'OrgA'}, {name: 'OrgB'}, {name: 'OrgC'}]);

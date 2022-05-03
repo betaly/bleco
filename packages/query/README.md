@@ -279,9 +279,65 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 Compatible with loopback native [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters). Extended support
 for cascading paths as `where` children query condition.
 
-- Query with inner join and where: `{where: {'relation_a.relation_b.property': {...}'}}`
-- Query with inner join only: `{where: {'relation_a.relation_b': {}'}}`
-- Query with where raw: `{where: {'? = ?': [1, 0]}}`
+- Query with inner join and where
+  ```js
+  {where: {'relation_a.relation_b.property': value}}
+  ```
+- Query with `$rel` for `INNER JOIN`
+  ```js
+  {
+    where: {
+      $rel: 'relation_a.relation_b';
+    }
+  }
+  // or with multiple relations
+  {
+    where: {
+      $rel: ['relation_a.relation_b', 'relation_c.relation_d'];
+    }
+  }
+  ```
+- Query with `$expr`
+  - value <-> value:
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: [1, 0];
+        }
+      }
+    }
+    ```
+  - projection <-> value:
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: ['$relation_a.$relation_b.property', value];
+        }
+      }
+    }
+    ```
+  - value <-> projection:
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: [value, '$relation_a.$relation_b.property'];
+        }
+      }
+    }
+    ```
+  - projection <-> projection:
+    ```js
+    {
+      where: {
+        $expr: {
+          eq: ['$relation_a.$relation_b.property', '$relation_c.$relation_d.property'];
+        }
+      }
+    }
+    ```
 
 For example, there are the following models:
 
