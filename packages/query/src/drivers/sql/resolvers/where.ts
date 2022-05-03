@@ -1,21 +1,23 @@
 /* eslint-disable @typescript-eslint/no-floating-promises, @typescript-eslint/no-misused-promises, @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow */
 import {Knex} from 'knex';
 import debugFactory from 'debug';
+import {PickKeys} from 'ts-essentials';
 import isArray from 'tily/is/array';
 import isEmpty from 'tily/is/empty';
 import isObject from 'tily/is/object';
 import each from 'tily/object/each';
 import isPlainObject from 'tily/is/plainObject';
-import {PickKeys} from 'ts-essentials';
+import {assert} from 'tily/assert';
+import {isString} from 'tily/is/string';
 import {Filter, isFilter, Where} from '@loopback/filter';
 import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
-import {EntityClass, WhereValue} from '../../../types';
+import {EntityClass, WhereExprKey, WhereValue} from '../../../types';
 import {ClauseResolver} from '../resolver';
 import {Orm} from '../../../orm';
-import {compactWhere, isField, isNested} from '../../../utils';
+import {compactWhere, isNested} from '../../../utils';
 import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
-import {FieldOperators, GroupOperators} from "../types";
+import {Directive, FieldOperators, GroupOperators} from '../types';
 
 const debug = debugFactory('bleco:query:where');
 
@@ -26,12 +28,16 @@ export type OperatorHandler = (
   session: QuerySession,
 ) => void;
 
-interface Condition {
-  key: string;
+interface Condition<KEY = string> {
+  directive?: Directive;
   op: string;
+  key: KEY;
   value: WhereValue;
+  params?: WhereValue[];
   expression: unknown;
 }
+
+type RawCondition = Condition<WhereExprKey>;
 
 export class OperatorHandlerRegistry {
   readonly handlers: {[key: string]: OperatorHandler} = {};
@@ -82,16 +88,16 @@ export class OperatorHandlerRegistry {
   eq(): OperatorHandler {
     return (qb: Knex.QueryBuilder, condition: Condition) => {
       debug('- eq:', condition);
-      const {key, value} = condition;
+      const {key, value, params} = condition;
 
-      if (isField(key)) {
-        if (value == null) {
-          qb.whereNull(key);
-        } else {
-          qb.where(key, '=', value);
-        }
+      if (condition.directive === '$expr') {
+        return qb.whereRaw(`${key} = ${value}`, params);
+      }
+
+      if (value == null) {
+        qb.whereNull(key);
       } else {
-        qb.whereRaw(key, value);
+        qb.where(key, '=', value);
       }
     };
   }
@@ -99,7 +105,10 @@ export class OperatorHandlerRegistry {
   comparison(operator: string): OperatorHandler {
     return (qb: Knex.QueryBuilder, condition: Condition) => {
       debug('- comparison:', condition);
-      const {key, value} = condition;
+      const {key, value, params} = condition;
+      if (condition.directive === '$expr') {
+        return qb.whereRaw(`${key} ${operator} ${value}`, params);
+      }
       qb.where(key, operator, value);
     };
   }
@@ -185,27 +194,40 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     }, compactWhere(where));
   }
 
-  protected invoke(qb: Knex.QueryBuilder, condition: Condition, session: QuerySession): void {
-    let {key, op} = condition;
+  protected invoke(qb: Knex.QueryBuilder, rawCondition: RawCondition, session: QuerySession): void {
     // skip escape
     qb.queryContext({skipEscape: true});
+    const condition = this.resolveCondition(rawCondition, session);
+    debug('invoke: resolved condition:', condition);
+    if (!GroupOperators.includes(condition.op) && !condition.key) {
+      // skip empty condition
+      return;
+    }
+    this.registry.get(condition.op).call(this, qb, condition, session);
+  }
 
-    // check is property for equality operation
-    // support whereRaw with like: {'? = ?': [1, 2]}
-    if (key && (isField(key) || op !== '=')) {
-      key = this.resolveKey(key, session);
-      if (!key) {
-        // skip unknown key
-        return;
+  protected resolveCondition(condition: RawCondition, session: QuerySession): Condition {
+    let {directive, key, value} = condition;
+    const params: WhereValue = [];
+    if (directive === '$expr') {
+      [key, value] = [key, value].map(v => {
+        if (isString(v) && v.startsWith('$')) {
+          return this.resolveKey(v.substring(1), session);
+        }
+        params.push(v);
+        return '?';
+      });
+    } else {
+      if (isString(key)) {
+        key = this.resolveKey(key, session);
+      } else {
+        params.push(key);
+        key = '?';
       }
     }
 
-    this.registry.get(op).call(this, qb, {...condition, key}, session);
+    return {...condition, key, value, params};
   }
-
-  // protected resolveCondition(condition: Condition, session: QuerySession): Condition {
-  //   //
-  // }
 
   protected resolveKey(key: string, session: QuerySession): string {
     const {relationWhere} = session;
@@ -252,12 +274,19 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   }
 }
 
-function parseCondition(key: string, expression: unknown): Condition {
+function parseCondition(key: string, expression: unknown): RawCondition {
   if (expression === null) {
     return {key, op: '=', value: expression, expression};
   }
   if (GroupOperators.includes(key)) {
     return {key: '', op: key, value: expression, expression};
+  }
+  if (key === '$expr') {
+    assert(isPlainObject(expression), '$expr must be an object');
+    const op = Object.keys(expression)[0];
+    const value = expression[op];
+    assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements at least`);
+    return {directive: key, key: value[0], op, value: value[1], expression};
   }
   if (isPlainObject(expression)) {
     const op = Object.keys(expression)[0];
@@ -265,4 +294,3 @@ function parseCondition(key: string, expression: unknown): Condition {
   }
   return {key, op: '=', value: expression, expression};
 }
-

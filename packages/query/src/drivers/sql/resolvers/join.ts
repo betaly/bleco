@@ -16,7 +16,7 @@ import {
 } from '../../../relation';
 import includes from 'tily/array/includes';
 import {isField} from '../../../utils';
-import {GroupOperators} from "../types";
+import {GroupOperators} from '../types';
 
 const debug = debugFactory('bleco:query:join');
 

@@ -2,6 +2,7 @@
 
 import {Entity} from '@loopback/repository';
 
+export type WhereExprKey = any;
 export type WhereValue = any;
 
 export type IdSort = boolean | 'numericIdOnly';
