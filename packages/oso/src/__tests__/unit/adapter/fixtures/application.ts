@@ -2,8 +2,8 @@ import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig, Binding} from '@loopback/core';
 import {RestApplication} from '@loopback/rest';
 import {Entity, EntityCrudRepository, RepositoryMixin, RepositoryTags} from '@loopback/repository';
-import {OsoComponent} from '../../oso.component';
-import {OsoBindings} from '../../keys';
+import {OsoComponent} from '../../../../oso.component';
+import {OsoBindings} from '../../../../keys';
 import {Constructor} from 'tily/typings/types';
 
 export class OsoApp extends BootMixin(RepositoryMixin(RestApplication)) {

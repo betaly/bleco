@@ -1,14 +1,14 @@
-import {OsoApp} from '../fixtures/application';
-import {checkAuthz, givenApp} from '../fixtures/support';
-import {Samples, seedSamples} from '../fixtures/data/seed';
-import {OsoBindings} from '../../keys';
-import {Foo} from '../fixtures/models/foo.model';
-import {OsoAuthorizer} from '../../oso.authorizer';
-import {Bar} from '../fixtures/models/bar.model';
-import {Log} from '../fixtures/models/log.model';
-import {Num} from '../fixtures/models/num.model';
-import {Repo} from '../fixtures/models/repo.model';
-import {Issue} from '../fixtures/models/issue.model';
+import {OsoApp} from './fixtures/application';
+import {checkAuthz, givenApp} from './fixtures/support';
+import {Samples, seedSamples} from './fixtures/data/seed';
+import {OsoBindings} from '../../../keys';
+import {Foo} from './fixtures/models/foo.model';
+import {OsoAuthorizer} from '../../../oso.authorizer';
+import {Bar} from './fixtures/models/bar.model';
+import {Log} from './fixtures/models/log.model';
+import {Num} from './fixtures/models/num.model';
+import {Repo} from './fixtures/models/repo.model';
+import {Issue} from './fixtures/models/issue.model';
 
 describe('JugglerAdapter', function () {
   describe('Data filtering parity tests', function () {

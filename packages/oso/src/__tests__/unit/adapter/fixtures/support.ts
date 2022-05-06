@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {isConstructor} from 'tily/is/constructor';
-import {RestApplication} from '@loopback/rest';
-import {Context} from '@loopback/context';
-import {Entity, EntityCrudRepository} from '@loopback/repository';
-import {createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
-import {Class} from 'oso/dist/src/types';
-import {OsoApp} from './application';
-import {OsoAuthorizer} from '../../oso.authorizer';
+import { isConstructor } from "tily/is/constructor";
+import { RestApplication } from "@loopback/rest";
+import { Context } from "@loopback/context";
+import { Entity, EntityCrudRepository } from "@loopback/repository";
+import { createRestAppClient, givenHttpServerConfig } from "@loopback/testlab";
+import { Class } from "oso/dist/src/types";
+import { OsoApp } from "./application";
+import { OsoAuthorizer } from "../../../../oso.authorizer";
 
 export class ContextHelper {
   constructor(public context: Context) {}

@@ -5,7 +5,7 @@ import {ClassParams, Options} from 'oso/dist/src/types';
 import {inject} from '@loopback/context';
 import {OsoBindings} from './keys';
 import {Application, CoreBindings} from '@loopback/core';
-import {OsoJugglerAdapter} from './oso.adapter.juggler';
+import {OsoJugglerAdapter} from './juggler-adapter';
 import {ResourceFilter} from './types';
 import {Constructor} from 'tily/typings/types';
 import {resolveClassFields} from './oso.helper';
@@ -41,6 +41,10 @@ export class OsoAuthorizer<
     options?: OsoRegisterClassOptions,
   ): void {
     const repoName = typeof repo === 'string' ? repo : repo.name;
+    if (this.repos.has(model.name)) {
+      debug(`Model ${model.name} already registered. Skip.`);
+      return;
+    }
     this.repos.set(model.modelName, repoName);
     const fields = resolveClassFields(model);
     debug('Register model "%s" with fields: %o', model.modelName, fields);
