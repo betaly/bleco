@@ -1643,7 +1643,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/aliaser@^0.3.6, @bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.3.7, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
@@ -1675,11 +1675,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/authentication@^0.3.6, @bleco/authentication@workspace:packages/authentication":
+"@bleco/authentication@^0.3.7, @bleco/authentication@workspace:packages/authentication":
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
-    "@bleco/aliaser": ^0.3.6
+    "@bleco/aliaser": ^0.3.7
     "@exlinc/keycloak-passport": ^1.0.2
     "@loopback/boot": ^5.0.0
     "@loopback/context": ^5.0.0
@@ -1800,7 +1800,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
-    "@bleco/aliaser": ^0.3.6
+    "@bleco/aliaser": ^0.3.7
     "@loopback/boot": ^5.0.0
     "@loopback/context": ^5.0.0
     "@loopback/core": ^4.0.0
@@ -1915,7 +1915,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
-    "@bleco/authentication": ^0.3.6
+    "@bleco/authentication": ^0.3.7
     "@loopback/boot": ^5.0.0
     "@loopback/build": ^9.0.0
     "@loopback/context": ^5.0.0
@@ -1944,7 +1944,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/vault@workspace:packages/vault"
   dependencies:
-    "@bleco/aliaser": ^0.3.6
+    "@bleco/aliaser": ^0.3.7
     "@loopback/boot": ^5.0.0
     "@loopback/core": ^4.0.0
     "@loopback/rest": ^12.0.0
