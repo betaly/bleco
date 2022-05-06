@@ -21,13 +21,13 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^4.1.2",
-    "@loopback/core": "^3.1.2",
+    "@loopback/boot": "^5.0.0",
+    "@loopback/core": "^4.0.0",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@loopback/testlab": "^4.1.2",
+    "@loopback/testlab": "^5.0.0",
     "@nutol/build": "^0.2.6",
     "@nutol/eslint-config": "^0.2.2",
     "@types/lodash": "^4.14.182",

@@ -14,8 +14,8 @@ import {
 } from '@loopback/repository';
 import noop from 'tily/function/noop';
 import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
+import {createHasManyThroughInclusionResolver} from '@loopback/repository/dist/relations/has-many/has-many-through.inclusion-resolver';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
-import {createHasManyThroughInclusionResolver} from './helper';
 import {DefaultQuery, Query} from '../query';
 import {Org} from './fixtures/models/org';
 import {Proj} from './fixtures/models/proj';
@@ -65,11 +65,13 @@ export function givenDb(dsConfig: Options) {
     const definition = model.definition;
     for (const relationName in definition.relations) {
       const relation = definition.relations[relationName];
-      const targetRepo = repos[relation.target().name as EntityName];
+      const target = relation.target();
+      const targetRepo = repos[target.name as EntityName];
+      const targetGetter = {[target.name]: async () => targetRepo};
       if (relation.type === 'belongsTo') {
         repo.registerInclusionResolver(
           relationName,
-          createBelongsToInclusionResolver(relation as BelongsToDefinition, async () => targetRepo),
+          createBelongsToInclusionResolver(relation as BelongsToDefinition, targetGetter),
         );
       } else if (relation.type === 'hasMany') {
         if ('through' in relation && relation.through) {
@@ -78,7 +80,7 @@ export function givenDb(dsConfig: Options) {
             createHasManyThroughInclusionResolver(
               relation as HasManyDefinition,
               async () => repos[relation.through!.model().name as EntityName],
-              async () => targetRepo,
+              targetGetter,
             ),
           );
         } else {
@@ -90,7 +92,7 @@ export function givenDb(dsConfig: Options) {
       } else if (relation.type === 'hasOne') {
         repo.registerInclusionResolver(
           relationName,
-          createHasOneInclusionResolver(relation as HasOneDefinition, async () => targetRepo),
+          createHasOneInclusionResolver(relation as HasOneDefinition, targetGetter),
         );
       }
     }
