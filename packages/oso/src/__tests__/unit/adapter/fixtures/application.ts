@@ -18,10 +18,7 @@ export class OsoApp extends BootMixin(RepositoryMixin(RestApplication)) {
       const repoBindings: Readonly<Binding<unknown>>[] = this.findByTag(RepositoryTags.REPOSITORY);
       for (const binding of repoBindings) {
         const repo = (await this.get(binding.key)) as EntityCrudRepository<Entity, unknown>;
-        oso.registerClassWithModelAndRepository(
-          repo.entityClass,
-          binding.valueConstructor! as Constructor<EntityCrudRepository<Entity, unknown>>,
-        );
+        oso.addModel(repo.entityClass, binding.valueConstructor! as Constructor<EntityCrudRepository<Entity, unknown>>);
       }
     });
   }

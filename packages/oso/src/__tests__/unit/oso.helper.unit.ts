@@ -1,5 +1,5 @@
 import {belongsTo, Entity, hasMany, hasOne, model, property} from '@loopback/repository';
-import {resolveClassFields} from '../../helper';
+import {buildClassFields} from '../../helper';
 
 describe('oso.helper', function () {
   describe('#resolveClassFields', function () {
@@ -19,7 +19,7 @@ describe('oso.helper', function () {
         lastModified: Date;
       }
 
-      const fields = resolveClassFields(Note);
+      const fields = buildClassFields(Note);
       expect(fields).toHaveProperty('title', String);
       expect(fields).toHaveProperty('pages', Number);
       expect(fields).toHaveProperty('isCool', Boolean);
@@ -41,7 +41,7 @@ describe('oso.helper', function () {
         folderId: number;
       }
 
-      const fields = resolveClassFields(Note);
+      const fields = buildClassFields(Note);
       expect(fields).toHaveProperty('folder', {
         kind: 'one',
         myField: 'folderId',
@@ -68,7 +68,7 @@ describe('oso.helper', function () {
         note: Note;
       }
 
-      const fields = resolveClassFields(Folder);
+      const fields = buildClassFields(Folder);
       expect(fields).toHaveProperty('note', {
         kind: 'one',
         myField: 'id',
@@ -95,7 +95,7 @@ describe('oso.helper', function () {
         notes: Note[];
       }
 
-      const fields = resolveClassFields(Folder);
+      const fields = buildClassFields(Folder);
       expect(fields).toHaveProperty('notes', {
         kind: 'many',
         myField: 'id',
@@ -136,9 +136,9 @@ describe('oso.helper', function () {
         notes: Note[];
       }
 
-      let fields = resolveClassFields(Tag);
+      let fields = buildClassFields(Tag);
       expect(fields).not.toHaveProperty('notes');
-      fields = resolveClassFields(Note);
+      fields = buildClassFields(Note);
       expect(fields).not.toHaveProperty('tags');
     });
   });

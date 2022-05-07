@@ -19,7 +19,7 @@ import {Oso} from 'oso';
 
 const debug = debugFactory('bleco:oso:oso-helper');
 
-export function resolveClassFields(
+export function buildClassFields(
   entityOrDefinition: ModelDefinition | typeof Entity,
 ): Record<string, Class | Relation> {
   const definition = isConstructor(entityOrDefinition) ? entityOrDefinition.definition : entityOrDefinition;
@@ -77,7 +77,7 @@ export function resolveRelation(metadata: RelationMetadata): Relation | undefine
 
 export function registerModel(oso: Oso, model: typeof Entity): void {
   oso.registerClass(model, {
-    fields: resolveClassFields(model),
+    fields: buildClassFields(model),
   });
 }
 
