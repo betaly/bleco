@@ -2,11 +2,10 @@
 import {isConstructor} from 'tily/is/constructor';
 import {RestApplication} from '@loopback/rest';
 import {Context} from '@loopback/context';
-import {Entity, EntityCrudRepository} from '@loopback/repository';
+import {EntityCrudRepository} from '@loopback/repository';
 import {createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
-import {Class} from 'oso/dist/src/types';
-import {OsoApp} from './application';
-import {Enforcer} from '../../../../enforcer';
+import {Class} from 'tily/typings/types';
+import {GitClubApplication} from './application';
 
 export class ContextHelper {
   constructor(public context: Context) {}
@@ -18,7 +17,7 @@ export class ContextHelper {
 }
 
 export async function givenAppAndClient() {
-  const app = new OsoApp({
+  const app = new GitClubApplication({
     rest: givenHttpServerConfig(),
   });
 
@@ -30,7 +29,7 @@ export async function givenAppAndClient() {
 }
 
 export async function givenApp(migrate?: boolean) {
-  const app = new OsoApp({
+  const app = new GitClubApplication({
     rest: givenHttpServerConfig(),
   });
 
@@ -38,21 +37,4 @@ export async function givenApp(migrate?: boolean) {
   await app.migrateSchema(migrate ? {existingSchema: 'drop'} : {});
   await app.start();
   return app;
-}
-
-export async function checkAuthz<A = unknown, R extends Entity = Entity>(
-  oso: Enforcer<A, unknown, R>,
-  actor: A,
-  action: string | number,
-  resource: Class<R>,
-  expected: R[],
-) {
-  for (const x of expected) {
-    expect(await oso.isAllowed(actor, action, x)).toBe(true);
-  }
-
-  const actual = await oso.authorizedResources(actor, action, resource);
-
-  expect(actual).toHaveLength(expected.length);
-  expect(actual).toEqual(expect.arrayContaining(expected));
 }

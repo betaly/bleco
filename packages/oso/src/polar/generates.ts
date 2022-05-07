@@ -5,7 +5,6 @@ import {PolarResource} from './types';
 
 export function generateResourceScripts(writer: TextWriter, resource: PolarResource) {
   generateResourceBlockScripts(writer, resource);
-  generateHasRelationScripts(writer, resource);
 }
 
 export function generateResourceBlockScripts(writer: TextWriter, resource: PolarResource) {
@@ -21,18 +20,10 @@ export function generateResourceBlockScripts(writer: TextWriter, resource: Polar
   }
 
   if (resource.relations && !isEmpty(resource.relations)) {
-    writer.writeLine(`relations = {`);
-    writer.increaseIndent();
-    Object.keys(resource.relations).forEach((name, i, arr) => {
-      const relation = resource.relations![name];
-      let line = `${name}: ${relation.model}`;
-      if (i < arr.length - 1) {
-        line += ',';
-      }
-      writer.writeLine(line);
-    });
-    writer.decreaseIndent();
-    writer.writeLine('};');
+    const content = Object.entries(resource.relations)
+      .map(([name, relation]) => `${name}: ${typeof relation === 'string' ? relation : relation.model}`)
+      .join(', ');
+    writer.writeLine(`relations = {${content}};`);
   }
 
   if (resource.rolePermissions) {
@@ -61,11 +52,13 @@ export function generateResourceBlockScripts(writer: TextWriter, resource: Polar
 
   writer.decreaseIndent();
   writer.writeLine('}');
-}
 
-export function generateHasRelationScripts(writer: TextWriter, resource: PolarResource) {
+  // relations mapping
   if (resource.relations && !isEmpty(resource.relations)) {
     for (const [name, relation] of Object.entries(resource.relations)) {
+      if (typeof relation === 'string' || !relation.property) {
+        continue;
+      }
       const modelVar = camelCaseName(relation.model);
       writer.writeLine(
         `has_relation(${modelVar}: ${relation.model}, "${name}", _: ${resource.name}{${relation.property}: ${modelVar}});`,

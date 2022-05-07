@@ -3,7 +3,7 @@ import {checkAuthz, givenApp} from './fixtures/support';
 import {Samples, seedSamples} from './fixtures/data/seed';
 import {OsoBindings} from '../../../keys';
 import {Foo} from './fixtures/models/foo.model';
-import {OsoAuthorizer} from '../../../oso.authorizer';
+import {Enforcer} from '../../../enforcer';
 import {Bar} from './fixtures/models/bar.model';
 import {Log} from './fixtures/models/log.model';
 import {Num} from './fixtures/models/num.model';
@@ -14,13 +14,13 @@ describe('JugglerAdapter', function () {
   describe('Data filtering parity tests', function () {
     let app: OsoApp;
     let samples: Samples;
-    let oso: OsoAuthorizer;
+    let oso: Enforcer;
 
     beforeAll(async () => {
       app = await givenApp(true);
       samples = await seedSamples(app);
 
-      oso = await app.get(OsoBindings.AUTHORIZER);
+      oso = await app.get(OsoBindings.ENFORCER);
     });
 
     afterAll(async () => {
@@ -33,7 +33,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_authorize_with_a_single_model', async function () {
-      oso = await app.get(OsoBindings.AUTHORIZER);
+      oso = await app.get(OsoBindings.ENFORCER);
       const {foos} = samples;
       await oso.loadStr('allow(_, _, _: Foo{id: "something"});');
       await checkAuthz(oso, 'gwen', 'get', Foo, [foos.something]);
@@ -389,13 +389,13 @@ describe('JugglerAdapter', function () {
   describe('Data filtering using juggler/sqlite', function () {
     let app: OsoApp;
     let samples: Samples;
-    let oso: OsoAuthorizer;
+    let oso: Enforcer;
 
     beforeAll(async () => {
       app = await givenApp(true);
       samples = await seedSamples(app);
 
-      oso = await app.get(OsoBindings.AUTHORIZER);
+      oso = await app.get(OsoBindings.ENFORCER);
     });
 
     afterAll(async () => {

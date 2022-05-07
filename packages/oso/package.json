@@ -2,7 +2,17 @@
   "name": "@bleco/oso",
   "description": "A loopback-next extension for Oso authorization integration",
   "version": "0.1.0",
-  "keywords": [],
+  "keywords": [
+    "loopback",
+    "loopback-extension",
+    "authorization",
+    "authentication",
+    "oso",
+    "polar",
+    "adapter",
+    "orm",
+    "junggler"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {

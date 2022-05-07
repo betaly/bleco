@@ -6,6 +6,7 @@ describe('generate', function () {
     const result = await generateScript(writer => {
       generateResourceScripts(writer, org.resource);
     });
+    // console.log(result);
     expect(result).toEqual(org.script);
   });
 });

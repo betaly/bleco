@@ -8,20 +8,25 @@ import {
   inject,
   injectable,
 } from '@loopback/core';
-import {OsoAuthorizer} from './oso.authorizer';
+import {Enforcer} from './enforcer';
 import {OsoBindings} from './keys';
 import {OsoAliaser} from './alias';
 
 @injectable({tags: {[ContextTags.KEY]: OsoBindings.COMPONENT.key}})
 export class OsoComponent implements Component {
-  bindings = [
-    createBindingFromClass(OsoAuthorizer, {key: OsoBindings.AUTHORIZER, defaultScope: BindingScope.SINGLETON}),
-  ];
+  bindings = [createBindingFromClass(Enforcer, {key: OsoBindings.ENFORCER, defaultScope: BindingScope.SINGLETON})];
 
   constructor(
     @inject(CoreBindings.APPLICATION_INSTANCE)
     app: Application,
   ) {
     OsoAliaser.alias(app);
+
+    app.once('booted', () => this.boot());
+  }
+
+  boot() {
+    // register classes
+    //
   }
 }

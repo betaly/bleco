@@ -2,13 +2,13 @@ import {Entity, EntityCrudRepository, WhereBuilder} from '@loopback/repository';
 import {Application} from '@loopback/core';
 import {Adapter, Datum, Filter, FilterCondition, Projection} from 'oso';
 import debugFactory from 'debug';
-import {ResourceFilter} from './types';
-import {OsoBindings} from './keys';
 import {inspect} from 'util';
 import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
-import {getIdProp} from './oso.helper';
+import {ResourceFilter} from './types';
+import {OsoBindings} from './keys';
+import {getIdProp} from './helper';
 
 const debug = debugFactory('bleco:oso:juggler-adapter');
 
@@ -143,7 +143,7 @@ export class OsoJugglerAdapter<T extends Entity = Entity> implements Adapter<Res
   }
 
   protected async findRepository(model: string): Promise<EntityCrudRepository<T, unknown>> {
-    const oso = await this.app.get(OsoBindings.AUTHORIZER);
+    const oso = await this.app.get(OsoBindings.ENFORCER);
     return (await oso.getRepository(model)) as EntityCrudRepository<T, unknown>;
   }
 }

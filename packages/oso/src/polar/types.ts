@@ -4,5 +4,5 @@ export interface PolarResource {
   roles?: string[];
   rolePermissions?: Record<string, string[]>;
   roleInherits?: Record<string, string[]>;
-  relations?: Record<string, {model: string; property: string}>;
+  relations?: Record<string, {model: string; property?: string} | string>;
 }

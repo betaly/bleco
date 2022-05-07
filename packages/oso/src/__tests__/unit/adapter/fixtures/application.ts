@@ -14,7 +14,7 @@ export class OsoApp extends BootMixin(RepositoryMixin(RestApplication)) {
     this.component(OsoComponent);
 
     this.onStart(async () => {
-      const oso = await this.get(OsoBindings.AUTHORIZER);
+      const oso = await this.get(OsoBindings.ENFORCER);
       const repoBindings: Readonly<Binding<unknown>>[] = this.findByTag(RepositoryTags.REPOSITORY);
       for (const binding of repoBindings) {
         const repo = (await this.get(binding.key)) as EntityCrudRepository<Entity, unknown>;

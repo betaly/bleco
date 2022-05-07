@@ -28,9 +28,7 @@ export const resource: PolarResource = {
 export const script = `resource Repo {
 \troles = ["admin", "maintainer", "reader"];
 \tpermissions = ["read", "create_issues", "list_issues", "create_role_assignments", "list_role_assignments", "update_role_assignments", "delete_role_assignments"];
-\trelations = {
-\t\tparent: Org
-\t};
+\trelations = {parent: Org};
 \t"create_role_assignments" if "admin";
 \t"list_role_assignments" if "admin";
 \t"update_role_assignments" if "admin";

@@ -1,5 +1,5 @@
 import {belongsTo, Entity, hasMany, hasOne, model, property} from '@loopback/repository';
-import {resolveClassFields} from '../../oso.helper';
+import {resolveClassFields} from '../../helper';
 
 describe('oso.helper', function () {
   describe('#resolveClassFields', function () {
