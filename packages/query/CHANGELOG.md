@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.5.3...@bleco/query@0.6.0) (2022-05-11)
+
+
+### Features
+
+* adding polymorphic relations support for query ([bb62b3a](https://gitr.net/betaly/bleco/commits/bb62b3a10ac0817c82c427db16893fa9123a761b))
+
+
+
+
+
 ## [0.5.3](https://gitr.net/betaly/bleco/compare/@bleco/query@0.5.2...@bleco/query@0.5.3) (2022-05-06)
 
 **Note:** Version bump only for package @bleco/query

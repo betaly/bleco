@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://gitr.net/betaly/bleco/compare/@bleco/audit-log@0.3.6...@bleco/audit-log@0.3.7) (2022-05-11)
+
+**Note:** Version bump only for package @bleco/audit-log
+
+
+
+
+
 ## [0.3.6](https://gitr.net/betaly/bleco/compare/@bleco/audit-log@0.3.5...@bleco/audit-log@0.3.6) (2022-05-06)
 
 **Note:** Version bump only for package @bleco/audit-log

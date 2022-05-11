@@ -1,7 +1,7 @@
 {
   "name": "@bleco/soft-delete",
   "description": "A loopback-next extension for soft delete feature",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +28,7 @@
     "loopback-datasource-juggler": "^4.27.1"
   },
   "dependencies": {
-    "@bleco/authentication": "^0.3.7",
+    "@bleco/authentication": "^0.3.8",
     "@loopback/core": "^4.0.0",
     "@loopback/rest": "^12.0.0",
     "lodash": "^4.17.21"
