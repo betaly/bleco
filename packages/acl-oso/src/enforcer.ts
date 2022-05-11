@@ -4,13 +4,13 @@ import {Constructor} from 'tily/typings/types';
 import isString from 'tily/is/string';
 import {isConstructor} from 'tily/is/constructor';
 import {ClassParams, Options} from 'oso/dist/src/types';
+import {JugglerAdapter} from 'oso-juggler';
 import {inject} from '@loopback/context';
 import {Application, CoreBindings} from '@loopback/core';
 import {Entity, EntityCrudRepository, juggler} from '@loopback/repository';
 import {DefaultCrudRepositoryWithQuery, EntityClass} from '@bleco/query';
 import {OsoDataSourceName, ResourceFilter} from './types';
 import {OsoBindings} from './keys';
-import {OsoJugglerAdapter} from './juggler-adapter';
 import {buildClassFields} from './helper';
 
 const debug = debugFactory('bleco:oso:enforcer');
@@ -43,7 +43,7 @@ export class Enforcer<
     options?: EnforcerOptions,
   ) {
     super(options);
-    this.setDataFilteringAdapter(new OsoJugglerAdapter(app));
+    this.setDataFilteringAdapter(new JugglerAdapter((m: string) => this.getRepository(m)));
   }
 
   addModel(model: EntityClass, options?: EnforcerClassOptions): void;

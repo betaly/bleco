@@ -9,13 +9,12 @@ import {
   RelationMetadata,
   RelationType,
 } from '@loopback/repository';
-import {Class, UserType} from 'oso/dist/src/types';
+import {Class} from 'oso/dist/src/types';
 import {Relation} from 'oso/dist/src/filter';
 import {resolveBelongsToMetadata} from '@loopback/repository/dist/relations/belongs-to/belongs-to.helpers';
 import {BelongsToDefinition} from '@loopback/repository/src/relations/relation.types';
 import {resolveHasManyMetadata} from '@loopback/repository/dist/relations/has-many/has-many.helpers';
 import {resolveHasOneMetadata} from '@loopback/repository/dist/relations/has-one/has-one.helpers';
-import {Oso} from 'oso';
 
 const debug = debugFactory('bleco:oso:oso-helper');
 
@@ -73,18 +72,4 @@ export function resolveRelation(metadata: RelationMetadata): Relation | undefine
     const rel = resolveHasManyMetadata(metadata as HasManyDefinition);
     return new Relation('many', rel.target().name, rel.keyFrom, rel.keyTo);
   }
-}
-
-export function registerModel(oso: Oso, model: typeof Entity): void {
-  oso.registerClass(model, {
-    fields: buildClassFields(model),
-  });
-}
-
-export function getIdProp(type: UserType<typeof Entity>) {
-  const idProps = type.cls.definition.idProperties();
-  if (idProps.length !== 1) {
-    throw new Error(`Expected one id property but found ${idProps.length}`);
-  }
-  return idProps[0];
 }

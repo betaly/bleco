@@ -1,5 +1,5 @@
 {
-  "name": "@bleco/oso",
+  "name": "@bleco/acl-oso",
   "description": "A loopback-next extension for Oso authorization integration",
   "version": "0.1.0",
   "keywords": [
@@ -25,7 +25,7 @@
   },
   "scripts": {
     "build": "nb-tsc",
-    "clean": "nb-clean 'bleco-oso*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "nb-clean 'bleco-acl-oso*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"
@@ -38,8 +38,10 @@
     "@loopback/core": "^4.0.0",
     "@loopback/repository": "^5.0.0",
     "@obcode/templating": "^0.2.0",
+    "debug": "^4.3.4",
     "memstreams": "^0.4.1",
     "oso": "^0.26.0",
+    "oso-juggler": "^0.1.2",
     "tily": "^2.16.1",
     "ts-essentials": "^9.1.2"
   },
