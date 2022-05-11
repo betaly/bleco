@@ -3,16 +3,18 @@ import {Filter} from '@loopback/filter';
 import {Knex} from 'knex';
 import each from 'tily/object/each';
 import {DeepPartial} from 'ts-essentials';
-import {JoinResolver} from '../../../../../drivers/sql/resolvers';
 import {QuerySession} from '../../../../../session';
-import {createKnex} from '../../../../../drivers/sql/knex';
+import {createKnex, JoinResolver} from '../../../../../drivers/sql';
 import {RelationConstraint} from '../../../../../relation';
-import {DB, givenDb, givenJoinResolvers, mockPg} from '../../../../support';
+import {DB, givenDb, givenJoinResolver, givenJoinResolvers, mockPg} from '../../../../support';
 import {Issue} from '../../../../fixtures/models/issue';
 import {Foo} from '../../../../fixtures/models/foo';
 import {Proj} from '../../../../fixtures/models/proj';
 import {User} from '../../../../fixtures/models/user';
 import {Org} from '../../../../fixtures/models/org';
+import {Transport} from '../../../../fixtures/models/transport';
+import {Delivery} from '../../../../fixtures/models/delivery';
+import {Sender} from '../../../../fixtures/models/sender';
 
 mockPg();
 
@@ -22,7 +24,7 @@ describe('resolvers/join', () => {
   let knex: Knex;
   let session: QuerySession;
 
-  beforeAll(() => {
+  beforeEach(() => {
     db = givenDb({connector: 'postgresql'});
     resolvers = givenJoinResolvers(db.ds);
     knex = createKnex(db.ds);
@@ -267,6 +269,71 @@ describe('resolvers/join', () => {
         },
       },
     );
+  });
+
+  describe('Polymorphic Relations', function () {
+    it('hasOne', () => {
+      testJoin(
+        knex,
+        givenJoinResolver(Delivery, db),
+        session,
+        {
+          where: {
+            'deliverable(Parcel).parcelTitle': 'parcel2',
+          },
+        },
+        'select * from "public"."delivery" inner join "public"."parcel" as "t_0_0_parcel" on "delivery"."id" = "t_0_0_parcel"."deliveryid" and "delivery"."deliverabletype" = ?',
+        {
+          'deliverable(Parcel).parcelTitle': {
+            prefix: 't_0_0_',
+            model: 'Parcel',
+            property: {key: 'parcelTitle'},
+          },
+        },
+      );
+    });
+
+    it('belongsTo', async () => {
+      testJoin(
+        knex,
+        givenJoinResolver(Transport, db),
+        session,
+        {
+          where: {
+            'deliverable(Parcel).parcelTitle': 'parcel2',
+          },
+        },
+        'select * from "public"."transport" inner join "public"."parcel" as "t_0_0_parcel" on "transport"."deliverableid" = "t_0_0_parcel"."id" and "transport"."deliverabletype" = ?',
+        {
+          'deliverable(Parcel).parcelTitle': {
+            prefix: 't_0_0_',
+            model: 'Parcel',
+            property: {key: 'parcelTitle'},
+          },
+        },
+      );
+    });
+
+    it('hasMayThrough', async () => {
+      testJoin(
+        knex,
+        givenJoinResolver(Sender, db),
+        session,
+        {
+          where: {
+            'deliverables(Parcel).parcelTitle': 'parcel2',
+          },
+        },
+        'select * from "public"."sender" inner join "public"."senderdeliverable" as "t_0_0_senderdeliverable" on "sender"."id" = "t_0_0_senderdeliverable"."senderid" inner join "public"."parcel" as "t_0_0_parcel" on "t_0_0_senderdeliverable"."deliverableid" = "t_0_0_parcel"."id" and "t_0_0_senderdeliverable"."deliverabletype" = ?',
+        {
+          'deliverables(Parcel).parcelTitle': {
+            prefix: 't_0_0_',
+            model: 'Parcel',
+            property: {key: 'parcelTitle'},
+          },
+        },
+      );
+    });
   });
 });
 

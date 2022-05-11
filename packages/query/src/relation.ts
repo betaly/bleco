@@ -19,12 +19,16 @@ export interface RelationJoin {
   parentModel: string;
   relation: QueryRelationMetadata;
   model: string;
+  polymorphic?: {
+    discriminator: string;
+    value?: string;
+  };
 }
 
 export interface RelationConstraint {
   prefix: string;
   model: string;
-  property?: PropertyDefinition;
+  property?: Partial<PropertyDefinition>;
 }
 
 export const SupportedRelationTypes = [RelationType.hasMany, RelationType.belongsTo, RelationType.hasOne];

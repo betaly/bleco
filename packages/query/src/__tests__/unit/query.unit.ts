@@ -6,6 +6,7 @@ import {User} from '../fixtures/models/user';
 import {ProjWithRelations} from '../fixtures/models/proj';
 import * as knex from '../../drivers/sql/knex';
 import {Foo} from '../fixtures/models/foo';
+import {Letter, Parcel} from '../fixtures/models/deliverable';
 
 mockPg();
 
@@ -194,6 +195,101 @@ describe('Query', () => {
         await expect(fooQuery.find({where: {'birds.name': {like: '%sparrow%'}}})).rejects.toThrow(
           /is not defined in the current datasource for relation/,
         );
+      });
+    });
+
+    describe('polymorphic relation', function () {
+      describe('hasOne', function () {
+        it('with $rel', async () => {
+          const deliveryQuery = new DefaultQuery(repos.Delivery);
+          const deliveries = await deliveryQuery.find({where: {$rel: 'deliverable(Letter)'}, include: ['deliverable']});
+          expect(deliveries).toHaveLength(1);
+          expect(deliveries[0].deliverable).toBeTruthy();
+          expect(deliveries[0].deliverable).toBeInstanceOf(Letter);
+          expect(deliveries[0].deliverable.letterTitle).toEqual('letter1');
+        });
+
+        it('with property filter', async () => {
+          const deliveryQuery = new DefaultQuery(repos.Delivery);
+          const deliveries = await deliveryQuery.find({
+            where: {'deliverable(Parcel).parcelTitle': {like: '%parcel1%'}},
+            include: ['deliverable'],
+          });
+          expect(deliveries).toHaveLength(1);
+          expect(deliveries[0].deliverable).toBeTruthy();
+          expect(deliveries[0].deliverable).toBeInstanceOf(Parcel);
+          expect(deliveries[0].deliverable.parcelTitle).toEqual('parcel1');
+        });
+      });
+
+      describe('belongsTo', function () {
+        it('with $rel', async () => {
+          const transportQuery = new DefaultQuery(repos.Transport);
+          const transports = await transportQuery.find({
+            where: {$rel: 'deliverable(Letter)'},
+            include: ['deliverable'],
+          });
+          expect(transports).toHaveLength(1);
+          expect(transports[0].deliverable).toBeTruthy();
+          expect(transports[0].deliverable).toBeInstanceOf(Letter);
+          expect(transports[0].deliverable.letterTitle).toEqual('letter1');
+        });
+
+        it('with property filter', async () => {
+          const transportQuery = new DefaultQuery(repos.Transport);
+          const transports = await transportQuery.find({
+            where: {'deliverable(Parcel).parcelTitle': {like: '%parcel1%'}},
+            include: ['deliverable'],
+          });
+          expect(transports).toHaveLength(1);
+          expect(transports[0].deliverable).toBeTruthy();
+          expect(transports[0].deliverable).toBeInstanceOf(Parcel);
+          expect(transports[0].deliverable.parcelTitle).toEqual('parcel1');
+        });
+      });
+
+      describe('hasManyThrough', function () {
+        it('with $rel', async () => {
+          const senderQuery = new DefaultQuery(repos.Sender);
+          const senders = await senderQuery.find({where: {$rel: 'deliverables(Parcel)'}, include: ['deliverables']});
+          expect(senders).toHaveLength(1);
+          expect(senders[0].deliverables).toBeTruthy();
+          expect(senders[0].deliverables).toHaveLength(2);
+        });
+
+        it('with property filter and without inclusion filter', async () => {
+          const senderQuery = new DefaultQuery(repos.Sender);
+          const senders = await senderQuery.find({
+            // inner join query will not load inclusions and will not be able to filter the included entities
+            where: {'deliverables(Parcel).parcelTitle': {like: '%parcel1%'}},
+            include: ['deliverables'],
+          });
+          expect(senders).toHaveLength(1);
+          expect(senders[0].deliverables).toBeTruthy();
+          expect(senders[0].deliverables).toHaveLength(2);
+        });
+
+        it('with property filter and with inclusion filter', async () => {
+          const senderQuery = new DefaultQuery(repos.Sender);
+          const senders = await senderQuery.find({
+            // inner join query will not load inclusions and will not be able to filter the included entities
+            where: {'deliverables(Parcel).parcelTitle': {like: '%parcel1%'}},
+            include: [
+              {
+                relation: 'deliverables',
+                scope: {
+                  where: {
+                    // filter inclusion of parcels
+                    parcelTitle: {like: '%parcel1%'},
+                  },
+                },
+              },
+            ],
+          });
+          expect(senders).toHaveLength(1);
+          expect(senders[0].deliverables).toBeTruthy();
+          expect(senders[0].deliverables).toHaveLength(1);
+        });
       });
     });
 

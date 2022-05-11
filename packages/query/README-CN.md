@@ -10,6 +10,8 @@
   [belongsTo](https://loopback.io/doc/en/lb4/BelongsTo-relation.html),
   [hasOne](https://loopback.io/doc/en/lb4/HasOne-relation.html) 和
   [hasManyThrough](https://loopback.io/doc/en/lb4/HasManyThrough-relation.html) 关系
+- 支
+  持[多态关系 (Polymorphic Relations)](https://github.com/loopbackio/loopback-next/blob/master/docs/site/Polymorphic-relation.md)
 - 支持 `PostgreSQL`, `MSSQL`, `MySQL`, `MariaDB`, `SQLite3`, `Oracle` 关系型数据库，其他数据库，通过 Mixin 方式扩展的
   Repository 将委托给父类的原生查询方法。
 - 不支持通过 `find` 和 `findOne` 加载对象的 [access](https://loopback.io/doc/en/lb3/Operation-hooks.html#access) 和
@@ -280,68 +282,84 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 句查询条件。 ``
 
 - 用关系和字段为 `key` 进行关联查询（使用 `INNER JOIN`）
-  ```js
+  ```json5
   {
     where: {
-      'relation_a.relation_b.property': value
-    }
+      'relation_a.relation_b.property': 'some value',
+    },
   }
   ```
 - 用 `$rel` 进行关联查询（使用 `INNER JOIN`）
-  ```js
+
+  ```json5
   {
     where: {
-      $rel: 'relation_a.relation_b';
-    }
-  }
-  // 或者同时定义多个关系
-  {
-    where: {
-      $rel: ['relation_a.relation_b', 'relation_c.relation_d'];
-    }
+      $rel: 'relation_a.relation_b',
+    },
   }
   ```
+
+  或者同时定义多个关系
+
+  ```json5
+  {
+    where: {
+      $rel: ['relation_a.relation_b', 'relation_c.relation_d'],
+    },
+  }
+  ```
+
 - 用 `$expr` 进行字段间的过滤查询
+
   - 值 <-> 值：
-    ```js
+    ```json5
     {
       where: {
         $expr: {
-          eq: [1, 0];
-        }
-      }
+          eq: [1, 0],
+        },
+      },
     }
     ```
   - 字段 <-> 值：
-    ```js
+    ```json5
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', value];
-        }
-      }
+          eq: ['$relation_a.relation_b.property', 'some value'],
+        },
+      },
     }
     ```
   - 值 <-> 字段：
-    ```js
+    ```json5
     {
       where: {
         $expr: {
-          eq: [值, '$relation_a.relation_b.property'];
-        }
-      }
+          eq: ['some value', '$relation_a.relation_b.property'],
+        },
+      },
     }
     ```
   - 字段 <-> 字段：
-    ```js
+    ```json5
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'];
-        }
-      }
+          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'],
+        },
+      },
     }
     ```
+
+- 多态关系查询(Polymorphic Relations Query). 详细使用请参考相关[测试用例](src/__tests__/unit/query.unit.ts)。
+  ```json5
+  {
+    where: {
+      'deliverables(Letter).property': 'some value',
+    },
+  }
+  ```
 
 例如有如下模型：
 

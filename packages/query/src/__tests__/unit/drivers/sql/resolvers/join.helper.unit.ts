@@ -7,7 +7,7 @@ describe('parseRelationChain', () => {
     const result = parseRelationChain(Org.definition, 'users.email');
     expect(result?.property).toBeTruthy();
     expect(result).toMatchObject({
-      relationChain: ['users'],
+      relationChain: [{name: 'users'}],
       propertyKey: 'email',
     });
   });
@@ -16,7 +16,7 @@ describe('parseRelationChain', () => {
     const result = parseRelationChain(Org.definition, 'users.address.city');
     expect(result?.property).toBeTruthy();
     expect(result).toMatchObject({
-      relationChain: ['users'],
+      relationChain: [{name: 'users'}],
       propertyKey: 'address.city',
     });
   });
@@ -25,7 +25,7 @@ describe('parseRelationChain', () => {
     const result = parseRelationChain(Org.definition, 'users.userInfo');
     expect(result?.property).toBeUndefined();
     expect(result).toMatchObject({
-      relationChain: ['users', 'userInfo'],
+      relationChain: [{name: 'users'}, {name: 'userInfo'}],
     });
   });
 

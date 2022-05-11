@@ -17,6 +17,7 @@ import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations
 import {createHasManyThroughInclusionResolver} from '@loopback/repository/dist/relations/has-many/has-many-through.inclusion-resolver';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
 import {DefaultQuery, Query} from '../query';
+import {EntityClass} from '../types';
 import {Org} from './fixtures/models/org';
 import {Proj} from './fixtures/models/proj';
 import {Issue} from './fixtures/models/issue';
@@ -25,6 +26,11 @@ import {OrgUser} from './fixtures/models/org-user';
 import {UserInfo} from './fixtures/models/user-info';
 import {Foo} from './fixtures/models/foo';
 import {Bar} from './fixtures/models/bar';
+import {Letter, Parcel} from './fixtures/models/deliverable';
+import {Delivery} from './fixtures/models/delivery';
+import {Transport} from './fixtures/models/transport';
+import {Sender} from './fixtures/models/sender';
+import {SenderDeliverable} from './fixtures/models/sender-deliverable';
 
 export const EntityMap = {
   Foo: Foo,
@@ -35,6 +41,12 @@ export const EntityMap = {
   User: User,
   UserInfo: UserInfo,
   OrgUser: OrgUser,
+  Letter: Letter,
+  Parcel: Parcel,
+  Delivery: Delivery,
+  Transport: Transport,
+  Sender: Sender,
+  SenderDeliverable: SenderDeliverable,
 };
 
 export type EntityMap = typeof EntityMap;
@@ -60,6 +72,8 @@ export function givenDb(dsConfig: Options) {
     return acc;
   }, {} as Repos);
 
+  const entityClasses = Object.values(EntityMap);
+
   Object.entries(repos).forEach(([name, repo]) => {
     const model = EntityMap[name as EntityName];
     const definition = model.definition;
@@ -67,11 +81,17 @@ export function givenDb(dsConfig: Options) {
       const relation = definition.relations[relationName];
       const target = relation.target();
       const targetRepo = repos[target.name as EntityName];
-      const targetGetter = {[target.name]: async () => targetRepo};
+
+      const getTargetRepoDict = {[target.name]: async () => targetRepo};
+
+      for (const cls of entityClasses) {
+        getTargetRepoDict[cls.name] = async () => repos[cls.name as EntityName];
+      }
+
       if (relation.type === 'belongsTo') {
         repo.registerInclusionResolver(
           relationName,
-          createBelongsToInclusionResolver(relation as BelongsToDefinition, targetGetter),
+          createBelongsToInclusionResolver(relation as BelongsToDefinition, getTargetRepoDict),
         );
       } else if (relation.type === 'hasMany') {
         if ('through' in relation && relation.through) {
@@ -80,7 +100,7 @@ export function givenDb(dsConfig: Options) {
             createHasManyThroughInclusionResolver(
               relation as HasManyDefinition,
               async () => repos[relation.through!.model().name as EntityName],
-              targetGetter,
+              getTargetRepoDict,
             ),
           );
         } else {
@@ -92,7 +112,7 @@ export function givenDb(dsConfig: Options) {
       } else if (relation.type === 'hasOne') {
         repo.registerInclusionResolver(
           relationName,
-          createHasOneInclusionResolver(relation as HasOneDefinition, targetGetter),
+          createHasOneInclusionResolver(relation as HasOneDefinition, getTargetRepoDict),
         );
       }
     }
@@ -110,9 +130,14 @@ export function givenWhereResolvers(ds: juggler.DataSource) {
 
 export function givenJoinResolvers(ds: juggler.DataSource) {
   return Entities.reduce((acc, entity) => {
-    acc[entity.name] = new JoinResolver<any>(entity, ds);
+    acc[entity.name] = givenJoinResolver(entity, ds);
     return acc;
   }, {} as Record<string, JoinResolver<any>>);
+}
+
+export function givenJoinResolver(entityClass: EntityClass, dbOrDS: juggler.DataSource | DB) {
+  const ds = dbOrDS instanceof juggler.DataSource ? dbOrDS : dbOrDS.ds;
+  return new JoinResolver<any>(entityClass, ds);
 }
 
 export function givenOrderResolvers(ds: juggler.DataSource) {

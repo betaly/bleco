@@ -240,7 +240,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     const props = definition.properties;
     if (props) {
       let constraint: RelationConstraint | undefined;
-      let p: PropertyDefinition | undefined = props[key];
+      let p: Partial<PropertyDefinition> | undefined = props[key];
 
       // TODO we should ignore hidden property for `where`?
       // if (p && includes(key, definition.settings.hiddenProperties ?? [])) {

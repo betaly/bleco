@@ -1,10 +1,20 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import {Knex} from 'knex';
 import debugFactory from 'debug';
-import {AnyObject, Entity, HasManyDefinition, ModelDefinition, RelationType} from '@loopback/repository';
+import {
+  AnyObject,
+  Entity,
+  HasManyDefinition,
+  ModelDefinition,
+  RelationMetadata,
+  RelationType,
+} from '@loopback/repository';
 import {Filter} from '@loopback/filter';
 import {assert} from 'tily/assert';
 import toArray from 'tily/array/toArray';
+import includes from 'tily/array/includes';
+import isArray from 'tily/is/array';
+import {isString} from 'tily/is/string';
 import {ClauseResolver} from '../resolver';
 import {QuerySession} from '../../../session';
 import {
@@ -14,11 +24,8 @@ import {
   resolveRelation,
   SupportedRelationTypes,
 } from '../../../relation';
-import includes from 'tily/array/includes';
-import {isField} from '../../../utils';
 import {Directives, GroupOperators} from '../types';
-import isArray from 'tily/is/array';
-import {isString} from 'tily/is/string';
+import isPlainObject from 'tily/is/plainObject';
 
 const debug = debugFactory('bleco:query:join');
 
@@ -57,7 +64,9 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
       assert(relationJoin.relation.keyFrom, 'relation.keyFrom is required');
       assert(relationJoin.relation.keyTo, 'relation.keyTo is required');
 
-      if (!orm.getModelDefinition(relationJoin.model)) {
+      const targetModel = relationJoin.model;
+
+      if (!orm.getModelDefinition(targetModel)) {
         throw new Error(
           `Model "${relationJoin.model}" is not defined in the current datasource for relation "${relationJoin.relationPath}".`,
         );
@@ -65,20 +74,37 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 
       qb.innerJoin(
         {
-          [orm.escapeName(relationJoin.prefix + orm.table(relationJoin.model))]: orm.tableEscaped(relationJoin.model),
+          [orm.escapeName(relationJoin.prefix + orm.table(targetModel))]: orm.tableEscaped(targetModel),
         },
-        orm.columnEscaped(relationJoin.parentModel, relationJoin.relation.keyFrom, true, relationJoin.parentPrefix),
-        orm.columnEscaped(relationJoin.model, relationJoin.relation.keyTo, true, relationJoin.prefix),
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        qb => {
+          qb.on(
+            orm.columnEscaped(
+              relationJoin.parentModel,
+              relationJoin.relation!.keyFrom!,
+              true,
+              relationJoin.parentPrefix,
+            ),
+            orm.columnEscaped(targetModel, relationJoin.relation!.keyTo!, true, relationJoin.prefix),
+          );
+          if (relationJoin.polymorphic?.value) {
+            qb.onVal(
+              orm.columnEscaped(
+                relationJoin.parentModel,
+                relationJoin.polymorphic.discriminator,
+                true,
+                relationJoin.parentPrefix,
+              ),
+              relationJoin.polymorphic.value,
+            );
+          }
+        },
       );
     }
   }
 
   protected compile(key: string, session: QuerySession, constraints: Record<string, RelationConstraint>) {
     const {definition} = this.entityClass;
-
-    if (!isField(key)) {
-      return;
-    }
 
     const parsed = parseRelationChain(definition, key);
     if (!parsed) {
@@ -95,7 +121,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     for (let i = 0; i < relationChain.length; i++) {
       // Build a prefix for alias to prevent conflict
       const prefix = nextPrefix(session, i);
-      const candidateRelation = relationChain[i];
+      const {name: candidateRelation, polymorphicValue} = relationChain[i];
       const modelDefinition = parentEntity.definition; //this.orm.getModelDefinition(parentModel);
 
       if (!modelDefinition) {
@@ -125,12 +151,22 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 
       const target = relation.target();
       const potentialRelationPath = `${relationPath}.${candidateRelation}`;
+      let polymorphic;
+
       // Check if the relation is already joined
       join = session.relationJoins.find(j => potentialRelationPath === j.relationPath);
       if (!join) {
         // Join the relation
         if (relation.type === RelationType.hasMany && relation.through) {
           const throughEntity = relation.through.model();
+
+          polymorphic = isPlainObject(relation.through.polymorphic)
+            ? {
+                discriminator: relation.through.polymorphic.discriminator,
+                value: polymorphicValue,
+              }
+            : undefined;
+
           // Add through relation join
           session.addRelationJoin({
             relationPath: `${relationPath}.-.${candidateRelation}`,
@@ -151,6 +187,14 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
             keyFrom: relation.through.keyTo,
             keyTo: relation.keyTo,
           } as HasManyDefinition;
+        } else {
+          polymorphic =
+            'polymorphic' in relation && isPlainObject(relation.polymorphic)
+              ? {
+                  discriminator: relation.polymorphic.discriminator,
+                  value: polymorphicValue,
+                }
+              : undefined;
         }
 
         // add relation join
@@ -163,7 +207,8 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
             ...(relation as QueryRelationMetadata),
             name: candidateRelation,
           },
-          model: target.modelName,
+          model: polymorphic?.value ?? target.modelName,
+          polymorphic,
         });
       }
       // Keep the prefix of the found join
@@ -178,59 +223,91 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     constraints[key] = {
       prefix: join.prefix,
       model: join.model,
-      property: property
-        ? {
-            ...property,
-            key: propertyKey,
-          }
-        : undefined,
+      property: {
+        ...property,
+        key: propertyKey,
+      },
     };
   }
 }
 
 export function parseRelationChain(definition: ModelDefinition, key: string) {
-  const parts = key.split('.');
+  const members = parseKey(key);
 
   let i = 0;
-  let relation = definition.relations[parts[i]];
+  let relation = definition.relations[members[i]?.name];
   if (relation) {
-    let next = relation.target().definition.relations[parts[++i]];
+    let next = relation.target().definition.relations[members[++i]?.name];
     while (next) {
       relation = next;
-      next = relation.target().definition.relations[parts[++i]];
+      next = relation.target().definition.relations[members[++i]?.name];
     }
   }
 
   // no relation found
   if (!relation) {
-    if (!definition.properties[parts[0]]) {
+    if (!definition.properties[members[0]?.name]) {
       throw new Error(`No relation and property found for key "${key}" in model "${definition.name}"`);
     }
     // ignore nested properties
     return;
   }
   // no property left
-  if (i >= parts.length) {
+  if (i >= members.length) {
     return {
-      relationChain: parts,
+      relationChain: members,
     };
   }
 
-  const relationChain = parts.slice(0, i);
-  const propertyName = parts[i];
+  const relationChain = members.slice(0, i);
+  const propertyName = members[i].name;
   const target = relation.target().definition;
+
+  // property may be undefined if the relation is polymorphic and target is ancestor class
   const property = target.properties[propertyName];
-  if (!property) {
+
+  if (!hasPolymorphic(relation) && !property) {
     throw new Error(
-      `"${propertyName}" is not in model "${target.name}" with relation chain "${relationChain.join('.')}"`,
+      `"${propertyName}" is not in model "${target.name}" with relation chain "${relationChain
+        .map(r => r.name)
+        .join('.')}"`,
     );
+  }
+
+  for (let j = i; j < members.length; j++) {
+    if (members[j].polymorphicValue) {
+      throw new Error(`polymorphic should not be with property: ${propertyName}`);
+    }
   }
 
   return {
     relationChain,
     property,
-    propertyKey: parts.slice(i).join('.'),
+    propertyKey: members
+      .slice(i)
+      .map(m => m.name)
+      .join('.'),
   };
+}
+
+interface Member {
+  name: string;
+  polymorphicValue?: string;
+}
+
+function parseKey(key: string): Member[] {
+  return key.split('.').map(part => {
+    const from = part.indexOf('(');
+    const to = part.lastIndexOf(')');
+    if ((from < 0 && to >= 0) || (from >= 0 && to < 0)) {
+      throw new Error(`Invalid key "${key}"`);
+    }
+    if (from < 0) {
+      return {name: part};
+    } else {
+      return {name: part.substring(0, from), polymorphicValue: part.substring(from + 1, to)};
+    }
+  });
 }
 
 function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
@@ -239,6 +316,7 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
   for (const key in where) {
     if (!GroupOperators.includes(key)) {
       if (key === Directives.EXPR) {
+        // extract $expr
         const expr = where[key];
         const op = Object.keys(expr)[0];
         if (!op) continue;
@@ -250,6 +328,7 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
           }
         }
       } else if (key === Directives.REL) {
+        // extract $rel
         const rel = where[key];
         toArray(rel).forEach((r: string) => keys.add(r));
       } else {
@@ -267,6 +346,11 @@ function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
   }
 
   return keys;
+}
+
+function hasPolymorphic(relation: RelationMetadata) {
+  const rel = 'through' in relation && relation.through ? relation.through : relation;
+  return 'polymorphic' in rel && isPlainObject(rel.polymorphic);
 }
 
 function retrieveOrderKey(key: string) {

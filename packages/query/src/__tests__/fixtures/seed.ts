@@ -1,4 +1,17 @@
-import {IssueRepo, OrgRepo, OrgUserRepo, ProjRepo, UserInfoRepo, UserRepo} from './repos';
+import {
+  DeliveryRepo,
+  IssueRepo,
+  LetterRepo,
+  OrgRepo,
+  OrgUserRepo,
+  ParcelRepo,
+  ProjRepo,
+  SenderDeliverableRepo,
+  SenderRepo,
+  TransportRepo,
+  UserInfoRepo,
+  UserRepo,
+} from './repos';
 import {Repos} from '../support';
 
 export async function seed(repos: Repos) {
@@ -8,6 +21,13 @@ export async function seed(repos: Repos) {
   const orgUserRepo = repos['OrgUser'] as OrgUserRepo;
   const projRepo = repos['Proj'] as ProjRepo;
   const issueRepo = repos['Issue'] as IssueRepo;
+
+  const letterRepo = repos['Letter'] as LetterRepo;
+  const parcelRepo = repos['Parcel'] as ParcelRepo;
+  const deliveryRepo = repos['Delivery'] as DeliveryRepo;
+  const transportRepo = repos['Transport'] as TransportRepo;
+  const senderRepo = repos['Sender'] as SenderRepo;
+  const senderDeliverableRepo = repos['SenderDeliverable'] as SenderDeliverableRepo;
 
   // create in order for findOne
   const users = [
@@ -49,5 +69,44 @@ export async function seed(repos: Repos) {
     {title: 'OrgA_Proj2_Issue2', projId: projs[1].id, creatorId: users[1].id},
     {title: 'OrgA_Proj2_Issue3', projId: projs[1].id, creatorId: users[2].id},
     {title: 'OrgB_Proj1_Issue1', projId: projs[2].id, creatorId: users[0].id},
+  ]);
+
+  const deliveries = [
+    await deliveryRepo.create({deliverableType: 'Letter'}),
+    await deliveryRepo.create({deliverableType: 'Parcel'}),
+    await deliveryRepo.create({deliverableType: 'Parcel'}),
+  ];
+
+  const letters = [await letterRepo.create({letterTitle: 'letter1', deliveryId: deliveries[0].id})];
+
+  const parcels = [
+    await parcelRepo.create({parcelTitle: 'parcel1', deliveryId: deliveries[1].id}),
+    await parcelRepo.create({parcelTitle: 'parcel2', deliveryId: deliveries[2].id}),
+  ];
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const transports = [
+    await transportRepo.create({
+      name: 'transport1',
+      deliverableType: letters[0].constructor.name,
+      deliverableId: letters[0].id,
+    }),
+    await transportRepo.create({
+      name: 'transport2',
+      deliverableType: parcels[0].constructor.name,
+      deliverableId: parcels[0].id,
+    }),
+    await transportRepo.create({
+      name: 'transport3',
+      deliverableType: parcels[1].constructor.name,
+      deliverableId: parcels[1].id,
+    }),
+  ];
+
+  const senders = [await senderRepo.create({name: 'sender1'}), await senderRepo.create({name: 'sender2'})];
+
+  await senderDeliverableRepo.createAll([
+    {senderId: senders[0].id, deliverableType: parcels[0].constructor.name, deliverableId: parcels[0].id},
+    {senderId: senders[0].id, deliverableType: parcels[1].constructor.name, deliverableId: parcels[1].id},
   ]);
 }
