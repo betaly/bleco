@@ -4,7 +4,7 @@ import {inject} from '@loopback/context';
 
 const config = {
   name: 'db',
-  connector: 'sqlite3',
+  connector: 'sqlite3e',
   file: ':memory:',
   // file: '.test.db',
   debug: true,
@@ -21,7 +21,7 @@ export class DbDataSource extends juggler.DataSource implements LifeCycleObserve
 
   constructor(
     @inject('datasources.config.db', {optional: true})
-    dsConfig: object = config,
+      dsConfig: object = config,
   ) {
     super(dsConfig);
   }
