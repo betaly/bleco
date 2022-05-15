@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Constructor } from "@loopback/core";
-import { DefaultCrudRepository, juggler } from "@loopback/repository";
-import { DefaultQuery, QueryMethods } from "../../../query";
-import { DB, givenDb } from "../../support";
-import { originalProp } from "../../../utils";
-import { queryPatch, queryUnpatch } from "../../../patches";
-import { Foo } from "../../fixtures/models/foo";
+import {Constructor} from '@loopback/core';
+import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {DefaultQuery, QueryMethods} from '../../../query';
+import {DB, givenDb} from '../../support';
+import {originalProp} from '../../../utils';
+import {queryPatch, queryUnpatch} from '../../../patches';
+import {Foo} from '../../fixtures/models/foo';
 
 describe('patch/unpatch', () => {
   let db: DB;

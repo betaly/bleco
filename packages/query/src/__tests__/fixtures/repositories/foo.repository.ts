@@ -1,8 +1,8 @@
-import { Constructor } from "@loopback/core";
-import { DefaultCrudRepository, juggler } from "@loopback/repository";
-import { mixinQuery } from "../../../decorators";
-import { QueryEnhancedRepository, QueryRepositoryMixin } from "../../../mixins";
-import { Foo } from "../models/foo";
+import {Constructor} from '@loopback/core';
+import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {mixinQuery} from '../../../decorators';
+import {QueryEnhancedRepository, QueryRepositoryMixin} from '../../../mixins';
+import {Foo} from '../models/foo';
 
 export class FooRepositoryWithQueryExtended extends QueryRepositoryMixin<
   Foo,

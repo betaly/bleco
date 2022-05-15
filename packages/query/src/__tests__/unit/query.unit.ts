@@ -1,12 +1,12 @@
-import { DefaultQuery, Query } from "../../query";
-import { DB, givenDb, mockPg, Repos } from "../support";
-import { seed } from "../fixtures/seed";
-import { Org } from "../fixtures/models/org";
-import { User } from "../fixtures/models/user";
-import { ProjWithRelations } from "../fixtures/models/proj";
-import * as knex from "../../drivers/sql/knex";
-import { Foo } from "../fixtures/models/foo";
-import { Letter, Parcel } from "../fixtures/models/deliverable";
+import {DefaultQuery, Query} from '../../query';
+import {DB, givenDb, mockPg, Repos} from '../support';
+import {seed} from '../fixtures/seed';
+import {Org} from '../fixtures/models/org';
+import {User} from '../fixtures/models/user';
+import {ProjWithRelations} from '../fixtures/models/proj';
+import * as knex from '../../drivers/sql/knex';
+import {Foo} from '../fixtures/models/foo';
+import {Letter, Parcel} from '../fixtures/models/deliverable';
 
 mockPg();
 

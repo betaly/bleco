@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
-import { Entity, EntityCrudRepository } from "@loopback/repository";
-import { MixinTarget } from "@loopback/core";
-import { QueryFilter, QueryWhere } from "../filter";
-import { DefaultQuery, Query } from "../query";
+import {Entity, EntityCrudRepository} from '@loopback/repository';
+import {MixinTarget} from '@loopback/core';
+import {QueryFilter, QueryWhere} from '../filter';
+import {DefaultQuery, Query} from '../query';
 
 const debug = require('debug')('bleco:query:query-mixin');
 

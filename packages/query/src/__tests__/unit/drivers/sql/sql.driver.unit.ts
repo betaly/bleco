@@ -1,10 +1,10 @@
-import { DB, givenDb, mockPg, Repos } from "../../../support";
-import { seed } from "../../../fixtures/seed";
-import { SqlDriver } from "../../../../drivers";
-import { Org } from "../../../fixtures/models/org";
-import { User } from "../../../fixtures/models/user";
-import { Proj } from "../../../fixtures/models/proj";
-import { Driver } from "../../../../driver";
+import {DB, givenDb, mockPg, Repos} from '../../../support';
+import {seed} from '../../../fixtures/seed';
+import {SqlDriver} from '../../../../drivers';
+import {Org} from '../../../fixtures/models/org';
+import {User} from '../../../fixtures/models/user';
+import {Proj} from '../../../fixtures/models/proj';
+import {Driver} from '../../../../driver';
 
 mockPg();
 

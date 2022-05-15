@@ -1,7 +1,7 @@
-import { Context, inject, Provider, ValueOrPromise } from "@loopback/core";
-import { DefaultCrudRepository, Entity, juggler, ModelDefinition } from "@loopback/repository";
-import { DefaultQuery, Query } from "../../../query";
-import { query } from "../../../decorators/query.decorator";
+import {Context, inject, Provider, ValueOrPromise} from '@loopback/core';
+import {DefaultCrudRepository, Entity, juggler, ModelDefinition} from '@loopback/repository';
+import {DefaultQuery, Query} from '../../../query';
+import {query} from '../../../decorators/query.decorator';
 
 describe('query with value provider', () => {
   let ctx: Context;

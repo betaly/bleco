@@ -316,56 +316,59 @@ for cascading paths as `where` children query condition.
   }
   ```
 
-- Use `$expr` for filtering queries between fields
-  -value <-> value:
-    ```json5
-    {
-      where: {
-        $expr: {
-          eq: [1, 0],
-        }
-      }
-    }
-    ````
+- Use `$expr` for filtering queries between fields -value <-> value:
+
+  ```json5
+  {
+    where: {
+      $expr: {
+        eq: [1, 0],
+      },
+    },
+  }
+  ```
+
   - Field <-> Value:
     ```json5
     {
       where: {
         $expr: {
           eq: ['$relation_a.relation_b.property', 'some value'],
-        }
-      }
+        },
+      },
     }
-    ````
+    ```
   - Value <-> fields:
     ```json5
     {
       where: {
         $expr: {
-          eq: ['some value', '$relation_a.relation_b.property']
-        }
-      }
+          eq: ['some value', '$relation_a.relation_b.property'],
+        },
+      },
     }
-    ````
+    ```
   - field <-> field:
     ```json5
     {
       where: {
         $expr: {
           eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'],
-        }
-      }
+        },
+      },
     }
-    ````
+    ```
 
 - Polymorphic Relations Query. For details, please refer to the relevant [Test Case](src/__tests__/unit/query.unit.ts).
   ```json5
   {
     where: {
-      'deliverables(Letter).property': 'some value'
-    }
+      'deliverables(Letter).property': 'some value',
+    },
   }
-```
+  ```
+
+````
 
 For example, there are the following models:
 
@@ -392,7 +395,7 @@ export class User extends Entity {
     super(data);
   }
 }
-```
+````
 
 ```ts
 // org.model.ts
@@ -488,4 +491,3 @@ const users = await userQuery.find({
   across one postgres datasource
 - [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving
   [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`
-
