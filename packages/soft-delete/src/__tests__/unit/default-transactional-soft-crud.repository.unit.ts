@@ -3,14 +3,14 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {expect} from '@loopback/testlab';
+import { expect } from "@loopback/testlab";
 
-import {Entity, EntityNotFoundError, juggler, model, property} from '@loopback/repository';
-import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
-import {Getter} from '@loopback/context';
-import {IAuthUser} from '@bleco/authentication';
-import {SoftDeleteEntity} from '../../models';
-import {fail} from 'assert';
+import { Entity, EntityNotFoundError, juggler, model, property } from "@loopback/repository";
+import { DefaultTransactionalSoftCrudRepository } from "../../repositories";
+import { Getter } from "@loopback/context";
+import { SoftDeleteEntity } from "../../models";
+import { fail } from "assert";
+import { UserLike } from "../../types";
 
 /**
  * A mock up model class
@@ -31,7 +31,7 @@ class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, 
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
+    protected readonly getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }
@@ -40,7 +40,7 @@ class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, 
 describe('DefaultTransactionSoftCrudRepository', () => {
   let repo: CustomerCrudRepo;
 
-  before(() => {
+  beforeAll(() => {
     const ds: juggler.DataSource = new juggler.DataSource({
       name: 'db',
       connector: 'memory',

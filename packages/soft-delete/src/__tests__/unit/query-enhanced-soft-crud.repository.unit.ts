@@ -2,7 +2,7 @@ import {Entity, juggler, model, property} from '@loopback/repository';
 import {SoftDeleteEntity} from '../../models';
 import {QueryEnhancedSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {IAuthUser} from '@bleco/authentication';
+import {UserLike} from '../../types';
 
 /**
  * A mock up model class
@@ -23,7 +23,7 @@ class CustomerCrudRepo extends QueryEnhancedSoftCrudRepository<Customer, number>
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
+    protected readonly getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }

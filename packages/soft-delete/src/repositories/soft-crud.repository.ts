@@ -13,10 +13,11 @@ import {
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
 import {Options} from 'loopback-datasource-juggler';
-import {IAuthUser} from '@bleco/authentication';
 
 import {ErrorKeys} from '../error-keys';
 import {SoftDeleteEntity} from '../models';
+import {UserLike} from '../types';
+import {getUserId} from '../helpers';
 
 export abstract class SoftCrudRepository<
   T extends SoftDeleteEntity,
@@ -28,7 +29,7 @@ export abstract class SoftCrudRepository<
       prototype: T;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<IAuthUser | undefined>,
+    protected readonly getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource);
   }
@@ -272,9 +273,6 @@ export abstract class SoftCrudRepository<
     }
     let currentUser = await this.getCurrentUser();
     currentUser = currentUser ?? options?.currentUser;
-    if (!currentUser || !currentUser.id) {
-      return undefined;
-    }
-    return currentUser.id.toString();
+    return currentUser ? getUserId(currentUser) : undefined;
   }
 }

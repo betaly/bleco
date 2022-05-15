@@ -11,6 +11,7 @@ export class QueryEnhancedTransactionalSoftCrudRepository<
 
 export interface QueryEnhancedTransactionalSoftCrudRepository<
   T extends SoftDeleteEntity,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ID,
   Relations extends object = {},
 > extends QueryEnhancedRepository<T, Relations> {}
