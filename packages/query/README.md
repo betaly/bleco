@@ -198,12 +198,12 @@ export class TodoController {
 }
 ```
 
-#### `DefaultCrudRepositoryWithQuery` that inherits from `DefaultCrudRepository` and implements `mixinQuery`
+#### `QueryEnhancedCrudRepository` inherits from `DefaultCrudRepository` and implements `mixinQuery`
 
 `DefaultCrudRepository` is the default CRUD interface implementation of `loopback`, which has all the functions of the
 CRUD interface. Most business repositories inherit from it.
 
-Here we provide a class that inherits from `DefaultCrudRepository` and replaces `DefaultCrudRepositoryWithQuery` of
+Here we provide a class that inherits from `DefaultCrudRepository` and replaces `QueryEnhancedCrudRepository` of
 `mixinQuery` with `Query` replaces `find`, `findOne` and `count` native queries. For data sources that are not yet
 supported (such as non-relational databases), they will be passed directly to the native query.
 
@@ -316,7 +316,6 @@ for cascading paths as `where` children query condition.
   }
   ```
 
-`````
 - Use `$expr` for filtering queries between fields
   -value <-> value:
     ```json5
@@ -489,4 +488,4 @@ const users = await userQuery.find({
   across one postgres datasource
 - [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving
   [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`
-`````
+

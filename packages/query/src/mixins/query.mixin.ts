@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
-import {Entity, EntityCrudRepository} from '@loopback/repository';
-import {MixinTarget} from '@loopback/core';
-import {QueryFilter, QueryWhere} from '../filter';
-import {DefaultQuery, Query} from '../query';
+import { Entity, EntityCrudRepository } from "@loopback/repository";
+import { MixinTarget } from "@loopback/core";
+import { QueryFilter, QueryWhere } from "../filter";
+import { DefaultQuery, Query } from "../query";
 
 const debug = require('debug')('bleco:query:query-mixin');
 
-export interface QueryRepository<M extends Entity, Relations extends object = {}> {
+export interface QueryEnhancedRepository<M extends Entity, Relations extends object = {}> {
   readonly query?: Query<M, Relations> | null;
 }
 
@@ -29,7 +29,7 @@ export function QueryRepositoryMixin<
   const opts = typeof mixinOptions === 'boolean' ? {overrideCruds: mixinOptions} : mixinOptions;
   const {overrideCruds = true} = opts ?? {};
 
-  return class extends superClass implements QueryRepository<M, Relations> {
+  return class extends superClass implements QueryEnhancedRepository<M, Relations> {
     // null for unsupported datasources
     __query__?: Query<M, Relations> | null;
 

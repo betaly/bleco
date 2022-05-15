@@ -193,12 +193,12 @@ export class TodoController {
 }
 ```
 
-#### 继承自 `DefaultCrudRepository` 并进行了 `mixinQuery` 的 `DefaultCrudRepositoryWithQuery`
+#### 继承自 `DefaultCrudRepository` 并进行了 `mixinQuery` 的 `QueryEnhancedCrudRepository`
 
 `DefaultCrudRepository` 是 `loopback` 的默认 CRUD 接口实现，具备了 CRUD 接口的所有功能。大多数的业务 Repository 都继承自
 它。
 
-我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinQuery` 的 `DefaultCrudRepositoryWithQuery` 替换类，用
+我们在这里提供一个继承自 `DefaultCrudRepository`，并且进行了 `mixinQuery` 的 `QueryEnhancedCrudRepository` 替换类，用
 `Query` 接替 `find`, `findOne` 和 `count` 原生查询。对于尚未支持的数据源（如：非关系型数据库），将直接透传给原生查询。
 
 #### Patching

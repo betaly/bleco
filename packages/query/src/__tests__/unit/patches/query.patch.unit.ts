@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Constructor} from '@loopback/core';
-import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {DefaultQuery, QueryMethods} from '../../../query';
-import {DB, givenDb} from '../../support';
-import {originalProp} from '../../../utils';
-import {queryPatch, queryUnpatch} from '../../../patches';
-import {Foo} from '../../fixtures/models/foo';
+import { Constructor } from "@loopback/core";
+import { DefaultCrudRepository, juggler } from "@loopback/repository";
+import { DefaultQuery, QueryMethods } from "../../../query";
+import { DB, givenDb } from "../../support";
+import { originalProp } from "../../../utils";
+import { queryPatch, queryUnpatch } from "../../../patches";
+import { Foo } from "../../fixtures/models/foo";
 
 describe('patch/unpatch', () => {
   let db: DB;
@@ -16,7 +16,7 @@ describe('patch/unpatch', () => {
   const originalSpies: Record<string, jest.SpyInstance> = {};
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
     memdb = givenDb({connector: 'memory'});
     await db.ds.automigrate();
     await memdb.ds.automigrate();

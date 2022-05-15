@@ -1,12 +1,12 @@
-import {DefaultQuery, Query} from '../../query';
-import {DB, givenDb, mockPg, Repos} from '../support';
-import {seed} from '../fixtures/seed';
-import {Org} from '../fixtures/models/org';
-import {User} from '../fixtures/models/user';
-import {ProjWithRelations} from '../fixtures/models/proj';
-import * as knex from '../../drivers/sql/knex';
-import {Foo} from '../fixtures/models/foo';
-import {Letter, Parcel} from '../fixtures/models/deliverable';
+import { DefaultQuery, Query } from "../../query";
+import { DB, givenDb, mockPg, Repos } from "../support";
+import { seed } from "../fixtures/seed";
+import { Org } from "../fixtures/models/org";
+import { User } from "../fixtures/models/user";
+import { ProjWithRelations } from "../fixtures/models/proj";
+import * as knex from "../../drivers/sql/knex";
+import { Foo } from "../fixtures/models/foo";
+import { Letter, Parcel } from "../fixtures/models/deliverable";
 
 mockPg();
 
@@ -14,7 +14,7 @@ describe('Query', () => {
   describe('initiation', () => {
     it('should create a query with specified client', () => {
       const spy = jest.spyOn(knex, 'createKnex');
-      const db = givenDb({connector: 'sqlite3', file: ':memory:', query: {client: 'better-sqlite3'}});
+      const db = givenDb({connector: 'sqlite3e', file: ':memory:', query: {client: 'better-sqlite3'}});
       const query = new DefaultQuery(db.repos.User);
       expect(query).toBeInstanceOf(DefaultQuery);
       expect(spy).toHaveBeenCalledWith(db.ds, {driver: 'sql', client: 'better-sqlite3'});
@@ -36,7 +36,7 @@ describe('Query', () => {
     let projQuery: Query<ProjWithRelations>;
 
     beforeAll(async () => {
-      db = givenDb({connector: 'sqlite3', file: ':memory:'});
+      db = givenDb({connector: 'sqlite3e', file: ':memory:'});
       repos = db.repos;
       fooQuery = new DefaultQuery<Foo>(repos.Foo);
       userQuery = new DefaultQuery<User>(repos.User);

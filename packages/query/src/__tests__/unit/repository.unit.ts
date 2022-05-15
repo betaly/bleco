@@ -1,21 +1,21 @@
-import {juggler} from '@loopback/repository';
-import {DefaultQuery} from '../../query';
-import {DefaultCrudRepositoryWithQuery} from '../../repository';
-import {DB, givenDb} from '../support';
-import {Foo} from '../fixtures/models/foo';
+import { juggler } from "@loopback/repository";
+import { DefaultQuery } from "../../query";
+import { QueryEnhancedCrudRepository } from "../../repository";
+import { DB, givenDb } from "../support";
+import { Foo } from "../fixtures/models/foo";
 
-describe('DefaultCrudRepositoryWithQuery', function () {
+describe('QueryEnhancedCrudRepository', function () {
   let db: DB;
   let findSpy: jest.SpyInstance;
 
-  class MyRepository extends DefaultCrudRepositoryWithQuery<Foo, typeof Foo.prototype.id> {
+  class MyRepository extends QueryEnhancedCrudRepository<Foo, typeof Foo.prototype.id> {
     constructor(dataSource: juggler.DataSource) {
       super(Foo, dataSource);
     }
   }
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
     await db.ds.automigrate();
   });
 

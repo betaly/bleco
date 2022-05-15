@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Constructor} from '@loopback/core';
-import {Entity, EntityCrudRepository} from '@loopback/repository';
-import {DB, givenDb} from '../support';
-import {seed} from '../fixtures/seed';
-import {QueryRepository} from '../../mixins';
-import {DefaultQuery} from './../../query';
-import {Foo} from '../fixtures/models/foo';
+import { Constructor } from "@loopback/core";
+import { Entity, EntityCrudRepository } from "@loopback/repository";
+import { DB, givenDb } from "../support";
+import { seed } from "../fixtures/seed";
+import { QueryEnhancedRepository } from "../../mixins";
+import { DefaultQuery } from "../../query";
+import { Foo } from "../fixtures/models/foo";
 import {
   FooRepositoryWithQueryDecorated,
   FooRepositoryWithQueryDecoratedFull,
-  FooRepositoryWithQueryExtended,
-} from '../fixtures/repositories/foo.repository';
+  FooRepositoryWithQueryExtended
+} from "../fixtures/repositories/foo.repository";
 
-type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & QueryRepository<T>;
+type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & QueryEnhancedRepository<T>;
 type ModelRepositoryCtor<T extends Entity> = Constructor<ModelRepository<T>>;
 
 const MixinSpecs: [string, ModelRepositoryCtor<Foo>][] = [
@@ -28,7 +28,7 @@ describe('Query Mixin', () => {
   let countSpy: jest.SpyInstance;
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
     await db.ds.automigrate();
     await seed(db.repos);
   });
