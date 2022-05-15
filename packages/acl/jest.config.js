@@ -1,10 +1,9 @@
 module.exports = {
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': 'ts-jest/legacy',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   testMatch: ['**/?(*.)+(spec|test|unit|integration|acceptance).[jt]s?(x)'],
   testPathIgnorePatterns: ['node_modules', 'dist'],
-  testEnvironment: 'node',
   coverageReporters: ['html', 'text', 'text-summary', 'cobertura'],
 };
