@@ -5,8 +5,8 @@
 
 import {expect} from '@loopback/testlab';
 
-import {Entity, juggler, property, model, EntityNotFoundError} from '@loopback/repository';
-import {DefaultTransactionSoftCrudRepository} from '../../repositories';
+import {Entity, EntityNotFoundError, juggler, model, property} from '@loopback/repository';
+import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
 import {IAuthUser} from '@bleco/authentication';
 import {SoftDeleteEntity} from '../../models';
@@ -25,7 +25,7 @@ class Customer extends SoftDeleteEntity {
   email: string;
 }
 
-class CustomerCrudRepo extends DefaultTransactionSoftCrudRepository<Customer, number> {
+class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, number> {
   constructor(
     entityClass: typeof Entity & {
       prototype: Customer;

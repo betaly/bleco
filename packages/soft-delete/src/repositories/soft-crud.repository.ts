@@ -248,7 +248,7 @@ export abstract class SoftCrudRepository<
 
   /**
    * Method to perform hard delete of entries. Take caution.
-   * @param entity
+   * @param where
    * @param options
    */
   deleteAllHard(where?: Where<T>, options?: Options): Promise<Count> {
@@ -258,7 +258,7 @@ export abstract class SoftCrudRepository<
 
   /**
    * Method to perform hard delete of entries. Take caution.
-   * @param entity
+   * @param id
    * @param options
    */
   deleteByIdHard(id: ID, options?: Options): Promise<void> {

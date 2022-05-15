@@ -2,13 +2,13 @@ import {
   AndClause,
   Condition,
   DataObject,
+  DefaultTransactionalRepository,
+  Entity,
   Filter,
+  Getter,
   juggler,
   OrClause,
-  DefaultTransactionalRepository,
   Where,
-  Getter,
-  Entity,
 } from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
 import {Options} from 'loopback-datasource-juggler';
@@ -17,7 +17,7 @@ import {IAuthUser} from '@bleco/authentication';
 import {HttpErrors} from '@loopback/rest';
 import {ErrorKeys} from '../error-keys';
 
-export abstract class DefaultTransactionSoftCrudRepository<
+export abstract class DefaultTransactionalSoftCrudRepository<
   T extends SoftDeleteEntity,
   ID,
   Relations extends object = {},
@@ -234,7 +234,7 @@ export abstract class DefaultTransactionSoftCrudRepository<
 
   /**
    * Method to perform hard delete of entries. Take caution.
-   * @param entity
+   * @param where
    * @param options
    */
   deleteAllHard(where?: Where<T>, options?: Options): Promise<Count> {
@@ -244,7 +244,7 @@ export abstract class DefaultTransactionSoftCrudRepository<
 
   /**
    * Method to perform hard delete of entries. Take caution.
-   * @param entity
+   * @param id
    * @param options
    */
   deleteByIdHard(id: ID, options?: Options): Promise<void> {
@@ -264,3 +264,12 @@ export abstract class DefaultTransactionSoftCrudRepository<
     return currentUser.id.toString();
   }
 }
+
+/**
+ * @deprecated Use DefaultTransactionalSoftCrudRepository instead
+ */
+export abstract class DefaultTransactionSoftCrudRepository<
+  T extends SoftDeleteEntity,
+  ID,
+  Relations extends object = {},
+> extends DefaultTransactionalSoftCrudRepository<T, ID, Relations> {}
