@@ -2,7 +2,7 @@ import {mixinQuery, QueryEnhancedRepository} from '@bleco/query';
 import {SoftCrudRepository} from './soft-crud.repository';
 import {SoftDeleteEntity} from '../models';
 
-@mixinQuery()
+@mixinQuery(true)
 export class QueryEnhancedSoftCrudRepository<
   T extends SoftDeleteEntity,
   ID,
