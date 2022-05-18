@@ -1,9 +1,10 @@
-import {AnyObject, DataObject, Entity, Filter} from '@loopback/repository';
-import {QueryWhere} from '@bleco/query';
+import {AnyObject, Entity, Filter, Options, Transaction} from '@loopback/repository';
+import {KeyOf} from '@loopback/filter/src/query';
+import {MarkRequired} from 'ts-essentials';
 
 export const AclDataSourceName = 'AclDB';
 
-export const DefaultDomainId = '';
+export const DefaultDomainId = '$global';
 
 /**
  * Objects with open properties
@@ -13,11 +14,57 @@ export interface AnyRecord {
   [property: string]: any;
 }
 
-export interface ResourceFilter<T extends Entity = Entity> {
-  model: string;
-  where: QueryWhere<T>;
+export type DeleteResult<D extends Record<string, number> = Record<string, number>> = {
+  count: number;
+  details?: D;
+};
+
+export type RoleType = 'builtin' | 'custom';
+
+export type EntityLike = Entity | {id: string | number};
+export type DomainLike = EntityLike;
+
+export type ObjectProps<MT extends object> = {
+  [P in KeyOf<MT>]?: MT[P] & (string | number | boolean | Date); // {x: 1},
+};
+
+export type PropsWithDomain<MT extends object> = MarkRequired<ObjectProps<MT & DomainAware>, 'domainId'>;
+
+export interface DomainAware {
+  domainId: string;
 }
 
-export type ResourcedWhere<T extends object = AnyObject> = DataObject<T> & { resource: Entity, domainId?: string };
+export interface ActorAware {
+  actorId?: string;
+}
 
-export type ResourcedFilter<T extends object = AnyObject> = Omit<Filter<T>, 'where'> & { where: ResourcedWhere };
+export interface RoleAware {
+  roleId?: string;
+}
+
+export interface ResourceAware {
+  resourceId?: string;
+  resourceType?: string;
+}
+
+export type ResourcePolymorphic = Required<ResourceAware>;
+
+export type ResourceParams = Entity | ResourcePolymorphic;
+
+export interface OptionsWithTransaction extends Options {
+  transaction?: Transaction;
+}
+
+export interface OptionsWithDomain extends OptionsWithTransaction {
+  domain?: DomainLike | string;
+}
+
+export type FilterWithCustomWhere<T extends Entity, W extends object = AnyObject> = Omit<Filter<T>, 'where'> & {
+  where: W;
+};
+
+export interface DomainRestriction {
+  domainId: string;
+}
+
+export interface ResourceRestriction extends DomainRestriction, ResourcePolymorphic {}

@@ -1,6 +1,11 @@
 import {Class} from 'tily/typings/types';
 import {Entity} from '@loopback/repository';
-import {ResourceFilter} from './types';
+import {QueryWhere} from "@bleco/query";
+
+export interface AuthorizedFilter<T extends Entity = Entity> {
+  model: string;
+  where: QueryWhere<T>;
+}
 
 export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity = Entity> {
   /**
@@ -118,7 +123,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @param resourceCls Object type.
    * @returns A query that selects authorized resources of type `resourceCls`
    */
-  authorizedQuery(actor: Actor, action: string, resourceCls: Class<Resource>): Promise<ResourceFilter>;
+  authorizedQuery(actor: Actor, action: string, resourceCls: Class<Resource>): Promise<AuthorizedFilter>;
 
   /**
    * Determine the resources of type `resourceCls` that `actor`

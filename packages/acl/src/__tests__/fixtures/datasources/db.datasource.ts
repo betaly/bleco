@@ -1,12 +1,13 @@
 import {BindingScope, LifeCycleObserver, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 import {inject} from '@loopback/context';
+import temp from 'temp';
 
 const config = {
   name: 'db',
   connector: 'sqlite3e',
   // file: ':memory:',
-  file: 'test.db',
+  file: temp.path(),
   debug: true,
 };
 
@@ -21,7 +22,7 @@ export class DbDataSource extends juggler.DataSource implements LifeCycleObserve
 
   constructor(
     @inject('datasources.config.db', {optional: true})
-      dsConfig: object = config,
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }

@@ -1,8 +1,10 @@
-import {belongsTo, Entity, model, property} from "@loopback/repository";
-import {AclRole} from "./role.model";
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {AclRole} from './role.model';
+import {ActorAware, DomainAware, EntityLike, ObjectProps, ResourceAware, ResourceParams, RoleAware} from '../types';
+import {SoftDeleteEntity} from '@bleco/soft-delete';
 
 @model()
-export class AclRoleActor extends Entity {
+export class AclRoleActor extends SoftDeleteEntity implements DomainAware, ActorAware, ResourceAware, RoleAware {
   @property({
     type: 'string',
     id: true,
@@ -15,36 +17,40 @@ export class AclRoleActor extends Entity {
   })
   domainId: string;
 
-  @property({
-    index: true,
-    required: false,
-    description: 'The role name for built-in roles. Otherwise, the role name will be null.',
-  })
-  name?: string;
-
-  @belongsTo(() => Entity, {keyFrom: 'actor_id'}, {
-    name: 'actor_id',
-    index: true
-  })
+  @belongsTo(
+    () => Entity,
+    {},
+    {
+      name: 'actor_id',
+      index: true,
+    },
+  )
   actorId: string;
 
-  @belongsTo(() => AclRole, {keyFrom: 'role_id'}, {
-    name: 'role_id',
-    index: true,
-    description: 'The role id for custom roles. Otherwise, the role id will be null.',
-  })
+  @belongsTo(
+    () => AclRole,
+    {},
+    {
+      name: 'role_id',
+      index: true,
+      description: 'The role id for custom roles or with `[resourceId]:[roleName]` format for built-in roles.',
+    },
+  )
   roleId?: string;
 
-  @belongsTo(() => Entity, {keyFrom: 'resource_id', polymorphic: {discriminator: 'resource_type'}}, {
-    name: 'resource_id',
-    index: true
-  })
+  @belongsTo(
+    () => Entity,
+    {polymorphic: {discriminator: 'resource_type'}},
+    {
+      name: 'resource_id',
+      index: true,
+    },
+  )
   resourceId: string;
 
   @property({
     name: 'resource_type',
     index: true,
-
   })
   resourceType: string;
 
@@ -54,9 +60,15 @@ export class AclRoleActor extends Entity {
 }
 
 export interface AclRoleActorRelations {
+  resource?: Entity;
   actor?: Entity;
   role?: AclRole;
 }
 
 export type AclRoleActorWithRelations = AclRoleActor & AclRoleActorRelations;
 
+export type AclRoleActorParams = ObjectProps<AclRoleActor> & {
+  resource?: ResourceParams;
+  actor?: EntityLike | string;
+  role?: AclRole | string;
+};

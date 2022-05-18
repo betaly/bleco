@@ -1,5 +1,7 @@
-import {AclService} from './acl.service';
+import {AclRoleService} from "./role.service";
+import {AclRoleActorService} from "./role-actor.service";
 
-export * from './acl.service';
+export * from './role.service';
+export * from './role-actor.service';
 
-export const services = [AclService];
+export const services = [AclRoleService, AclRoleActorService];

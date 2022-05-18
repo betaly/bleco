@@ -1,5 +1,6 @@
+import {Entity, EntityCrudRepository} from '@loopback/repository';
+import {Class} from 'tily/typings/types';
 import {AnyRecord} from './types';
-import {Entity} from '@loopback/repository';
 
 export type PolicyModelType = 'actor' | 'resource';
 
@@ -8,6 +9,7 @@ export type PolicyModel<T extends Entity = Entity> = typeof Entity & {prototype:
 export interface Policy {
   type: PolicyModelType;
   model: PolicyModel;
+  repository?: Class<EntityCrudRepository<Entity, unknown>>;
   permissions?: string[];
   roles?: string[];
   rolePermissions?: Record<string, string[]>;

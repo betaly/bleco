@@ -1,9 +1,9 @@
-import {DefaultCrudRepositoryWithQuery} from '@bleco/query';
-import {Org} from '../models/org.model';
+import {QueryEnhancedCrudRepository} from '@bleco/query';
 import {juggler} from '@loopback/repository';
 import {inject} from '@loopback/context';
+import {Org} from '../models';
 
-export class OrgRepository extends DefaultCrudRepositoryWithQuery<Org, typeof Org.prototype.id> {
+export class OrgRepository extends QueryEnhancedCrudRepository<Org, typeof Org.prototype.id> {
   constructor(@inject(`datasources.db`) dataSource: juggler.DataSource) {
     super(Org, dataSource);
   }
