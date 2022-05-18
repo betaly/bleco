@@ -21,5 +21,5 @@ export class QueryEnhancedTransactionalRepository<
 > extends DefaultTransactionalRepository<T, ID, Relations> {}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface DefaultTransactionalWithQuery<T extends Entity, ID, Relations extends object = {}>
+export interface QueryEnhancedTransactionalRepository<T extends Entity, ID, Relations extends object = {}>
   extends QueryEnhancedRepository<T, Relations> {}
