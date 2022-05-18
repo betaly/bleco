@@ -1,14 +1,26 @@
-import {mixinQuery, QueryEnhancedRepository} from '@bleco/query';
-import {SoftCrudRepository} from './soft-crud.repository';
+import {EntityClass, QueryEnhancedCrudRepository} from '@bleco/query';
 import {SoftDeleteEntity} from '../models';
+import {SoftCrudRepository} from '../mixins';
+import {mixinSoftCrud} from '../decorators';
+import {juggler} from '@loopback/repository';
+import {Getter} from '@loopback/core';
+import {UserLike} from '../types';
 
-@mixinQuery(true)
+@mixinSoftCrud()
 export class QueryEnhancedSoftCrudRepository<
   T extends SoftDeleteEntity,
   ID,
   Relations extends object = {},
-> extends SoftCrudRepository<T, ID, Relations> {}
+> extends QueryEnhancedCrudRepository<T, ID, Relations> {
+  constructor(
+    entityClass: EntityClass<T>,
+    dataSource: juggler.DataSource,
+    readonly getCurrentUser?: Getter<UserLike | undefined>,
+  ) {
+    super(entityClass, dataSource);
+  }
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// @ts-ignore
 export interface QueryEnhancedSoftCrudRepository<T extends SoftDeleteEntity, ID, Relations extends object = {}>
-  extends QueryEnhancedRepository<T, Relations> {}
+  extends SoftCrudRepository<T, ID, Relations> {}

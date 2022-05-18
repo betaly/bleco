@@ -25,7 +25,7 @@ application which utilizes this package for soft-deletes in a multi-tenant appli
 
 ## Transaction support
 
-With version 3.0.0, transaction repository support has been added. In place of SoftCrudRepository, extend your
+With version 3.0.0, transaction repository support has been added. In place of DefaultSoftCrudRepository, extend your
 repository with DefaultTransactionSoftCrudRepository. For further usage guidelines, refer below.
 
 ## Usage
@@ -39,8 +39,8 @@ Right now, this extension exports three abstract classes which are actually help
   to be there in DB within that table are - 'deleted', 'deleted_on', 'deleted_by'. If you are using auto-migration of
   loopback 4, then, you may not need to do anything specific to add this column. If not, then please add these columns
   to the DB table.
-- **SoftCrudRepository** - An abstract base class for all repositories which require soft delete feature. This class is
-  going to be the one which handles soft delete operations and ensures soft deleted entries are not returned in
+- **DefaultSoftCrudRepository** - An abstract base class for all repositories which require soft delete feature. This
+  class is going to be the one which handles soft delete operations and ensures soft deleted entries are not returned in
   responses, However if there is a need to query soft deleted entries as well,there is an options to achieve that and
   you can use findAll() in place of find() , findOneIncludeSoftDelete() in place of findOne() and
   findByIdIncludeSoftDelete() in place of findById(), these will give you the responses including soft deleted entries.
@@ -76,17 +76,17 @@ export class User extends SoftDeleteEntity {
 }
 ```
 
-2. Extend repositories with SoftCrudRepository class replacing DefaultCrudRepository. For example,
+2. Extend repositories with DefaultSoftCrudRepository class replacing DefaultCrudRepository. For example,
 
 ```ts
 import {Getter, inject} from '@loopback/core';
-import {SoftCrudRepository} from '@bleco/soft-delete';
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
 
 import {PgdbDataSource} from '../datasources';
 import {User, UserRelations} from '../models';
 
-export class UserRepository extends SoftCrudRepository<User, typeof User.prototype.id, UserRelations> {
+export class UserRepository extends DefaultSoftCrudRepository<User, typeof User.prototype.id, UserRelations> {
   constructor(
     @inject('datasources.pgdb') dataSource: PgdbDataSource,
     @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
@@ -102,7 +102,7 @@ export class UserRepository extends SoftCrudRepository<User, typeof User.prototy
 
 ```ts
 import {Getter, inject} from '@loopback/core';
-import {SoftCrudRepository} from '@bleco/soft-delete';
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
 
 import {PgdbDataSource} from '../datasources';

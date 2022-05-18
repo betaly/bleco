@@ -4,14 +4,13 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {Entity, juggler} from '@loopback/repository';
-import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
+import {DefaultSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
 import {UserLike} from '../../types';
 import {Customer, testSoftCrudRepository} from './repository.suite';
 import {givenDsAndRepo} from '../support';
-import {expect} from '@loopback/testlab';
 
-class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, number> {
+class CustomerCrudRepo extends DefaultSoftCrudRepository<Customer, number> {
   constructor(
     entityClass: typeof Entity & {
       prototype: Customer;
@@ -23,17 +22,11 @@ class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, 
   }
 }
 
-describe('DefaultTransactionalSoftCrudRepository', () => {
+describe('DefaultSoftCrudRepository', () => {
   let repo: CustomerCrudRepo;
   beforeAll(async () => {
     ({repo} = await givenDsAndRepo(CustomerCrudRepo));
   });
 
-  describe('transactional', function () {
-    it('should have beginTransaction', function () {
-      expect(repo).to.have.property('beginTransaction');
-    });
-  });
-
-  testSoftCrudRepository('DefaultTransactionalSoftCrudRepository', CustomerCrudRepo, () => repo);
+  testSoftCrudRepository('DefaultSoftCrudRepository', CustomerCrudRepo, () => repo);
 });

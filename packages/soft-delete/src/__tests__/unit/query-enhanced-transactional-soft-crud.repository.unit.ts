@@ -1,21 +1,10 @@
-import {Entity, juggler, model, property} from '@loopback/repository';
-import {SoftDeleteEntity} from '../../models';
+import {Entity, juggler} from '@loopback/repository';
 import {QueryEnhancedTransactionalSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
 import {UserLike} from '../../types';
-
-/**
- * A mock up model class
- */
-@model()
-class Customer extends SoftDeleteEntity {
-  @property({
-    id: true,
-  })
-  id: number;
-  @property()
-  email: string;
-}
+import {Customer, testSoftCrudRepository} from './repository.suite';
+import {givenDsAndRepo} from '../support';
+import {expect} from '@loopback/testlab';
 
 class CustomerCrudRepo extends QueryEnhancedTransactionalSoftCrudRepository<Customer, number> {
   constructor(
@@ -23,29 +12,29 @@ class CustomerCrudRepo extends QueryEnhancedTransactionalSoftCrudRepository<Cust
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<UserLike | undefined>,
+    readonly getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }
 }
 
-describe('QueryEnhancedTransactionalSoftCrudRepository', () => {
+describe('QueryEnhancedTransactionalSoftCrudRepository', function () {
   let repo: CustomerCrudRepo;
+  beforeAll(async () => {
+    ({repo} = await givenDsAndRepo(CustomerCrudRepo));
+  });
 
-  beforeAll(() => {
-    const ds: juggler.DataSource = new juggler.DataSource({
-      name: 'db',
-      connector: 'memory',
+  describe('query enhanced', function () {
+    it('should enhanced by query', function () {
+      expect(repo).to.have.property('query');
     });
-    repo = new CustomerCrudRepo(Customer, ds, () =>
-      Promise.resolve({
-        id: '1',
-        username: 'test',
-      }),
-    );
   });
 
-  it('should mixin with query', async () => {
-    expect(repo.query).toBeDefined();
+  describe('transactional', function () {
+    it('should have beginTransaction', function () {
+      expect(repo).to.have.property('beginTransaction');
+    });
   });
+
+  testSoftCrudRepository('QueryEnhancedTransactionalSoftCrudRepository', CustomerCrudRepo, () => repo);
 });

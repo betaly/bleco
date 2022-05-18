@@ -3,6 +3,9 @@ import {SoftDeleteEntity} from '../../models';
 import {QueryEnhancedSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
 import {UserLike} from '../../types';
+import {expect} from '@loopback/testlab';
+import {givenDsAndRepo} from '../support';
+import {testSoftCrudRepository} from './repository.suite';
 
 /**
  * A mock up model class
@@ -23,7 +26,7 @@ class CustomerCrudRepo extends QueryEnhancedSoftCrudRepository<Customer, number>
       prototype: Customer;
     },
     dataSource: juggler.DataSource,
-    protected readonly getCurrentUser?: Getter<UserLike | undefined>,
+    readonly getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource, getCurrentUser);
   }
@@ -31,21 +34,15 @@ class CustomerCrudRepo extends QueryEnhancedSoftCrudRepository<Customer, number>
 
 describe('QueryEnhancedSoftCrudRepository', () => {
   let repo: CustomerCrudRepo;
+  beforeAll(async () => {
+    ({repo} = await givenDsAndRepo(CustomerCrudRepo));
+  });
 
-  beforeAll(() => {
-    const ds: juggler.DataSource = new juggler.DataSource({
-      name: 'db',
-      connector: 'sqlite3e',
+  describe('query enhanced', function () {
+    it('should enhanced by query', function () {
+      expect(repo).to.have.property('query');
     });
-    repo = new CustomerCrudRepo(Customer, ds, () =>
-      Promise.resolve({
-        id: '1',
-        username: 'test',
-      }),
-    );
   });
 
-  it('should mixin with query', async () => {
-    expect(repo.query).toBeDefined();
-  });
+  testSoftCrudRepository('QueryEnhancedSoftCrudRepository', CustomerCrudRepo, () => repo);
 });
