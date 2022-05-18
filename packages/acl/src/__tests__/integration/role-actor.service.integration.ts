@@ -64,7 +64,7 @@ describe('RoleActorService integration tests', function () {
         const roleActor = await roleActorService.add(users.tom, roleName, orgs.google);
 
         found = await roleActorRepo.findOne({where});
-        expect(found).toMatchObject({...roleActor, roleId, domainId: TestDomainId, deletedOn: null, deletedBy: null});
+        expect(found).toMatchObject({...roleActor, roleId, domainId: TestDomainId});
       });
     });
 
@@ -106,7 +106,7 @@ describe('RoleActorService integration tests', function () {
       await roleActorService.add(users.jerry, roleName, resource);
 
       const founds = await roleActorService.find({where: {actor, resource}});
-      expect(founds[0]).toMatchObject({...roleActor, deletedBy: null, deletedOn: null});
+      expect(founds[0]).toMatchObject(roleActor);
     });
   });
 

@@ -1,10 +1,10 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
-import {SoftDeleteEntity} from '@bleco/soft-delete';
 import {AclRoleActor} from './role-actor.model';
 import {DomainAware, ObjectProps, ResourceAware, ResourceRepresent} from '../types';
+import {AclRolePermission} from '../models';
 
 @model()
-export class AclRole extends SoftDeleteEntity implements DomainAware, ResourceAware {
+export class AclRole extends Entity implements DomainAware, ResourceAware {
   @property({
     type: 'string',
     id: true,
@@ -15,12 +15,6 @@ export class AclRole extends SoftDeleteEntity implements DomainAware, ResourceAw
 
   @property()
   name: string;
-
-  @property({
-    type: 'array',
-    itemType: 'string',
-  })
-  permissions?: string[];
 
   @property({
     name: 'domain_id',
@@ -43,6 +37,9 @@ export class AclRole extends SoftDeleteEntity implements DomainAware, ResourceAw
   })
   resourceType: string;
 
+  @hasMany(() => AclRolePermission, {keyTo: 'roleId'})
+  permissions?: AclRolePermission[];
+
   @hasMany(() => AclRoleActor, {keyTo: 'roleId'})
   roleActors?: AclRoleActor[];
 }
@@ -53,6 +50,8 @@ export interface AclRoleRelations {
 
 export type AclRoleWithRelations = AclRole & AclRoleRelations;
 
-export type AclRoleAttrs = ObjectProps<AclRole> & {
+export type AclRoleProps = ObjectProps<Omit<AclRole, 'permissions' | 'roleActors'>>;
+export type AclRoleAttrs = AclRoleProps & {
   resource?: ResourceRepresent;
+  permissions?: string[];
 };

@@ -1,10 +1,9 @@
 import {DataObject, Getter, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-import {AclRole, AclRoleActor, AclRoleAttrs, AclRoleRelations} from '../models';
+import {AclRole, AclRoleActor, AclRoleAttrs, AclRolePermission, AclRoleProps, AclRoleRelations} from '../models';
 import {inject} from '@loopback/context';
 import {
   AclDataSourceName,
   DomainLike,
-  ObjectProps,
   OptionsWithDomain,
   ResourcePolymorphic,
   ResourceRepresent,
@@ -16,6 +15,7 @@ import debugFactory from 'debug';
 import {AclBindings} from '../keys';
 import {AclBaseRepository} from './base-repository';
 import {PolicyManager} from '../policy.manager';
+import {AclRolePermissionRepository} from './role-permission.repository';
 
 const debug = debugFactory('bleco:acl:role-repository');
 
@@ -26,14 +26,15 @@ export class AclRoleRepository extends AclBaseRepository<
   AclRoleAttrs
 > {
   public readonly roleActors: HasManyRepositoryFactory<AclRoleActor, typeof AclRoleActor.prototype.id>;
-
-  // public readonly resources: HasManyRepositoryFactory<Entity, string | number>;
+  public readonly permissions: HasManyRepositoryFactory<AclRolePermission, typeof AclRolePermission.prototype.id>;
 
   constructor(
     @inject(`datasources.${AclDataSourceName}`)
     dataSource: juggler.DataSource,
     @repository.getter('AclRoleActorRepository')
     protected readonly roleActorRepositoryGetter: Getter<AclRoleActorRepository>,
+    @repository.getter('AclRolePermissionRepository')
+    protected readonly rolePermissionRepositoryGetter: Getter<AclRolePermissionRepository>,
     @inject(AclBindings.POLICY_MANAGER)
     public readonly policyManager: PolicyManager,
     @inject.getter(AclBindings.DOMAIN, {optional: true})
@@ -42,8 +43,8 @@ export class AclRoleRepository extends AclBaseRepository<
     super(AclRole, dataSource, getDomain);
     this.roleActors = this.createHasManyRepositoryFactoryFor('roleActors', roleActorRepositoryGetter);
     this.registerInclusionResolver('roleActors', this.roleActors.inclusionResolver);
-    // this.resources = this.createHasManyRepositoryFactoryFor('resources', 'AclResource');
-    // this.registerInclusionResolver('resources', this.resources.inclusionResolver);
+    this.permissions = this.createHasManyRepositoryFactoryFor('permissions', rolePermissionRepositoryGetter);
+    this.registerInclusionResolver('permissions', this.permissions.inclusionResolver);
   }
 
   definePersistedModel(entityClass: typeof AclRole) {
@@ -90,7 +91,7 @@ export class AclRoleRepository extends AclBaseRepository<
     return role ? 'custom' : false;
   }
 
-  async resolveAttrs(attrs: AclRoleAttrs, options?: OptionsWithDomain): Promise<ObjectProps<AclRole>> {
+  async resolveAttrs(attrs: AclRoleAttrs, options?: OptionsWithDomain): Promise<AclRoleProps> {
     const {resource, ...props} = attrs;
     if (resource) {
       const polymorphic = resolveResourcePolymorphic(resource);

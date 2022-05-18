@@ -1,6 +1,5 @@
 import {AnyObject, Entity, Filter, Options, ShortHandEqualType, Transaction} from '@loopback/repository';
 import {KeyOf} from '@loopback/filter/src/query';
-import {MarkRequired} from 'ts-essentials';
 
 export const AclDataSourceName = 'AclDB';
 
@@ -32,7 +31,7 @@ export type ObjectCondition<MT extends object> = {
   [P in KeyOf<MT>]?: MT[P] & ShortHandEqualType;
 };
 
-export type DomainizedCondition<MT extends object> = MarkRequired<ObjectCondition<MT & DomainAware>, 'domainId'>;
+// export type Where<MT extends object> = MarkRequired<ObjectCondition<MT & DomainAware>, 'domainId'>;
 
 export interface DomainAware {
   domainId: string;

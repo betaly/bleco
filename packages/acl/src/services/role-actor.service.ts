@@ -1,8 +1,7 @@
-import {Entity, Options, repository} from '@loopback/repository';
+import {Entity, Options, repository, Where} from '@loopback/repository';
 import {AclRoleActor, AclRoleActorAttrs} from '../models';
 import {
   DomainAware,
-  DomainizedCondition,
   FilterWithCustomWhere,
   OptionsWithDomain,
   ResourceAware,
@@ -81,7 +80,7 @@ export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleAct
 
   async remove(condition: AclRoleActorAttrs, options?: OptionsWithDomain) {
     options = {...options};
-    const where = (await this.repo.resolveAttrs(condition, options)) as DomainizedCondition<AclRoleActor>;
+    const where = (await this.repo.resolveAttrs(condition, options)) as Where<AclRoleActor>;
 
     debug('remove with props', where);
 
