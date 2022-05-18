@@ -13,7 +13,7 @@ export class AclBaseService<T extends Entity, P extends ObjectProps<T>> {
 
   protected async resolveFilter(filter: FilterWithCustomWhere<T, P>, options?: OptionsWithDomain): Promise<Filter<T>> {
     const {where, ...others} = filter;
-    const resolvedWhere = await this.repo.resolveProps(where, options);
+    const resolvedWhere = await this.repo.resolveAttrs(where, options);
     return {where: resolvedWhere, ...others};
   }
 }

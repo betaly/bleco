@@ -1,4 +1,4 @@
-import {AnyObject, Entity, Filter, Options, Transaction} from '@loopback/repository';
+import {AnyObject, Entity, Filter, Options, ShortHandEqualType, Transaction} from '@loopback/repository';
 import {KeyOf} from '@loopback/filter/src/query';
 import {MarkRequired} from 'ts-essentials';
 
@@ -25,10 +25,14 @@ export type EntityLike = Entity | {id: string | number};
 export type DomainLike = EntityLike;
 
 export type ObjectProps<MT extends object> = {
-  [P in KeyOf<MT>]?: MT[P] & (string | number | boolean | Date); // {x: 1},
+  [P in KeyOf<MT>]?: MT[P];
 };
 
-export type PropsWithDomain<MT extends object> = MarkRequired<ObjectProps<MT & DomainAware>, 'domainId'>;
+export type ObjectCondition<MT extends object> = {
+  [P in KeyOf<MT>]?: MT[P] & ShortHandEqualType;
+};
+
+export type DomainizedCondition<MT extends object> = MarkRequired<ObjectCondition<MT & DomainAware>, 'domainId'>;
 
 export interface DomainAware {
   domainId: string;
@@ -49,7 +53,7 @@ export interface ResourceAware {
 
 export type ResourcePolymorphic = Required<ResourceAware>;
 
-export type ResourceParams = Entity | ResourcePolymorphic;
+export type ResourceRepresent = Entity | ResourcePolymorphic;
 
 export interface OptionsWithTransaction extends Options {
   transaction?: Transaction;

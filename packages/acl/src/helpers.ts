@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {Entity} from '@loopback/repository';
-import {DomainLike, EntityLike, ResourceParams, ResourcePolymorphic} from './types';
+import {DomainLike, EntityLike, ResourcePolymorphic, ResourceRepresent} from './types';
 
 export const RoleIdSeparator = ':';
 
-export function generateRoleId(roleName: string, resource: ResourceParams): string {
+export function generateRoleId(roleName: string, resource: ResourceRepresent): string {
   const polymorphic = resource instanceof Entity ? resolveResourcePolymorphic(resource) : resource;
   return `${polymorphic.resourceType}${RoleIdSeparator}${polymorphic.resourceId}${RoleIdSeparator}${roleName}`;
 }
@@ -26,7 +26,7 @@ export function parseRoleId(roleId: string): {resourceType?: string; resourceId?
   }
 }
 
-export function resolveResourcePolymorphic(resource: ResourceParams): ResourcePolymorphic {
+export function resolveResourcePolymorphic(resource: ResourceRepresent): ResourcePolymorphic {
   if (isResourcePolymorphic(resource)) {
     return resource;
   }
@@ -48,7 +48,7 @@ export function resolveEntityId(entityOrId: EntityLike | string | number): strin
   }
 }
 
-export function resolveRoleId(role: EntityLike | string, resource?: ResourceParams): string {
+export function resolveRoleId(role: EntityLike | string, resource?: ResourceRepresent): string {
   if (typeof role === 'string') {
     if (isRoleId(role)) {
       return role;
@@ -80,6 +80,6 @@ export function isResourcePolymorphic(x: any): x is ResourcePolymorphic {
   return x?.resourceType != null && x.resourceId != null;
 }
 
-export function isResourceParamsLike(x: any): x is ResourceParams {
+export function isResourceRepresent(x: any): x is ResourceRepresent {
   return (x && isResourcePolymorphic(x)) || x instanceof Entity;
 }

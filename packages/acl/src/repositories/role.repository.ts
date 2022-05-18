@@ -1,13 +1,13 @@
 import {DataObject, Getter, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-import {AclRole, AclRoleActor, AclRoleParams, AclRoleRelations} from '../models';
+import {AclRole, AclRoleActor, AclRoleAttrs, AclRoleRelations} from '../models';
 import {inject} from '@loopback/context';
 import {
   AclDataSourceName,
   DomainLike,
+  ObjectProps,
   OptionsWithDomain,
-  PropsWithDomain,
-  ResourceParams,
   ResourcePolymorphic,
+  ResourceRepresent,
   RoleType,
 } from '../types';
 import {AclRoleActorRepository} from './role-actor.repository';
@@ -23,7 +23,7 @@ export class AclRoleRepository extends AclBaseRepository<
   AclRole,
   typeof AclRole.prototype.id,
   AclRoleRelations,
-  AclRoleParams
+  AclRoleAttrs
 > {
   public readonly roleActors: HasManyRepositoryFactory<AclRoleActor, typeof AclRoleActor.prototype.id>;
 
@@ -63,7 +63,7 @@ export class AclRoleRepository extends AclBaseRepository<
 
   async hasRole(
     roleNameOrId: string,
-    resource?: ResourceParams,
+    resource?: ResourceRepresent,
     options?: OptionsWithDomain,
   ): Promise<RoleType | boolean> {
     // eslint-disable-next-line prefer-const
@@ -90,14 +90,14 @@ export class AclRoleRepository extends AclBaseRepository<
     return role ? 'custom' : false;
   }
 
-  async resolveProps(params: AclRoleParams, options?: OptionsWithDomain): Promise<PropsWithDomain<AclRoleActor>> {
-    const {resource, ...props} = params;
+  async resolveAttrs(attrs: AclRoleAttrs, options?: OptionsWithDomain): Promise<ObjectProps<AclRole>> {
+    const {resource, ...props} = attrs;
     if (resource) {
       const polymorphic = resolveResourcePolymorphic(resource);
       props.resourceType = polymorphic.resourceType;
       props.resourceId = polymorphic.resourceId;
     }
     props.domainId = props.domainId ?? (await this.resolveDomainId(options));
-    return props as PropsWithDomain<AclRoleActor>;
+    return props;
   }
 }

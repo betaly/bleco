@@ -1,7 +1,7 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {SoftDeleteEntity} from '@bleco/soft-delete';
 import {AclRoleActor} from './role-actor.model';
-import {DomainAware, ObjectProps, ResourceAware, ResourceParams} from '../types';
+import {DomainAware, ObjectProps, ResourceAware, ResourceRepresent} from '../types';
 
 @model()
 export class AclRole extends SoftDeleteEntity implements DomainAware, ResourceAware {
@@ -53,6 +53,6 @@ export interface AclRoleRelations {
 
 export type AclRoleWithRelations = AclRole & AclRoleRelations;
 
-export type AclRoleParams = ObjectProps<AclRole> & {
-  resource?: ResourceParams;
+export type AclRoleAttrs = ObjectProps<AclRole> & {
+  resource?: ResourceRepresent;
 };

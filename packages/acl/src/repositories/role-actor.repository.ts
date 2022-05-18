@@ -1,7 +1,7 @@
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';
-import {AclRole, AclRoleActor, AclRoleActorParams, AclRoleActorRelations} from '../models';
+import {AclRole, AclRoleActor, AclRoleActorAttrs, AclRoleActorRelations} from '../models';
 import {inject} from '@loopback/context';
-import {AclDataSourceName, DomainLike, OptionsWithDomain, PropsWithDomain} from '../types';
+import {AclDataSourceName, DomainLike, ObjectProps, OptionsWithDomain} from '../types';
 import {AclRoleRepository} from './role.repository';
 import {AclBindings} from '../keys';
 import {resolveEntityId, resolveResourcePolymorphic, resolveRoleId} from '../helpers';
@@ -11,7 +11,7 @@ export class AclRoleActorRepository extends AclBaseRepository<
   AclRoleActor,
   typeof AclRoleActor.prototype.id,
   AclRoleActorRelations,
-  AclRoleActorParams
+  AclRoleActorAttrs
 > {
   public readonly role: BelongsToAccessor<AclRole, typeof AclRole.prototype.id>;
 
@@ -29,11 +29,8 @@ export class AclRoleActorRepository extends AclBaseRepository<
     this.registerInclusionResolver('role', this.role.inclusionResolver);
   }
 
-  async resolveProps(
-    condition: AclRoleActorParams,
-    options?: OptionsWithDomain,
-  ): Promise<PropsWithDomain<AclRoleActor>> {
-    const {actor, resource, role, ...props} = condition;
+  async resolveAttrs(attrs: AclRoleActorAttrs, options?: OptionsWithDomain): Promise<ObjectProps<AclRoleActor>> {
+    const {actor, resource, role, ...props} = attrs;
     if (actor) {
       props.actorId = resolveEntityId(actor);
     }
@@ -46,6 +43,6 @@ export class AclRoleActorRepository extends AclBaseRepository<
       props.roleId = resolveRoleId(role, resource);
     }
     props.domainId = props.domainId ?? (await this.resolveDomainId(options));
-    return props as PropsWithDomain<AclRoleActor>;
+    return props;
   }
 }

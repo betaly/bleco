@@ -5,7 +5,7 @@ import {AclRoleActorRepository, AclRoleRepository} from '../../repositories';
 import {givenApp, seed} from '../support';
 import {AclBindings} from '../../keys';
 import {generateRoleId, resolveResourcePolymorphic} from '../../helpers';
-import {OrgRoles} from '../fixtures/policies';
+import {OrgPermissions, OrgRoles} from '../fixtures/policies';
 import {AclRole} from '../../models';
 import {Where} from '@loopback/repository';
 
@@ -39,20 +39,19 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({
+        name: roleName,
+        resource,
+        permissions: [OrgPermissions.read, OrgPermissions.list_repos],
+      });
       expect(role.id).toBe(generateRoleId(roleName, resource));
       expect(role.name).toBe(roleName);
-      expect(role.domainId).toBe(TestDomainId);
-      expect(role.resourceId).toBe(resource.id);
-      expect(role.resourceType).toBe(resource.constructor.name);
 
-      const found = await roleRepo.findOne({where: {id: role.id}});
+      const found = (await roleRepo.findOne({where: {id: role.id}}))!;
       expect(found).toBeTruthy();
-      expect(found!.id).toBe(role.id);
-      expect(found!.name).toBe(role.name);
-      expect(found!.domainId).toBe(role.domainId);
-      expect(found!.resourceId).toBe(role.resourceId);
-      expect(found!.resourceType).toBe(role.resourceType);
+      expect(found.id).toBe(role.id);
+      expect(found.name).toBe(role.name);
+      expect(found.permissions).toEqual(role.permissions);
     });
 
     it('should throw error if role already exists', async () => {
@@ -60,8 +59,8 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      await roleService.add(roleName, resource);
-      await expect(roleService.add(roleName, resource)).rejects.toThrow(
+      await roleService.add({name: roleName, resource});
+      await expect(roleService.add({name: roleName, resource})).rejects.toThrow(
         `Role "${generateRoleId(roleName, resource)}" already exists`,
       );
     });
@@ -71,7 +70,7 @@ describe('RoleActorService integration tests', function () {
       const roleName = OrgRoles.owner;
       const resource = orgs.google;
 
-      await expect(roleService.add(roleName, resource)).rejects.toThrow(
+      await expect(roleService.add({name: roleName, resource})).rejects.toThrow(
         `Builtin role "${generateRoleId(roleName, resource)}" cannot be added.`,
       );
     });
@@ -83,7 +82,7 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
       const result = await roleService.remove(role);
       expect(result).toMatchObject({
         count: 1,
@@ -104,8 +103,8 @@ describe('RoleActorService integration tests', function () {
         ...resolveResourcePolymorphic(resource),
       };
 
-      await roleService.add(role1, resource);
-      await roleService.add(role2, resource);
+      await roleService.add({name: role1, resource});
+      await roleService.add({name: role2, resource});
       expect((await roleRepo.count(where)).count).toBe(2);
 
       await roleService.removeForResource(resource);
@@ -117,7 +116,7 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
       let result = await roleService.remove(role);
       expect(result).toMatchObject({
         count: 1,
@@ -144,7 +143,7 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      await roleService.add(roleName, resource);
+      await roleService.add({name: roleName, resource});
       await expect(roleService.remove(roleName)).rejects.toThrow(`Cannot resolve "roleId" for role without resource`);
     });
 
@@ -153,7 +152,7 @@ describe('RoleActorService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
 
       const actor = users.jerry;
       await roleActorRepo.create({
@@ -189,7 +188,7 @@ describe('RoleActorService integration tests', function () {
       let found = await roleService.find({where: {name: roleName}});
       expect(found).toHaveLength(0);
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
       found = await roleService.find({where: {name: roleName}});
       expect(found).toHaveLength(1);
       expect(found[0].id).toBe(role.id);
@@ -206,7 +205,7 @@ describe('RoleActorService integration tests', function () {
 
       await expect(roleService.findById(id)).rejects.toThrow(/EntityNotFound/);
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
       const found = await roleService.findById(id);
       expect(found).toBeTruthy();
       expect(found!.id).toBe(role.id);
@@ -222,10 +221,33 @@ describe('RoleActorService integration tests', function () {
       let found = await roleService.findOne({where: {name: roleName, ...resolveResourcePolymorphic(resource)}});
       expect(found).toBeFalsy();
 
-      const role = await roleService.add(roleName, resource);
+      const role = await roleService.add({name: roleName, resource});
       found = await roleService.findOne({where: {name: roleName, ...resolveResourcePolymorphic(resource)}});
       expect(found).toBeTruthy();
       expect(found!.id).toBe(role.id);
     });
   });
+
+  // describe('permissions query', function () {
+  //   it('should filter with permissions', async () => {
+  //     const {orgs} = samples;
+  //     const roleName = 'test_role';
+  //     const resource = orgs.google;
+  //
+  //     const role = await roleService.add({
+  //       name: roleName,
+  //       resource,
+  //       permissions: [OrgPermissions.read, OrgPermissions.list_repos],
+  //     });
+  //     const found = await roleRepo.find({
+  //       where: {
+  //         domainId: TestDomainId,
+  //         ...resolveResourcePolymorphic(resource),
+  //         permissions: [],
+  //       },
+  //     });
+  //     expect(found).toHaveLength(1);
+  //     expect(found[0].id).toBe(role.id);
+  //   });
+  // });
 });

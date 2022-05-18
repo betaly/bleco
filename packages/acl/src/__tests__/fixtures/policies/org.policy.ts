@@ -1,20 +1,20 @@
-import {Org} from '../models/org.model';
+import {Org} from '../models';
 import {ResourcePolicy} from '../../../policy';
 
-export enum OrgRoles {
-  owner = 'owner',
-  member = 'member',
-}
+export const OrgRoles = {
+  owner: 'owner',
+  member: 'member',
+} as const;
 
-export enum OrgPermissions {
-  read = 'read',
-  create_repos = 'create_repos',
-  list_repos = 'list_repos',
-  create_role_assignments = 'create_role_assignments',
-  list_role_assignments = 'list_role_assignments',
-  update_role_assignments = 'update_role_assignments',
-  delete_role_assignments = 'delete_role_assignments',
-}
+export const OrgPermissions = {
+  read: 'read',
+  create_repos: 'create_repos',
+  list_repos: 'list_repos',
+  create_role_assignments: 'create_role_assignments',
+  list_role_assignments: 'list_role_assignments',
+  update_role_assignments: 'update_role_assignments',
+  delete_role_assignments: 'delete_role_assignments',
+} as const;
 
 export const OrgPolicy: ResourcePolicy = {
   type: 'resource',

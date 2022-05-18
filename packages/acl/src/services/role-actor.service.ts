@@ -1,11 +1,12 @@
 import {Entity, Options, repository} from '@loopback/repository';
-import {AclRoleActor, AclRoleActorParams} from '../models';
+import {AclRoleActor, AclRoleActorAttrs} from '../models';
 import {
   DomainAware,
+  DomainizedCondition,
   FilterWithCustomWhere,
   OptionsWithDomain,
   ResourceAware,
-  ResourceParams,
+  ResourceRepresent,
   RoleAware,
 } from '../types';
 import {AclBaseService} from './base-service';
@@ -19,7 +20,7 @@ import {PolicyManager} from '../policy.manager';
 const debug = debugFactory('bleco:acl:role-actor-service');
 
 @injectable({scope: BindingScope.SINGLETON})
-export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleActorParams> {
+export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleActorAttrs> {
   repo: AclRoleActorRepository;
 
   constructor(
@@ -34,7 +35,7 @@ export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleAct
   }
 
   async find(
-    filter: FilterWithCustomWhere<AclRoleActor, AclRoleActorParams>,
+    filter: FilterWithCustomWhere<AclRoleActor, AclRoleActorAttrs>,
     options?: Options,
   ): Promise<AclRoleActor[]> {
     return this.repo.find(await this.resolveFilter(filter, options), options);
@@ -44,9 +45,9 @@ export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleAct
     return this.repo.findById(id, options);
   }
 
-  async add(actor: Entity | string, role: string, resource: ResourceParams, options?: OptionsWithDomain) {
+  async add(actor: Entity | string, role: string, resource: ResourceRepresent, options?: OptionsWithDomain) {
     options = {...options};
-    const props = (await this.repo.resolveProps(
+    const props = (await this.repo.resolveAttrs(
       {
         actor,
         role,
@@ -78,15 +79,15 @@ export class AclRoleActorService extends AclBaseService<AclRoleActor, AclRoleAct
     }
   }
 
-  async remove(condition: AclRoleActorParams, options?: OptionsWithDomain) {
+  async remove(condition: AclRoleActorAttrs, options?: OptionsWithDomain) {
     options = {...options};
-    const props = await this.repo.resolveProps(condition, options);
+    const where = (await this.repo.resolveAttrs(condition, options)) as DomainizedCondition<AclRoleActor>;
 
-    debug('remove with props', props);
+    debug('remove with props', where);
 
     const tx = await this.tf.beginTransaction(options);
     try {
-      await this.repo.deleteAll(props, options);
+      await this.repo.deleteAll(where, options);
       await tx.commit();
     } catch (e) {
       await tx.rollback();

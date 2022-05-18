@@ -1,27 +1,28 @@
 import {AclBaseService} from './base-service';
 import {
   DeleteResult,
+  DomainizedCondition,
   EntityLike,
   FilterWithCustomWhere,
   OptionsWithDomain,
-  PropsWithDomain,
-  ResourceParams,
+  ResourceRepresent,
 } from '../types';
-import {AclRole, AclRoleActor, AclRoleParams} from '../models';
-import {Entity, Options, repository} from '@loopback/repository';
+import {AclRole, AclRoleActor, AclRoleAttrs} from '../models';
+import {Options, repository} from '@loopback/repository';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
-import {generateRoleId, isResourceParamsLike, parseRoleId, resolveRoleId} from '../helpers';
+import {generateRoleId, isResourceRepresent, parseRoleId, resolveRoleId} from '../helpers';
 import {FilterExcludingWhere} from '@loopback/filter';
 import {AclBindings} from '../keys';
 import {PolicyManager} from '../policy.manager';
 import {AclRoleActorRepository, AclRoleRepository} from '../repositories';
 import debugFactory from 'debug';
+import {MarkRequired} from 'ts-essentials';
 
 const debug = debugFactory('bleco:acl:role-service');
 
 @injectable({scope: BindingScope.SINGLETON})
-export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
+export class AclRoleService extends AclBaseService<AclRole, AclRoleAttrs> {
   repo: AclRoleRepository;
 
   constructor(
@@ -35,12 +36,12 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
     super(repo, policyManager);
   }
 
-  async find(filter?: FilterWithCustomWhere<AclRole, AclRoleParams>, options?: OptionsWithDomain): Promise<AclRole[]> {
+  async find(filter?: FilterWithCustomWhere<AclRole, AclRoleAttrs>, options?: OptionsWithDomain): Promise<AclRole[]> {
     return this.repo.find(filter ? await this.resolveFilter(filter, options) : undefined);
   }
 
   async findOne(
-    filter: FilterWithCustomWhere<AclRole, AclRoleParams>,
+    filter: FilterWithCustomWhere<AclRole, AclRoleAttrs>,
     options?: OptionsWithDomain,
   ): Promise<AclRole | null> {
     options = {...options};
@@ -51,9 +52,10 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
     return this.repo.findById(id, filter, options);
   }
 
-  async add(name: string, resource: Entity, options?: OptionsWithDomain): Promise<AclRole> {
+  async add(attrs: MarkRequired<AclRoleAttrs, 'name' | 'resource'>, options?: OptionsWithDomain): Promise<AclRole> {
     options = {...options};
-    const props = await this.repo.resolveProps({name, resource}, options);
+    const {name, resource} = attrs;
+    const props = await this.repo.resolveAttrs(attrs, options);
 
     const tx = await this.tf.beginTransaction(options);
     try {
@@ -77,11 +79,11 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
 
   async remove(
     role: string | EntityLike,
-    resourceOrOptions?: ResourceParams | OptionsWithDomain,
+    resourceOrOptions?: ResourceRepresent | OptionsWithDomain,
     options?: OptionsWithDomain,
   ): Promise<DeleteResult<{Role: number; RoleActor: number}> | undefined> {
-    let resource: ResourceParams | undefined;
-    if (resourceOrOptions && isResourceParamsLike(resourceOrOptions)) {
+    let resource: ResourceRepresent | undefined;
+    if (resourceOrOptions && isResourceRepresent(resourceOrOptions)) {
       resource = resourceOrOptions;
     } else {
       options = resourceOrOptions;
@@ -94,8 +96,8 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
 
     options = {...options};
 
-    let roleProps: PropsWithDomain<AclRole>;
-    let roleActorProps: PropsWithDomain<AclRoleActor>;
+    let roleWhere: DomainizedCondition<AclRole>;
+    let roleActorWhere: DomainizedCondition<AclRoleActor>;
     if (id) {
       const type = await this.repo.hasRole(id);
       if (!type) {
@@ -104,23 +106,29 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
       if (type === 'builtin') {
         throw new Error(`Builtin role "${parseRoleId(id).name}" cannot be removed.`);
       }
-      roleProps = await this.repo.resolveProps({id}, options);
-      roleActorProps = await this.roleActorRepository.resolveProps({roleId: id}, options);
+      roleWhere = (await this.repo.resolveAttrs({id}, options)) as DomainizedCondition<AclRole>;
+      roleActorWhere = (await this.roleActorRepository.resolveAttrs(
+        {roleId: id},
+        options,
+      )) as DomainizedCondition<AclRoleActor>;
     } else {
-      roleProps = await this.repo.resolveProps({resource}, options);
-      roleActorProps = await this.roleActorRepository.resolveProps({resource}, options);
+      roleWhere = (await this.repo.resolveAttrs({resource}, options)) as DomainizedCondition<AclRole>;
+      roleActorWhere = (await this.roleActorRepository.resolveAttrs(
+        {resource},
+        options,
+      )) as DomainizedCondition<AclRoleActor>;
     }
 
     let roleCount = 0;
     let roleActorCount = 0;
     const tx = await this.tf.beginTransaction(options);
     try {
-      debug('Removing role actors %o', roleActorProps);
-      ({count: roleActorCount} = await this.roleActorRepository.deleteAll(roleActorProps, options));
+      debug('Removing role actors %o', roleActorWhere);
+      ({count: roleActorCount} = await this.roleActorRepository.deleteAll(roleActorWhere, options));
       debug('Removed %d role actors', roleActorCount);
 
-      debug('Removing roles %o', roleProps);
-      ({count: roleCount} = await this.repo.deleteAll(roleProps, options));
+      debug('Removing roles %o', roleWhere);
+      ({count: roleCount} = await this.repo.deleteAll(roleWhere, options));
       debug('Removed %d roles', roleCount);
       await tx.commit();
       return {count: roleCount, details: {Role: roleCount, RoleActor: roleActorCount}};
@@ -131,19 +139,22 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleParams> {
   }
 
   async removeForResource(
-    resource: ResourceParams,
+    resource: ResourceRepresent,
     options?: OptionsWithDomain,
   ): Promise<DeleteResult<{Role: number; RoleActor: number}>> {
     options = {...options};
-    const roleProps = await this.repo.resolveProps({resource}, options);
-    const roleActorProps = await this.roleActorRepository.resolveProps({resource}, options);
+    const roleWhere = (await this.repo.resolveAttrs({resource}, options)) as DomainizedCondition<AclRole>;
+    const roleActorWhere = (await this.roleActorRepository.resolveAttrs(
+      {resource},
+      options,
+    )) as DomainizedCondition<AclRoleActor>;
 
     let roleCount = 0;
     let roleActorCount = 0;
     const tx = await this.tf.beginTransaction(options);
     try {
-      ({count: roleActorCount} = await this.roleActorRepository.deleteAll(roleActorProps, options));
-      ({count: roleCount} = await this.repo.deleteAll(roleProps, options));
+      ({count: roleActorCount} = await this.roleActorRepository.deleteAll(roleActorWhere, options));
+      ({count: roleCount} = await this.repo.deleteAll(roleWhere, options));
       await tx.commit();
       return {count: roleCount, details: {Role: roleCount, RoleActor: roleActorCount}};
     } catch (e) {
