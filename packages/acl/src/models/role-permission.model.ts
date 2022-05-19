@@ -1,8 +1,9 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {AclRole} from './role.model';
+import {Role} from './role.model';
+import {DomainAware} from '../types';
 
 @model()
-export class AclRolePermission extends Entity {
+export class RolePermission extends Entity implements DomainAware {
   @property({
     type: 'string',
     id: true,
@@ -11,29 +12,32 @@ export class AclRolePermission extends Entity {
   id: string;
 
   @property({
-    name: 'domain_id',
+    index: true,
   })
-  domainId: string;
+  domain: string;
 
   @belongsTo(
-    () => AclRole,
+    () => Role,
     {},
     {
       name: 'role_id',
+      index: true,
     },
   )
   roleId: string;
 
-  @property()
+  @property({
+    index: true,
+  })
   permission: string;
 
-  constructor(data?: Partial<AclRolePermission>) {
+  constructor(data?: Partial<RolePermission>) {
     super(data);
   }
 }
 
-export interface AclRolePermissionRelations {
-  role?: AclRole;
+export interface RolePermissionRelations {
+  role?: Role;
 }
 
-export type AclRolePermissionWithRelations = AclRolePermission & AclRolePermissionRelations;
+export type RolePermissionWithRelations = RolePermission & RolePermissionRelations;

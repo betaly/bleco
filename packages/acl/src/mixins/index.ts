@@ -1,1 +1,1 @@
-export * from './resource.mixin';
+export * from './acl.mixin';

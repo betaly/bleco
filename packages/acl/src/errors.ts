@@ -22,3 +22,16 @@ export class ForbiddenError extends AuthorizationError {
     );
   }
 }
+
+export class RolesExistsError extends AclError {
+  constructor(roles: string[]) {
+    super(RolesExistsError.getMessage(roles));
+    this.name = 'RolesExistsError';
+  }
+
+  private static message = 'RolesExistsError -- The following role(s) already exist: ';
+
+  static getMessage(roles: string[]) {
+    return RolesExistsError.message + roles.join(', ');
+  }
+}

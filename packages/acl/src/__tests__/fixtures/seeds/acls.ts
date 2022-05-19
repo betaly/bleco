@@ -1,16 +1,16 @@
 import {AclApp} from '../application';
-import {TestDomainId} from '../constants';
-import {AclRoleActorRepository, AclRolePermissionRepository, AclRoleRepository} from '../../../repositories';
+import {TestDomain} from '../constants';
+import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../../../repositories';
 import {OrgPermissions, OrgRoles} from '../policies';
-import {generateRoleId, resolveResourcePolymorphic} from '../../../helpers';
+import {generateRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../../../helpers';
 import {Samples} from './samples';
 
 export type ACLs = Awaited<ReturnType<typeof seedACLs>>;
 
 export async function seedACLs(app: AclApp, mainData: Samples) {
-  const roleRepo = await app.getRepository(AclRoleRepository);
-  const roleActorRepo = await app.getRepository(AclRoleActorRepository);
-  const rolePermissionRepo = await app.getRepository(AclRolePermissionRepository);
+  const roleRepo = await app.getRepository(RoleRepository);
+  const roleMappingRepo = await app.getRepository(RoleMappingRepository);
+  const rolePermissionRepo = await app.getRepository(RolePermissionRepository);
 
   const {orgs, users} = mainData;
 
@@ -18,56 +18,56 @@ export async function seedACLs(app: AclApp, mainData: Samples) {
   // --------------------------------------------------------------------------------
   // create 'manager' role
   const managerRole = await roleRepo.create({
-    domainId: TestDomainId,
+    domain: TestDomain,
     name: 'manager',
-    ...resolveResourcePolymorphic(orgs.tesla),
+    ...toResourcePolymorphic(orgs.tesla),
   });
 
   await rolePermissionRepo.createAll(
     Object.values(OrgPermissions).map(p => ({
-      domainId: TestDomainId,
+      domain: TestDomain,
       roleId: managerRole.id,
       permission: p,
     })),
   );
 
   // assign 'owner' on 'tesla' to 'musk'
-  await roleActorRepo.create({
-    domainId: TestDomainId,
-    actorId: users.musk.id,
+  await roleMappingRepo.create({
+    domain: TestDomain,
     roleId: generateRoleId(OrgRoles.owner, orgs.tesla),
-    ...resolveResourcePolymorphic(orgs.tesla),
+    ...toPrincipalPolymorphic(users.musk),
+    ...toResourcePolymorphic(orgs.tesla),
   });
 
   // assign 'manager' on 'tesla' to 'tom'
-  await roleActorRepo.create({
-    domainId: TestDomainId,
-    actorId: users.tom.id,
+  await roleMappingRepo.create({
+    domain: TestDomain,
     roleId: generateRoleId('manager', orgs.tesla),
-    ...resolveResourcePolymorphic(orgs.tesla),
+    ...toPrincipalPolymorphic(users.tom),
+    ...toResourcePolymorphic(orgs.tesla),
   });
 
   // assign 'member' on 'tesla' to 'jerry'
-  await roleActorRepo.create({
-    domainId: TestDomainId,
-    actorId: users.jerry.id,
+  await roleMappingRepo.create({
+    domain: TestDomain,
     roleId: generateRoleId(OrgRoles.member, orgs.tesla),
-    ...resolveResourcePolymorphic(orgs.tesla),
+    ...toPrincipalPolymorphic(users.jerry),
+    ...toResourcePolymorphic(orgs.tesla),
   });
 
   // Google
   // --------------------------------------------------------------------------------
-  await roleActorRepo.create({
-    domainId: TestDomainId,
-    actorId: users.james.id,
+  await roleMappingRepo.create({
+    domain: TestDomain,
     roleId: generateRoleId(OrgRoles.owner, orgs.google),
-    ...resolveResourcePolymorphic(orgs.google),
+    ...toPrincipalPolymorphic(users.james),
+    ...toResourcePolymorphic(orgs.google),
   });
 
-  await roleActorRepo.create({
-    domainId: TestDomainId,
-    actorId: users.ava.id,
+  await roleMappingRepo.create({
+    domain: TestDomain,
     roleId: generateRoleId(OrgRoles.member, orgs.google),
-    ...resolveResourcePolymorphic(orgs.google),
+    ...toPrincipalPolymorphic(users.ava),
+    ...toResourcePolymorphic(orgs.google),
   });
 }

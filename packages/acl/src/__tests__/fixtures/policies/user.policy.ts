@@ -1,7 +1,7 @@
-import {ActorPolicy} from '../../../policy';
-import {User} from '../models/user.model';
+import {PrincipalPolicy} from '../../../policy';
+import {User} from '../models';
 
-export const UserPolicy: ActorPolicy = {
-  type: 'actor',
+export const UserPolicy: PrincipalPolicy = {
+  type: 'principal',
   model: User,
 };

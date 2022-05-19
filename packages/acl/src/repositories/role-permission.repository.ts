@@ -1,18 +1,18 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
-import {AclRolePermission, AclRolePermissionRelations} from '../models';
+import {RolePermission, RolePermissionRelations} from '../models';
 import {inject} from '@loopback/context';
 import {AclDataSourceName} from '../types';
 import {juggler} from '@loopback/repository';
 
-export class AclRolePermissionRepository extends QueryEnhancedCrudRepository<
-  AclRolePermission,
-  typeof AclRolePermission.prototype.id,
-  AclRolePermissionRelations
+export class RolePermissionRepository extends QueryEnhancedCrudRepository<
+  RolePermission,
+  typeof RolePermission.prototype.id,
+  RolePermissionRelations
 > {
   constructor(
     @inject(`datasources.${AclDataSourceName}`)
     dataSource: juggler.DataSource,
   ) {
-    super(AclRolePermission, dataSource);
+    super(RolePermission, dataSource);
   }
 }

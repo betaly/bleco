@@ -1,128 +1,183 @@
-import {MarkRequired} from 'ts-essentials';
-import {Options, repository, Where} from '@loopback/repository';
+import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
+import {Condition, repository, Where} from '@loopback/repository';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
 import debugFactory from 'debug';
-import {FilterExcludingWhere} from '@loopback/filter';
 import {AclBaseService} from './base-service';
-import {DeleteResult, EntityLike, FilterWithCustomWhere, OptionsWithDomain, ResourceRepresent} from '../types';
+import {DeleteResult, EntityLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
 import {AclBindings} from '../keys';
-import {AclRole, AclRoleActor, AclRoleAttrs, AclRolePermission} from '../models';
-import {generateRoleId, isResourceRepresent, parseRoleId, resolveRoleId} from '../helpers';
+import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
+import {generateRoleId, isResourcePolymorphicOrEntity, parseRoleId, resolveRoleId} from '../helpers';
 import {PolicyManager} from '../policy.manager';
-import {AclRoleActorRepository, AclRolePermissionRepository, AclRoleRepository} from '../repositories';
+import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
+import toArray from 'tily/array/toArray';
+import {assert} from 'tily/assert';
+import {RolesExistsError} from '../errors';
 
 const debug = debugFactory('bleco:acl:role-service');
 
+export type RoleDeleteResult = DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}>;
+
 @injectable({scope: BindingScope.SINGLETON})
-export class AclRoleService extends AclBaseService<AclRole, AclRoleAttrs> {
-  repo: AclRoleRepository;
+export class RoleService extends AclBaseService<Role> {
+  repo: RoleRepository;
 
   constructor(
-    @repository(AclRoleRepository)
-    repo: AclRoleRepository,
+    @repository(RoleRepository)
+    repo: RoleRepository,
     @inject(AclBindings.POLICY_MANAGER)
     policyManager: PolicyManager,
-    @repository(AclRoleActorRepository)
-    public roleActorRepository: AclRoleActorRepository,
-    @repository(AclRolePermissionRepository)
-    public rolePermissionRepository: AclRolePermissionRepository,
+    @repository(RoleMappingRepository)
+    public roleMappingRepository: RoleMappingRepository,
+    @repository(RolePermissionRepository)
+    public rolePermissionRepository: RolePermissionRepository,
   ) {
     super(repo, policyManager);
   }
 
-  async find(filter?: FilterWithCustomWhere<AclRole, AclRoleAttrs>, options?: OptionsWithDomain): Promise<AclRole[]> {
-    return this.repo.find(filter ? await this.resolveFilter(filter, options) : undefined);
+  async add(entity: MarkRequired<RoleAttrs, 'name' | 'resource'>, options?: OptionsWithDomain): Promise<Role> {
+    return (await this.addAll([entity], options))[0];
   }
 
-  async findOne(
-    filter: FilterWithCustomWhere<AclRole, AclRoleAttrs>,
-    options?: OptionsWithDomain,
-  ): Promise<AclRole | null> {
+  async addAll(entities: MarkRequired<RoleAttrs, 'name' | 'resource'>[], options?: OptionsWithDomain): Promise<Role[]> {
     options = {...options};
-    return this.repo.findOne(await this.resolveFilter(filter, options));
-  }
 
-  async findById(id: string, filter?: FilterExcludingWhere<AclRole>, options?: Options): Promise<AclRole> {
-    return this.repo.findById(id, filter, options);
-  }
+    const domain = await this.repo.getCurrentDomain(options);
 
-  async create(attrs: MarkRequired<AclRoleAttrs, 'name' | 'resource'>, options?: OptionsWithDomain): Promise<AclRole> {
-    options = {...options};
-    const {permissions, ...unwrappedAttrs} = attrs;
-    const {name, resource} = unwrappedAttrs;
-    const props = await this.repo.resolveAttrs(unwrappedAttrs, options);
+    const rolesProps: RoleProps[] = [];
+    const rolesPermissions: (string[] | undefined)[] = [];
+    const existsConditions: Condition<Role>[] = [];
+
+    // prepare roles and rolePermissions
+    toArray(entities).forEach(entity => {
+      const {permissions, ...unwrappedAttrs} = entity;
+      const props = this.repo.resolveProps(unwrappedAttrs, {domain});
+
+      assert(props.name, 'Role name is required');
+      assert(props.resourceType, 'Resource is required');
+
+      if (this.repo.isBuiltInRole(props.name, props.resourceType)) {
+        throw new Error(`Builtin role "${props.name}" cannot be added.`);
+      }
+
+      rolesProps.push(props);
+      rolesPermissions.push(permissions);
+      existsConditions.push(props);
+    });
 
     const tx = await this.tf.beginTransaction(options);
     try {
       await (async () => {
-        const type = await this.repo.hasRole(name, resource);
-        if (type === 'builtin') {
-          throw new Error(`Builtin role "${generateRoleId(name, resource)}" cannot be added.`);
-        } else if (type === 'custom') {
-          throw new Error(`Role "${generateRoleId(name, resource)}" already exists.`);
+        const founds = await this.repo.find(
+          {
+            where: {or: existsConditions},
+            fields: ['id', 'name', 'resourceType', 'resourceId'],
+          },
+          options,
+        );
+        if (founds.length > 0) {
+          throw new RolesExistsError(founds.map(({id}) => id));
         }
       })();
 
-      const answer = await this.repo.create(props, options);
-      if (permissions?.length) {
-        await this.updatePermissions(answer.id, permissions, options);
+      const roles = await this.repo.createAll(rolesProps, options);
+      for (let i = 0; i < rolesPermissions.length; i++) {
+        const permissions = rolesPermissions[i];
+        if (!permissions) {
+          continue;
+        }
+        await this.updatePermissions(roles[i].id, permissions, options);
       }
       await tx.commit();
-      return answer;
+      return roles;
     } catch (e) {
-      await tx?.rollback();
+      await tx.rollback();
       throw e;
     }
   }
 
+  /**
+   * Remove one role
+   * @param role role id or role entity
+   * @param options
+   */
   async delete(
     role: string | EntityLike,
-    resourceOrOptions?: ResourceRepresent | OptionsWithDomain,
     options?: OptionsWithDomain,
-  ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleActor: number}> | undefined> {
-    let resource: ResourceRepresent | undefined;
-    if (resourceOrOptions && isResourceRepresent(resourceOrOptions)) {
-      resource = resourceOrOptions;
-    } else {
-      options = resourceOrOptions;
-    }
-    const id = resolveRoleId(role, resource);
+  ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}> | undefined> {
     options = {...options};
+    const id = resolveRoleId(role);
 
     const type = await this.repo.hasRole(id);
     if (!type) {
       return {count: 0};
     }
     if (type === 'builtin') {
-      throw new Error(`Builtin role "${parseRoleId(id).name}" cannot be removed.`);
+      throw new Error(`Builtin role "${parseRoleId(id).name}" cannot be deleted.`);
     }
-    const roles = (await this.repo.resolveAttrs({id}, options)) as Where<AclRole>;
-    const roleActors = (await this.roleActorRepository.resolveAttrs({roleId: id}, options)) as Where<AclRoleActor>;
-    const rolePermissions = {roleId: id} as Where<AclRolePermission>;
-    return this.deleteCascade({roles, rolePermissions, roleActors}, options);
+    const domain = await this.repo.getCurrentDomain(options);
+    const rolesWhere = this.repo.resolveProps({id}, {domain}) as Where<Role>;
+    const roleMappingsWhere = this.roleMappingRepository.resolveProps({roleId: id}, {domain}) as Where<RoleMapping>;
+    const rolePermissionsWhere = {roleId: id} as Where<RolePermission>;
+    return this.deleteCascade({rolesWhere, rolePermissionsWhere, roleMappingsWhere}, options);
   }
 
-  async deleteForResource(
-    resource: ResourceRepresent,
+  async deleteInResource(resource: ResourcePolymorphicOrEntity, options?: OptionsWithDomain): Promise<RoleDeleteResult>;
+  async deleteInResource(
+    roles: ArrayOrSingle<string>,
+    resource: ResourcePolymorphicOrEntity,
     options?: OptionsWithDomain,
-  ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleActor: number}>> {
+  ): Promise<RoleDeleteResult>;
+  async deleteInResource(
+    rolesOrResource: ArrayOrSingle<string> | ResourcePolymorphicOrEntity,
+    resourceOrOptions?: ResourcePolymorphicOrEntity | OptionsWithDomain,
+    options?: OptionsWithDomain,
+  ): Promise<RoleDeleteResult> {
+    let roles: string[] | undefined;
+    let resource: ResourcePolymorphicOrEntity;
+    if (isResourcePolymorphicOrEntity(rolesOrResource)) {
+      resource = rolesOrResource;
+      options = resourceOrOptions as OptionsWithDomain;
+    } else {
+      roles = toArray(rolesOrResource);
+      resource = resourceOrOptions as ResourcePolymorphicOrEntity;
+    }
     options = {...options};
-    const roleWhere = (await this.repo.resolveAttrs({resource}, options)) as Where<AclRole>;
-    const roleActorWhere = (await this.roleActorRepository.resolveAttrs({resource}, options)) as Where<AclRoleActor>;
-    const rolePermissions: Where<AclRolePermission> = {roleId: {like: generateRoleId('*', resource)}};
-    return this.deleteCascade({roles: roleWhere, rolePermissions, roleActors: roleActorWhere}, options);
+
+    const domain = await this.repo.getCurrentDomain(options);
+    const roleWhere = this.repo.resolveProps({resource}, {domain}) as Condition<Role>;
+    const roleActorWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<RoleMapping>;
+    const rolePermissions = {roleId: {like: generateRoleId('%', resource)}} as Condition<RolePermission>;
+
+    let ids: string[] | undefined;
+    if (roles && !roles.find(role => role === '*')) {
+      ids = roles.map(role => resolveRoleId(role, resource));
+    }
+    if (ids) {
+      roleWhere.id = {inq: ids};
+      roleActorWhere.roleId = {inq: ids};
+      rolePermissions.roleId = {inq: ids};
+    }
+
+    return this.deleteCascade(
+      {
+        rolesWhere: roleWhere,
+        rolePermissionsWhere: rolePermissions,
+        roleMappingsWhere: roleActorWhere,
+      },
+      options,
+    );
   }
 
   async updatePermissions(roleId: string, permissions: string[], options?: OptionsWithDomain) {
     options = {...options};
-    const domainId = await this.repo.resolveDomainId(options);
+    const domain = await this.repo.getCurrentDomain(options);
     const tx = await this.tf.beginTransaction(options);
     try {
       await this.rolePermissionRepository.deleteAll({roleId}, options);
       if (permissions.length) {
         await this.rolePermissionRepository.createAll(
-          permissions.map(permission => ({roleId, permission, domainId})),
+          permissions.map(permission => ({roleId, permission, domain})),
           options,
         );
       }
@@ -134,29 +189,36 @@ export class AclRoleService extends AclBaseService<AclRole, AclRoleAttrs> {
   }
 
   protected async deleteCascade(
-    where: {roles: Where<AclRole>; rolePermissions: Where<AclRolePermission>; roleActors: Where<AclRoleActor>},
+    where: {
+      rolesWhere: Where<Role>;
+      rolePermissionsWhere: Where<RolePermission>;
+      roleMappingsWhere: Where<RoleMapping>;
+    },
     options: OptionsWithDomain,
-  ) {
+  ): Promise<RoleDeleteResult> {
     let roleCount = 0;
     let rolePermissionCount = 0;
     let roleActorCount = 0;
     const tx = await this.tf.beginTransaction(options);
     try {
-      debug('Deleting role actors %o', where.roleActors);
-      ({count: roleActorCount} = await this.roleActorRepository.deleteAll(where.roleActors, options));
-      debug('Deleted %d role actors', roleActorCount);
+      debug('Deleting role mappings %o', where.roleMappingsWhere);
+      ({count: roleActorCount} = await this.roleMappingRepository.deleteAll(where.roleMappingsWhere, options));
+      debug('Deleted %d role mappings', roleActorCount);
 
-      debug('Deleting role permissions %o', where.rolePermissions);
-      ({count: rolePermissionCount} = await this.rolePermissionRepository.deleteAll(where.rolePermissions, options));
+      debug('Deleting role permissions %o', where.rolePermissionsWhere);
+      ({count: rolePermissionCount} = await this.rolePermissionRepository.deleteAll(
+        where.rolePermissionsWhere,
+        options,
+      ));
       debug('Deleted %d role permissions', roleCount);
 
-      debug('Deleting roles %o', where.roles);
-      ({count: roleCount} = await this.repo.deleteAll(where.roles, options));
+      debug('Deleting roles %o', where.rolesWhere);
+      ({count: roleCount} = await this.repo.deleteAll(where.rolesWhere, options));
       debug('Deleted %d roles', roleCount);
       await tx.commit();
       return {
         count: roleCount,
-        details: {Role: roleCount, RolePermission: rolePermissionCount, RoleActor: roleActorCount},
+        details: {Role: roleCount, RolePermission: rolePermissionCount, RoleMapping: roleActorCount},
       };
     } catch (e) {
       await tx.rollback();

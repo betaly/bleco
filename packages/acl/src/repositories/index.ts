@@ -1,9 +1,9 @@
-import {AclRoleRepository} from './role.repository';
-import {AclRoleActorRepository} from './role-actor.repository';
-import {AclRolePermissionRepository} from './role-permission.repository';
+import {RoleRepository} from './role.repository';
+import {RoleMappingRepository} from './role-mapping.repository';
+import {RolePermissionRepository} from './role-permission.repository';
 
 export * from './role.repository';
 export * from './role-permission.repository';
-export * from './role-actor.repository';
+export * from './role-mapping.repository';
 
-export const repositories = [AclRoleRepository, AclRolePermissionRepository, AclRoleActorRepository];
+export const repositories = [RoleRepository, RolePermissionRepository, RoleMappingRepository];

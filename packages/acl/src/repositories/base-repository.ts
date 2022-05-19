@@ -1,25 +1,33 @@
-import {SoftDeleteEntity} from '@bleco/soft-delete';
 import {Getter} from '@loopback/context';
-import {AnyObject, juggler} from '@loopback/repository';
+import {AnyObject, Entity, juggler, Options} from '@loopback/repository';
 import {EntityClass, QueryEnhancedTransactionalRepository} from '@bleco/query';
-import {DefaultDomainId, DomainLike, OptionsWithDomain} from '../types';
-import {resolveDomainId} from '../helpers';
+import {DefaultDomain, DomainAware, DomainLike} from '../types';
+import {resolveDomain} from '../helpers';
 
 export class AclBaseRepository<
-  T extends SoftDeleteEntity,
+  T extends Entity,
   ID,
   Relations extends object = {},
   Attrs extends object = AnyObject,
 > extends QueryEnhancedTransactionalRepository<T, ID, Relations> {
-  constructor(entityClass: EntityClass<T>, dataSource: juggler.DataSource, readonly getDomain?: Getter<DomainLike>) {
+  constructor(
+    entityClass: EntityClass<T>,
+    dataSource: juggler.DataSource,
+    protected readonly getDomain?: Getter<DomainLike>,
+  ) {
     super(entityClass, dataSource);
   }
 
-  async resolveDomainId(options?: OptionsWithDomain): Promise<string> {
-    return resolveDomainId((await this.getDomain?.()) ?? options?.domain) ?? DefaultDomainId;
+  async getCurrentDomain(options?: Options): Promise<string> {
+    return resolveDomain((await this.getDomain?.()) ?? options?.domain) ?? DefaultDomain;
   }
 
-  async resolveAttrs(attrs: Attrs, options?: OptionsWithDomain): Promise<AnyObject> {
+  resolveProps(attrs: Attrs, defaults?: AnyObject): AnyObject {
     throw new Error('Not implemented');
+  }
+
+  async ensureDomain<Target extends DomainAware>(attrs: Target, options?: Options): Promise<Target> {
+    attrs.domain = attrs.domain ?? (await this.getCurrentDomain(options));
+    return attrs;
   }
 }

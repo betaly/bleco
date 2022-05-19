@@ -1,6 +1,6 @@
 import {PolicyManager} from '../../policy.manager';
 import {Entity, model, property} from '@loopback/repository';
-import {AclRole, AclRoleActor} from '../../models';
+import {Role, RoleMapping} from '../../models';
 import {Policy} from '../../policy';
 
 @model()
@@ -27,7 +27,7 @@ describe('PolicyManager', function () {
   describe('add', function () {
     it('should defineRoleActorsRelationOnActor', function () {
       const userPolicy: Policy = {
-        type: 'actor',
+        type: 'principal',
         model: User,
       };
 
@@ -39,7 +39,7 @@ describe('PolicyManager', function () {
       expect(policyManager.has(User.name)).toBe(true);
       const rel = definition.relations['actorRoles'];
       expect(rel).toBeTruthy();
-      expect(rel.target()).toEqual(AclRoleActor);
+      expect(rel.target()).toEqual(RoleMapping);
     });
 
     it('should defineRolesRelationOnResource', function () {
@@ -55,7 +55,7 @@ describe('PolicyManager', function () {
       expect(policyManager.has(Org.name)).toBe(true);
       const rel = definition.relations['roles'];
       expect(rel).toBeTruthy();
-      expect(rel.target()).toEqual(AclRole);
+      expect(rel.target()).toEqual(Role);
     });
   });
 });

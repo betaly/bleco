@@ -1,6 +1,6 @@
 import {Policy} from './policy';
 import {EntityClass} from '@bleco/query';
-import {AclRole, AclRoleActor} from './models';
+import {Role, RoleMapping} from './models';
 
 export class PolicyManager {
   protected policyMap = new Map<string, Policy>();
@@ -10,7 +10,7 @@ export class PolicyManager {
   }
 
   add(policy: Policy) {
-    if (policy.type === 'actor') {
+    if (policy.type === 'principal') {
       this.defineRoleActorsRelationOnActor(policy.model);
     } else if (policy.type === 'resource') {
       this.defineRolesRelationOnResource(policy.model);
@@ -40,14 +40,14 @@ export class PolicyManager {
     const definition = actorClass.definition;
     const rel = definition.relations['actorRoles'];
     if (rel) {
-      if (rel.target() === AclRoleActor) {
+      if (rel.target() === RoleMapping) {
         return;
       }
       throw new Error(`${actorClass.name} has a relation to ${rel.target().name} but it is not AclRoleActor`);
     }
     definition.hasMany('actorRoles', {
       source: actorClass,
-      target: () => AclRoleActor,
+      target: () => RoleMapping,
     });
   }
 
@@ -55,14 +55,14 @@ export class PolicyManager {
     const definition = resourceClass.definition;
     const rel = definition.relations['roles'];
     if (rel) {
-      if (rel.target() === AclRole) {
+      if (rel.target() === Role) {
         return;
       }
       throw new Error(`${resourceClass.name} has a relation to ${rel.target().name} but it is not AclRole`);
     }
     definition.hasMany('roles', {
       source: resourceClass,
-      target: () => AclRole,
+      target: () => Role,
     });
   }
 }
