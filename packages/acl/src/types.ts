@@ -1,6 +1,9 @@
-import {AnyObject, Entity, Filter, Options, ShortHandEqualType, Transaction} from '@loopback/repository';
+import {Entity, Options, ShortHandEqualType, Transaction} from '@loopback/repository';
 import {KeyOf} from '@loopback/filter/src/query';
 import {OmitProperties} from 'ts-essentials';
+import {BindingTemplate} from '@loopback/context';
+import {AclBindings} from './keys';
+import {extensionFor} from '@loopback/core';
 
 export const AclDataSourceName = 'AclDB';
 
@@ -68,6 +71,12 @@ export interface OptionsWithDomain extends OptionsWithTransaction {
   domain?: DomainLike | string;
 }
 
-export type FilterWithCustomWhere<T extends Entity, W extends object = AnyObject> = Omit<Filter<T>, 'where'> & {
-  where: W;
+/**
+ * A binding template for enhancer strategy contributor extensions
+ */
+export const asEnhancerStrategyExtension: BindingTemplate = binding => {
+  extensionFor(AclBindings.ENFORCER_STRATEGY_EXTENSION_POINT_NAME)(binding);
+  binding.tag({
+    namespace: AclBindings.ENFORCER_STRATEGY_EXTENSION_POINT_NAME,
+  });
 };

@@ -6,6 +6,8 @@ export const OrgRoles = {
   member: 'member',
 } as const;
 
+export type OrgRole = typeof OrgRoles[keyof typeof OrgRoles];
+
 export const OrgPermissions = {
   read: 'read',
   create_repos: 'create_repos',
@@ -16,11 +18,13 @@ export const OrgPermissions = {
   delete_role_assignments: 'delete_role_assignments',
 } as const;
 
-export const OrgPolicy: ResourcePolicy = {
+export type OrgPermission = typeof OrgPermissions[keyof typeof OrgPermissions];
+
+export const OrgPolicy: ResourcePolicy<OrgRole, OrgPermission> = {
   type: 'resource',
   model: Org,
+  roles: Object.values(OrgRoles),
   permissions: Object.values(OrgPermissions),
-  roles: [OrgRoles.owner, OrgRoles.member],
   roleInherits: {
     [OrgRoles.owner]: [OrgRoles.member],
   },

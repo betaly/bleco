@@ -136,3 +136,11 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    */
   authorizedResources(principal: Actor, action: string, resourceCls: Class<Resource>): Promise<Resource[]>;
 }
+
+export interface EnforcerStrategy extends Enforcer {
+  /**
+   * The 'name' property is a unique identifier for the
+   * enforcer strategy ( for example : 'basic', 'oso', etc)
+   */
+  name: string;
+}
