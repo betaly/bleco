@@ -1,11 +1,10 @@
 import {Component} from '@loopback/core';
 import {models} from './models';
 import {repositories} from './repositories';
-import {policy} from './gitclub.security';
+import {policies} from './policies';
 
 export class GitClubComponent implements Component {
   models = models;
   repositories = repositories;
-  osoClasses = models;
-  osoPolicy = policy;
+  policies = policies;
 }

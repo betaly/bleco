@@ -1,8 +1,8 @@
-import { GitClubApplication } from "../fixtures/application";
-import { givenApp } from "../fixtures/support";
-import { OsoBindings } from "../../keys";
+import {GitClubApplication} from '../fixtures/application';
+import {givenApp} from '../fixtures/support';
+import {AclBindings, PolicyManager} from '@bleco/acl';
 
-describe("Application Integration", function() {
+describe('Application Integration', function () {
   let app: GitClubApplication;
   beforeAll(async () => {
     app = await givenApp();
@@ -12,7 +12,9 @@ describe("Application Integration", function() {
     await app.stop();
   });
 
-  it("should mount components", function() {
-    expect(app.isBound(OsoBindings.POLICY)).toBeTruthy();
+  it('should mount components', function () {
+    const policyManager = app.getSync(AclBindings.POLICY_MANAGER);
+    expect(policyManager).toBeInstanceOf(PolicyManager);
+    expect(policyManager.policies.length).toBeGreaterThan(0);
   });
 });

@@ -1,6 +1,5 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {Repo} from './repo.model';
-import {OrgRole} from './org-role.model';
 
 @model()
 export class Org extends Entity {
@@ -29,9 +28,6 @@ export class Org extends Entity {
 
   @hasMany(() => Repo)
   repositories: Repo[];
-
-  @hasMany(() => OrgRole)
-  roles: OrgRole[];
 
   constructor(data?: Partial<Org>) {
     super(data);

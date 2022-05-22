@@ -21,7 +21,7 @@ export class DbDataSource extends juggler.DataSource implements LifeCycleObserve
 
   constructor(
     @inject('datasources.config.db', {optional: true})
-      dsConfig: object = config,
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }

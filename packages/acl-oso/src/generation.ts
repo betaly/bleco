@@ -2,9 +2,11 @@ import {TextWriter} from '@yellicode/core';
 import {ValueOrPromise} from '@loopback/context';
 import {BufferWriter} from 'memstreams';
 import {StreamWriter} from '@obcode/templating';
-import {DomainSecurity, PolarActor, PolarResource} from './types';
 import isEmpty from 'tily/is/empty';
 import camelCaseName from 'tily/string/camelCaseName';
+import {Policy} from '@bleco/acl';
+
+export type AnyPolicy = Omit<Policy, 'type'>;
 
 export type GenerateScriptCallback = (writer: TextWriter) => ValueOrPromise<void>;
 
@@ -14,44 +16,48 @@ export async function generate(callback: GenerateScriptCallback): Promise<string
   return stream.data.toString();
 }
 
-export function generateActorScripts(writer: TextWriter, resource: PolarActor) {
-  generateBlockScripts('actor', writer, resource);
+export function generateActorScripts(writer: TextWriter, resource: AnyPolicy) {
+  generateBlockScripts('principal', writer, resource);
 }
 
-export function generateResourceScripts(writer: TextWriter, resource: PolarResource) {
+export function generateResourceScripts(writer: TextWriter, resource: AnyPolicy) {
   generateBlockScripts('resource', writer, resource);
 }
 
-export function generateBlockScripts(type: string, writer: TextWriter, domain: DomainSecurity) {
-  writer.writeLine(`${type} ${domain.name} {`);
+export function generateBlockScripts(type: string, writer: TextWriter, policy: AnyPolicy) {
+  writer.writeLine(`${type} ${policy.model.name} {`);
   writer.increaseIndent();
 
-  if (domain.roles) {
-    writeInlineRoles(writer, domain.roles);
+  if (policy.roles) {
+    writeInlineRoles(writer, policy.roles);
   }
 
-  if (domain.permissions) {
-    writeInlinePermissions(writer, domain.permissions);
+  if (policy.permissions) {
+    writeInlinePermissions(writer, policy.permissions);
   }
 
-  if (!isEmpty(domain.relations)) {
-    writeInlineRelations(writer, domain.relations!);
+  if (policy.relations && !isEmpty(policy.relations)) {
+    writeInlineRelations(writer, policy.relations, policy);
   }
 
-  if (domain.rolePermissions) {
-    writeInlineRules(writer, domain.rolePermissions);
+  if (policy.rolePermissions) {
+    writeInlineRules(writer, policy.rolePermissions);
   }
 
-  if (domain.roleInherits) {
-    writeInlineRules(writer, domain.roleInherits);
+  if (policy.roleInherits) {
+    writeInlineRules(writer, policy.roleInherits);
   }
 
   writer.decreaseIndent();
   writer.writeLine('}');
 
   // relations mapping
-  if (!isEmpty(domain.relations)) {
-    writeHasRelations(writer, domain.relations!, domain);
+  if (policy.relations && !isEmpty(policy.relations)) {
+    writeHasRelations(writer, policy.relations, policy);
+  }
+
+  if (policy.rules) {
+    policy.rules.forEach((rule: string) => writer.writeLine(rule));
   }
 }
 
@@ -63,25 +69,19 @@ function writeInlinePermissions(writer: TextWriter, permissions: string[]) {
   writer.writeLine(`permissions = [${permissions.map(p => `"${p}"`).join(', ')}];`);
 }
 
-function writeInlineRelations(
-  writer: TextWriter,
-  relations: Record<string, {model: string; property?: string} | string>,
-) {
-  const content = Object.entries(relations)
-    .map(([name, relation]) => `${name}: ${typeof relation === 'string' ? relation : relation.model}`)
-    .join(', ');
+function writeInlineRelations(writer: TextWriter, relations: string[], policy: AnyPolicy) {
+  const definition = policy.model.definition;
+  const content = relations.map(r => `${r}: ${definition.relations[r].target().name}`).join(', ');
   writer.writeLine(`relations = {${content}};`);
 }
 
 function writeInlineRules(writer: TextWriter, rules: Record<string, string[]>) {
   for (const [key, values] of Object.entries(rules)) {
-    const parts = key.split('@');
-    const roleName = parts[0];
-    const parentName = parts[1];
+    const [name, parent] = parseRoleName(key);
     for (const value of values) {
-      let line = `"${value}" if "${roleName}"`;
-      if (parentName) {
-        line += ` on "${parentName}"`;
+      let line = `"${value}" if "${name}"`;
+      if (parent) {
+        line += ` on "${parent}"`;
       }
       line += ';';
       writer.writeLine(line);
@@ -89,15 +89,25 @@ function writeInlineRules(writer: TextWriter, rules: Record<string, string[]>) {
   }
 }
 
-function writeHasRelations(
-  writer: TextWriter,
-  relations: Record<string, {model: string; property?: string} | string>,
-  domain: DomainSecurity,
-) {
-  for (const [name, relation] of Object.entries(relations)) {
-    const model = typeof relation === 'string' ? relation : relation.model;
-    const property = typeof relation === 'string' || !relation.property ? relation : relation.property;
-    const modelVar = camelCaseName(model);
-    writer.writeLine(`has_relation(${modelVar}: ${model}, "${name}", _: ${domain.name}{${property}: ${modelVar}});`);
+function writeHasRelations(writer: TextWriter, relations: string[], policy: AnyPolicy) {
+  const model = policy.model;
+  for (const name of relations) {
+    const target = policy.model.definition.relations[name].target();
+    const property = name;
+    const targetVal = camelCaseName(target.name);
+    writer.writeLine(
+      `has_relation(${targetVal}: ${target.name}, "${name}", _: ${model.name}{${property}: ${targetVal}});`,
+    );
   }
+}
+
+function parseRoleName(roleName: string): [name: string, parent?: string] {
+  if (roleName.includes('@')) {
+    const parts = roleName.split('@');
+    return [parts[0], parts[1]];
+  } else if (roleName.includes('.')) {
+    const parts = roleName.split('.');
+    return [parts[1], parts[0]];
+  }
+  return [roleName];
 }

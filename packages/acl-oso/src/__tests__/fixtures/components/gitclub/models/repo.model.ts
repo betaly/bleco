@@ -1,7 +1,6 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
 import {Org} from './org.model';
 import {Issue} from './issue.model';
-import {RepoRole} from './repo-role.model';
 
 @model()
 export class Repo extends Entity {
@@ -22,9 +21,6 @@ export class Repo extends Entity {
 
   @hasMany(() => Issue)
   issues: Issue[];
-
-  @hasMany(() => RepoRole)
-  roles: RepoRole[];
 
   constructor(data?: Partial<Repo>) {
     super(data);

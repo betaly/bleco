@@ -67,6 +67,7 @@ export function resolveRelation(metadata: RelationMetadata): Relation | undefine
     return new Relation('one', rel.target().name, rel.keyFrom, rel.keyTo);
   } else if (metadata.type === RelationType.hasMany) {
     if ((metadata as HasManyDefinition).through) {
+      debug(`Skip hasMany relation "${metadata.name}" with through option`);
       return;
     }
     const rel = resolveHasManyMetadata(metadata as HasManyDefinition);
