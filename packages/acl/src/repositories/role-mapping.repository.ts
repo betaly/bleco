@@ -1,7 +1,7 @@
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';
 import {AclRoleMappingRelations, Role, RoleMapping, RoleMappingAttrs, RoleMappingProps} from '../models';
 import {inject} from '@loopback/context';
-import {AclDataSourceName, DomainLike} from '../types';
+import {AclAuthDBName, DomainLike} from '../types';
 import {RoleRepository} from './role.repository';
 import {AclBindings} from '../keys';
 import {resolveRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../helpers';
@@ -16,7 +16,7 @@ export class RoleMappingRepository extends AclBaseRepository<
   public readonly role: BelongsToAccessor<Role, typeof Role.prototype.id>;
 
   constructor(
-    @inject(`datasources.${AclDataSourceName}`)
+    @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
     @repository.getter('AclRoleRepository')
     protected readonly roleRepositoryGetter: Getter<RoleRepository>,

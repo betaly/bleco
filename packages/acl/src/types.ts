@@ -5,7 +5,8 @@ import {BindingTemplate} from '@loopback/context';
 import {AclBindings} from './keys';
 import {extensionFor} from '@loopback/core';
 
-export const AclDataSourceName = 'AclDB';
+export const AclAuthDBName = 'AclAuthDB';
+export const AclResourceDBName = 'AclResourceDB';
 
 export const DefaultDomain = '';
 
@@ -34,8 +35,6 @@ export type ObjectProps<MT extends object, MP extends object = OmitProperties<MT
 export type ObjectCondition<MT extends object> = {
   [P in KeyOf<MT>]?: MT[P] & ShortHandEqualType;
 };
-
-// export type Where<MT extends object> = MarkRequired<ObjectCondition<MT & DomainAware>, 'domain'>;
 
 export interface DomainAware {
   domain: string;

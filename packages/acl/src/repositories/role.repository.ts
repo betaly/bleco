@@ -2,7 +2,7 @@ import {DataObject, Getter, HasManyRepositoryFactory, juggler, repository} from 
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
 import {inject} from '@loopback/context';
 import {
-  AclDataSourceName,
+  AclAuthDBName,
   DomainLike,
   OptionsWithDomain,
   ResourcePolymorphic,
@@ -24,7 +24,7 @@ export class RoleRepository extends AclBaseRepository<Role, typeof Role.prototyp
   public readonly permissions: HasManyRepositoryFactory<RolePermission, typeof RolePermission.prototype.id>;
 
   constructor(
-    @inject(`datasources.${AclDataSourceName}`)
+    @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
     @repository.getter('RoleActorRepository')
     protected readonly roleActorRepositoryGetter: Getter<RoleMappingRepository>,

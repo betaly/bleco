@@ -27,14 +27,12 @@ export const RepoPolicy: ResourcePolicy<RepoRole, RepoPermission> = {
   model: Repo,
   roles: Object.values(RepoRoles),
   permissions: Object.values(RepoPermissions),
-  relations: {org: 'Org'},
+  relations: ['org'],
   roleInherits: {
     [RepoRoles.admin]: [RepoRoles.maintainer],
     [RepoRoles.maintainer]: [RepoRoles.reader],
-    org: {
-      [OrgRoles.owner]: [RepoRoles.admin],
-      [OrgRoles.member]: [RepoRoles.reader],
-    },
+    [`org.${OrgRoles.owner}`]: [RepoRoles.admin],
+    [`org.${OrgRoles.member}`]: [RepoRoles.reader],
   },
   rolePermissions: {
     [RepoRoles.admin]: [

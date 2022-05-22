@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Entity} from '@loopback/repository';
 import {AnyRecord} from './types';
 
@@ -11,8 +12,8 @@ export interface Policy<Role = string, Permission = string> {
   permissions?: string[];
   roles?: Role[];
   rolePermissions?: Record<string, Permission[]>;
-  roleInherits?: Record<string, Role[] | Record<string, Role[]>>;
-  relations?: Record<string, {model: string; property?: string} | string>;
+  roleInherits?: Record<string, Role[]>;
+  relations?: string[];
   rules?: AnyRecord;
 }
 
@@ -24,7 +25,14 @@ export interface ResourcePolicy<Role = string, Permission = string> extends Poli
   type: 'resource';
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isPolicy(x: any): x is Policy {
   return x?.type !== undefined && x.model !== undefined;
+}
+
+export function isPrincipalPolicy(x: any): x is PrincipalPolicy {
+  return x?.type === 'principal';
+}
+
+export function isResourcePolicy(x: any): x is ResourcePolicy {
+  return x?.type === 'resource';
 }

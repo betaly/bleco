@@ -6,5 +6,6 @@ export * from './booters';
 export * from './services';
 export * from './component';
 export * from './policy';
+export * from './policy.manager';
 export * from './enforcer';
 export * from './errors';

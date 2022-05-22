@@ -58,7 +58,7 @@ export class PolicyManager {
       if (rel.target() === Role) {
         return;
       }
-      throw new Error(`${resourceClass.name} has a relation to ${rel.target().name} but it is not AclRole`);
+      throw new Error(`${resourceClass.name} has a relation to ${rel.target().name} but it is not Role`);
     }
     definition.hasMany('roles', {
       source: resourceClass,

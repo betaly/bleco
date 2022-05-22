@@ -1,5 +1,5 @@
 import {BindingKey} from '@loopback/context';
-import {Enforcer} from './enforcer';
+import {EnforcerStrategy} from './enforcer';
 import {DomainLike} from './types';
 import {PolicyManager} from './policy.manager';
 import {RoleMappingService, RoleService} from './services';
@@ -18,7 +18,7 @@ export namespace AclBindings {
 
   export const ROLE_MAPPING_SERVICE = BindingKey.create<RoleMappingService>('services.RoleMappingService');
 
-  export const ENFORCER_STRATEGY = BindingKey.create<Enforcer>('acl.enforcer.strategy');
+  export const ENFORCER_STRATEGY = BindingKey.create<EnforcerStrategy>('acl.enforcer.strategy');
 
   export const ENFORCER_STRATEGY_EXTENSION_POINT_NAME = 'acl.enforcer.strategies';
 }

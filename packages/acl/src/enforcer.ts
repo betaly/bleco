@@ -7,7 +7,7 @@ export interface AuthorizedFilter<T extends Entity = Entity> {
   where: QueryWhere<T>;
 }
 
-export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity = Entity> {
+export interface Enforcer<Principal extends Entity = Entity, Resource extends Entity = Entity> {
   /**
    * Query the knowledge base to determine whether an principal is allowed to
    * perform an action upon a resource.
@@ -17,7 +17,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @param resource Object.
    * @returns An access control decision.
    */
-  isAllowed(principal: Actor, action: string, resource: Resource): Promise<boolean>;
+  isAllowed(principal: Principal, action: string, resource: Resource): Promise<boolean>;
 
   /**
    * Ensure that `principal` is allowed to perform `action` on
@@ -41,7 +41,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    *   read the resource. Default is `true`.
    */
   authorize(
-    principal: Actor,
+    principal: Principal,
     action: string,
     resource: Resource,
     options?: {
@@ -65,7 +65,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @returns A list of the unique allowed actions.
    */
   authorizedActions(
-    principal: Actor,
+    principal: Principal,
     resource: Resource,
     options?: {
       allowWildcard?: boolean;
@@ -86,7 +86,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @param resource The resource being accessed.
    * @param field The name of the field being accessed.
    */
-  authorizeField(principal: Actor, action: string, resource: Resource, field: string): Promise<void>;
+  authorizeField(principal: Principal, action: string, resource: Resource, field: string): Promise<void>;
 
   /**
    * Determine the fields of `resource` on which `principal` is allowed to
@@ -106,7 +106,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @returns A list of the unique allowed fields.
    */
   authorizedFields(
-    principal: Actor,
+    principal: Principal,
     action: string,
     resource: Resource,
     options?: {
@@ -123,7 +123,7 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @param resourceCls Object type.
    * @returns A query that selects authorized resources of type `resourceCls`
    */
-  authorizedQuery(principal: Actor, action: string, resourceCls: Class<Resource>): Promise<AuthorizedFilter>;
+  authorizedQuery(principal: Principal, action: string, resourceCls: Class<Resource>): Promise<AuthorizedFilter>;
 
   /**
    * Determine the resources of type `resourceCls` that `principal`
@@ -134,10 +134,11 @@ export interface Enforcer<Actor extends Entity = Entity, Resource extends Entity
    * @param resourceCls Object type.
    * @returns An array of authorized resources.
    */
-  authorizedResources(principal: Actor, action: string, resourceCls: Class<Resource>): Promise<Resource[]>;
+  authorizedResources(principal: Principal, action: string, resourceCls: Class<Resource>): Promise<Resource[]>;
 }
 
-export interface EnforcerStrategy extends Enforcer {
+export interface EnforcerStrategy<Principal extends Entity = Entity, Resource extends Entity = Entity>
+  extends Enforcer<Principal, Resource> {
   /**
    * The 'name' property is a unique identifier for the
    * enforcer strategy ( for example : 'basic', 'oso', etc)
