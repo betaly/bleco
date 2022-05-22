@@ -1796,6 +1796,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@bleco/mixin@workspace:packages/mixin":
+  version: 0.0.0-use.local
+  resolution: "@bleco/mixin@workspace:packages/mixin"
+  dependencies:
+    "@nutol/build": ^0.2.4
+    "@nutol/eslint-config": ^0.2.1
+    "@types/jest": ^27.4.1
+    "@types/node": ^17.0.21
+  languageName: unknown
+  linkType: soft
+
 "@bleco/notifications@workspace:packages/notifications":
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
@@ -4127,7 +4138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nutol/build@npm:^0.2.6":
+"@nutol/build@npm:^0.2.4, @nutol/build@npm:^0.2.6":
   version: 0.2.6
   resolution: "@nutol/build@npm:0.2.6"
   dependencies:
@@ -4158,7 +4169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@nutol/eslint-config@npm:^0.2.2":
+"@nutol/eslint-config@npm:^0.2.1, @nutol/eslint-config@npm:^0.2.2":
   version: 0.2.2
   resolution: "@nutol/eslint-config@npm:0.2.2"
   dependencies:
@@ -4821,7 +4832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^27.5.1":
+"@types/jest@npm:^27.4.1, @types/jest@npm:^27.5.1":
   version: 27.5.1
   resolution: "@types/jest@npm:27.5.1"
   dependencies:

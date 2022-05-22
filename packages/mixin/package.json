@@ -1,0 +1,35 @@
+{
+  "name": "@bleco/mixin",
+  "description": "A more compatible mixin library",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "ty",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc",
+    "clean": "nb-clean 'bleco-mixin*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && yarn run build",
+    "test": "yarn run pretest && yarn run jest",
+    "jest": "jest"
+  },
+  "devDependencies": {
+    "@nutol/build": "^0.2.4",
+    "@nutol/eslint-config": "^0.2.1",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^17.0.21"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}
