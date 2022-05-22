@@ -1,4 +1,5 @@
-import {Entity, property} from '@loopback/repository';
+import { Entity } from "@loopback/repository";
+import { SoftDeleteEntityMixin } from "../mixins";
 
 /**
  * Abstract base class for all soft-delete enabled models
@@ -9,31 +10,7 @@ import {Entity, property} from '@loopback/repository';
  * namely, 'deleted', deletedOn, deletedBy
  * Its an abstract class so no repository class should be based on this.
  */
-export abstract class SoftDeleteEntity extends Entity {
-  @property({
-    type: 'boolean',
-    default: false,
-  })
-  deleted?: boolean;
-
-  @property({
-    type: 'date',
-    name: 'deleted_on',
-    jsonSchema: {
-      nullable: true,
-    },
-  })
-  deletedOn?: Date;
-
-  @property({
-    type: 'string',
-    name: 'deleted_by',
-    jsonSchema: {
-      nullable: true,
-    },
-  })
-  deletedBy?: string;
-
+export abstract class SoftDeleteEntity extends SoftDeleteEntityMixin(Entity) {
   constructor(data?: Partial<SoftDeleteEntity>) {
     super(data);
   }

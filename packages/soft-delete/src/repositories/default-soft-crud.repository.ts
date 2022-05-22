@@ -2,11 +2,11 @@ import {Getter} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
 import {SoftDeleteEntity} from '../models';
 import {UserLike} from '../types';
-import {mixinSoftCrud} from '../decorators';
 import {EntityClass} from '@bleco/query';
-import {SoftCrudRepository} from '../mixins';
+import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
+import {mixin} from '@bleco/mixin';
 
-@mixinSoftCrud()
+@mixin(SoftCrudRepositoryMixin)
 export class DefaultSoftCrudRepository<
   T extends SoftDeleteEntity,
   ID,

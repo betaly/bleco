@@ -296,4 +296,6 @@ export interface SoftCrudRepository<T extends SoftDeleteEntity, ID, Relations ex
    * @param options
    */
   deleteByIdHard(id: ID, options?: Options): Promise<void>;
+
+  getUserId(options?: Options): Promise<string | undefined>;
 }
