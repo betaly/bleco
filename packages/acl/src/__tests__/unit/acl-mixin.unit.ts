@@ -1,5 +1,5 @@
 import {Application} from '@loopback/core';
-import {AclMixin} from '../../mixins/acl.mixin';
+import {AclMixin} from '../../mixins';
 
 describe('AclMixin unit tests', () => {
   class AppWithAcl extends AclMixin(Application) {}

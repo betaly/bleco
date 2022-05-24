@@ -11,7 +11,7 @@ export class PolicyManager {
 
   add(policy: Policy) {
     if (policy.type === 'principal') {
-      this.defineRoleActorsRelationOnActor(policy.model);
+      this.defineRolesRelationOnPrincipal(policy.model);
     } else if (policy.type === 'resource') {
       this.defineRolesRelationOnResource(policy.model);
     } else {
@@ -36,24 +36,25 @@ export class PolicyManager {
     return policy;
   }
 
-  protected defineRoleActorsRelationOnActor(actorClass: EntityClass) {
-    const definition = actorClass.definition;
-    const rel = definition.relations['actorRoles'];
+  protected defineRolesRelationOnPrincipal(principalClass: EntityClass) {
+    const definition = principalClass.definition;
+    const rel = definition.relations['roles'];
     if (rel) {
       if (rel.target() === RoleMapping) {
         return;
       }
-      throw new Error(`${actorClass.name} has a relation to ${rel.target().name} but it is not AclRoleActor`);
+      throw new Error(`${principalClass.name} has a relation to ${rel.target().name} but it is not AclRoleActor`);
     }
-    definition.hasMany('actorRoles', {
-      source: actorClass,
+    definition.hasMany('roles', {
+      source: principalClass,
       target: () => RoleMapping,
+      keyTo: 'principalId',
     });
   }
 
   protected defineRolesRelationOnResource(resourceClass: EntityClass) {
     const definition = resourceClass.definition;
-    const rel = definition.relations['roles'];
+    let rel = definition.relations['roles'];
     if (rel) {
       if (rel.target() === Role) {
         return;
@@ -63,6 +64,20 @@ export class PolicyManager {
     definition.hasMany('roles', {
       source: resourceClass,
       target: () => Role,
+      keyTo: 'resourceId',
+    });
+
+    rel = definition.relations['principals'];
+    if (rel) {
+      if (rel.target() === RoleMapping) {
+        return;
+      }
+      throw new Error(`${resourceClass.name} has a relation to ${rel.target().name} but it is not RoleMapping`);
+    }
+    definition.hasMany('principals', {
+      source: resourceClass,
+      target: () => RoleMapping,
+      keyTo: 'resourceId',
     });
   }
 }

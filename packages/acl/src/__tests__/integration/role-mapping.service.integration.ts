@@ -1,40 +1,39 @@
 import {Where} from '@loopback/repository';
-import {givenApp, seed} from '../support';
-import {AclApp} from '../fixtures/application';
-import {Samples} from '../fixtures/seeds/samples';
 import {RoleMappingRepository, RoleRepository} from '../../repositories';
-import {OrgRoles} from '../fixtures/policies';
 import {RoleMapping} from '../../models';
 import {generateRoleId, isRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {RoleMappingService} from '../../services';
 import {AclBindings} from '../..';
-import {TestDomain} from '../fixtures/constants';
+import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
 
 describe('RoleMappingService integration tests', function () {
-  let app: AclApp;
-  let samples: Samples;
+  let app: GitClubApplication;
+  let td: TestData;
   let roleMappingService: RoleMappingService;
 
   let roleRepo: RoleRepository;
   let roleMappingRepo: RoleMappingRepository;
 
   beforeEach(async () => {
-    app = await givenApp({});
+    ({app, td} = await givenApp());
     app.bind(AclBindings.DOMAIN).to({id: TestDomain});
-    ({samples} = await seed(app));
 
-    roleMappingService = await app.get<RoleMappingService>(`services.${RoleMappingService.name}`);
+    roleMappingService = await app.get<RoleMappingService>(AclBindings.ROLE_MAPPING_SERVICE);
     roleMappingRepo = await app.getRepository(RoleMappingRepository);
     roleRepo = await app.getRepository(RoleRepository);
   });
+  
+  afterEach(async () => {
+    await app.stop();
+  });
 
   it('should bind AclRoleActorService correctly', async () => {
-    const service = await app.get<RoleMappingService>(`services.${RoleMappingService.name}`);
+    const service = await app.get<RoleMappingService>(AclBindings.ROLE_MAPPING_SERVICE);
     expect(roleMappingService).toBe(service);
   });
 
   it('should throw error if role does not exist', async () => {
-    const {users, orgs} = samples;
+    const {users, orgs} = td;
     await expect(roleMappingService.add(users.tom, 'i_am_not_role', orgs.google)).rejects.toThrow(
       /Role i_am_not_role dose not exist on resource/,
     );
@@ -43,7 +42,7 @@ describe('RoleMappingService integration tests', function () {
   describe('add', function () {
     describe('builtin roles', function () {
       it('should assign a builtin resource role for user', async () => {
-        const {users, orgs} = samples;
+        const {users, orgs} = td;
         const principal = users.tom;
         const roleName = OrgRoles.owner;
         const resource = orgs.google;
@@ -70,7 +69,7 @@ describe('RoleMappingService integration tests', function () {
 
     describe('custom roles', function () {
       it('should assign a custom resource role for user', async () => {
-        const {users, orgs} = samples;
+        const {users, orgs} = td;
         const principal = users.tom;
         const roleName = 'custom_role';
         const resource = orgs.google;
@@ -97,7 +96,7 @@ describe('RoleMappingService integration tests', function () {
 
   describe('find', function () {
     it('should find all role actors on the resource', async () => {
-      const {users, orgs} = samples;
+      const {users, orgs} = td;
       const principal = users.tom;
       const roleName = OrgRoles.owner;
       const resource = orgs.google;
@@ -117,7 +116,7 @@ describe('RoleMappingService integration tests', function () {
 
   describe('remove', function () {
     it('should remove the role mapping for an principal on the resource', async () => {
-      const {users, orgs} = samples;
+      const {users, orgs} = td;
       const principal = users.tom;
       const role = OrgRoles.owner;
       const resource = orgs.google;
@@ -134,7 +133,7 @@ describe('RoleMappingService integration tests', function () {
     });
 
     it('should remove all role mappings on the resource', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const resource = orgs.tesla;
 
       const where = {
@@ -151,7 +150,7 @@ describe('RoleMappingService integration tests', function () {
     });
 
     it('should remove all role actors for some principal on the resource', async () => {
-      const {users, orgs} = samples;
+      const {users, orgs} = td;
       const principal = users.james;
       const resource = orgs.google;
 

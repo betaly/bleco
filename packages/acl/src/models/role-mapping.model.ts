@@ -9,6 +9,7 @@ import {
   ResourcePolymorphicOrEntity,
   RoleAware,
 } from '../types';
+import {AclPrincipal, AclResource} from './models';
 
 @model()
 export class RoleMapping extends Entity implements DomainAware, PrincipalAware, ResourceAware, RoleAware {
@@ -25,7 +26,7 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
   domain: string;
 
   @belongsTo(
-    () => Entity,
+    () => AclPrincipal,
     {polymorphic: {discriminator: 'principal_type'}},
     {
       name: 'principal_id',
@@ -50,10 +51,10 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
         'The role id for custom roles or with `[resourceType]:[resourceId]:[roleName]` format for built-in roles.',
     },
   )
-  roleId?: string;
+  roleId: string;
 
   @belongsTo(
-    () => Entity,
+    () => AclResource,
     {polymorphic: {discriminator: 'resource_type'}},
     {
       name: 'resource_id',
@@ -70,6 +71,10 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
 
   constructor(data?: Partial<RoleMapping>) {
     super(data);
+  }
+
+  isRole(name: string): boolean {
+    return this.roleId.endsWith(':' + name);
   }
 }
 

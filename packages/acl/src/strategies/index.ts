@@ -1,1 +1,1 @@
-export * from './basic.strategy';
+export * from './default.strategy';

@@ -1,8 +1,8 @@
 import {Application} from '@loopback/core';
-import {AclMixin, ApplicationWithAcl} from '../../mixins/acl.mixin';
-import {AclPolicyBooter, PolicyDefaults} from '../../booters';
-import {fixturesPath} from '../support';
+import {AclMixin, ApplicationWithAcl} from '../../mixins';
+import {PolicyBooter, PolicyDefaults} from '../../booters';
 import {AclBindings, AclTags} from '../../keys';
+import {componentsPath, fixturesPath} from '../../test';
 
 describe('Acl policy booter unit tests', function () {
   class AppWithAcl extends AclMixin(Application) {}
@@ -25,7 +25,7 @@ describe('Acl policy booter unit tests', function () {
 
   it('gives a warning if called on an app without AclMixin', async () => {
     const normalApp = new Application();
-    const booterInst = new AclPolicyBooter(normalApp as ApplicationWithAcl, fixturesPath());
+    const booterInst = new PolicyBooter(normalApp as ApplicationWithAcl, fixturesPath());
     booterInst.discovered = [fixturesPath('org.policy.ts')];
     await booterInst.load();
     expect(stub).toHaveBeenCalledWith(
@@ -34,7 +34,7 @@ describe('Acl policy booter unit tests', function () {
   });
 
   it('user PolicyDefinitions for "options" if none are given', async () => {
-    const booterInst = new AclPolicyBooter(app, fixturesPath());
+    const booterInst = new PolicyBooter(app, fixturesPath());
     expect(booterInst.options).toEqual(PolicyDefaults);
   });
 
@@ -48,14 +48,14 @@ describe('Acl policy booter unit tests', function () {
       nested: PolicyDefaults.nested,
     });
 
-    const boostInst = new AclPolicyBooter(app, fixturesPath(), options);
+    const boostInst = new PolicyBooter(app, fixturesPath(), options);
     expect(boostInst.options).toEqual(expected);
   });
 
   it('binds policies during the load phase', async () => {
     const expected = [`${AclBindings.POLICIES}.Org`];
-    const booterInst = new AclPolicyBooter(app, fixturesPath());
-    booterInst.discovered = [fixturesPath('policies', 'org.policy.ts')];
+    const booterInst = new PolicyBooter(app, fixturesPath());
+    booterInst.discovered = [componentsPath('gitclub', 'policies', 'org.policy.ts')];
     await booterInst.load();
 
     const policies = app.findByTag(AclTags.POLICY);

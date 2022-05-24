@@ -1,41 +1,48 @@
 import {Where} from '@loopback/repository';
-import {AclApp} from '../fixtures/application';
-import {Samples} from '../fixtures/seeds/samples';
 import {RoleService} from '../../services';
 import {RoleMappingRepository, RoleRepository} from '../../repositories';
-import {givenApp, seed} from '../support';
 import {AclBindings} from '../../keys';
 import {generateRoleId, resolveRoleId, toResourcePolymorphic} from '../../helpers';
-import {OrgPermissions, OrgRoles} from '../fixtures/policies';
 import {Role} from '../../models';
-import {TestDomain} from '../fixtures/constants';
+import {
+  GitClubApplication,
+  givenApp,
+  OrgManagerPermissions,
+  OrgPermissions,
+  OrgRoles,
+  TestData,
+  TestDomain,
+} from '../../test';
 
 describe('RoleService integration tests', function () {
-  let app: AclApp;
-  let samples: Samples;
+  let app: GitClubApplication;
+  let td: TestData;
   let roleService: RoleService;
 
   let roleRepo: RoleRepository;
   let roleMappingRepo: RoleMappingRepository;
 
   beforeEach(async () => {
-    app = await givenApp({});
+    ({app, td} = await givenApp());
     app.bind(AclBindings.DOMAIN).to({id: TestDomain});
-    ({samples} = await seed(app));
 
-    roleService = await app.get<RoleService>(`services.${RoleService.name}`);
+    roleService = await app.get<RoleService>(AclBindings.ROLE_SERVICE);
     roleMappingRepo = await app.getRepository(RoleMappingRepository);
     roleRepo = await app.getRepository(RoleRepository);
   });
 
+  afterEach(async () => {
+    await app.stop();
+  });
+
   it('should bind AclRoleService correctly', async () => {
-    const service = await app.get<RoleService>(`services.${RoleService.name}`);
+    const service = await app.get<RoleService>(AclBindings.ROLE_SERVICE);
     expect(roleService).toBe(service);
   });
 
   describe('add', function () {
     it('should add custom role successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -57,7 +64,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should throw error if role already exists', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -66,7 +73,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should throw error if role is builtin', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = OrgRoles.owner;
       const resource = orgs.google;
 
@@ -78,7 +85,7 @@ describe('RoleService integration tests', function () {
 
   describe('addAll', function () {
     it('should add all custom roles successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
 
       const roles = await roleService.addAll([
         {
@@ -107,7 +114,7 @@ describe('RoleService integration tests', function () {
 
   describe('update permissions', function () {
     it('should update permissions successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const resource = orgs.tesla;
 
       const newPermissions = [OrgPermissions.read, OrgPermissions.list_repos];
@@ -126,7 +133,7 @@ describe('RoleService integration tests', function () {
 
   describe('delete', function () {
     it('should delete custom role successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -141,7 +148,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should delete all custom roles on resource', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const role1 = 'test_role_1';
       const role2 = 'test_role_2';
       const resource = orgs.google;
@@ -160,7 +167,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should delete all custom roles with "*" on resource', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const role1 = 'test_role_1';
       const role2 = 'test_role_2';
       const resource = orgs.google;
@@ -179,7 +186,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should delete specified custom roles on resource', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const role1 = 'test_role_1';
       const role2 = 'test_role_2';
       const role3 = 'test_role_3';
@@ -202,7 +209,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should return count 0 when to delete a role that does not exist', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -219,7 +226,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should throw error if role is builtin', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = OrgRoles.owner;
       const resource = orgs.google;
 
@@ -229,7 +236,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should throw error if removing role with name and without resource', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -238,7 +245,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should delete related role mappings successfully', async () => {
-      const {orgs, users} = samples;
+      const {orgs, users} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -272,7 +279,7 @@ describe('RoleService integration tests', function () {
 
   describe('find', function () {
     it('should find roles by name and resource successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -286,7 +293,7 @@ describe('RoleService integration tests', function () {
     });
 
     it('should load permissions with permission inclusion', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'manager';
       const resource = orgs.tesla;
 
@@ -296,11 +303,11 @@ describe('RoleService integration tests', function () {
       }))!;
       expect(found).toBeTruthy();
       expect(found.name).toBe('manager');
-      expect(found.permissions?.map(p => p.permission).sort()).toEqual(Object.values(OrgPermissions).sort());
+      expect(found.permissions?.map(p => p.permission).sort()).toEqual(OrgManagerPermissions.sort());
     });
 
     it('check some one has permission on the resource with repository', async () => {
-      const {orgs, users} = samples;
+      const {orgs, users} = td;
       const roleName = 'manager';
       const resource = orgs.tesla;
 
@@ -310,7 +317,7 @@ describe('RoleService integration tests', function () {
           domain: TestDomain,
           principalId: users.tom.id,
           ...toResourcePolymorphic(resource),
-          'role.permissions.permission': OrgPermissions.create_repos,
+          'role.permissions.permission': OrgPermissions.create_role_assignments,
         },
       });
 
@@ -334,7 +341,7 @@ describe('RoleService integration tests', function () {
 
   describe('findById', function () {
     it('should find role by id', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 
@@ -351,7 +358,7 @@ describe('RoleService integration tests', function () {
 
   describe('findOne', function () {
     it('should find role by name and resource successfully', async () => {
-      const {orgs} = samples;
+      const {orgs} = td;
       const roleName = 'test_role';
       const resource = orgs.google;
 

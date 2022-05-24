@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Entity} from '@loopback/repository';
-import {AnyRecord} from './types';
 
 export type PolicyModelType = 'principal' | 'resource';
 
@@ -14,7 +13,9 @@ export interface Policy<Role = string, Permission = string> {
   rolePermissions?: Record<string, Permission[]>;
   roleInherits?: Record<string, Role[]>;
   relations?: string[];
-  rules?: AnyRecord;
+  rules?: {
+    [key: string]: string[];
+  };
 }
 
 export interface PrincipalPolicy<Role = string, Permission = string> extends Policy<Role, Permission> {

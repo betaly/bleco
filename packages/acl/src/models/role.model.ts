@@ -2,6 +2,7 @@ import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository'
 import {RoleMapping} from './role-mapping.model';
 import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
 import {RolePermission} from '../models';
+import {AclResource} from './models';
 
 @model()
 export class Role extends Entity implements DomainAware, ResourceAware {
@@ -23,7 +24,7 @@ export class Role extends Entity implements DomainAware, ResourceAware {
   domain: string;
 
   @belongsTo(
-    () => Entity,
+    () => AclResource,
     {polymorphic: {discriminator: 'resource_type'}},
     {
       name: 'resource_id',

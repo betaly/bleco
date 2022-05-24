@@ -2,7 +2,7 @@ import {ArtifactOptions, BaseArtifactBooter, BootBindings, booter} from '@bleco/
 import {config, inject} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
 import debugFactory from 'debug';
-import {ApplicationWithAcl} from '../mixins/acl.mixin';
+import {ApplicationWithAcl} from '../mixins';
 import {isPolicy} from '../policy';
 
 const debug = debugFactory('bleco:acl:policy-booter');
@@ -17,7 +17,7 @@ const debug = debugFactory('bleco:acl:policy-booter');
  * @param bootConfig - Connection artifact options object
  */
 @booter('policies')
-export class AclPolicyBooter extends BaseArtifactBooter {
+export class PolicyBooter extends BaseArtifactBooter {
   constructor(
     @inject(CoreBindings.APPLICATION_INSTANCE)
     public app: ApplicationWithAcl,

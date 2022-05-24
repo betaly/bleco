@@ -1,9 +1,8 @@
-import {AclApp} from '../fixtures/application';
 import {AclBindings, AclTags} from '../../keys';
-import {fixturesPath} from '../support';
+import {fixturesPath, GitClubApplication} from '../../test';
 
-describe('TypeORM connection booter integration tests', () => {
-  let app: AclApp;
+describe('Acl booter integration tests', () => {
+  let app: GitClubApplication;
 
   beforeEach(getApp);
 
@@ -17,7 +16,7 @@ describe('TypeORM connection booter integration tests', () => {
   });
 
   async function getApp() {
-    const MyApp = require(fixturesPath('application')).AclApp;
+    const MyApp = require(fixturesPath('application')).GitClubApplication;
     app = new MyApp();
   }
 });
