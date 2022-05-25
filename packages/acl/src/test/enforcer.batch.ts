@@ -20,12 +20,12 @@ export function testEnforcerBatch(init?: AppInit) {
     let td: TestData;
     let enforcer: Enforcer;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       ({app, td} = await givenApp(init));
       enforcer = await app.get(AclBindings.ENFORCER_SERVICE);
     });
 
-    afterAll(async () => {
+    afterEach(async () => {
       await app.stop();
     });
 
@@ -107,13 +107,43 @@ export function testEnforcerBatch(init?: AppInit) {
     });
 
     describe('#authorizedQuery', function () {
-      it.only('should return authorizedQuery', async () => {
+      it('should return authorizedQuery', async () => {
+        const roleMappingService = await app.get(AclBindings.ROLE_MAPPING_SERVICE);
         const orgRepo = await app.getRepository(OrgRepository);
-        const {users} = td;
-        const query = await enforcer.authorizedQuery(users.jerry, OrgPermissions.read, Org);
+        const {users, orgs} = td;
+
+        await roleMappingService.add(users.musk, OrgRoles.member, orgs.google);
+        await roleMappingService.add(users.musk, OrgRoles.member, orgs.twitter);
+
+        // evaluate authorized query for orgs that "musk" can "read"
+        let query = await enforcer.authorizedQuery(users.musk, OrgPermissions.read, Org);
         expect(query).toBeDefined();
-        const orgs = await orgRepo.find({where: query.where});
-        expect(orgs).toHaveLength(1);
+        let results = await orgRepo.find({where: query.where});
+        expect(results).toHaveLength(3);
+
+        // evaluate authorized query for orgs that "musk" can "create_repos"
+        query = await enforcer.authorizedQuery(users.musk, OrgPermissions.create_repos, Org);
+        expect(query).toBeDefined();
+        results = await orgRepo.find({where: query.where});
+        expect(results).toHaveLength(1);
+      });
+    });
+
+    describe('#authorizedResources', function () {
+      it('should return authorizedResources', async () => {
+        const roleMappingService = await app.get(AclBindings.ROLE_MAPPING_SERVICE);
+        const {users, orgs} = td;
+
+        await roleMappingService.add(users.musk, OrgRoles.member, orgs.google);
+        await roleMappingService.add(users.musk, OrgRoles.member, orgs.twitter);
+
+        // evaluate authorized query for orgs that "musk" can "read"
+        let results = await enforcer.authorizedResources(users.musk, OrgPermissions.read, Org);
+        expect(results).toHaveLength(3);
+
+        // evaluate authorized query for orgs that "musk" can "create_repos"
+        results = await enforcer.authorizedResources(users.musk, OrgPermissions.create_repos, Org);
+        expect(results).toHaveLength(1);
       });
     });
   });
