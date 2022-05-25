@@ -10,29 +10,6 @@ import {
   ResourcePolymorphicOrEntity,
 } from './types';
 
-export const RoleIdSeparator = ':';
-
-// export function generateRoleId(roleName: string, resource: ResourcePolymorphicOrEntity): string {
-//   const polymorphic = resource instanceof Entity ? toResourcePolymorphic(resource) : resource;
-//   return `${polymorphic.resourceType}${RoleIdSeparator}${polymorphic.resourceId}${RoleIdSeparator}${roleName}`;
-// }
-
-// export function isRoleId(roleId: string): boolean {
-//   return roleId.includes(RoleIdSeparator);
-// }
-
-// export function parseRoleId(roleId: string): {resourceType?: string; resourceId?: string; name: string} {
-//   if (isRoleId(roleId)) {
-//     const parts = roleId.split(RoleIdSeparator);
-//     const name = parts.pop()!;
-//     const resourceId = parts.pop();
-//     const resourceType = parts.pop();
-//     return {resourceType, resourceId, name};
-//   } else {
-//     return {name: roleId};
-//   }
-// }
-
 export function toPrincipalPolymorphic(principal: PrincipalPolymorphicOrEntity): PrincipalPolymorphic {
   if (isPrincipalPolymorphic(principal)) {
     return principal;
@@ -51,18 +28,6 @@ export function toResourcePolymorphic(resource: ResourcePolymorphicOrEntity): Re
     resourceId: resource.getId(),
     resourceType: resource.constructor.name,
   };
-}
-
-export function resolveEntityId(entityOrId: EntityLike | string | number): string {
-  if (typeof entityOrId === 'string' || typeof entityOrId === 'number') {
-    return entityOrId.toString();
-  } else if (entityOrId instanceof Entity) {
-    return entityOrId.getId();
-  } else if (entityOrId && 'id' in entityOrId) {
-    return entityOrId.id.toString();
-  } else {
-    throw new Error('Invalid entity type');
-  }
 }
 
 export function resolveRoleId(role: EntityLike | string): string {
