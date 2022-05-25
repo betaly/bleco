@@ -9,7 +9,7 @@ import {
 } from './components/gitclub';
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../../repositories';
-import {generateRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
+import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {TestDomain} from './constants';
 
 export const OrgManagerPermissions = Object.values(OrgPermissions).filter(p => p !== 'create_repos');
@@ -82,7 +82,7 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   const roleMappingRepo = await app.getRepository(RoleMappingRepository);
   const rolePermissionRepo = await app.getRepository(RolePermissionRepository);
 
-  const {orgs, users, repos} = data;
+  const {orgs, users} = data;
 
   // * TESLA
   // --------------------------------------------------------------------------------
@@ -104,7 +104,7 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   // assign 'owner' on org 'tesla' to 'musk'
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(OrgRoles.owner, orgs.tesla),
+    roleId: OrgRoles.owner,
     ...toPrincipalPolymorphic(users.musk),
     ...toResourcePolymorphic(orgs.tesla),
   });
@@ -120,7 +120,7 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   // assign 'member' on org 'tesla' to 'jerry'
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(OrgRoles.member, orgs.tesla),
+    roleId: OrgRoles.member,
     ...toPrincipalPolymorphic(users.jerry),
     ...toResourcePolymorphic(orgs.tesla),
   });
@@ -131,21 +131,21 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   // assign 'admin' on repo 'repoTeslaA' to 'tom'
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(RepoRoles.admin, repos.repoTeslaA),
+    roleId: RepoRoles.admin,
     ...toPrincipalPolymorphic(users.tom),
   });
 
   // assign 'maintainer' on repo 'repoTeslaA' to 'jerry'
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(RepoRoles.maintainer, repos.repoTeslaA),
+    roleId: RepoRoles.maintainer,
     ...toPrincipalPolymorphic(users.jerry),
   });
 
   // assign 'reader' on repo 'repoTeslaA' to 'ava' (out of tesla)
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(RepoRoles.reader, repos.repoTeslaA),
+    roleId: RepoRoles.reader,
     ...toPrincipalPolymorphic(users.ava),
   });
 
@@ -153,14 +153,14 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   // --------------------------------------------------------------------------------
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(OrgRoles.owner, orgs.google),
+    roleId: OrgRoles.owner,
     ...toPrincipalPolymorphic(users.james),
     ...toResourcePolymorphic(orgs.google),
   });
 
   await roleMappingRepo.create({
     domain: TestDomain,
-    roleId: generateRoleId(OrgRoles.member, orgs.google),
+    roleId: OrgRoles.member,
     ...toPrincipalPolymorphic(users.ava),
     ...toResourcePolymorphic(orgs.google),
   });

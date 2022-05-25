@@ -1,7 +1,7 @@
 import {Where} from '@loopback/repository';
 import {RoleMappingRepository, RoleRepository} from '../../repositories';
 import {RoleMapping} from '../../models';
-import {generateRoleId, isRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
+import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {RoleMappingService} from '../../services';
 import {AclBindings} from '../..';
 import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
@@ -22,7 +22,7 @@ describe('RoleMappingService integration tests', function () {
     roleMappingRepo = await app.getRepository(RoleMappingRepository);
     roleRepo = await app.getRepository(RoleRepository);
   });
-  
+
   afterEach(async () => {
     await app.stop();
   });
@@ -35,7 +35,7 @@ describe('RoleMappingService integration tests', function () {
   it('should throw error if role does not exist', async () => {
     const {users, orgs} = td;
     await expect(roleMappingService.add(users.tom, 'i_am_not_role', orgs.google)).rejects.toThrow(
-      /Role i_am_not_role dose not exist on resource/,
+      /Role "i_am_not_role" dose not exist on resource/,
     );
   });
 
@@ -47,11 +47,9 @@ describe('RoleMappingService integration tests', function () {
         const roleName = OrgRoles.owner;
         const resource = orgs.google;
 
-        const roleId = generateRoleId(roleName, resource);
-
         const where: Where<RoleMapping> = {
           domain: TestDomain,
-          roleId,
+          roleId: roleName,
           ...toPrincipalPolymorphic(principal),
           ...toResourcePolymorphic(resource),
         };
@@ -63,7 +61,7 @@ describe('RoleMappingService integration tests', function () {
         const roleMapping = await roleMappingService.add(users.tom, roleName, orgs.google);
 
         found = await roleMappingRepo.findOne({where});
-        expect(found).toMatchObject({...roleMapping, roleId, domain: TestDomain});
+        expect(found).toMatchObject({...roleMapping, roleId: roleName, domain: TestDomain});
       });
     });
 
@@ -79,8 +77,6 @@ describe('RoleMappingService integration tests', function () {
           name: roleName,
           ...toResourcePolymorphic(resource),
         });
-
-        expect(isRoleId(role.id)).toBe(true);
 
         const roleMapping = await roleMappingService.add(principal, roleName, resource);
 

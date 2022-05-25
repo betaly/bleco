@@ -15,6 +15,7 @@ import debugFactory from 'debug';
 import {RoleMappingRepository, RoleRepository} from '../repositories';
 import {AclBindings} from '../keys';
 import {PolicyManager} from '../policy.manager';
+import {toResourcePolymorphic} from '../helpers';
 
 const debug = debugFactory('bleco:acl:role-mapping-service');
 
@@ -35,12 +36,20 @@ export class RoleMappingService extends AclBaseService<RoleMapping> {
 
   async add(
     principal: PrincipalPolymorphicOrEntity,
-    role: string,
+    roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
     options?: OptionsWithDomain,
   ) {
     options = {...options};
     const domain = await this.repo.getCurrentDomain(options);
+    const {resourceType, resourceId} = toResourcePolymorphic(resource);
+    const role = await this.roleRepository.resolveRoleByIdOrName(roleIdOrName, resource, options);
+    if (!role) {
+      throw new Error(
+        `Role "${roleIdOrName}" dose not exist on resource "${resourceType}(id=${resourceId})" in domain ${domain}.`,
+      );
+    }
+
     const props = this.repo.resolveProps(
       {
         principal,
@@ -51,12 +60,6 @@ export class RoleMappingService extends AclBaseService<RoleMapping> {
     ) as Required<ResourceAware & RoleAware & DomainAware>;
 
     debug('add with props', props);
-
-    if (!(await this.roleRepository.hasRole(props.roleId!, props))) {
-      throw new Error(
-        `Role ${role} dose not exist on resource ${props.resourceType} with id ${props.resourceId} in domain ${props.domain}.`,
-      );
-    }
 
     const tx = await this.tf.beginTransaction(options);
 

@@ -12,26 +12,26 @@ import {
 
 export const RoleIdSeparator = ':';
 
-export function generateRoleId(roleName: string, resource: ResourcePolymorphicOrEntity): string {
-  const polymorphic = resource instanceof Entity ? toResourcePolymorphic(resource) : resource;
-  return `${polymorphic.resourceType}${RoleIdSeparator}${polymorphic.resourceId}${RoleIdSeparator}${roleName}`;
-}
+// export function generateRoleId(roleName: string, resource: ResourcePolymorphicOrEntity): string {
+//   const polymorphic = resource instanceof Entity ? toResourcePolymorphic(resource) : resource;
+//   return `${polymorphic.resourceType}${RoleIdSeparator}${polymorphic.resourceId}${RoleIdSeparator}${roleName}`;
+// }
 
-export function isRoleId(roleId: string): boolean {
-  return roleId.includes(RoleIdSeparator);
-}
+// export function isRoleId(roleId: string): boolean {
+//   return roleId.includes(RoleIdSeparator);
+// }
 
-export function parseRoleId(roleId: string): {resourceType?: string; resourceId?: string; name: string} {
-  if (isRoleId(roleId)) {
-    const parts = roleId.split(RoleIdSeparator);
-    const name = parts.pop()!;
-    const resourceId = parts.pop();
-    const resourceType = parts.pop();
-    return {resourceType, resourceId, name};
-  } else {
-    return {name: roleId};
-  }
-}
+// export function parseRoleId(roleId: string): {resourceType?: string; resourceId?: string; name: string} {
+//   if (isRoleId(roleId)) {
+//     const parts = roleId.split(RoleIdSeparator);
+//     const name = parts.pop()!;
+//     const resourceId = parts.pop();
+//     const resourceType = parts.pop();
+//     return {resourceType, resourceId, name};
+//   } else {
+//     return {name: roleId};
+//   }
+// }
 
 export function toPrincipalPolymorphic(principal: PrincipalPolymorphicOrEntity): PrincipalPolymorphic {
   if (isPrincipalPolymorphic(principal)) {
@@ -65,16 +65,9 @@ export function resolveEntityId(entityOrId: EntityLike | string | number): strin
   }
 }
 
-export function resolveRoleId(role: EntityLike | string, resource?: ResourcePolymorphicOrEntity): string {
+export function resolveRoleId(role: EntityLike | string): string {
   if (typeof role === 'string') {
-    if (isRoleId(role)) {
-      return role;
-    } else {
-      if (!resource) {
-        throw new Error('Cannot resolve "roleId" for role without resource');
-      }
-      return generateRoleId(role, resource);
-    }
+    return role;
   } else if (role instanceof Entity) {
     return role.getId();
   } else if (role && 'id' in role) {

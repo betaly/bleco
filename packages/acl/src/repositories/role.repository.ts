@@ -1,23 +1,15 @@
-import {DataObject, Getter, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
+import {Getter, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
 import {inject} from '@loopback/context';
-import {
-  AclAuthDBName,
-  DomainLike,
-  OptionsWithDomain,
-  ResourcePolymorphic,
-  ResourcePolymorphicOrEntity,
-  RoleType,
-} from '../types';
+import {AclAuthDBName, DomainLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
 import {RoleMappingRepository} from './role-mapping.repository';
-import {generateRoleId, parseRoleId, toResourcePolymorphic} from '../helpers';
-import debugFactory from 'debug';
+import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
 import {AclBaseRepository} from './base-repository';
 import {PolicyManager} from '../policy.manager';
 import {RolePermissionRepository} from './role-permission.repository';
 
-const debug = debugFactory('bleco:acl:role-repository');
+// const debug = debugFactory('bleco:acl:role-repository');
 
 export class RoleRepository extends AclBaseRepository<Role, typeof Role.prototype.id, RoleRelations, RoleAttrs> {
   public readonly principals: HasManyRepositoryFactory<RoleMapping, typeof RoleMapping.prototype.id>;
@@ -42,55 +34,37 @@ export class RoleRepository extends AclBaseRepository<Role, typeof Role.prototyp
     this.registerInclusionResolver('permissions', this.permissions.inclusionResolver);
   }
 
-  definePersistedModel(entityClass: typeof Role) {
-    const modelClass = super.definePersistedModel(entityClass);
-    modelClass.observe('before save', async ctx => {
-      const instance = ctx.instance as DataObject<Role>;
-      if (instance && !instance.id) {
-        if (!instance.name || !instance.resourceType || !instance.resourceId) {
-          throw new Error('role name, resourceType and resourceId are required to generate role id');
-        }
-        instance.id = generateRoleId(instance.name, instance as ResourcePolymorphic);
-        debug('generated role id: %s', instance.id);
-      }
-    });
-    return modelClass;
-  }
-
-  isBuiltInRole(roleNameOrId: string, resourceType: string): boolean {
-    // eslint-disable-next-line prefer-const
-    let {name} = parseRoleId(roleNameOrId);
+  isBuiltInRole(roleName: string, resourceType: string | ResourcePolymorphicOrEntity): boolean {
+    resourceType = typeof resourceType === 'string' ? resourceType : toResourcePolymorphic(resourceType).resourceType;
     const policy = this.policyManager.get(resourceType);
-    return !!policy.roles?.includes(name);
+    return !!policy.roles?.includes(roleName);
   }
 
-  async hasRole(
-    roleNameOrId: string,
-    resource?: ResourcePolymorphicOrEntity,
+  async findByIdOrName(
+    roleIdOrName: string,
+    resource: ResourcePolymorphicOrEntity,
     options?: OptionsWithDomain,
-  ): Promise<RoleType | boolean> {
-    // eslint-disable-next-line prefer-const
-    let {resourceId, resourceType, name} = parseRoleId(roleNameOrId);
-    if (!resourceType) {
-      if (!resource) {
-        throw new Error('Resource is required when role name is not a full role id');
-      }
-      ({resourceType, resourceId} = toResourcePolymorphic(resource));
-    }
-    const policy = this.policyManager.get(resourceType);
-    if (policy.roles?.includes(name)) {
-      return 'builtin';
-    }
-    const role = await this.findOne({
+  ): Promise<Role | null> {
+    const {resourceType, resourceId} = toResourcePolymorphic(resource);
+    return this.findOne({
       where: {
-        name,
         resourceType,
         resourceId,
         domain: await this.getCurrentDomain(options),
+        or: [{id: roleIdOrName}, {name: roleIdOrName}],
       },
     });
+  }
 
-    return role ? 'custom' : false;
+  async resolveRoleByIdOrName(
+    roleIdOrName: string,
+    resource: ResourcePolymorphicOrEntity,
+    options?: OptionsWithDomain,
+  ): Promise<string | Role | null> {
+    if (this.isBuiltInRole(roleIdOrName, resource)) {
+      return roleIdOrName;
+    }
+    return this.findByIdOrName(roleIdOrName, resource, options);
   }
 
   resolveProps(attrs: RoleAttrs, defaults?: RoleProps): RoleProps {

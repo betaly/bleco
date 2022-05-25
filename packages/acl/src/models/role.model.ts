@@ -9,7 +9,7 @@ export class Role extends Entity implements DomainAware, ResourceAware {
   @property({
     type: 'string',
     id: true,
-    generated: false,
+    defaultFn: 'nanoid',
   })
   id: string;
 

@@ -38,7 +38,7 @@ export class RoleMappingRepository extends AclBaseRepository<
       Object.assign(props, toResourcePolymorphic(resource));
     }
     if (role) {
-      props.roleId = resolveRoleId(role, resource);
+      props.roleId = resolveRoleId(role);
     }
     return props;
   }

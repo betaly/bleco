@@ -1,6 +1,7 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Role} from './role.model';
-import {DomainAware} from '../types';
+import {DomainAware, ObjectProps, ResourcePolymorphicOrEntity} from '../types';
+import {AclResource} from './models';
 
 @model()
 export class RolePermission extends Entity implements DomainAware {
@@ -26,6 +27,22 @@ export class RolePermission extends Entity implements DomainAware {
   )
   roleId: string;
 
+  @belongsTo(
+    () => AclResource,
+    {polymorphic: {discriminator: 'resource_type'}},
+    {
+      name: 'resource_id',
+      index: true,
+    },
+  )
+  resourceId: string;
+
+  @property({
+    name: 'resource_type',
+    index: true,
+  })
+  resourceType: string;
+
   @property({
     index: true,
   })
@@ -38,6 +55,13 @@ export class RolePermission extends Entity implements DomainAware {
 
 export interface RolePermissionRelations {
   role?: Role;
+  resource?: AclResource;
 }
 
 export type RolePermissionWithRelations = RolePermission & RolePermissionRelations;
+
+export type RolePermissionProps = ObjectProps<Omit<RolePermission, 'roles' | 'resource'>>;
+export type RolePermissionAttrs = RolePermissionProps & {
+  role?: Role | string;
+  resource?: ResourcePolymorphicOrEntity;
+};

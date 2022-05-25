@@ -47,8 +47,7 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
     {
       name: 'role_id',
       index: true,
-      description:
-        'The role id for custom roles or with `[resourceType]:[resourceId]:[roleName]` format for built-in roles.',
+      description: 'The role id for custom roles or  built-in roles.',
     },
   )
   roleId: string;
@@ -79,16 +78,16 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
 }
 
 export interface AclRoleMappingRelations {
-  resource?: Entity;
-  principal?: Entity;
   role?: Role;
+  resource?: AclResource;
+  principal?: AclPrincipal;
 }
 
 export type RoleMappingWithRelations = RoleMapping & AclRoleMappingRelations;
 
 export type RoleMappingProps = ObjectProps<Omit<RoleMapping, 'resource' | 'principal' | 'role'>>;
 export type RoleMappingAttrs = RoleMappingProps & {
+  role?: Role | string;
   resource?: ResourcePolymorphicOrEntity;
   principal?: PrincipalPolymorphicOrEntity;
-  role?: Role | string;
 };

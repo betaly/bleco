@@ -7,7 +7,7 @@ import {AclBaseService} from './base-service';
 import {DeleteResult, EntityLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
 import {AclBindings} from '../keys';
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
-import {generateRoleId, isResourcePolymorphicOrEntity, parseRoleId, resolveRoleId} from '../helpers';
+import {resolveRoleId} from '../helpers';
 import {PolicyManager} from '../policy.manager';
 import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
 import toArray from 'tily/array/toArray';
@@ -98,86 +98,70 @@ export class RoleService extends AclBaseService<Role> {
 
   /**
    * Remove one role
-   * @param role role id or role entity
+   * @param roles role ids or role entities
    * @param options
    */
   async delete(
-    role: string | EntityLike,
+    roles: ArrayOrSingle<string | EntityLike>,
     options?: OptionsWithDomain,
   ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}> | undefined> {
     options = {...options};
-    const id = resolveRoleId(role);
-
-    const type = await this.repo.hasRole(id);
-    if (!type) {
-      return {count: 0};
-    }
-    if (type === 'builtin') {
-      throw new Error(`Builtin role "${parseRoleId(id).name}" cannot be deleted.`);
-    }
+    const ids = toArray(roles).map(role => resolveRoleId(role));
     const domain = await this.repo.getCurrentDomain(options);
-    const rolesWhere = this.repo.resolveProps({id}, {domain}) as Where<Role>;
-    const roleMappingsWhere = this.roleMappingRepository.resolveProps({roleId: id}, {domain}) as Where<RoleMapping>;
-    const rolePermissionsWhere = {roleId: id} as Where<RolePermission>;
+    const rolesWhere = {
+      id: {inq: ids},
+      domain,
+    } as Where<Role>;
+    const roleMappingsWhere = {
+      roleId: {inq: ids},
+      domain,
+    } as Where<RoleMapping>;
+    const rolePermissionsWhere = {
+      roleId: {inq: ids},
+      domain,
+    } as Where<RolePermission>;
     return this.deleteCascade({rolesWhere, rolePermissionsWhere, roleMappingsWhere}, options);
   }
 
-  async deleteInResource(resource: ResourcePolymorphicOrEntity, options?: OptionsWithDomain): Promise<RoleDeleteResult>;
-  async deleteInResource(
-    roles: ArrayOrSingle<string>,
+  async deleteForResource(
     resource: ResourcePolymorphicOrEntity,
     options?: OptionsWithDomain,
-  ): Promise<RoleDeleteResult>;
-  async deleteInResource(
-    rolesOrResource: ArrayOrSingle<string> | ResourcePolymorphicOrEntity,
-    resourceOrOptions?: ResourcePolymorphicOrEntity | OptionsWithDomain,
-    options?: OptionsWithDomain,
   ): Promise<RoleDeleteResult> {
-    let roles: string[] | undefined;
-    let resource: ResourcePolymorphicOrEntity;
-    if (isResourcePolymorphicOrEntity(rolesOrResource)) {
-      resource = rolesOrResource;
-      options = resourceOrOptions as OptionsWithDomain;
-    } else {
-      roles = toArray(rolesOrResource);
-      resource = resourceOrOptions as ResourcePolymorphicOrEntity;
-    }
     options = {...options};
-
     const domain = await this.repo.getCurrentDomain(options);
     const roleWhere = this.repo.resolveProps({resource}, {domain}) as Condition<Role>;
-    const roleActorWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<RoleMapping>;
-    const rolePermissions = {roleId: {like: generateRoleId('%', resource)}} as Condition<RolePermission>;
-
-    let ids: string[] | undefined;
-    if (roles && !roles.find(role => role === '*')) {
-      ids = roles.map(role => resolveRoleId(role, resource));
-    }
-    if (ids) {
-      roleWhere.id = {inq: ids};
-      roleActorWhere.roleId = {inq: ids};
-      rolePermissions.roleId = {inq: ids};
-    }
+    const roleMappingWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<RoleMapping>;
+    const rolePermissionsWhere = this.rolePermissionRepository.resolveProps(
+      {resource},
+      {domain},
+    ) as Condition<RolePermission>;
 
     return this.deleteCascade(
       {
         rolesWhere: roleWhere,
-        rolePermissionsWhere: rolePermissions,
-        roleMappingsWhere: roleActorWhere,
+        rolePermissionsWhere: rolePermissionsWhere,
+        roleMappingsWhere: roleMappingWhere,
       },
       options,
     );
   }
 
-  async updatePermissions(roleId: string, permissions: string[], options?: OptionsWithDomain) {
+  async updatePermissions(roleOrId: string | Role, permissions: string[], options?: OptionsWithDomain) {
     options = {...options};
     const domain = await this.repo.getCurrentDomain(options);
     const tx = await this.tf.beginTransaction(options);
     try {
-      await this.rolePermissionRepository.deleteAll({roleId}, options);
+      const role = typeof roleOrId === 'string' ? await this.repo.findById(roleOrId, {}, options) : roleOrId;
+      await this.rolePermissionRepository.deleteAll({roleId: role.id}, options);
       if (permissions.length) {
         await this.rolePermissionRepository.createAll(
-          permissions.map(permission => ({roleId, permission, domain})),
+          permissions.map(permission => ({
+            roleId: role.id,
+            resourceType: role.resourceType,
+            resourceId: role.resourceId,
+            permission,
+            domain,
+          })),
           options,
         );
       }
