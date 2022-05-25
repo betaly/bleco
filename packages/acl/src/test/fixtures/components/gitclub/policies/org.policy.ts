@@ -1,4 +1,4 @@
-import {ResourcePolicy} from '../../../../../policy';
+import {ResourcePolicy} from '../../../../../policies';
 import {Org} from '../models';
 
 export const OrgRoles = {

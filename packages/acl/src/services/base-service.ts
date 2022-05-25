@@ -1,9 +1,9 @@
-import {TransactionFactory} from '../transaction';
 import {Entity, Filter, Options, Where} from '@loopback/repository';
-import {DomainAware} from '../types';
-import {PolicyManager} from '../policy.manager';
-import {AclBaseRepository} from '../repositories/base-repository';
 import {FilterExcludingWhere} from '@loopback/filter';
+import {DomainAware} from '../types';
+import {PolicyManager} from '../policies';
+import {TransactionFactory} from '../transaction';
+import {AclBaseRepository} from '../repositories/base-repository';
 
 export class AclBaseService<T extends Entity> {
   protected tf: TransactionFactory;

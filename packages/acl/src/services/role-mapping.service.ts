@@ -14,7 +14,7 @@ import {BindingScope} from '@loopback/core';
 import debugFactory from 'debug';
 import {RoleMappingRepository, RoleRepository} from '../repositories';
 import {AclBindings} from '../keys';
-import {PolicyManager} from '../policy.manager';
+import {PolicyManager} from '../policies';
 import {toResourcePolymorphic} from '../helpers';
 
 const debug = debugFactory('bleco:acl:role-mapping-service');

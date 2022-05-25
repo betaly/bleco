@@ -3,7 +3,7 @@ import {config, inject} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
 import debugFactory from 'debug';
 import {ApplicationWithAcl} from '../mixins';
-import {isPolicy} from '../policy';
+import {isPolicy} from '../policies';
 
 const debug = debugFactory('bleco:acl:policy-booter');
 

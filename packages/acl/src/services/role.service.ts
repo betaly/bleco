@@ -1,18 +1,18 @@
 import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
+import debugFactory from 'debug';
 import {Condition, repository, Where} from '@loopback/repository';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
-import debugFactory from 'debug';
-import {AclBaseService} from './base-service';
+import toArray from 'tily/array/toArray';
+import {assert} from 'tily/assert';
 import {DeleteResult, EntityLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
 import {AclBindings} from '../keys';
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
 import {resolveRoleId} from '../helpers';
-import {PolicyManager} from '../policy.manager';
-import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
-import toArray from 'tily/array/toArray';
-import {assert} from 'tily/assert';
+import {PolicyManager} from '../policies';
 import {RolesExistsError} from '../errors';
+import {AclBaseService} from './base-service';
+import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
 
 const debug = debugFactory('bleco:acl:role-service');
 

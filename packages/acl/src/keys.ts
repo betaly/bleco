@@ -1,7 +1,7 @@
 import {BindingKey} from '@loopback/context';
 import {EnforcerStrategy} from './enforcer';
 import {DomainLike} from './types';
-import {PolicyManager} from './policy.manager';
+import {PolicyManager} from './policies';
 import {EnforcerService, RoleMappingService, RoleService} from './services';
 
 export namespace AclBindings {

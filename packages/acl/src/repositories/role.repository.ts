@@ -5,8 +5,8 @@ import {AclAuthDBName, DomainLike, OptionsWithDomain, ResourcePolymorphicOrEntit
 import {RoleMappingRepository} from './role-mapping.repository';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
+import {PolicyManager} from '../policies';
 import {AclBaseRepository} from './base-repository';
-import {PolicyManager} from '../policy.manager';
 import {RolePermissionRepository} from './role-permission.repository';
 
 // const debug = debugFactory('bleco:acl:role-repository');

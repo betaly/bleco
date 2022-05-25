@@ -1,7 +1,6 @@
-import {PolicyManager} from '../../policy.manager';
+import {Policy, PolicyManager} from '../../policies';
 import {Entity, model, property} from '@loopback/repository';
 import {Role, RoleMapping} from '../../models';
-import {Policy} from '../../policy';
 
 @model()
 class User extends Entity {

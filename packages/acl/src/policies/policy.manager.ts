@@ -1,6 +1,6 @@
 import {Policy} from './policy';
 import {EntityClass} from '@bleco/query';
-import {Role, RoleMapping} from './models';
+import {Role, RoleMapping} from '../models';
 
 export class PolicyManager {
   protected policyMap = new Map<string, Policy>();

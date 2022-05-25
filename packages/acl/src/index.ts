@@ -5,7 +5,6 @@ export * from './mixins';
 export * from './booters';
 export * from './services';
 export * from './component';
-export * from './policy';
-export * from './policy.manager';
+export * from './policies';
 export * from './enforcer';
 export * from './errors';

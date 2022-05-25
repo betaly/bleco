@@ -9,25 +9,16 @@ export class DefaultEnhancerStrategy implements EnforcerStrategy {
 
   constructor() {}
 
-  authorize(principal: Entity, action: string, resource: Entity, options?: {checkRead?: boolean}): Promise<void> {
+  isAllowed(principal: Entity, action: string, resource: Entity): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
 
-  authorizeField(principal: Entity, action: string, resource: Entity, field: string): Promise<void> {
+  authorize(principal: Entity, action: string, resource: Entity, options?: {checkRead?: boolean}): Promise<void> {
     throw new Error('Method not implemented.');
   }
 
   authorizedActions(
     principal: Entity,
-    resource: Entity,
-    options?: {allowWildcard?: boolean},
-  ): Promise<Set<string | '*'>> {
-    throw new Error('Method not implemented.');
-  }
-
-  authorizedFields(
-    principal: Entity,
-    action: string,
     resource: Entity,
     options?: {allowWildcard?: boolean},
   ): Promise<Set<string | '*'>> {
@@ -42,7 +33,16 @@ export class DefaultEnhancerStrategy implements EnforcerStrategy {
     throw new Error('Method not implemented.');
   }
 
-  isAllowed(principal: Entity, action: string, resource: Entity): Promise<boolean> {
+  authorizeField(principal: Entity, action: string, resource: Entity, field: string): Promise<void> {
+    throw new Error('Method not implemented.');
+  }
+
+  authorizedFields(
+    principal: Entity,
+    action: string,
+    resource: Entity,
+    options?: {allowWildcard?: boolean},
+  ): Promise<Set<string | '*'>> {
     throw new Error('Method not implemented.');
   }
 }

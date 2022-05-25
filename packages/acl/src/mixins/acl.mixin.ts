@@ -2,10 +2,9 @@ import {Application, Binding, BindingFromClassOptions, Constructor, CoreBindings
 import {Class} from 'tily/typings/types';
 import {Entity} from '@loopback/repository';
 import debugFactory from 'debug';
-import {AclComponent} from '../component';
-import {Policy} from '../policy';
 import {AclBindings, AclTags} from '../keys';
-import {PolicyManager} from '../policy.manager';
+import {AclComponent} from '../component';
+import {Policy, PolicyManager} from '../policies';
 
 const debug = debugFactory('bleco:acl:mixin');
 
