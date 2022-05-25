@@ -23,7 +23,7 @@ export function buildClassFields(
 ): Record<string, Class | Relation> {
   const definition = isConstructor(entityOrDefinition) ? entityOrDefinition.definition : entityOrDefinition;
   const fields: Record<string, Class | Relation> = {};
-  for (const name in definition.properties) {
+  for (const name in definition?.properties) {
     const type = resolvePropertyType(definition.properties[name].type);
     if (!type) {
       debug(`Skip unsupported property ${name} with type ${definition.properties[name].type}`);
@@ -31,7 +31,7 @@ export function buildClassFields(
     }
     fields[name] = type;
   }
-  for (const name in definition.relations) {
+  for (const name in definition?.relations) {
     const relation = resolveRelation(definition.relations[name]);
     if (!relation) {
       debug(`Skip unsupported relation "${name}"`);
