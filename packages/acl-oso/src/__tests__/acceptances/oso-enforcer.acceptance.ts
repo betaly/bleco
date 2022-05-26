@@ -5,7 +5,6 @@ import {spyOnAdapter} from '../support';
 describe('OsoEnforcer', function () {
   testEnforcerBatch(app => {
     app.component(OsoComponent);
-    // patchRules(app, rules);
     spyOnAdapter(app);
   });
 });
