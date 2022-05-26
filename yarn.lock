@@ -1468,7 +1468,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/aliaser@^0.3.8, @bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.3.9, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
@@ -1504,7 +1504,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
-    "@bleco/aliaser": ^0.3.8
+    "@bleco/aliaser": ^0.3.9
     "@exlinc/keycloak-passport": ^1.0.2
     "@loopback/boot": ^5.0.0
     "@loopback/context": ^5.0.0
@@ -1570,7 +1570,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/boot@^0.2.8, @bleco/boot@workspace:packages/boot":
+"@bleco/boot@^0.2.9, @bleco/boot@workspace:packages/boot":
   version: 0.0.0-use.local
   resolution: "@bleco/boot@workspace:packages/boot"
   dependencies:
@@ -1621,7 +1621,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/mixin@^0.1.0, @bleco/mixin@workspace:packages/mixin":
+"@bleco/mixin@^0.2.0, @bleco/mixin@workspace:packages/mixin":
   version: 0.0.0-use.local
   resolution: "@bleco/mixin@workspace:packages/mixin"
   dependencies:
@@ -1636,7 +1636,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
-    "@bleco/aliaser": ^0.3.8
+    "@bleco/aliaser": ^0.3.9
     "@loopback/boot": ^5.0.0
     "@loopback/context": ^5.0.0
     "@loopback/core": ^4.0.0
@@ -1723,7 +1723,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/repository-factory@workspace:packages/repository-factory"
   dependencies:
-    "@bleco/boot": ^0.2.8
+    "@bleco/boot": ^0.2.9
     "@loopback/context": ^5.0.0
     "@loopback/core": ^4.0.0
     "@loopback/repository": ^5.0.0
@@ -1763,7 +1763,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
-    "@bleco/mixin": ^0.1.0
+    "@bleco/mixin": ^0.2.0
     "@loopback/boot": ^5.0.0
     "@loopback/build": ^9.0.0
     "@loopback/context": ^5.0.0
@@ -1792,7 +1792,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/vault@workspace:packages/vault"
   dependencies:
-    "@bleco/aliaser": ^0.3.8
+    "@bleco/aliaser": ^0.3.9
     "@loopback/boot": ^5.0.0
     "@loopback/core": ^4.0.0
     "@loopback/rest": ^12.0.0
