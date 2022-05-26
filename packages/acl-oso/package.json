@@ -33,7 +33,8 @@
   "dependencies": {
     "@bleco/acl": "^0.1.0",
     "@bleco/aliaser": "^0.3.6",
-    "@bleco/query": "^0.6.0",
+    "@bleco/oso-juggler": "^0.1.0",
+    "@bleco/query": "^0.7.0",
     "@loopback/boot": "^5.0.0",
     "@loopback/context": "^5.0.0",
     "@loopback/core": "^4.0.0",
@@ -42,7 +43,6 @@
     "debug": "^4.3.4",
     "memstreams": "^0.4.1",
     "oso": "^0.26.0",
-    "oso-juggler": "^0.1.2",
     "tily": "^2.16.1",
     "ts-essentials": "^9.1.2"
   },

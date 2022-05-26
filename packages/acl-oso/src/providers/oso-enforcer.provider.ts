@@ -1,11 +1,11 @@
+import debugFactory from 'debug';
 import {BindingScope, inject, Provider} from '@loopback/context';
 import {AclBindings, EnforcerStrategy, PolicyManager} from '@bleco/acl';
+import {JugglerAdapter, RepositoryFactory} from '@bleco/oso-juggler';
+import {injectable} from '@loopback/core';
 import {EnforcerOptions, OsoEnforcer} from '../oso.enforcer';
 import {OsoBindings} from '../keys';
 import {OsoPolicyBuilder} from '../policy-builder';
-import {JugglerAdapter, RepositoryFactory} from 'oso-juggler';
-import debugFactory from 'debug';
-import {injectable} from '@loopback/core';
 
 const debug = debugFactory('bleco:oso:enforcer');
 

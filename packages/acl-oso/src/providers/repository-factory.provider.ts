@@ -1,4 +1,4 @@
-import {RepositoryFactory} from 'oso-juggler';
+import {RepositoryFactory} from '@bleco/oso-juggler';
 import {Entity, EntityCrudRepository, juggler, RepositoryBindings} from '@loopback/repository';
 import {EntityClass, QueryEnhancedCrudRepository} from '@bleco/query';
 import {Application, CoreBindings} from '@loopback/core';

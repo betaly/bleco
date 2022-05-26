@@ -1,7 +1,7 @@
 import {BindingKey} from '@loopback/context';
+import {RepositoryFactory} from '@bleco/oso-juggler';
 import {EnforcerOptions} from './oso.enforcer';
 import {OsoComponent} from './oso.component';
-import {RepositoryFactory} from 'oso-juggler';
 
 export namespace OsoBindings {
   export const COMPONENT = BindingKey.create<OsoComponent>('components.OsoComponent');
