@@ -8,7 +8,7 @@ import {
   ResourcePolymorphicOrEntity,
   RoleAware,
 } from '../types';
-import {AclBaseService} from './base-service';
+import {RoleBaseService} from './role.base.service';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
 import debugFactory from 'debug';
@@ -20,7 +20,7 @@ import {toResourcePolymorphic} from '../helpers';
 const debug = debugFactory('bleco:acl:role-mapping-service');
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleMappingService extends AclBaseService<RoleMapping> {
+export class RoleMappingService extends RoleBaseService<RoleMapping> {
   repo: RoleMappingRepository;
 
   constructor(

@@ -11,7 +11,7 @@ import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models
 import {resolveRoleId} from '../helpers';
 import {PolicyManager} from '../policies';
 import {RolesExistsError} from '../errors';
-import {AclBaseService} from './base-service';
+import {RoleBaseService} from './role.base.service';
 import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
 
 const debug = debugFactory('bleco:acl:role-service');
@@ -19,7 +19,7 @@ const debug = debugFactory('bleco:acl:role-service');
 export type RoleDeleteResult = DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}>;
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleService extends AclBaseService<Role> {
+export class RoleService extends RoleBaseService<Role> {
   repo: RoleRepository;
 
   constructor(

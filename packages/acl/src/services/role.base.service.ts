@@ -1,11 +1,11 @@
 import {Entity, Filter, Options, Where} from '@loopback/repository';
-import {FilterExcludingWhere} from '@loopback/filter';
-import {DomainAware} from '../types';
+import {QueryFilter} from '@bleco/query';
+import {DomainAware, QueryWhereExcludingWhere} from '../types';
 import {PolicyManager} from '../policies';
 import {TransactionFactory} from '../transaction';
 import {AclBaseRepository} from '../repositories/base-repository';
 
-export class AclBaseService<T extends Entity> {
+export class RoleBaseService<T extends Entity> {
   protected tf: TransactionFactory;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,15 +13,15 @@ export class AclBaseService<T extends Entity> {
     this.tf = new TransactionFactory(this.repo.dataSource);
   }
 
-  async find(filter?: Filter<T>, options?: Options): Promise<T[]> {
+  async find(filter?: QueryFilter<T>, options?: Options): Promise<T[]> {
     return this.repo.find(await this.domainizedFilter(filter, options), options);
   }
 
-  async findOne(filter: Filter<T>, options?: Options): Promise<T | null> {
+  async findOne(filter: QueryFilter<T>, options?: Options): Promise<T | null> {
     return this.repo.findOne(await this.domainizedFilter(filter, options), options);
   }
 
-  async findById(id: string, filter?: FilterExcludingWhere<T>, options?: Options): Promise<T> {
+  async findById(id: string, filter?: QueryWhereExcludingWhere<T>, options?: Options): Promise<T> {
     return this.repo.findById(id, filter, options);
   }
 
