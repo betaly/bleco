@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@bleco/query": "^0.6.0",
+    "@bleco/repository-factory": "^0.1.0",
     "@bleco/soft-delete": "^0.2.18",
     "@loopback/context": "^5.0.0",
     "@loopback/core": "^4.0.0",
