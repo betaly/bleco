@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.2.18...@bleco/soft-delete@0.3.0) (2022-05-26)
+
+
+### Features
+
+* refactor repositories implementations with mixin style ([da26406](https://gitr.net/betaly/bleco/commits/da2640632becc83f896c07348f25b128b2ba2e34))
+
+
+
+
+
 ## [0.2.18](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.2.17...@bleco/soft-delete@0.2.18) (2022-05-11)
 
 **Note:** Version bump only for package @bleco/soft-delete

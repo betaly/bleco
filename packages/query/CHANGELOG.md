@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.6.0...@bleco/query@0.7.0) (2022-05-26)
+
+
+### Features
+
+* rename DefaultCrudRepositoryWithQuery to QueryEnhancedCrudRepository and add QueryEnhancedTransactionalRepository and using loopback-connector-sqlite3e ([60f4c4e](https://gitr.net/betaly/bleco/commits/60f4c4e9c444f281afeaea38e92f47690420dfce))
+
+
+
+
+
 # [0.6.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.5.3...@bleco/query@0.6.0) (2022-05-11)
 
 
