@@ -1,5 +1,5 @@
-import { Entity } from "@loopback/repository";
-import { SoftDeleteEntityMixin } from "../mixins";
+import {Entity} from '@loopback/repository';
+import {SoftDeleteEntityMixin} from '../mixins';
 
 /**
  * Abstract base class for all soft-delete enabled models
