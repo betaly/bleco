@@ -38,8 +38,8 @@
   },
   "devDependencies": {
     "@loopback/testlab": "^5.0.0",
-    "@nutol/build": "^0.2.6",
-    "@nutol/eslint-config": "^0.2.2",
+    "@nutol/build": "^0.2.9",
+    "@nutol/eslint-config": "^0.2.4",
     "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^27.5.1",
     "@types/memcached": "^2.2.7",

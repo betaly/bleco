@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {Constructor, MixinTarget} from '../../types';
 import {Repository} from './repository';
 

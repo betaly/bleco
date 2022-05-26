@@ -21,6 +21,7 @@ export class QueryEnhancedTransactionalSoftCrudRepository<
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export interface QueryEnhancedTransactionalSoftCrudRepository<
   T extends SoftDeleteEntity,

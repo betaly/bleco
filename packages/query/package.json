@@ -47,14 +47,12 @@
     "jest": "jest",
     "jest:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@loopback/core": "^4.0.0",
     "@loopback/filter": "^3.0.0",
-    "@loopback/repository": "^5.0.0"
-  },
-  "dependencies": {
+    "@loopback/repository": "^5.0.0",
     "debug": "^4.3.4",
-    "knex": "^2.0.0",
+    "knex": "^2.1.0",
     "tily": "^2.16.1",
     "ts-essentials": "^9.1.2"
   },
@@ -62,8 +60,8 @@
     "@loopback/core": "^4.0.0",
     "@loopback/filter": "^3.0.0",
     "@loopback/repository": "^5.0.0",
-    "@nutol/build": "^0.2.6",
-    "@nutol/eslint-config": "^0.2.2",
+    "@nutol/build": "^0.2.9",
+    "@nutol/eslint-config": "^0.2.4",
     "@types/jest": "^27.5.1",
     "@types/node": "^17.0.35",
     "loopback-connector-postgresql": "^5.5.0",
