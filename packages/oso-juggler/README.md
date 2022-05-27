@@ -1,6 +1,5 @@
 # @bleco/oso-juggler
 
-
 > An [oso](https://www.osohq.com/) [data filtering adapter](https://docs.osohq.com/guides/data_filtering.html) for
 > [loopback juggler orm](https://loopback.io/doc/en/lb4/Model.html)
 
@@ -33,4 +32,3 @@ const adapter = new JugglerAdapter(repositoryFactory(context, 'db'));
 const oso = new Oso();
 oso.setDataFilteringAdapter(adapter);
 ```
-

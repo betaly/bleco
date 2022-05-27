@@ -1,12 +1,11 @@
 import {isConstructor} from 'tily/is/constructor';
 import {Context} from '@loopback/context';
-import {Entity, EntityCrudRepository, juggler} from '@loopback/repository';
-import {QueryEnhancedCrudRepository, EntityClass} from '@bleco/query';
+import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {givenHttpServerConfig} from '@loopback/testlab';
 import {Class} from 'oso/dist/src/types';
 import {OsoApp} from './application';
-import {RepositoryFactory} from '../../../types';
 import {Enforcer} from './enforcer';
+import {RepositoryFactoryBindings} from '@bleco/repository-factory';
 
 export class ContextHelper {
   constructor(public context: Context) {}
@@ -26,7 +25,7 @@ export async function givenAppAndEnforcer() {
   await app.migrateSchema({existingSchema: 'drop'});
   await app.start();
 
-  const enforcer = new Enforcer(repositoryFactory(app, 'db'));
+  const enforcer = new Enforcer(await app.get(RepositoryFactoryBindings.REPOSITORY_FACTORY));
   await enforcer.registerModelsFromApplication(app);
   return {app, enforcer};
 }
@@ -46,12 +45,4 @@ export async function checkAuthz<A = unknown, R extends Entity = Entity>(
 
   expect(actual).toHaveLength(expected.length);
   expect(actual).toEqual(expect.arrayContaining(expected));
-}
-
-function repositoryFactory<T extends Entity = Entity>(context: Context, dsName: string): RepositoryFactory<T> {
-  return async modelName => {
-    const ds = await context.get<juggler.DataSource>(`datasources.${dsName}`);
-    const entityClass = await context.get<EntityClass<T>>(`models.${modelName}`);
-    return new QueryEnhancedCrudRepository(entityClass, ds);
-  };
 }

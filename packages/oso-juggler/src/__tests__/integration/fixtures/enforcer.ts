@@ -1,12 +1,13 @@
 import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';
 import {Oso} from 'oso';
-import {RepositoryFactory, ResourceFilter} from '../../../types';
-import {JugglerAdapter} from '../../../juggler-adapter';
 import {Context} from '@loopback/context';
 import {Binding} from '@loopback/core';
 import {EntityClass} from '@bleco/query';
 import debugFactory from 'debug';
+import {RepositoryFactory} from '@bleco/repository-factory';
 import {OsoJugglerHelper} from '../../../helper';
+import {ResourceFilter} from '../../../types';
+import {JugglerAdapter} from '../../../juggler-adapter';
 
 const debug = debugFactory('bleco:enforcer-adapter-juggler:enforcer');
 
@@ -17,9 +18,9 @@ export class Enforcer<
   Field = unknown,
   Request = unknown,
 > extends Oso<Actor, Action, Resource, Field, Request, ResourceFilter<Resource>> {
-  constructor(public getRepository: RepositoryFactory<Resource>) {
+  constructor(public repositoryFactory: RepositoryFactory) {
     super();
-    this.setDataFilteringAdapter(new JugglerAdapter(getRepository));
+    this.setDataFilteringAdapter(new JugglerAdapter(repositoryFactory));
   }
 
   async registerModelsFromApplication(context: Context) {

@@ -1,7 +1,7 @@
 import {OsoApp} from './fixtures/application';
 import {Enforcer} from './fixtures/enforcer';
 import {checkAuthz, givenAppAndEnforcer} from './fixtures/support';
-import {Samples, seedSamples} from './fixtures/data/seed';
+import {seed, TestData} from './fixtures/seed';
 import {Foo} from './fixtures/models/foo.model';
 import {Bar} from './fixtures/models/bar.model';
 import {Log} from './fixtures/models/log.model';
@@ -12,12 +12,12 @@ import {Issue} from './fixtures/models/issue.model';
 describe('JugglerAdapter', function () {
   describe('Data filtering parity tests', function () {
     let app: OsoApp;
-    let samples: Samples;
+    let td: TestData;
     let enforcer: Enforcer;
 
     beforeAll(async () => {
       ({app, enforcer} = await givenAppAndEnforcer());
-      samples = await seedSamples(app);
+      td = await seed(app);
     });
 
     afterAll(async () => {
@@ -30,7 +30,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_authorize_with_a_single_model', async function () {
-      const {foos} = samples;
+      const {foos} = td;
       await enforcer.loadStr('allow(_, _, _: Foo{id: "something"});');
       await checkAuthz(enforcer, 'gwen', 'get', Foo, [foos.something]);
       enforcer.clearRules();
@@ -42,7 +42,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_authorize_scalar_attribute_eq', async () => {
-      const {allBars, allFoos} = samples;
+      const {allBars, allFoos} = td;
       await enforcer.loadStr(`
       allow(_: Bar, "read", _: Foo{isFooey: true});
       allow(bar: Bar, "read", _: Foo{bar: bar});
@@ -54,7 +54,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_authorize_scalar_attribute_condition', async () => {
-      const {allBars, allFoos, findBarByFoo} = samples;
+      const {allBars, allFoos, findBarByFoo} = td;
       await enforcer.loadStr(`
       allow(bar: Bar{isCool: true}, "read", _: Foo{bar: bar});
       allow(_: Bar, "read", _: Foo{bar: b, isFooey: true}) if b.isCool;
@@ -74,7 +74,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_nested_relationship_many_single', async () => {
-      const {allLogs, findBarByFoo, findFooByLog} = samples;
+      const {allLogs, findBarByFoo, findFooByLog} = td;
       await enforcer.loadStr(`
       allow(log: Log, "read", bar: Bar) if log.foo in bar.foos;
     `);
@@ -84,7 +84,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_nested_relationships_many_many', async () => {
-      const {allLogs, findBarByFoo, findFooByLog} = samples;
+      const {allLogs, findBarByFoo, findFooByLog} = td;
       await enforcer.loadStr(`
       allow(log: Log, "read", bar: Bar) if
         foo in bar.foos and log in foo.logs;
@@ -95,7 +95,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_nested_relationship_many_many_constrained', async () => {
-      const {allLogs, allBars, findFoosByBar} = samples;
+      const {allLogs, allBars, findFoosByBar} = td;
       await enforcer.loadStr(`
       allow(log: Log{data: "steve"}, "read", bar: Bar) if
         foo in bar.foos and log in foo.logs;
@@ -111,7 +111,7 @@ describe('JugglerAdapter', function () {
     });
 
     it('test_partial_in_collection', async () => {
-      const {allBars, findFoosByBar} = samples;
+      const {allBars, findFoosByBar} = td;
       await enforcer.loadStr(`
       allow(bar, "read", foo: Foo) if foo in bar.foos;
     `);
@@ -121,7 +121,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_partial_isa_with_path', async () => {
-      const {bars, findFoosByBar} = samples;
+      const {bars, findFoosByBar} = td;
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if check(foo.bar);
       check(bar: Bar) if bar.id = "goodbye";
@@ -131,7 +131,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_no_relationships', async () => {
-      const {allFoos} = samples;
+      const {allFoos} = td;
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if foo.isFooey;
     `);
@@ -140,7 +140,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_neq', async () => {
-      const {allBars, allFoos} = samples;
+      const {allBars, allFoos} = td;
       await enforcer.loadStr(`
       allow(_, action, foo: Foo) if foo.bar.id != action;
     `);
@@ -151,7 +151,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_relationship', async () => {
-      const {allFoos, findBarByFoo} = samples;
+      const {allFoos, findBarByFoo} = td;
       await enforcer.loadStr(`
       allow(_, "get", foo: Foo) if
         foo.bar = bar and
@@ -165,7 +165,7 @@ describe('JugglerAdapter', function () {
 
     // Joins to the same table are not yet supported in new data filtering
     xtest('test_duplex_relationship', async () => {
-      const {allFoos} = samples;
+      const {allFoos} = td;
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if foo in foo.bar.foos;
     `);
@@ -173,7 +173,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_scalar_in_list', async () => {
-      const {allFoos} = samples;
+      const {allFoos} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Foo{bar: bar}) if bar.isCool in [true, false];
     `);
@@ -181,7 +181,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_var_in_vars', async () => {
-      const {allFoos, findLogsByFoo} = samples;
+      const {allFoos, findLogsByFoo} = td;
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if
         log in foo.logs and
@@ -195,7 +195,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_specializers', async () => {
-      const {allLogs, findFooByLog} = samples;
+      const {allLogs, findFooByLog} = td;
       await enforcer.loadStr(`
       allow(foo: Foo,             "NoneNone", log) if foo = log.foo;
       allow(foo,                  "NoneCls",  log: Log) if foo = log.foo;
@@ -223,7 +223,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_empty_constraints_in', async () => {
-      const {allFoos, findLogsByFoo} = samples;
+      const {allFoos, findLogsByFoo} = td;
       await enforcer.loadStr(`
       allow(_, "read", foo: Foo) if _ in foo.logs;
     `);
@@ -243,7 +243,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_unify_ins', async () => {
-      const {allBars, allFoos} = samples;
+      const {allBars, allFoos} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Bar{foos: foos}) if
         foo in foos and
@@ -261,7 +261,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_unify_ins_field_eq', async () => {
-      const {allBars, findFoosByBar} = samples;
+      const {allBars, findFoosByBar} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Bar{foos:foos}) if
         foo in foos and
@@ -273,7 +273,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_var_in_value', async () => {
-      const {logs} = samples;
+      const {logs} = td;
       await enforcer.loadStr(`
       allow(_, _, log: Log) if log.data in ["goodbye", "world"];
     `);
@@ -282,7 +282,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_field_eq', async () => {
-      const {allBars} = samples;
+      const {allBars} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Bar{isCool: cool, isStillCool: cool});
     `);
@@ -291,7 +291,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_field_neq', async () => {
-      const {allBars} = samples;
+      const {allBars} = td;
       await enforcer.loadStr(`
       allow(_, _, bar: Bar) if bar.isCool != bar.isStillCool;
     `);
@@ -301,7 +301,7 @@ describe('JugglerAdapter', function () {
 
     test('test_const_in_coll', async () => {
       const magic = 1;
-      const {allFoos, findNumsByFoo} = samples;
+      const {allFoos, findNumsByFoo} = td;
       enforcer.registerConstant(magic, 'magic');
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if n in foo.numbers and n.number = magic;
@@ -312,7 +312,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_redundant_in_on_same_field', async () => {
-      const {allFoos, findNumsByFoo} = samples;
+      const {allFoos, findNumsByFoo} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Foo{numbers:ns}) if
         m in ns and n in ns and
@@ -327,7 +327,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_ground_object_in_collection', async () => {
-      const {allFoos, findNumsByFoo} = samples;
+      const {allFoos, findNumsByFoo} = td;
       await enforcer.loadStr(`
       allow(_, _, _: Foo{numbers:ns}) if
         n in ns and m in ns and
@@ -342,7 +342,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_param_field', async () => {
-      const {allLogs} = samples;
+      const {allLogs} = td;
       await enforcer.loadStr(`
       allow(data, id, _: Log{data: data, id: id});
     `);
@@ -350,7 +350,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_field_cmp_rel_field', async () => {
-      const {allFoos, findBarByFoo} = samples;
+      const {allFoos, findBarByFoo} = td;
       await enforcer.loadStr(`
       allow(_, _, foo: Foo) if foo.bar.isCool = foo.isFooey;
     `);
@@ -360,7 +360,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_field_cmp_rel_rel_field', async () => {
-      const {allLogs, findFooByLog, findBarByFoo} = samples;
+      const {allLogs, findFooByLog, findBarByFoo} = td;
       await enforcer.loadStr(`
       allow(_, _, log: Log) if log.data = log.foo.bar.id;
     `);
@@ -369,7 +369,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('test_parent_child_cases', async () => {
-      const {allLogs, findFooByLog} = samples;
+      const {allLogs, findFooByLog} = td;
       await enforcer.loadStr(`
       allow(_: Log{foo: foo},   0, foo: Foo);
       allow(log: Log,           1, _: Foo{logs: logs}) if log in logs;
@@ -384,12 +384,12 @@ describe('JugglerAdapter', function () {
 
   describe('Data filtering using juggler/sqlite', function () {
     let app: OsoApp;
-    let samples: Samples;
+    let samples: TestData;
     let enforcer: Enforcer;
 
     beforeAll(async () => {
       ({app, enforcer} = await givenAppAndEnforcer());
-      samples = await seedSamples(app);
+      samples = await seed(app);
     });
 
     afterAll(async () => {
@@ -448,7 +448,7 @@ describe('JugglerAdapter', function () {
 
       expect(filter.model).toBe('Foo');
 
-      const repo = await enforcer.getRepository(filter.model);
+      const repo = await enforcer.repositoryFactory.getRepository(filter.model);
 
       let result = await repo.find({where: filter.where});
       expect(result).toHaveLength(2);
@@ -593,7 +593,7 @@ describe('JugglerAdapter', function () {
       await checkAuthz(enforcer, users.gabe, 'create_issues', Repo, []);
 
       const filter = await enforcer.authorizedQuery(users.gwen, 'read', Issue);
-      const repo = await enforcer.getRepository(filter.model);
+      const repo = await enforcer.repositoryFactory.getRepository(filter.model);
       const result = await repo.find({where: filter.where});
       expect(result).toHaveLength(1);
       expect(result).toEqual(expect.arrayContaining([issues.bug]));

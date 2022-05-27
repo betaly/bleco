@@ -1,37 +1,34 @@
 import {Awaited} from 'ts-essentials';
-import {Context} from '@loopback/context';
-import {ContextHelper} from '../support';
-import {OrgRepository} from '../repositories/org.repository';
-import {RepoRepository} from '../repositories/repo.repository';
-import {IssueRepository} from '../repositories/issue.repository';
-import {UserRepository} from '../repositories/user.repository';
-import {OrgRoleRepository} from '../repositories/org-role.repository';
-import {RepoRoleRepository} from '../repositories/repo-role.repository';
-import {BarRepository} from '../repositories/bar.repository';
-import {FooRepository} from '../repositories/foo.repository';
-import {LogRepository} from '../repositories/log.repository';
-import {NumRepository} from '../repositories/num.repository';
-import {Num} from '../models/num.model';
-import {Foo} from '../models/foo.model';
-import {Bar} from '../models/bar.model';
-import {Log} from '../models/log.model';
+import {ApplicationWithRepositories} from '@loopback/repository';
+import {OrgRepository} from './repositories/org.repository';
+import {RepoRepository} from './repositories/repo.repository';
+import {IssueRepository} from './repositories/issue.repository';
+import {UserRepository} from './repositories/user.repository';
+import {OrgRoleRepository} from './repositories/org-role.repository';
+import {RepoRoleRepository} from './repositories/repo-role.repository';
+import {BarRepository} from './repositories/bar.repository';
+import {FooRepository} from './repositories/foo.repository';
+import {LogRepository} from './repositories/log.repository';
+import {NumRepository} from './repositories/num.repository';
+import {Num} from './models/num.model';
+import {Foo} from './models/foo.model';
+import {Bar} from './models/bar.model';
+import {Log} from './models/log.model';
 
-export type Samples = Awaited<ReturnType<typeof seedSamples>>;
+export type TestData = Awaited<ReturnType<typeof seed>>;
 
-export async function seedSamples(context: Context) {
-  const helper = new ContextHelper(context);
+export async function seed(application: ApplicationWithRepositories) {
+  const barRepo = await application.getRepository(BarRepository);
+  const fooRepo = await application.getRepository(FooRepository);
+  const logRepo = await application.getRepository(LogRepository);
+  const numRepo = await application.getRepository(NumRepository);
 
-  const barRepo = await helper.repository(BarRepository);
-  const fooRepo = await helper.repository(FooRepository);
-  const logRepo = await helper.repository(LogRepository);
-  const numRepo = await helper.repository(NumRepository);
-
-  const orgRepo = await helper.repository(OrgRepository);
-  const repoRepo = await helper.repository(RepoRepository);
-  const issueRepo = await helper.repository(IssueRepository);
-  const userRepo = await helper.repository(UserRepository);
-  const orgRolesRepo = await helper.repository(OrgRoleRepository);
-  const repoRolesRepo = await helper.repository(RepoRoleRepository);
+  const orgRepo = await application.getRepository(OrgRepository);
+  const repoRepo = await application.getRepository(RepoRepository);
+  const issueRepo = await application.getRepository(IssueRepository);
+  const userRepo = await application.getRepository(UserRepository);
+  const orgRolesRepo = await application.getRepository(OrgRoleRepository);
+  const repoRolesRepo = await application.getRepository(RepoRoleRepository);
 
   const bars = {
     hello: new Bar({id: 'hello', isCool: true, isStillCool: true}),

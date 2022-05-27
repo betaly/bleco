@@ -5,7 +5,8 @@ import {inspect} from 'util';
 import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
-import {RepositoryFactory, ResourceFilter} from './types';
+import {RepositoryFactory} from '@bleco/repository-factory';
+import {ResourceFilter} from './types';
 
 const debug = debugFactory('oso-juggler');
 
@@ -29,11 +30,11 @@ interface ResolvedFilterRelation extends FilterRelation {
 }
 
 export class JugglerAdapter<T extends Entity = Entity> implements Adapter<ResourceFilter<T>, T> {
-  constructor(public getRepository: RepositoryFactory<T>) {}
+  constructor(public repositoryFactory: RepositoryFactory) {}
 
   async executeQuery(filter: ResourceFilter<T>): Promise<T[]> {
     debug('executeQuery with resource filter', inspect(filter, {depth: null, colors: true}));
-    const repo = await this.getRepository(filter.model);
+    const repo = await this.repositoryFactory.getRepository<T>(filter.model);
     return repo.find({where: filter.where});
   }
 
