@@ -1,8 +1,9 @@
 import debugFactory from 'debug';
 import {BindingScope, inject, Provider} from '@loopback/context';
 import {AclBindings, EnforcerStrategy, PolicyManager} from '@bleco/acl';
-import {JugglerAdapter, RepositoryFactory} from '@bleco/oso-juggler';
+import {JugglerAdapter} from '@bleco/oso-juggler';
 import {injectable} from '@loopback/core';
+import {RepositoryFactory, RepositoryFactoryBindings} from '@bleco/repository-factory';
 import {EnforcerOptions, OsoEnforcer} from '../oso.enforcer';
 import {OsoBindings} from '../keys';
 import {OsoPolicyBuilder} from '../policy-builder';
@@ -14,7 +15,7 @@ export class OsoEnforcerProvider implements Provider<EnforcerStrategy> {
   constructor(
     @inject(AclBindings.POLICY_MANAGER)
     private policyManager: PolicyManager,
-    @inject(OsoBindings.REPOSITORY_FACTORY)
+    @inject(RepositoryFactoryBindings.REPOSITORY_FACTORY)
     private repositoryFactory: RepositoryFactory,
     @inject(OsoBindings.CONFIG, {optional: true})
     private options?: EnforcerOptions,

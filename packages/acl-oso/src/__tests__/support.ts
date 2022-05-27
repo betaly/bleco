@@ -4,18 +4,6 @@ import {OsoEnforcer} from '../oso.enforcer';
 
 const debug = require('debug')('bleco:oso:test');
 
-export function patchRules(app: Application, polices: Record<string, string[]>) {
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  app.once('booted', async () => {
-    const policyManager = await app.get(AclBindings.POLICY_MANAGER);
-    for (const [name, rules] of Object.entries(polices)) {
-      const policy = policyManager.get(name);
-      policy.rules = policy.rules ?? {};
-      policy.rules.oso = rules;
-    }
-  });
-}
-
 export function spyOnAdapter(app: Application) {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   app.once('booted', async () => {

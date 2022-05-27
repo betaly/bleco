@@ -2,13 +2,12 @@ import {Application, Component, ContextTags, CoreBindings, inject, injectable, P
 import {OsoBindings} from './keys';
 import {OsoAliaser} from './alias';
 import {AclBindings} from '@bleco/acl';
-import {OsoEnforcerProvider, RepositoryFactoryProvider} from './providers';
+import {OsoEnforcerProvider} from './providers';
 
 @injectable({tags: {[ContextTags.KEY]: OsoBindings.COMPONENT.key}})
 export class OsoComponent implements Component {
   providers: ProviderMap = {
     [AclBindings.ENFORCER_STRATEGY.key]: OsoEnforcerProvider,
-    [OsoBindings.REPOSITORY_FACTORY.key]: RepositoryFactoryProvider,
   };
 
   constructor(
