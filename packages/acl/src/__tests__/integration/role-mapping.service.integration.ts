@@ -16,7 +16,6 @@ describe('RoleMappingService integration tests', function () {
 
   beforeEach(async () => {
     ({app, td} = await givenApp());
-    app.bind(AclBindings.DOMAIN).to({id: TestDomain});
 
     roleMappingService = await app.get<RoleMappingService>(AclBindings.ROLE_MAPPING_SERVICE);
     roleMappingRepo = await app.getRepository(RoleMappingRepository);
@@ -58,7 +57,7 @@ describe('RoleMappingService integration tests', function () {
         found = await roleMappingRepo.findOne({where});
         expect(found).toBeFalsy();
 
-        const roleMapping = await roleMappingService.add(users.tom, roleName, orgs.google);
+        const roleMapping = await roleMappingService.addInDomain(users.tom, roleName, orgs.google, TestDomain);
 
         found = await roleMappingRepo.findOne({where});
         expect(found).toMatchObject({...roleMapping, roleId: roleName, domain: TestDomain});
@@ -78,7 +77,7 @@ describe('RoleMappingService integration tests', function () {
           ...toResourcePolymorphic(resource),
         });
 
-        const roleMapping = await roleMappingService.add(principal, roleName, resource);
+        const roleMapping = await roleMappingService.addInDomain(principal, roleName, resource, TestDomain);
 
         expect(roleMapping).toMatchObject({
           domain: TestDomain,
@@ -140,7 +139,7 @@ describe('RoleMappingService integration tests', function () {
       let found = await roleMappingRepo.find({where});
       expect(found.length).toBeGreaterThan(0);
 
-      await roleMappingService.remove({resource});
+      await roleMappingService.removeInDomain({resource}, TestDomain);
       found = await roleMappingRepo.find({where});
       expect(found).toHaveLength(0);
     });
@@ -159,7 +158,7 @@ describe('RoleMappingService integration tests', function () {
       let found = await roleMappingRepo.find({where});
       expect(found.length).toBeGreaterThan(0);
 
-      await roleMappingService.remove({principal});
+      await roleMappingService.removeInDomain({principal}, TestDomain);
       found = await roleMappingRepo.find({where});
       expect(found).toHaveLength(0);
     });

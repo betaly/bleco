@@ -1,6 +1,5 @@
 import {BindingKey} from '@loopback/context';
 import {EnforcerStrategy} from './enforcer';
-import {DomainLike} from './types';
 import {PolicyManager} from './policies';
 import {EnforcerService, RoleMappingService, RoleService} from './services';
 
@@ -11,8 +10,6 @@ export namespace AclBindings {
   export const POLICIES = 'policies';
 
   export const POLICY_MANAGER = BindingKey.create<PolicyManager>('acl.PolicyManager');
-
-  export const DOMAIN = BindingKey.create<DomainLike>('acl.domain');
 
   export const ENFORCER_STRATEGY = BindingKey.create<EnforcerStrategy>('acl.enforcer.strategy');
 

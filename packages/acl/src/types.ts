@@ -1,4 +1,4 @@
-import {Entity, Filter, Options, Transaction} from '@loopback/repository';
+import {Entity, Filter} from '@loopback/repository';
 import {KeyOf} from '@loopback/filter/src/query';
 import {OmitProperties} from 'ts-essentials';
 import {AnyObject} from '@loopback/filter/src/types';
@@ -6,7 +6,7 @@ import {AnyObject} from '@loopback/filter/src/types';
 export const AclAuthDBName = 'AclAuthDB';
 export const AclResourceDBName = 'AclResourceDB';
 
-export const DefaultDomain = '';
+export const GlobalDomain = '$global';
 
 export type QueryWhereExcludingWhere<T extends object = AnyObject> = Omit<Filter<T>, 'where'>;
 
@@ -47,11 +47,3 @@ export type PrincipalPolymorphicOrEntity = Entity | PrincipalPolymorphic;
 export type ResourcePolymorphic = Required<ResourceAware>;
 
 export type ResourcePolymorphicOrEntity = Entity | ResourcePolymorphic;
-
-export interface OptionsWithTransaction extends Options {
-  transaction?: Transaction;
-}
-
-export interface OptionsWithDomain extends OptionsWithTransaction {
-  domain?: DomainLike | string;
-}

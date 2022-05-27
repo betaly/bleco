@@ -1,34 +1,30 @@
-import {Getter, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
 import {inject} from '@loopback/context';
-import {AclAuthDBName, DomainLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
+import {Getter, HasManyRepositoryFactory, juggler, Options, repository} from '@loopback/repository';
+import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
+import {AclAuthDBName, ResourcePolymorphicOrEntity} from '../types';
 import {RoleMappingRepository} from './role-mapping.repository';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
 import {PolicyManager} from '../policies';
-import {AclBaseRepository} from './base-repository';
+import {RoleBaseRepository} from './role.base.repository';
 import {RolePermissionRepository} from './role-permission.repository';
 
-// const debug = debugFactory('bleco:acl:role-repository');
-
-export class RoleRepository extends AclBaseRepository<Role, typeof Role.prototype.id, RoleRelations, RoleAttrs> {
+export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototype.id, RoleRelations, RoleAttrs> {
   public readonly principals: HasManyRepositoryFactory<RoleMapping, typeof RoleMapping.prototype.id>;
   public readonly permissions: HasManyRepositoryFactory<RolePermission, typeof RolePermission.prototype.id>;
 
   constructor(
     @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
-    @repository.getter('RoleActorRepository')
-    protected readonly roleActorRepositoryGetter: Getter<RoleMappingRepository>,
+    @repository.getter('RoleMappingRepository')
+    protected readonly roleMappingRepositoryGetter: Getter<RoleMappingRepository>,
     @repository.getter('RolePermissionRepository')
     protected readonly rolePermissionRepositoryGetter: Getter<RolePermissionRepository>,
     @inject(AclBindings.POLICY_MANAGER)
     public readonly policyManager: PolicyManager,
-    @inject.getter(AclBindings.DOMAIN, {optional: true})
-    getDomain?: Getter<DomainLike>,
   ) {
-    super(Role, dataSource, getDomain);
-    this.principals = this.createHasManyRepositoryFactoryFor('principals', roleActorRepositoryGetter);
+    super(Role, dataSource);
+    this.principals = this.createHasManyRepositoryFactoryFor('principals', roleMappingRepositoryGetter);
     this.registerInclusionResolver('principals', this.principals.inclusionResolver);
     this.permissions = this.createHasManyRepositoryFactoryFor('permissions', rolePermissionRepositoryGetter);
     this.registerInclusionResolver('permissions', this.permissions.inclusionResolver);
@@ -43,23 +39,25 @@ export class RoleRepository extends AclBaseRepository<Role, typeof Role.prototyp
   async findByIdOrName(
     roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
-    options?: OptionsWithDomain,
+    options?: Options,
   ): Promise<Role | null> {
     const {resourceType, resourceId} = toResourcePolymorphic(resource);
-    return this.findOne({
-      where: {
-        resourceType,
-        resourceId,
-        domain: await this.getCurrentDomain(options),
-        or: [{id: roleIdOrName}, {name: roleIdOrName}],
+    return this.findOne(
+      {
+        where: {
+          resourceType,
+          resourceId,
+          or: [{id: roleIdOrName}, {name: roleIdOrName}],
+        },
       },
-    });
+      options,
+    );
   }
 
   async resolveRoleByIdOrName(
     roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
-    options?: OptionsWithDomain,
+    options?: Options,
   ): Promise<string | Role | null> {
     if (this.isBuiltInRole(roleIdOrName, resource)) {
       return roleIdOrName;

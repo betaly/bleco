@@ -1,13 +1,12 @@
+import {inject} from '@loopback/context';
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';
 import {AclRoleMappingRelations, Role, RoleMapping, RoleMappingAttrs, RoleMappingProps} from '../models';
-import {inject} from '@loopback/context';
-import {AclAuthDBName, DomainLike} from '../types';
+import {AclAuthDBName} from '../types';
 import {RoleRepository} from './role.repository';
-import {AclBindings} from '../keys';
 import {resolveRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../helpers';
-import {AclBaseRepository} from './base-repository';
+import {RoleBaseRepository} from './role.base.repository';
 
-export class RoleMappingRepository extends AclBaseRepository<
+export class RoleMappingRepository extends RoleBaseRepository<
   RoleMapping,
   typeof RoleMapping.prototype.id,
   AclRoleMappingRelations,
@@ -18,12 +17,10 @@ export class RoleMappingRepository extends AclBaseRepository<
   constructor(
     @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
-    @repository.getter('AclRoleRepository')
+    @repository.getter('RoleRepository')
     protected readonly roleRepositoryGetter: Getter<RoleRepository>,
-    @inject.getter(AclBindings.DOMAIN, {optional: true})
-    getDomain?: Getter<DomainLike>,
   ) {
-    super(RoleMapping, dataSource, getDomain);
+    super(RoleMapping, dataSource);
 
     this.role = this.createBelongsToAccessorFor('role', roleRepositoryGetter);
     this.registerInclusionResolver('role', this.role.inclusionResolver);

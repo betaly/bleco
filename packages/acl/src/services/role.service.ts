@@ -1,11 +1,11 @@
 import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
 import debugFactory from 'debug';
-import {Condition, repository, Where} from '@loopback/repository';
+import {Condition, Options, repository, Where} from '@loopback/repository';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
 import toArray from 'tily/array/toArray';
 import {assert} from 'tily/assert';
-import {DeleteResult, EntityLike, OptionsWithDomain, ResourcePolymorphicOrEntity} from '../types';
+import {DeleteResult, EntityLike, GlobalDomain, ResourcePolymorphicOrEntity} from '../types';
 import {AclBindings} from '../keys';
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
 import {resolveRoleId} from '../helpers';
@@ -15,6 +15,8 @@ import {RoleBaseService} from './role.base.service';
 import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
 
 const debug = debugFactory('bleco:acl:role-service');
+
+export type RoleInput = MarkRequired<RoleAttrs, 'name' | 'resource'>;
 
 export type RoleDeleteResult = DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}>;
 
@@ -35,14 +37,40 @@ export class RoleService extends RoleBaseService<Role> {
     super(repo, policyManager);
   }
 
-  async add(entity: MarkRequired<RoleAttrs, 'name' | 'resource'>, options?: OptionsWithDomain): Promise<Role> {
-    return (await this.addAll([entity], options))[0];
+  async add(entity: RoleInput, options?: Options): Promise<Role> {
+    return this.addInDomain(entity, GlobalDomain, options);
   }
 
-  async addAll(entities: MarkRequired<RoleAttrs, 'name' | 'resource'>[], options?: OptionsWithDomain): Promise<Role[]> {
-    options = {...options};
+  async addAll(entities: RoleInput[], options?: Options): Promise<Role[]> {
+    return this.addAllInDomain(entities, GlobalDomain, options);
+  }
 
-    const domain = await this.repo.getCurrentDomain(options);
+  /**
+   * Remove one role
+   * @param roles role ids or role entities
+   * @param options
+   */
+  async delete(
+    roles: ArrayOrSingle<string | EntityLike>,
+    options?: Options,
+  ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}> | undefined> {
+    return this.deleteInDomain(roles, GlobalDomain, options);
+  }
+
+  async deleteForResource(resource: ResourcePolymorphicOrEntity, options?: Options): Promise<RoleDeleteResult> {
+    return this.deleteForResourceInDomain(resource, GlobalDomain, options);
+  }
+
+  async updatePermissions(roleOrId: string | Role, permissions: string[], options?: Options) {
+    return this.updatePermissionsInDomain(roleOrId, permissions, GlobalDomain, options);
+  }
+
+  async addInDomain(entity: RoleInput, domain: string, options?: Options): Promise<Role> {
+    return (await this.addAllInDomain([entity], domain, options))[0];
+  }
+
+  async addAllInDomain(entities: RoleInput[], domain: string, options?: Options): Promise<Role[]> {
+    options = {...options};
 
     const rolesProps: RoleProps[] = [];
     const rolesPermissions: (string[] | undefined)[] = [];
@@ -98,16 +126,14 @@ export class RoleService extends RoleBaseService<Role> {
 
   /**
    * Remove one role
-   * @param roles role ids or role entities
-   * @param options
    */
-  async delete(
+  async deleteInDomain(
     roles: ArrayOrSingle<string | EntityLike>,
-    options?: OptionsWithDomain,
+    domain: string,
+    options?: Options,
   ): Promise<DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}> | undefined> {
     options = {...options};
     const ids = toArray(roles).map(role => resolveRoleId(role));
-    const domain = await this.repo.getCurrentDomain(options);
     const rolesWhere = {
       id: {inq: ids},
       domain,
@@ -123,12 +149,12 @@ export class RoleService extends RoleBaseService<Role> {
     return this.deleteCascade({rolesWhere, rolePermissionsWhere, roleMappingsWhere}, options);
   }
 
-  async deleteForResource(
+  async deleteForResourceInDomain(
     resource: ResourcePolymorphicOrEntity,
-    options?: OptionsWithDomain,
+    domain: string,
+    options?: Options,
   ): Promise<RoleDeleteResult> {
     options = {...options};
-    const domain = await this.repo.getCurrentDomain(options);
     const roleWhere = this.repo.resolveProps({resource}, {domain}) as Condition<Role>;
     const roleMappingWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<RoleMapping>;
     const rolePermissionsWhere = this.rolePermissionRepository.resolveProps(
@@ -146,9 +172,8 @@ export class RoleService extends RoleBaseService<Role> {
     );
   }
 
-  async updatePermissions(roleOrId: string | Role, permissions: string[], options?: OptionsWithDomain) {
+  async updatePermissionsInDomain(roleOrId: string | Role, permissions: string[], domain: string, options?: Options) {
     options = {...options};
-    const domain = await this.repo.getCurrentDomain(options);
     const tx = await this.tf.beginTransaction(options);
     try {
       const role = typeof roleOrId === 'string' ? await this.repo.findById(roleOrId, {}, options) : roleOrId;
@@ -178,7 +203,7 @@ export class RoleService extends RoleBaseService<Role> {
       rolePermissionsWhere: Where<RolePermission>;
       roleMappingsWhere: Where<RoleMapping>;
     },
-    options: OptionsWithDomain,
+    options: Options,
   ): Promise<RoleDeleteResult> {
     let roleCount = 0;
     let rolePermissionCount = 0;

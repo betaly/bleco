@@ -1,1 +1,1 @@
-export const TestDomain = '';
+export const TestDomain = 'test';

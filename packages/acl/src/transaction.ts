@@ -1,5 +1,4 @@
 import {juggler, Options, Transaction} from '@loopback/repository';
-import {OptionsWithTransaction} from './types';
 import IsolationLevel = juggler.IsolationLevel;
 
 export class NoopTransaction implements Transaction {
@@ -27,7 +26,7 @@ export class TransactionFactory {
     this.txOptions = options ?? {};
   }
 
-  async beginTransaction(options: OptionsWithTransaction): Promise<Transaction> {
+  async beginTransaction(options: Options): Promise<Transaction> {
     if (options.transaction) {
       return new NoopTransaction();
     }

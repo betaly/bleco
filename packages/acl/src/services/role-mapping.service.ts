@@ -1,8 +1,8 @@
-import {repository, Where} from '@loopback/repository';
+import {Options, repository, Where} from '@loopback/repository';
 import {RoleMapping, RoleMappingAttrs} from '../models';
 import {
   DomainAware,
-  OptionsWithDomain,
+  GlobalDomain,
   PrincipalPolymorphicOrEntity,
   ResourceAware,
   ResourcePolymorphicOrEntity,
@@ -38,10 +38,23 @@ export class RoleMappingService extends RoleBaseService<RoleMapping> {
     principal: PrincipalPolymorphicOrEntity,
     roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
-    options?: OptionsWithDomain,
+    options?: Options,
+  ) {
+    return this.addInDomain(principal, roleIdOrName, resource, GlobalDomain, options);
+  }
+
+  async remove(condition: RoleMappingAttrs, options?: Options) {
+    return this.removeInDomain(condition, GlobalDomain, options);
+  }
+
+  async addInDomain(
+    principal: PrincipalPolymorphicOrEntity,
+    roleIdOrName: string,
+    resource: ResourcePolymorphicOrEntity,
+    domain: string,
+    options?: Options,
   ) {
     options = {...options};
-    const domain = await this.repo.getCurrentDomain(options);
     const {resourceType, resourceId} = toResourcePolymorphic(resource);
     const role = await this.roleRepository.resolveRoleByIdOrName(roleIdOrName, resource, options);
     if (!role) {
@@ -76,9 +89,8 @@ export class RoleMappingService extends RoleBaseService<RoleMapping> {
     }
   }
 
-  async remove(condition: RoleMappingAttrs, options?: OptionsWithDomain) {
+  async removeInDomain(condition: RoleMappingAttrs, domain: string, options?: Options) {
     options = {...options};
-    const domain = await this.repo.getCurrentDomain(options);
     const where = this.repo.resolveProps(condition, {domain}) as Where<RoleMapping>;
 
     debug('remove with props', where);
