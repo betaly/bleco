@@ -1,16 +1,17 @@
 import {
+  DefaultSite,
   IssueRepository,
   OrgPermissions,
   OrgRepository,
   OrgRoles,
   RepoRepository,
   RepoRoles,
+  SiteRoles,
   UserRepository,
 } from './components/gitclub';
 import {ApplicationWithRepositories} from '@loopback/repository';
-import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../../repositories';
-import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {TestDomain} from './constants';
+import {AclBindings} from '../../keys';
 
 export const OrgManagerPermissions = Object.values(OrgPermissions).filter(p => p !== 'create_repos');
 
@@ -28,13 +29,15 @@ export async function seedData(app: ApplicationWithRepositories) {
   const repoRepo = await app.getRepository(RepoRepository);
   const issueRepo = await app.getRepository(IssueRepository);
 
+  const god = await userRepo.create({name: 'God'});
+
   const musk = await userRepo.create({name: 'Musk'});
   const tom = await userRepo.create({name: 'Tom'});
   const jerry = await userRepo.create({name: 'Jerry'});
   const ava = await userRepo.create({name: 'Ava'});
   const james = await userRepo.create({name: 'James'});
 
-  const users = {musk, tom, jerry, ava, james};
+  const users = {god, musk, tom, jerry, ava, james};
 
   const tesla = await orgRepo.create({name: 'Tesla'});
   const google = await orgRepo.create({name: 'Google'});
@@ -78,90 +81,37 @@ export async function seedData(app: ApplicationWithRepositories) {
 }
 
 export async function seedRoles(app: ApplicationWithRepositories, data: TestData) {
-  const roleRepo = await app.getRepository(RoleRepository);
-  const roleMappingRepo = await app.getRepository(RoleMappingRepository);
-  const rolePermissionRepo = await app.getRepository(RolePermissionRepository);
+  const rs = await app.get(AclBindings.ROLE_SERVICE);
+  const rms = await app.get(AclBindings.ROLE_MAPPING_SERVICE);
 
-  const {orgs, users} = data;
+  const {orgs, users, repos} = data;
 
-  // * TESLA
-  // --------------------------------------------------------------------------------
-  // create 'manager' role
-  const managerTelsa = await roleRepo.create({
-    domain: TestDomain,
-    name: 'manager',
-    ...toResourcePolymorphic(orgs.tesla),
-  });
+  // Site roles
+  await rms.addInDomain(users.god, SiteRoles.admin, DefaultSite, TestDomain);
+  for (const u of Object.values(users)) {
+    if (u === users.god) continue;
+    await rms.addInDomain(u, SiteRoles.member, DefaultSite, TestDomain);
+  }
 
-  await rolePermissionRepo.createAll(
-    OrgManagerPermissions.map(p => ({
-      domain: TestDomain,
-      roleId: managerTelsa.id,
-      permission: p,
-    })),
+  // Tesla
+  const managerTelsa = await rs.addInDomain(
+    {
+      name: 'manager',
+      resource: orgs.tesla,
+      permissions: OrgManagerPermissions,
+    },
+    TestDomain,
   );
 
-  // assign 'owner' on org 'tesla' to 'musk'
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: OrgRoles.owner,
-    ...toPrincipalPolymorphic(users.musk),
-    ...toResourcePolymorphic(orgs.tesla),
-  });
+  await rms.addInDomain(users.musk, OrgRoles.owner, orgs.tesla, TestDomain);
+  await rms.addInDomain(users.jerry, OrgRoles.member, orgs.tesla, TestDomain);
+  await rms.addInDomain(users.tom, managerTelsa.id, orgs.tesla, TestDomain);
 
-  // assign 'manager' on org 'tesla' to 'tom'
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: managerTelsa.id,
-    ...toPrincipalPolymorphic(users.tom),
-    ...toResourcePolymorphic(orgs.tesla),
-  });
+  await rms.addInDomain(users.tom, RepoRoles.admin, repos.repoTeslaA, TestDomain);
+  await rms.addInDomain(users.jerry, RepoRoles.maintainer, repos.repoTeslaA, TestDomain);
+  await rms.addInDomain(users.ava, RepoRoles.reader, repos.repoTeslaA, TestDomain);
 
-  // assign 'member' on org 'tesla' to 'jerry'
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: OrgRoles.member,
-    ...toPrincipalPolymorphic(users.jerry),
-    ...toResourcePolymorphic(orgs.tesla),
-  });
-
-  // assign roles on repo
-  // --------------------------------------------------------------------------------
-
-  // assign 'admin' on repo 'repoTeslaA' to 'tom'
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: RepoRoles.admin,
-    ...toPrincipalPolymorphic(users.tom),
-  });
-
-  // assign 'maintainer' on repo 'repoTeslaA' to 'jerry'
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: RepoRoles.maintainer,
-    ...toPrincipalPolymorphic(users.jerry),
-  });
-
-  // assign 'reader' on repo 'repoTeslaA' to 'ava' (out of tesla)
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: RepoRoles.reader,
-    ...toPrincipalPolymorphic(users.ava),
-  });
-
-  // * Google
-  // --------------------------------------------------------------------------------
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: OrgRoles.owner,
-    ...toPrincipalPolymorphic(users.james),
-    ...toResourcePolymorphic(orgs.google),
-  });
-
-  await roleMappingRepo.create({
-    domain: TestDomain,
-    roleId: OrgRoles.member,
-    ...toPrincipalPolymorphic(users.ava),
-    ...toResourcePolymorphic(orgs.google),
-  });
+  // Google
+  await rms.addInDomain(users.james, OrgRoles.owner, orgs.google, TestDomain);
+  await rms.addInDomain(users.ava, OrgRoles.member, orgs.google, TestDomain);
 }

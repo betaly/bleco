@@ -1,5 +1,6 @@
 import {AppInit} from './types';
 import {
+  DefaultSite,
   GitClubApplication,
   Org,
   OrgManagerPermissions,
@@ -8,6 +9,7 @@ import {
   OrgRepository,
   OrgRoles,
   RepoPermissions,
+  SitePermissions,
   TestData,
 } from './fixtures';
 import {givenApp} from './support';
@@ -57,6 +59,14 @@ export function testEnforcerBatch(init?: AppInit) {
         expect(await enforcer.isAllowed(users.jerry, RepoPermissions.create_role_assignments, repos.repoTeslaA)).toBe(
           false,
         );
+      });
+
+      it('static resource', async () => {
+        const {users} = td;
+        expect(await enforcer.isAllowed(users.god, SitePermissions.manage, DefaultSite)).toBe(true);
+        expect(await enforcer.isAllowed(users.ava, SitePermissions.manage, DefaultSite)).toBe(false);
+        expect(await enforcer.isAllowed(users.god, SitePermissions.create_orgs, DefaultSite)).toBe(true);
+        expect(await enforcer.isAllowed(users.ava, SitePermissions.create_orgs, DefaultSite)).toBe(true);
       });
     });
 
