@@ -1,15 +1,15 @@
 import {Filter, InclusionFilter} from '@loopback/filter';
 import {
+  AnyObject,
+  Entity,
+  EntityCrudRepository,
   findByForeignKeys,
   flattenTargetsOfOneToManyRelation,
-  StringKeyOf,
-  Entity,
-  AnyObject,
-  Options,
-  EntityCrudRepository,
   Getter,
   HasManyDefinition,
   InclusionResolver,
+  Options,
+  StringKeyOf,
 } from '@loopback/repository';
 import {resolveHasManyThroughMetadata} from '@loopback/repository/dist/relations/has-many/has-many-through.helpers';
 

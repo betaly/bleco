@@ -3,18 +3,18 @@ import {Filter} from '@loopback/filter';
 import {Knex} from 'knex';
 import each from 'tily/object/each';
 import {DeepPartial} from 'ts-essentials';
-import {QuerySession} from '../../../../../session';
-import {createKnex, JoinResolver} from '../../../../../drivers/sql';
+import {createKnex, JoinResolver} from '../../../../../drivers';
 import {RelationConstraint} from '../../../../../relation';
-import {DB, givenDb, givenJoinResolver, givenJoinResolvers, mockPg} from '../../../../support';
-import {Issue} from '../../../../fixtures/models/issue';
-import {Foo} from '../../../../fixtures/models/foo';
-import {Proj} from '../../../../fixtures/models/proj';
-import {User} from '../../../../fixtures/models/user';
-import {Org} from '../../../../fixtures/models/org';
-import {Transport} from '../../../../fixtures/models/transport';
+import {QuerySession} from '../../../../../session';
 import {Delivery} from '../../../../fixtures/models/delivery';
+import {Foo} from '../../../../fixtures/models/foo';
+import {Issue} from '../../../../fixtures/models/issue';
+import {Org} from '../../../../fixtures/models/org';
+import {Proj} from '../../../../fixtures/models/proj';
 import {Sender} from '../../../../fixtures/models/sender';
+import {Transport} from '../../../../fixtures/models/transport';
+import {User} from '../../../../fixtures/models/user';
+import {DB, givenDb, givenJoinResolver, givenJoinResolvers, mockPg} from '../../../../support';
 
 mockPg();
 
@@ -55,7 +55,7 @@ describe('resolvers/join', () => {
           'proj.name': 'loopback',
         },
       },
-      'select * from "public"."issue" inner join "public"."proj" as "t_0_0_proj" on "issue"."projId" = "t_0_0_proj"."id"',
+      'select * from "public"."issue" left join "public"."proj" as "t_0_0_proj" on "issue"."projId" = "t_0_0_proj"."id"',
       {
         'proj.name': {
           prefix: 't_0_0_',
@@ -76,7 +76,7 @@ describe('resolvers/join', () => {
           'userInfo.info': 'loopback',
         },
       },
-      'select * from "public"."user" inner join "public"."userinfo" as "t_0_0_userinfo" on "user"."id" = "t_0_0_userinfo"."userid"',
+      'select * from "public"."user" left join "public"."userinfo" as "t_0_0_userinfo" on "user"."id" = "t_0_0_userinfo"."userid"',
       {
         'userInfo.info': {
           prefix: 't_0_0_',
@@ -97,7 +97,7 @@ describe('resolvers/join', () => {
           'issues.title': 'loopback',
         },
       },
-      'select * from "public"."proj" inner join "public"."issue" as "t_0_0_issue" on "proj"."id" = "t_0_0_issue"."projId"',
+      'select * from "public"."proj" left join "public"."issue" as "t_0_0_issue" on "proj"."id" = "t_0_0_issue"."projId"',
       {
         'issues.title': {
           prefix: 't_0_0_',
@@ -120,7 +120,7 @@ describe('resolvers/join', () => {
           },
         },
       },
-      'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
+      'select * from "public"."org" left join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" left join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
       {
         'users.email': {
           prefix: 't_0_0_',
@@ -152,7 +152,7 @@ describe('resolvers/join', () => {
           ],
         },
       },
-      'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id" inner join "public"."userinfo" as "t_2_1_userinfo" on "t_0_0_user"."id" = "t_2_1_userinfo"."userid"',
+      'select * from "public"."org" left join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" left join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id" left join "public"."userinfo" as "t_2_1_userinfo" on "t_0_0_user"."id" = "t_2_1_userinfo"."userid"',
       {
         'users.email': {
           prefix: 't_0_0_',
@@ -178,7 +178,7 @@ describe('resolvers/join', () => {
           'projs.issues.title': 'loopback',
         },
       },
-      'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
+      'select * from "public"."org" left join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" left join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
         'projs.issues.title': {
           prefix: 't_1_1_',
@@ -206,7 +206,7 @@ describe('resolvers/join', () => {
           ],
         },
       },
-      'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
+      'select * from "public"."org" left join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" left join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
         'projs.issues.title': {
           prefix: 't_1_1_',
@@ -234,7 +234,7 @@ describe('resolvers/join', () => {
           ],
         },
       },
-      'select * from "public"."org" inner join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" inner join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
+      'select * from "public"."org" left join "public"."proj" as "t_0_0_proj" on "org"."id" = "t_0_0_proj"."org_id" left join "public"."issue" as "t_1_1_issue" on "t_0_0_proj"."id" = "t_1_1_issue"."projId"',
       {
         'projs.issues.closed': {
           prefix: 't_1_1_',
@@ -260,7 +260,7 @@ describe('resolvers/join', () => {
           'users.address.city': 'HK',
         },
       },
-      'select * from "public"."org" inner join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" inner join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
+      'select * from "public"."org" left join "public"."orguser" as "t_0_0_orguser" on "org"."id" = "t_0_0_orguser"."orgid" left join "public"."user" as "t_0_0_user" on "t_0_0_orguser"."userid" = "t_0_0_user"."id"',
       {
         'users.address.city': {
           prefix: 't_0_0_',
@@ -282,7 +282,7 @@ describe('resolvers/join', () => {
             'deliverable(Parcel).parcelTitle': 'parcel2',
           },
         },
-        'select * from "public"."delivery" inner join "public"."parcel" as "t_0_0_parcel" on "delivery"."id" = "t_0_0_parcel"."deliveryid" and "delivery"."deliverabletype" = ?',
+        'select * from "public"."delivery" left join "public"."parcel" as "t_0_0_parcel" on "delivery"."id" = "t_0_0_parcel"."deliveryid" and "delivery"."deliverabletype" = ?',
         {
           'deliverable(Parcel).parcelTitle': {
             prefix: 't_0_0_',
@@ -303,7 +303,7 @@ describe('resolvers/join', () => {
             'deliverable(Parcel).parcelTitle': 'parcel2',
           },
         },
-        'select * from "public"."transport" inner join "public"."parcel" as "t_0_0_parcel" on "transport"."deliverableid" = "t_0_0_parcel"."id" and "transport"."deliverabletype" = ?',
+        'select * from "public"."transport" left join "public"."parcel" as "t_0_0_parcel" on "transport"."deliverableid" = "t_0_0_parcel"."id" and "transport"."deliverabletype" = ?',
         {
           'deliverable(Parcel).parcelTitle': {
             prefix: 't_0_0_',
@@ -324,7 +324,7 @@ describe('resolvers/join', () => {
             'deliverables(Parcel).parcelTitle': 'parcel2',
           },
         },
-        'select * from "public"."sender" inner join "public"."senderdeliverable" as "t_0_0_senderdeliverable" on "sender"."id" = "t_0_0_senderdeliverable"."senderid" inner join "public"."parcel" as "t_0_0_parcel" on "t_0_0_senderdeliverable"."deliverableid" = "t_0_0_parcel"."id" and "t_0_0_senderdeliverable"."deliverabletype" = ?',
+        'select * from "public"."sender" left join "public"."senderdeliverable" as "t_0_0_senderdeliverable" on "sender"."id" = "t_0_0_senderdeliverable"."senderid" left join "public"."parcel" as "t_0_0_parcel" on "t_0_0_senderdeliverable"."deliverableid" = "t_0_0_parcel"."id" and "t_0_0_senderdeliverable"."deliverabletype" = ?',
         {
           'deliverables(Parcel).parcelTitle': {
             prefix: 't_0_0_',

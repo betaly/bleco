@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
+import {isFilter} from '@loopback/filter';
 import {Entity} from '@loopback/repository';
 import {Knex} from 'knex';
-import {Filter, isFilter} from '@loopback/filter';
 import isEmpty from 'tily/is/empty';
 import isObject from 'tily/is/object';
-import {ClauseResolver} from '../resolver';
+import {QueryFilter} from '../../../filter';
+import {ClauseResolver} from '../clause';
 
 export class ColumnsResolver<TModel extends Entity> extends ClauseResolver<TModel> {
-  resolve(qb: Knex.QueryBuilder<TModel>, filter?: Filter<TModel>): void {
+  resolve(qb: Knex.QueryBuilder<TModel>, filter?: QueryFilter<TModel>): void {
     const columns = this.buildColumnNames(isFilter(filter) ? filter.fields : filter, true);
     if (columns) {
       qb.columns(columns);

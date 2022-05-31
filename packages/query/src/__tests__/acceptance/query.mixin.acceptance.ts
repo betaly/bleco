@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
 import {Entity, EntityCrudRepository} from '@loopback/repository';
-import {DB, givenDb} from '../support';
-import {seed} from '../fixtures/seed';
 import {QueryEnhancedRepository} from '../../mixins';
 import {DefaultQuery} from '../../query';
 import {Foo} from '../fixtures/models/foo';
@@ -11,6 +9,8 @@ import {
   FooRepositoryWithQueryDecoratedFull,
   FooRepositoryWithQueryExtended,
 } from '../fixtures/repositories/foo.repository';
+import {seed} from '../fixtures/seed';
+import {DB, givenDb} from '../support';
 
 type ModelRepository<T extends Entity> = EntityCrudRepository<T, unknown> & QueryEnhancedRepository<T>;
 type ModelRepositoryCtor<T extends Entity> = Constructor<ModelRepository<T>>;

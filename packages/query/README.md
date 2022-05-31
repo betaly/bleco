@@ -2,7 +2,7 @@
 
 [中文 README](README-CN.md)
 
-> A loopback-next sql queryer based on [Kenx](https://knexjs.org/) that supports INNER JOIN
+> A loopback-next sql query based on [Kenx](https://knexjs.org/) that supports `LEFT JOIN`
 
 ## Features
 
@@ -288,7 +288,8 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 Compatible with loopback native [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters). Extended support
 for cascading paths as `where` children query condition.
 
-- query with relation and field as `key` (using `INNER JOIN`)
+- query with `LEFT JOIN`
+
   ```json5
   {
     where: {
@@ -296,12 +297,23 @@ for cascading paths as `where` children query condition.
     },
   }
   ```
-- Use `$rel` for relational queries (using `INNER JOIN`)
+
+- query with `LEFT JOIN` like `INNER JOIN`
 
   ```json5
   {
     where: {
-      $rel: 'relation_a.relation_b',
+      'relation_a.relation_b.id': {neq: null},
+    },
+  }
+  ```
+
+- Use `$join` for relational queries (using `LEFT JOIN`)
+
+  ```json5
+  {
+    where: {
+      $join: 'relation_a.relation_b',
     },
   }
   ```
@@ -311,7 +323,7 @@ for cascading paths as `where` children query condition.
   ```json5
   {
     where: {
-      $rel: ['relation_a.relation_b', 'relation_c.relation_d'],
+      $join: ['relation_a.relation_b', 'relation_c.relation_d'],
     },
   }
   ```
@@ -333,7 +345,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', 'some value'],
+          eq: ['$joination_a.relation_b.property', 'some value'],
         },
       },
     }
@@ -343,7 +355,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: ['some value', '$relation_a.relation_b.property'],
+          eq: ['some value', '$joination_a.relation_b.property'],
         },
       },
     }
@@ -353,7 +365,7 @@ for cascading paths as `where` children query condition.
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'],
+          eq: ['$joination_a.relation_b.property', '$joination_c.relation_d.property'],
         },
       },
     }
@@ -367,8 +379,6 @@ for cascading paths as `where` children query condition.
     },
   }
   ```
-
-````
 
 For example, there are the following models:
 
@@ -395,7 +405,7 @@ export class User extends Entity {
     super(data);
   }
 }
-````
+```
 
 ```ts
 // org.model.ts
@@ -487,7 +497,7 @@ const users = await userQuery.find({
 
 - [knex-filter-loopback](https://github.com/joostvunderink/knex-filter-loopback): Declarative filtering for `knex.js`
   based on the Loopback Where Filter.
-- [loopback-connector-postgresql](https://github.com/Wikodit/loopback-connector-postgresql): supports INNER JOIN only
+- [loopback-connector-postgresql](https://github.com/Wikodit/loopback-connector-postgresql): supports LEFT JOIN only
   across one postgres datasource
 - [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving
   [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`

@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import PgMock2 from 'pgmock2';
-import {ValueOf} from 'ts-essentials';
 import {
   BelongsToDefinition,
   createBelongsToInclusionResolver,
@@ -12,25 +10,27 @@ import {
   juggler,
   Options,
 } from '@loopback/repository';
-import noop from 'tily/function/noop';
-import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
 import {createHasManyThroughInclusionResolver} from '@loopback/repository/dist/relations/has-many/has-many-through.inclusion-resolver';
+import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
+import PgMock2 from 'pgmock2';
+import noop from 'tily/function/noop';
+import {ValueOf} from 'ts-essentials';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
 import {DefaultQuery, Query} from '../query';
 import {EntityClass} from '../types';
-import {Org} from './fixtures/models/org';
-import {Proj} from './fixtures/models/proj';
-import {Issue} from './fixtures/models/issue';
-import {User} from './fixtures/models/user';
-import {OrgUser} from './fixtures/models/org-user';
-import {UserInfo} from './fixtures/models/user-info';
-import {Foo} from './fixtures/models/foo';
 import {Bar} from './fixtures/models/bar';
 import {Letter, Parcel} from './fixtures/models/deliverable';
 import {Delivery} from './fixtures/models/delivery';
-import {Transport} from './fixtures/models/transport';
+import {Foo} from './fixtures/models/foo';
+import {Issue} from './fixtures/models/issue';
+import {Org} from './fixtures/models/org';
+import {OrgUser} from './fixtures/models/org-user';
+import {Proj} from './fixtures/models/proj';
 import {Sender} from './fixtures/models/sender';
 import {SenderDeliverable} from './fixtures/models/sender-deliverable';
+import {Transport} from './fixtures/models/transport';
+import {User} from './fixtures/models/user';
+import {UserInfo} from './fixtures/models/user-info';
 
 export const EntityMap = {
   Foo: Foo,

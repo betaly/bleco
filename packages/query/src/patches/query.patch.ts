@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {isFunction} from 'tily/is/function';
-import {isConstructor} from 'tily/is/constructor';
 import {Constructor, Entity, EntityCrudRepository} from '@loopback/repository';
-import {originalProp} from '../utils';
+import {isConstructor} from 'tily/is/constructor';
+import {isFunction} from 'tily/is/function';
 import {DefaultQuery, QueryMethods} from '../query';
+import {originalProp} from '../utils';
 
 const debug = require('debug')('bleco:query:patch');
 

@@ -1,10 +1,10 @@
-import {DB, givenDb, mockPg, Repos} from '../../../support';
-import {seed} from '../../../fixtures/seed';
+import {Driver} from '../../../../driver';
 import {SqlDriver} from '../../../../drivers';
 import {Org} from '../../../fixtures/models/org';
-import {User} from '../../../fixtures/models/user';
 import {Proj} from '../../../fixtures/models/proj';
-import {Driver} from '../../../../driver';
+import {User} from '../../../fixtures/models/user';
+import {seed} from '../../../fixtures/seed';
+import {DB, givenDb, mockPg, Repos} from '../../../support';
 
 mockPg();
 
@@ -30,7 +30,7 @@ describe('SqlDriver', () => {
     });
 
     it('count without relation only', async () => {
-      const {count} = await driver.count(User, {$rel: 'userInfo'});
+      const {count} = await driver.count(User, {'userInfo.id': {neq: null}});
       expect(count).toEqual(3);
     });
 

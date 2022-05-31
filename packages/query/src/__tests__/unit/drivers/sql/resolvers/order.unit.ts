@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Knex} from 'knex';
 import {Filter} from '@loopback/filter';
-import {DB, givenDb, givenOrderResolvers, mockPg} from '../../../../support';
-import {QuerySession} from '../../../../../session';
+import {Knex} from 'knex';
 import {createKnex} from '../../../../../drivers/sql/knex';
 import {OrderResolver} from '../../../../../drivers/sql/resolvers';
+import {QuerySession} from '../../../../../session';
 import {Foo} from '../../../../fixtures/models/foo';
+import {DB, givenDb, givenOrderResolvers, mockPg} from '../../../../support';
 
 mockPg();
 

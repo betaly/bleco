@@ -1,6 +1,6 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
-import {Org} from './org';
 import {Issue} from './issue';
+import {Org} from './org';
 
 @model()
 export class Proj extends Entity {

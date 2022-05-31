@@ -1,3 +1,4 @@
+import {Repos} from '../support';
 import {
   DeliveryRepo,
   IssueRepo,
@@ -12,7 +13,6 @@ import {
   UserInfoRepo,
   UserRepo,
 } from './repos';
-import {Repos} from '../support';
 
 export async function seed(repos: Repos) {
   const userRepo = repos['User'] as UserRepo;

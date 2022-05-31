@@ -6,9 +6,9 @@ import {
   RelationType,
 } from '@loopback/repository';
 import {resolveBelongsToMetadata} from '@loopback/repository/dist/relations/belongs-to/belongs-to.helpers';
-import {resolveHasOneMetadata} from '@loopback/repository/dist/relations/has-one/has-one.helpers';
 import {resolveHasManyThroughMetadata} from '@loopback/repository/dist/relations/has-many/has-many-through.helpers';
 import {resolveHasManyMetadata} from '@loopback/repository/dist/relations/has-many/has-many.helpers';
+import {resolveHasOneMetadata} from '@loopback/repository/dist/relations/has-one/has-one.helpers';
 
 export type QueryRelationMetadata = HasManyDefinition | BelongsToDefinition | HasOneDefinition;
 

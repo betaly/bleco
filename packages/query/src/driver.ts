@@ -1,8 +1,8 @@
-import {EntityClass, IdSort} from './types';
-import {Entity, Filter, juggler, Options, AnyObject} from '@loopback/repository';
+import {AnyObject, Entity, Filter, juggler, Options} from '@loopback/repository';
 import debugFactory from 'debug';
-import {DefaultOrm, Orm} from './orm';
 import {QueryFilter, QueryWhere} from './filter';
+import {DefaultOrm, Orm} from './orm';
+import {EntityClass, IdSort} from './types';
 
 const debug = debugFactory('bleco:query:driver');
 

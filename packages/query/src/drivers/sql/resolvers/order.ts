@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import {Knex} from 'knex';
+import {isFilter} from '@loopback/filter';
 import {Entity} from '@loopback/repository';
-import {Filter, isFilter} from '@loopback/filter';
+import {Knex} from 'knex';
 import toArray from 'tily/array/toArray';
-import {ClauseResolver} from '../resolver';
-import {QuerySession} from '../../../session';
 import {assert} from 'tily/assert';
+import {QueryFilter} from '../../../filter';
+import {QuerySession} from '../../../session';
+import {ClauseResolver} from '../clause';
 
 export class OrderResolver<TModel extends Entity> extends ClauseResolver<TModel> {
-  resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel> | string[] | string, session: QuerySession): void {
+  resolve(qb: Knex.QueryBuilder<TModel>, filter: QueryFilter<TModel> | string[] | string, session: QuerySession): void {
     const orders = toArray(isFilter(filter) ? filter.order : filter) as string[];
     const relationOrder = session.relationOrder;
     for (const order of orders) {

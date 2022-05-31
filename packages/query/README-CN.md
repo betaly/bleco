@@ -1,6 +1,6 @@
 # @bleco/query
 
-> 一个基于 [Kenx](https://knexjs.org/) 支持 INNER JOIN 的 loopback-next sql 查询器
+> 一个基于 [Kenx](https://knexjs.org/) 支持 LEFT JOIN 的 loopback-next sql 查询器
 
 ## 功能
 
@@ -281,7 +281,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
 兼容 loopback 原生 [Filter](https://loopback.io/doc/en/lb4/Querying-data.html#filters)。扩展支持级联路径作为 `where` 子
 句查询条件。 ``
 
-- 用关系和字段为 `key` 进行关联查询（使用 `INNER JOIN`）
+- 用 `LEFT JOIN` 查询
   ```json5
   {
     where: {
@@ -289,12 +289,12 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     },
   }
   ```
-- 用 `$rel` 进行关联查询（使用 `INNER JOIN`）
+- 用 `LEFT JOIN` 实现 `INNER JOIN` 查询
 
   ```json5
   {
     where: {
-      $rel: 'relation_a.relation_b',
+      'relation_a.relation_b.id': {neq: null},
     },
   }
   ```
@@ -304,7 +304,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
   ```json5
   {
     where: {
-      $rel: ['relation_a.relation_b', 'relation_c.relation_d'],
+      $join: ['relation_a.relation_b', 'relation_c.relation_d'],
     },
   }
   ```
@@ -326,7 +326,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', 'some value'],
+          eq: ['$joination_a.relation_b.property', 'some value'],
         },
       },
     }
@@ -336,7 +336,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: ['some value', '$relation_a.relation_b.property'],
+          eq: ['some value', '$joination_a.relation_b.property'],
         },
       },
     }
@@ -346,7 +346,7 @@ export interface Query<T extends Entity, Relations extends object = {}> {
     {
       where: {
         $expr: {
-          eq: ['$relation_a.relation_b.property', '$relation_c.relation_d.property'],
+          eq: ['$joination_a.relation_b.property', '$joination_c.relation_d.property'],
         },
       },
     }

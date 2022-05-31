@@ -1,8 +1,8 @@
 import {juggler} from '@loopback/repository';
 import {DefaultQuery} from '../../query';
 import {QueryEnhancedCrudRepository} from '../../repository';
-import {DB, givenDb} from '../support';
 import {Foo} from '../fixtures/models/foo';
+import {DB, givenDb} from '../support';
 
 describe('QueryEnhancedCrudRepository', function () {
   let db: DB;

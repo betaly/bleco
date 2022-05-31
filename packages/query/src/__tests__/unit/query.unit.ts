@@ -1,12 +1,12 @@
-import {DefaultQuery, Query} from '../../query';
-import {DB, givenDb, mockPg, Repos} from '../support';
-import {seed} from '../fixtures/seed';
-import {Org} from '../fixtures/models/org';
-import {User} from '../fixtures/models/user';
-import {ProjWithRelations} from '../fixtures/models/proj';
 import * as knex from '../../drivers/sql/knex';
-import {Foo} from '../fixtures/models/foo';
+import {DefaultQuery, Query} from '../../query';
 import {Letter, Parcel} from '../fixtures/models/deliverable';
+import {Foo} from '../fixtures/models/foo';
+import {Org} from '../fixtures/models/org';
+import {ProjWithRelations} from '../fixtures/models/proj';
+import {User} from '../fixtures/models/user';
+import {seed} from '../fixtures/seed';
+import {DB, givenDb, mockPg, Repos} from '../support';
 
 mockPg();
 
@@ -200,9 +200,12 @@ describe('Query', () => {
 
     describe('polymorphic relation', function () {
       describe('hasOne', function () {
-        it('with $rel', async () => {
+        it('with $join', async () => {
           const deliveryQuery = new DefaultQuery(repos.Delivery);
-          const deliveries = await deliveryQuery.find({where: {$rel: 'deliverable(Letter)'}, include: ['deliverable']});
+          const deliveries = await deliveryQuery.find({
+            where: {'deliverable(Letter).id': {neq: null}},
+            include: ['deliverable'],
+          });
           expect(deliveries).toHaveLength(1);
           expect(deliveries[0].deliverable).toBeTruthy();
           expect(deliveries[0].deliverable).toBeInstanceOf(Letter);
@@ -223,10 +226,10 @@ describe('Query', () => {
       });
 
       describe('belongsTo', function () {
-        it('with $rel', async () => {
+        it('with $join', async () => {
           const transportQuery = new DefaultQuery(repos.Transport);
           const transports = await transportQuery.find({
-            where: {$rel: 'deliverable(Letter)'},
+            where: {'deliverable(Letter).id': {neq: null}},
             include: ['deliverable'],
           });
           expect(transports).toHaveLength(1);
@@ -249,9 +252,12 @@ describe('Query', () => {
       });
 
       describe('hasManyThrough', function () {
-        it('with $rel', async () => {
+        it('with $join', async () => {
           const senderQuery = new DefaultQuery(repos.Sender);
-          const senders = await senderQuery.find({where: {$rel: 'deliverables(Parcel)'}, include: ['deliverables']});
+          const senders = await senderQuery.find({
+            where: {'deliverables(Parcel).id': {neq: null}},
+            include: ['deliverables'],
+          });
           expect(senders).toHaveLength(1);
           expect(senders[0].deliverables).toBeTruthy();
           expect(senders[0].deliverables).toHaveLength(2);
@@ -260,7 +266,7 @@ describe('Query', () => {
         it('with property filter and without inclusion filter', async () => {
           const senderQuery = new DefaultQuery(repos.Sender);
           const senders = await senderQuery.find({
-            // inner join query will not load inclusions and will not be able to filter the included entities
+            // left join query will not load inclusions and will not be able to filter the included entities
             where: {'deliverables(Parcel).parcelTitle': {like: '%parcel1%'}},
             include: ['deliverables'],
           });
@@ -272,7 +278,7 @@ describe('Query', () => {
         it('with property filter and with inclusion filter', async () => {
           const senderQuery = new DefaultQuery(repos.Sender);
           const senders = await senderQuery.find({
-            // inner join query will not load inclusions and will not be able to filter the included entities
+            // left join query will not load inclusions and will not be able to filter the included entities
             where: {'deliverables(Parcel).parcelTitle': {like: '%parcel1%'}},
             include: [
               {
@@ -293,9 +299,9 @@ describe('Query', () => {
       });
     });
 
-    describe('$rel', function () {
-      it('should find with $rel', async () => {
-        const users = await userQuery.find({where: {$rel: ['userInfo']}});
+    describe('$join', function () {
+      it('should find with joins', async () => {
+        const users = await userQuery.find({where: {$join: ['userInfo'], 'userInfo.id': {neq: null}}});
         expect(users).toHaveLength(3);
       });
     });

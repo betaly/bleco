@@ -1,7 +1,7 @@
 import {SqlDriver} from './sql';
 export default SqlDriver;
 
-export * from './sql';
+export * from './clause';
 export * from './knex';
-export * from './resolver';
 export * from './resolvers';
+export * from './sql';

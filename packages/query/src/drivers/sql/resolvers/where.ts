@@ -1,22 +1,23 @@
 /* eslint-disable @typescript-eslint/no-floating-promises, @typescript-eslint/no-misused-promises, @typescript-eslint/no-explicit-any, @typescript-eslint/no-shadow */
-import {Knex} from 'knex';
+import {isFilter, Where} from '@loopback/filter';
+import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
 import debugFactory from 'debug';
-import {PickKeys} from 'ts-essentials';
+import {Knex} from 'knex';
+import {assert} from 'tily/assert';
 import isArray from 'tily/is/array';
 import isEmpty from 'tily/is/empty';
 import isObject from 'tily/is/object';
-import each from 'tily/object/each';
 import isPlainObject from 'tily/is/plainObject';
-import {assert} from 'tily/assert';
 import {isString} from 'tily/is/string';
-import {Filter, isFilter, Where} from '@loopback/filter';
-import {Entity, juggler, PropertyDefinition} from '@loopback/repository';
-import {EntityClass, WhereExprKey, WhereValue} from '../../../types';
-import {ClauseResolver} from '../resolver';
+import each from 'tily/object/each';
+import {PickKeys} from 'ts-essentials';
+import {QueryFilter, QueryWhere} from '../../../filter';
 import {Orm} from '../../../orm';
-import {compactWhere, isNested} from '../../../utils';
-import {QuerySession} from '../../../session';
 import {RelationConstraint} from '../../../relation';
+import {QuerySession} from '../../../session';
+import {EntityClass, WhereExprKey, WhereValue} from '../../../types';
+import {compactWhere, isNested} from '../../../utils';
+import {ClauseResolver} from '../clause';
 import {Directive, Directives, FieldOperators, GroupOperators} from '../types';
 
 const debug = debugFactory('bleco:query:where');
@@ -48,14 +49,14 @@ export class OperatorHandlerRegistry {
 
   init() {
     this.register('=', this.eq());
-    this.register('!=', this.comparison('!='));
+    this.register('!=', this.neq());
     this.register('<', this.comparison('<'));
     this.register('<=', this.comparison('<='));
     this.register('>', this.comparison('>'));
     this.register('>=', this.comparison('>='));
     this.register('!', this.not());
     this.register('eq', this.eq());
-    this.register('neq', this.comparison('!='));
+    this.register('neq', this.neq());
     this.register('lt', this.comparison('<'));
     this.register('lte', this.comparison('<='));
     this.register('gt', this.comparison('>'));
@@ -102,6 +103,23 @@ export class OperatorHandlerRegistry {
     };
   }
 
+  neq(): OperatorHandler {
+    return (qb: Knex.QueryBuilder, condition: Condition) => {
+      debug('- neq:', condition);
+      const {key, value, params} = condition;
+
+      if (condition.directive === '$expr') {
+        return qb.whereRaw(`${key} != ${value}`, params);
+      }
+
+      if (value == null) {
+        qb.whereNotNull(key);
+      } else {
+        qb.where(key, '!=', value);
+      }
+    };
+  }
+
   comparison(operator: string): OperatorHandler {
     return (qb: Knex.QueryBuilder, condition: Condition) => {
       debug('- comparison:', condition);
@@ -109,6 +127,7 @@ export class OperatorHandlerRegistry {
       if (condition.directive === '$expr') {
         return qb.whereRaw(`${key} ${operator} ${value}`, params);
       }
+
       qb.where(key, operator, value);
     };
   }
@@ -175,7 +194,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     super(entityClass, orm);
   }
 
-  resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel> | Where<TModel>, session: QuerySession): void {
+  resolve(qb: Knex.QueryBuilder<TModel>, filter: QueryFilter<TModel> | Where<TModel>, session: QuerySession): void {
     const where = isFilter(filter) ? filter.where : filter;
     if (!where) {
       debug('No where clause, skip resolving');
@@ -185,7 +204,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
     this.build(qb, where, session ?? new QuerySession());
   }
 
-  build(qb: Knex.QueryBuilder<TModel>, where: Where<TModel>, session: QuerySession): void {
+  build(qb: Knex.QueryBuilder<TModel>, where: QueryWhere<TModel>, session: QuerySession): void {
     debug(`- build: building where clause for model ${this.entityClass.modelName}:`, where);
     each((v, k) => {
       const condition = parseCondition(k, v);
@@ -253,7 +272,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
         p = props[key.split('.')[0]];
       }
 
-      // It may be an innerWhere
+      // It may be a relation where
       if (p == null) {
         constraint = relationWhere?.[key];
         if (constraint && !constraint.property) {
@@ -280,7 +299,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
 
 function parseCondition(key: string, expression: unknown): RawCondition | undefined {
   // skip relation where
-  if (key === Directives.REL) {
+  if (key === Directives.JOIN) {
     return;
   }
   if (expression === null) {

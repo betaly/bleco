@@ -1,15 +1,15 @@
 import {DefaultCrudRepository} from '@loopback/repository';
-import {Org} from './models/org';
-import {Proj} from './models/proj';
-import {Issue} from './models/issue';
-import {User} from './models/user';
-import {OrgUser} from './models/org-user';
-import {UserInfo} from './models/user-info';
 import {Letter, Parcel} from './models/deliverable';
 import {Delivery} from './models/delivery';
-import {Transport} from './models/transport';
+import {Issue} from './models/issue';
+import {Org} from './models/org';
+import {OrgUser} from './models/org-user';
+import {Proj} from './models/proj';
 import {Sender} from './models/sender';
 import {SenderDeliverable} from './models/sender-deliverable';
+import {Transport} from './models/transport';
+import {User} from './models/user';
+import {UserInfo} from './models/user-info';
 
 export type UserRepo = DefaultCrudRepository<User, typeof User.prototype.id>;
 export type UserInfoRepo = DefaultCrudRepository<UserInfo, typeof UserInfo.prototype.id>;

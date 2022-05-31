@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {PickKeys} from 'ts-essentials';
-import {assert} from 'tily/assert';
 import {
   DefaultCrudRepository,
   Entity,
@@ -9,10 +7,12 @@ import {
   juggler,
   Options,
 } from '@loopback/repository';
-import {EntityClass} from './types';
-import {QueryFilter, QueryWhere} from './filter';
+import {assert} from 'tily/assert';
+import {PickKeys} from 'ts-essentials';
 import {Driver} from './driver';
 import {loadDriver} from './driver.loader';
+import {QueryFilter, QueryWhere} from './filter';
+import {EntityClass} from './types';
 
 export interface Query<T extends Entity, Relations extends object = {}> {
   entityClass: EntityClass<T>;

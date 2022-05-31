@@ -1,5 +1,5 @@
-import {Knex} from 'knex';
 import {juggler} from '@loopback/repository';
+import {Knex} from 'knex';
 import isString from 'tily/is/string';
 import Client = Knex.Client;
 

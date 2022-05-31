@@ -1,31 +1,29 @@
-import {AnyObject} from '@loopback/repository';
 /* eslint-disable @typescript-eslint/no-floating-promises, @typescript-eslint/no-explicit-any */
-import {Knex} from 'knex';
 import {Filter} from '@loopback/filter';
-import {Entity, Options} from '@loopback/repository';
-import {EntityClass} from '../../types';
-import {Orm} from '../../orm';
-import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from './resolvers';
-import {QuerySession} from '../../session';
-import {QueryFilter, QueryWhere} from '../../filter';
+import {AnyObject, Entity, Options} from '@loopback/repository';
+import {Knex} from 'knex';
 import {Driver} from '../../driver';
+import {QueryFilter, QueryWhere} from '../../filter';
+import {QuerySession} from '../../session';
+import {EntityClass} from '../../types';
 import {createKnex} from './knex';
+import {StatementResolvers} from './statement';
 
 const debug = require('debug')('bleco:query:driver:sql');
 
 export class SqlDriver extends Driver {
   protected knex: Knex;
-  protected transformers: ClauseTransformers;
+  protected resolvers: StatementResolvers;
 
   async find<T extends Entity>(
     model: EntityClass<T>,
     filter?: QueryFilter<T>,
     options?: Options,
   ): Promise<AnyObject[]> {
-    const transformer = this.transformers.get(model);
+    const resolver = this.resolvers.get(model);
     filter = filter ?? {};
     const [qb] = this.buildSelect(model, filter);
-    transformer.resolveColumns(qb, filter);
+    resolver.resolveColumns(qb, filter);
     const s = qb.toSQL();
     if (debug.enabled) {
       debug(`Find with SQL: %s`, s.sql);
@@ -57,14 +55,14 @@ export class SqlDriver extends Driver {
 
   protected init() {
     this.knex = createKnex(this.dataSource, this.options);
-    this.transformers = new ClauseTransformers(this.orm);
+    this.resolvers = new StatementResolvers(this.orm);
   }
 
   protected buildSelect<T extends Entity = Entity>(
     model: EntityClass<T>,
     filter?: QueryFilter<T>,
   ): [Knex.QueryBuilder, QuerySession] {
-    const transformer = this.transformers.get(model);
+    const transformer = this.resolvers.get(model);
     filter = filter ?? {};
     this.applySortPolicy(model, filter);
     const session = new QuerySession();
@@ -75,7 +73,7 @@ export class SqlDriver extends Driver {
     this.resolveLimit(qb, filter);
 
     if (session.hasRelationJoins()) {
-      // groupBy ids to avoid duplication for inner joins
+      // groupBy ids to avoid duplication for joins
       qb.groupBy(this.orm.idNames(model.modelName).map(id => this.orm.columnEscaped(model.modelName, id, true)));
     }
     return [qb, session];
@@ -101,50 +99,5 @@ export class SqlDriver extends Driver {
     if (offset) {
       qb.offset(offset);
     }
-  }
-}
-
-class ClauseTransformers {
-  protected items: Map<string, ClauseTransformer<any>> = new Map();
-
-  constructor(public orm: Orm) {}
-
-  get<T extends Entity = Entity>(model: EntityClass<T>): ClauseTransformer<T> {
-    let answer = this.items.get(model.modelName) as ClauseTransformer<T>;
-    if (!answer) {
-      answer = new ClauseTransformer(model, this.orm);
-      this.items.set(model.modelName, answer);
-    }
-    return answer;
-  }
-}
-
-class ClauseTransformer<T extends Entity = Entity> {
-  readonly columns: ColumnsResolver<T>;
-  readonly join: JoinResolver<T>;
-  readonly where: WhereResolver<T>;
-  readonly order: OrderResolver<T>;
-
-  constructor(public readonly model: EntityClass<T>, public orm: Orm) {
-    this.columns = new ColumnsResolver(model, this.orm);
-    this.join = new JoinResolver(model, this.orm);
-    this.where = new WhereResolver(model, this.orm);
-    this.order = new OrderResolver(model, this.orm);
-  }
-
-  resolveColumns(qb: Knex.QueryBuilder, filter: QueryFilter<T>) {
-    this.columns.resolve(qb, filter);
-  }
-
-  resolveJoin(qb: Knex.QueryBuilder, filter: QueryFilter<T>, session: QuerySession) {
-    this.join.resolve(qb, filter, session);
-  }
-
-  resolveWhere(qb: Knex.QueryBuilder, filter: QueryFilter<T>, session: QuerySession) {
-    this.where.resolve(qb, filter, session);
-  }
-
-  resolveOrder(qb: Knex.QueryBuilder, filter: QueryFilter<T>, session: QuerySession) {
-    this.order.resolve(qb, filter, session);
   }
 }

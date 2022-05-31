@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import {Knex} from 'knex';
-import debugFactory from 'debug';
+import {Operators} from '@loopback/filter';
 import {
   AnyObject,
   Entity,
@@ -9,14 +8,15 @@ import {
   RelationMetadata,
   RelationType,
 } from '@loopback/repository';
-import {Filter} from '@loopback/filter';
-import {assert} from 'tily/assert';
-import toArray from 'tily/array/toArray';
+import debugFactory from 'debug';
+import {Knex} from 'knex';
 import includes from 'tily/array/includes';
+import toArray from 'tily/array/toArray';
+import {assert} from 'tily/assert';
 import isArray from 'tily/is/array';
+import isPlainObject from 'tily/is/plainObject';
 import {isString} from 'tily/is/string';
-import {ClauseResolver} from '../resolver';
-import {QuerySession} from '../../../session';
+import {ExprClause, JoinClause, QueryFilter, QueryWhere} from '../../../filter';
 import {
   QueryRelationMetadata,
   RelationConstraint,
@@ -24,13 +24,18 @@ import {
   resolveRelation,
   SupportedRelationTypes,
 } from '../../../relation';
+import {QuerySession} from '../../../session';
+import {ClauseResolver} from '../clause';
 import {Directives, GroupOperators} from '../types';
-import isPlainObject from 'tily/is/plainObject';
 
 const debug = debugFactory('bleco:query:join');
 
 export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> {
-  resolve(qb: Knex.QueryBuilder<TModel>, filter: Filter<TModel>, session: QuerySession = new QuerySession()): void {
+  resolve(
+    qb: Knex.QueryBuilder<TModel>,
+    filter: QueryFilter<TModel>,
+    session: QuerySession = new QuerySession(),
+  ): void {
     debug(`Resolving where clause for model ${this.entityClass.modelName}:`, filter, session);
     const {where, order} = filter;
     if (!where && !order) {
@@ -72,7 +77,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
         );
       }
 
-      qb.innerJoin(
+      qb.leftJoin(
         {
           [orm.escapeName(relationJoin.prefix + orm.table(targetModel))]: orm.tableEscaped(targetModel),
         },
@@ -143,7 +148,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
 
       // Only supports belongsTo, hasOne and hasMany
       if (!SupportedRelationTypes.includes(relation.type)) {
-        debug('Invalid relation type for model %s for inner join', parentEntity.modelName);
+        debug('Invalid relation type for model %s for left join', parentEntity.modelName);
         break;
       }
 
@@ -213,7 +218,7 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
       }
       // Keep the prefix of the found join
       parentPrefix = join.prefix;
-      // Keep the parentEntity for recursive INNER JOIN
+      // Keep the parentEntity for recursive JOIN
       parentEntity = target;
     }
 
@@ -310,41 +315,35 @@ function parseKey(key: string): Member[] {
   });
 }
 
-function extractKeys(where?: AnyObject, keys = new Set<string>()): Set<string> {
-  if (!where) return keys;
-
+function extractKeys(where: QueryWhere, keys = new Set<string>()): Set<string> {
   for (const key in where) {
-    if (!GroupOperators.includes(key)) {
-      if (key === Directives.EXPR) {
-        // extract $expr
-        const expr = where[key];
-        const op = Object.keys(expr)[0];
-        if (!op) continue;
-        const value = expr[op];
-        assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements`);
-        for (const v of value) {
-          if (isString(v) && v.startsWith('$')) {
-            keys.add(v.substring(1));
-          }
+    if (GroupOperators.includes(key)) {
+      // {and|or: [{...}]}
+      const clauses = (where as AnyObject)[key];
+      if (Array.isArray(clauses)) {
+        for (const clause of clauses) {
+          extractKeys(clause, keys);
         }
-      } else if (key === Directives.REL) {
-        // extract $rel
-        const rel = where[key];
-        toArray(rel).forEach((r: string) => keys.add(r));
-      } else {
-        keys.add(key);
       }
-      continue;
-    }
-
-    const clauses = where[key];
-    if (Array.isArray(clauses)) {
-      for (const clause of clauses) {
-        extractKeys(clause, keys);
+    } else if (key === Directives.EXPR) {
+      // extract $expr
+      const expr = (where as ExprClause).$expr;
+      const op = Object.keys(expr)[0] as Operators;
+      if (!op) continue;
+      const value = expr[op];
+      assert(isArray(value) && value.length === 2, `$expr->${op} must be an array value with 2 elements`);
+      for (const v of value) {
+        if (isString(v) && v.startsWith('$')) {
+          keys.add(v.substring(1));
+        }
       }
+    } else if (key === Directives.JOIN) {
+      const joins = (where as JoinClause).$join;
+      toArray(joins).forEach(j => keys.add(j));
+    } else {
+      keys.add(key);
     }
   }
-
   return keys;
 }
 

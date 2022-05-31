@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
-import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {MixinTarget} from '@loopback/core';
+import {Filter, Where} from '@loopback/filter';
+import {Entity, EntityCrudRepository} from '@loopback/repository';
 import {QueryFilter, QueryWhere} from '../filter';
 import {DefaultQuery, Query} from '../query';
 
@@ -50,7 +51,7 @@ export function QueryRepositoryMixin<
         return this.query.find(filter, options);
       }
       debug(`${this.constructor.name} find() -> super.find()`);
-      return super.find(filter, options);
+      return super.find(filter as Filter<M>, options);
     };
 
     findOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
@@ -73,7 +74,7 @@ export function QueryRepositoryMixin<
         return this.query.count(where, options);
       }
       debug(`${this.constructor.name} count() -> super.count()`);
-      return super.count(where, options);
+      return super.count(where as Where<M>, options);
     };
   };
 }
