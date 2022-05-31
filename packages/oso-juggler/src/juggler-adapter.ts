@@ -1,3 +1,4 @@
+import {AuthorizedFilter} from '@bleco/acl';
 import {RepositoryFactory} from '@bleco/repository-factory';
 import {Entity, Where, WhereBuilder} from '@loopback/repository';
 import debugFactory from 'debug';
@@ -6,7 +7,6 @@ import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
 import {inspect} from 'util';
-import {ResourceFilter} from './types';
 
 const debug = debugFactory('bleco:oso:juggler');
 
@@ -29,16 +29,16 @@ interface ResolvedFilterRelation extends FilterRelation {
   parent: ResolvedFilterRelation | null;
 }
 
-export class JugglerAdapter<T extends Entity = Entity> implements Adapter<ResourceFilter<T>, T> {
+export class JugglerAdapter<T extends Entity = Entity> implements Adapter<AuthorizedFilter<T>, T> {
   constructor(public repositoryFactory: RepositoryFactory) {}
 
-  async executeQuery(filter: ResourceFilter<T>): Promise<T[]> {
+  async executeQuery(filter: AuthorizedFilter<T>): Promise<T[]> {
     debug('executeQuery with resource filter', inspect(filter, {depth: null, colors: true}));
     const repo = await this.repositoryFactory.getRepository<T>(filter.model);
     return repo.find({where: filter.where as Where});
   }
 
-  buildQuery({model, conditions, relations, types}: Filter): ResourceFilter<T> {
+  buildQuery({model, conditions, relations, types}: Filter): AuthorizedFilter<T> {
     debug('buildQuery - oso filter', inspect({model, conditions, relations}, {depth: null, colors: true}));
 
     const resolvedRelations = resolveRelations(model, relations);

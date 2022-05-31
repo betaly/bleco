@@ -1,3 +1,4 @@
+import {AuthorizedFilter} from '@bleco/acl';
 import {EntityClass} from '@bleco/query';
 import {RepositoryFactory} from '@bleco/repository-factory';
 import {Context} from '@loopback/context';
@@ -7,7 +8,6 @@ import debugFactory from 'debug';
 import {Oso} from 'oso';
 import {OsoJugglerHelper} from '../../helper';
 import {JugglerAdapter} from '../../juggler-adapter';
-import {ResourceFilter} from '../../types';
 
 const debug = debugFactory('bleco:enforcer-adapter-juggler:enforcer');
 
@@ -17,7 +17,7 @@ export class Enforcer<
   Resource extends Entity = Entity,
   Field = unknown,
   Request = unknown,
-> extends Oso<Actor, Action, Resource, Field, Request, ResourceFilter<Resource>> {
+> extends Oso<Actor, Action, Resource, Field, Request, AuthorizedFilter<Resource>> {
   constructor(public repositoryFactory: RepositoryFactory) {
     super();
     this.setDataFilteringAdapter(new JugglerAdapter(repositoryFactory));
