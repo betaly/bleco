@@ -1,8 +1,8 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
-import {RepoRole, RepoRoleRelations} from '../models/repo-role.model';
 import {BindingScope, inject} from '@loopback/context';
-import {juggler} from '@loopback/repository';
 import {injectable} from '@loopback/core';
+import {juggler} from '@loopback/repository';
+import {RepoRole, RepoRoleRelations} from '../models/repo-role.model';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class RepoRoleRepository extends QueryEnhancedCrudRepository<

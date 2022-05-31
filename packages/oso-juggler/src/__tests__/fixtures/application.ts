@@ -1,7 +1,7 @@
 import {BootMixin} from '@bleco/boot';
+import {DefaultRepositoryFactoryProvider, RepositoryFactoryBindings} from '@bleco/repository-factory';
 import {Application, ApplicationConfig, BindingScope} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
-import {DefaultRepositoryFactoryProvider, RepositoryFactoryBindings} from '@bleco/repository-factory';
 
 export class OsoApp extends BootMixin(RepositoryMixin(Application)) {
   constructor(options?: ApplicationConfig) {

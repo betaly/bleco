@@ -1,16 +1,12 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
 import {BindingScope, inject} from '@loopback/context';
-import {juggler} from '@loopback/repository';
-import {OrgRole, OrgRoleRelations} from '../models/org-role.model';
 import {injectable} from '@loopback/core';
+import {juggler} from '@loopback/repository';
+import {Issue, IssueRelations} from '../models/issue.model';
 
 @injectable({scope: BindingScope.SINGLETON})
-export class OrgRoleRepository extends QueryEnhancedCrudRepository<
-  OrgRole,
-  typeof OrgRole.prototype.id,
-  OrgRoleRelations
-> {
+export class IssueRepository extends QueryEnhancedCrudRepository<Issue, typeof Issue.prototype.id, IssueRelations> {
   constructor(@inject('datasources.db') dataSource: juggler.DataSource) {
-    super(OrgRole, dataSource);
+    super(Issue, dataSource);
   }
 }

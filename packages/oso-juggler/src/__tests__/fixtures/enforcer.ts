@@ -1,13 +1,13 @@
-import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';
-import {Oso} from 'oso';
+import {EntityClass} from '@bleco/query';
+import {RepositoryFactory} from '@bleco/repository-factory';
 import {Context} from '@loopback/context';
 import {Binding} from '@loopback/core';
-import {EntityClass} from '@bleco/query';
+import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';
 import debugFactory from 'debug';
-import {RepositoryFactory} from '@bleco/repository-factory';
-import {OsoJugglerHelper} from '../../../helper';
-import {ResourceFilter} from '../../../types';
-import {JugglerAdapter} from '../../../juggler-adapter';
+import {Oso} from 'oso';
+import {OsoJugglerHelper} from '../../helper';
+import {JugglerAdapter} from '../../juggler-adapter';
+import {ResourceFilter} from '../../types';
 
 const debug = debugFactory('bleco:enforcer-adapter-juggler:enforcer');
 

@@ -1,6 +1,6 @@
+import {inject} from '@loopback/context';
 import {BindingScope, LifeCycleObserver, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-import {inject} from '@loopback/context';
 import temp from 'temp';
 
 const config = {

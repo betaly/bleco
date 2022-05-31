@@ -1,19 +1,19 @@
-import {Awaited} from 'ts-essentials';
 import {ApplicationWithRepositories} from '@loopback/repository';
-import {OrgRepository} from './repositories/org.repository';
-import {RepoRepository} from './repositories/repo.repository';
-import {IssueRepository} from './repositories/issue.repository';
-import {UserRepository} from './repositories/user.repository';
-import {OrgRoleRepository} from './repositories/org-role.repository';
-import {RepoRoleRepository} from './repositories/repo-role.repository';
+import {Awaited} from 'ts-essentials';
+import {Bar} from './models/bar.model';
+import {Foo} from './models/foo.model';
+import {Log} from './models/log.model';
+import {Num} from './models/num.model';
 import {BarRepository} from './repositories/bar.repository';
 import {FooRepository} from './repositories/foo.repository';
+import {IssueRepository} from './repositories/issue.repository';
 import {LogRepository} from './repositories/log.repository';
 import {NumRepository} from './repositories/num.repository';
-import {Num} from './models/num.model';
-import {Foo} from './models/foo.model';
-import {Bar} from './models/bar.model';
-import {Log} from './models/log.model';
+import {OrgRoleRepository} from './repositories/org-role.repository';
+import {OrgRepository} from './repositories/org.repository';
+import {RepoRoleRepository} from './repositories/repo-role.repository';
+import {RepoRepository} from './repositories/repo.repository';
+import {UserRepository} from './repositories/user.repository';
 
 export type TestData = Awaited<ReturnType<typeof seed>>;
 

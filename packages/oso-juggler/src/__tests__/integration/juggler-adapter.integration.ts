@@ -1,13 +1,14 @@
-import {OsoApp} from './fixtures/application';
-import {Enforcer} from './fixtures/enforcer';
-import {checkAuthz, givenAppAndEnforcer} from './fixtures/support';
-import {seed, TestData} from './fixtures/seed';
-import {Foo} from './fixtures/models/foo.model';
-import {Bar} from './fixtures/models/bar.model';
-import {Log} from './fixtures/models/log.model';
-import {Num} from './fixtures/models/num.model';
-import {Repo} from './fixtures/models/repo.model';
-import {Issue} from './fixtures/models/issue.model';
+import {Where} from '@loopback/repository';
+import {OsoApp} from '../fixtures/application';
+import {Enforcer} from '../fixtures/enforcer';
+import {Bar} from '../fixtures/models/bar.model';
+import {Foo} from '../fixtures/models/foo.model';
+import {Issue} from '../fixtures/models/issue.model';
+import {Log} from '../fixtures/models/log.model';
+import {Num} from '../fixtures/models/num.model';
+import {Repo} from '../fixtures/models/repo.model';
+import {seed, TestData} from '../fixtures/seed';
+import {checkAuthz, fixturesPath, givenAppAndEnforcer} from '../support';
 
 describe('JugglerAdapter', function () {
   describe('Data filtering parity tests', function () {
@@ -384,12 +385,12 @@ describe('JugglerAdapter', function () {
 
   describe('Data filtering using juggler/sqlite', function () {
     let app: OsoApp;
-    let samples: TestData;
+    let td: TestData;
     let enforcer: Enforcer;
 
     beforeAll(async () => {
       ({app, enforcer} = await givenAppAndEnforcer());
-      samples = await seed(app);
+      td = await seed(app);
     });
 
     afterAll(async () => {
@@ -403,7 +404,7 @@ describe('JugglerAdapter', function () {
 
     // multiple joins to the same table are not yet supported in the new data filtering
     xtest('relations and operators', async () => {
-      const {foos} = samples;
+      const {foos} = td;
 
       await enforcer.loadStr(`
       allow("steve", "get", resource: Foo) if
@@ -430,7 +431,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('not equals', async () => {
-      const {bars} = samples;
+      const {bars} = td;
       await enforcer.loadStr(`
       allow("gwen", "get", bar: Bar) if
         bar.isCool != bar.isStillCool;`);
@@ -438,7 +439,7 @@ describe('JugglerAdapter', function () {
     });
 
     test('returning, modifying and executing a query', async () => {
-      const {foos} = samples;
+      const {foos} = td;
       await enforcer.loadStr(`
       allow("gwen", "put", foo: Foo) if
         rec in foo.numbers and
@@ -450,17 +451,17 @@ describe('JugglerAdapter', function () {
 
       const repo = await enforcer.repositoryFactory.getRepository(filter.model);
 
-      let result = await repo.find({where: filter.where});
+      let result = await repo.find({where: filter.where as Where});
       expect(result).toHaveLength(2);
       expect(result).toEqual(expect.arrayContaining([foos.something, foos.another]));
 
-      result = await repo.find({where: {and: [filter.where, {id: 'something'}]}});
+      result = await repo.find({where: {and: [filter.where as Where, {id: 'something'}]}});
       expect(result).toHaveLength(1);
       expect(result).toEqual(expect.arrayContaining([foos.something]));
     });
 
     test('a roles policy', async () => {
-      const {foos, bars} = samples;
+      const {foos, bars} = td;
       await enforcer.loadStr(`
           allow(actor, action, resource) if
             has_permission(actor, action, resource);
@@ -495,94 +496,8 @@ describe('JugglerAdapter', function () {
     });
 
     test('a gitclub-like policy', async () => {
-      const {repos, issues, users} = samples;
-      await enforcer.loadStr(`
-        actor User {}
-    
-        resource Org {
-          roles = ["owner", "member"];
-          permissions = [
-            "read",
-            "create_repos",
-            "list_repos",
-            "create_role_assignments",
-            "list_role_assignments",
-            "update_role_assignments",
-            "delete_role_assignments",
-          ];
-    
-          "read" if "member";
-          "list_repos" if "member";
-          "list_role_assignments" if "member";
-    
-          "create_repos" if "owner";
-          "create_role_assignments" if "owner";
-          "update_role_assignments" if "owner";
-          "delete_role_assignments" if "owner";
-    
-          "member" if "owner";
-        }
-    
-        resource Repo {
-          roles = ["admin", "writer", "reader"];
-          permissions = [
-            "read",
-            "create_issues",
-            "list_issues",
-            "create_role_assignments",
-            "list_role_assignments",
-            "update_role_assignments",
-            "delete_role_assignments",
-          ];
-          relations = { parent: Org };
-    
-          "create_role_assignments" if "admin";
-          "list_role_assignments" if "admin";
-          "update_role_assignments" if "admin";
-          "delete_role_assignments" if "admin";
-    
-          "create_issues" if "writer";
-    
-          "read" if "reader";
-          "list_issues" if "reader";
-    
-          "admin" if "owner" on "parent";
-          "reader" if "member" on "parent";
-    
-          "writer" if "admin";
-          "reader" if "writer";
-        }
-    
-        resource Issue {
-          permissions = ["read"];
-          relations = { parent: Repo };
-    
-          "read" if "reader" on "parent";
-        }
-    
-        allow(actor, action, resource) if
-          has_permission(actor, action, resource);
-    
-        # Users can see each other.
-        has_permission(_: User, "read", _: User);
-    
-        # A User can read their own profile.
-        has_permission(user: User, "read_profile", user: User);
-    
-        # Any logged-in user can create a new org.
-        has_permission(_: User, "create", _: Org);
-    
-        has_role(user: User, name: String, org: Org) if
-            role in user.orgRoles and
-            role matches { name: name, org: org };
-    
-        has_role(user: User, name: String, repo: Repo) if
-            role in user.repoRoles and
-            role matches { name: name, repo: repo };
-    
-        has_relation(org: Org, "parent", _: Repo{org: org});
-        has_relation(repo: Repo, "parent", _: Issue{repo: repo});
-     `);
+      const {repos, issues, users} = td;
+      await enforcer.loadFiles([fixturesPath('gitclub.polar')]);
 
       await checkAuthz(enforcer, users.steve, 'create_issues', Repo, [repos.ios]);
       await checkAuthz(enforcer, users.steve, 'read', Issue, [issues.lag]);
@@ -594,9 +509,19 @@ describe('JugglerAdapter', function () {
 
       const filter = await enforcer.authorizedQuery(users.gwen, 'read', Issue);
       const repo = await enforcer.repositoryFactory.getRepository(filter.model);
-      const result = await repo.find({where: filter.where});
+      const result = await repo.find({where: filter.where as Where});
       expect(result).toHaveLength(1);
       expect(result).toEqual(expect.arrayContaining([issues.bug]));
     }, 60000);
+
+    test('should return authorized query for parent role', async () => {
+      const {repos, users} = td;
+      await enforcer.loadFiles([fixturesPath('gitclub.polar')]);
+      const filter = await enforcer.authorizedQuery(users.leina, 'read', Repo);
+      const repo = await enforcer.repositoryFactory.getRepository(filter.model);
+      const result = await repo.find({where: filter.where as Where});
+      expect(result).toHaveLength(1);
+      expect(result).toEqual(expect.arrayContaining([repos.pol]));
+    });
   });
 });

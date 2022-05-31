@@ -1,12 +1,12 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
-import {Foo, FooRelations} from '../models/foo.model';
 import {BindingScope, inject} from '@loopback/context';
-import {juggler} from '@loopback/repository';
 import {injectable} from '@loopback/core';
+import {juggler} from '@loopback/repository';
+import {Bar, BarRelations} from '../models/bar.model';
 
 @injectable({scope: BindingScope.SINGLETON})
-export class FooRepository extends QueryEnhancedCrudRepository<Foo, typeof Foo.prototype.id, FooRelations> {
+export class BarRepository extends QueryEnhancedCrudRepository<Bar, typeof Bar.prototype.id, BarRelations> {
   constructor(@inject('datasources.db') dataSource: juggler.DataSource) {
-    super(Foo, dataSource);
+    super(Bar, dataSource);
   }
 }

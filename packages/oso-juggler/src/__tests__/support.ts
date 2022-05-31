@@ -1,19 +1,13 @@
-import {isConstructor} from 'tily/is/constructor';
-import {Context} from '@loopback/context';
-import {Entity, EntityCrudRepository} from '@loopback/repository';
+import {RepositoryFactoryBindings} from '@bleco/repository-factory';
+import {Entity} from '@loopback/repository';
 import {givenHttpServerConfig} from '@loopback/testlab';
 import {Class} from 'oso/dist/src/types';
-import {OsoApp} from './application';
-import {Enforcer} from './enforcer';
-import {RepositoryFactoryBindings} from '@bleco/repository-factory';
+import path from 'path';
+import {OsoApp} from './fixtures/application';
+import {Enforcer} from './fixtures/enforcer';
 
-export class ContextHelper {
-  constructor(public context: Context) {}
-
-  async repository<T extends EntityCrudRepository<Entity, unknown>>(nameOrClass: string | Class<T>): Promise<T> {
-    const name = isConstructor(nameOrClass) ? nameOrClass.name : nameOrClass;
-    return (await this.context.get(`repositories.${name}`)) as T;
-  }
+export function fixturesPath(...segments: string[]): string {
+  return path.join(__dirname, 'fixtures', ...segments);
 }
 
 export async function givenAppAndEnforcer() {

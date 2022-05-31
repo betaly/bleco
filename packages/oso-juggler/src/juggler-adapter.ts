@@ -1,14 +1,14 @@
-import {Entity, WhereBuilder} from '@loopback/repository';
-import {Adapter, Datum, Filter, FilterCondition, Projection} from 'oso';
+import {RepositoryFactory} from '@bleco/repository-factory';
+import {Entity, Where, WhereBuilder} from '@loopback/repository';
 import debugFactory from 'debug';
-import {inspect} from 'util';
+import {Adapter, Datum, Filter, FilterCondition, Projection} from 'oso';
 import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {inspect} from 'util';
 import {ResourceFilter} from './types';
 
-const debug = debugFactory('oso-juggler');
+const debug = debugFactory('bleco:oso:juggler');
 
 const Ops: {[K in PolarComparisonOperator]: keyof WhereBuilder} = {
   Eq: 'eq',
@@ -35,22 +35,29 @@ export class JugglerAdapter<T extends Entity = Entity> implements Adapter<Resour
   async executeQuery(filter: ResourceFilter<T>): Promise<T[]> {
     debug('executeQuery with resource filter', inspect(filter, {depth: null, colors: true}));
     const repo = await this.repositoryFactory.getRepository<T>(filter.model);
-    return repo.find({where: filter.where});
+    return repo.find({where: filter.where as Where});
   }
 
   buildQuery({model, conditions, relations, types}: Filter): ResourceFilter<T> {
-    debug('buildQuery with oso filter', inspect({model, conditions, relations}, {depth: null, colors: true}));
+    debug('buildQuery - oso filter', inspect({model, conditions, relations}, {depth: null, colors: true}));
 
     const resolvedRelations = resolveRelations(model, relations);
-    debug('resolved relations', inspect(resolvedRelations, {depth: null, colors: true}));
+    debug('buildQuery - resolved relations', inspect(resolvedRelations, {depth: null, colors: true}));
 
     const relationKeys = buildRelationKeys(resolvedRelations);
-    debug('resolved relation keys', inspect(relationKeys, {depth: null, colors: true}));
+    debug('buildQuery - resolved relation keys', inspect(relationKeys, {depth: null, colors: true}));
 
     const b = new WhereBuilder();
 
     if (!isEmpty(relationKeys)) {
-      b.impose({$rel: Object.values(relationKeys)});
+      b.impose(
+        // left join -> inner join
+        Object.keys(relationKeys).reduce((acc, type) => {
+          const idProp = getIdProp(types.get(type) as UserType<typeof Entity>);
+          acc[`${relationKeys[type]}.${idProp}`] = {neq: null};
+          return acc;
+        }, {} as Record<string, any>),
+      );
     }
 
     const compactWhere = buildCompactConditions(
@@ -77,7 +84,9 @@ export class JugglerAdapter<T extends Entity = Entity> implements Adapter<Resour
       return d.value;
     }
 
-    return {model, where: b.build()};
+    const answer = {model, where: b.build()};
+    debug('buildQuery - result', inspect(answer, {depth: null, colors: true}));
+    return answer;
   }
 }
 
