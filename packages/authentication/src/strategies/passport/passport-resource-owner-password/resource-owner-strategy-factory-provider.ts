@@ -1,14 +1,14 @@
-import merge from 'tily/object/merge';
-import isEmpty from 'tily/is/empty';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
+import isEmpty from 'tily/is/empty';
+import merge from 'tily/object/merge';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient, IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-grant';
 import {ResourceOwnerPasswordAuthBindings} from './keys';
+import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-grant';
 
 export type ResourceOwnerPasswordStrategyFactory = (
   options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequest,

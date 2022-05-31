@@ -1,6 +1,6 @@
 import {Binding, Component, ProviderMap} from '@loopback/core';
 import {RateLimitSecurityBindings} from './keys';
-import {RatelimitActionProvider, RateLimitMetadataProvider, RatelimitDatasourceProvider} from './providers';
+import {RatelimitActionProvider, RatelimitDatasourceProvider, RateLimitMetadataProvider} from './providers';
 
 export class RateLimiterComponent implements Component {
   constructor() {

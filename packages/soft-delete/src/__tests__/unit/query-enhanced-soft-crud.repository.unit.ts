@@ -1,9 +1,9 @@
+import {Getter} from '@loopback/context';
 import {Entity, juggler, model, property} from '@loopback/repository';
+import {expect} from '@loopback/testlab';
 import {SoftDeleteEntity} from '../../models';
 import {QueryEnhancedSoftCrudRepository} from '../../repositories';
-import {Getter} from '@loopback/context';
 import {UserLike} from '../../types';
-import {expect} from '@loopback/testlab';
 import {givenDsAndRepo} from '../support';
 import {testSoftCrudRepository} from './repository.suite';
 

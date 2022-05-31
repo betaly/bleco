@@ -1,6 +1,6 @@
-import {HelmetActionProvider} from '../../providers';
-import * as helmet from 'helmet';
 import {expect, stubExpressContext} from '@loopback/testlab';
+import * as helmet from 'helmet';
+import {HelmetActionProvider} from '../../providers';
 
 describe('Helmet Service', () => {
   describe('Helmet Provider', () => {

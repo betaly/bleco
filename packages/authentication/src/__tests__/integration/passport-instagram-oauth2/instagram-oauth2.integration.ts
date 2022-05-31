@@ -1,17 +1,15 @@
-import {Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
-import {authenticate} from '../../../decorators';
-import {STRATEGY} from '../../../strategy-name.enum';
-import {givenApp} from '../helpers/helpers';
-import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
-import {Strategies} from '../../../strategies';
-import {VerifyCallback, VerifyFunction} from '../../../strategies';
-import {userWithoutReqObj} from '../../fixtures/data/bearer-data';
-import * as InstagramStrategy from 'passport-instagram';
-import {Request} from '@loopback/rest';
+import {Request, RestServer} from '@loopback/rest';
+import {Client, createClientForHandler} from '@loopback/testlab';
 import {set} from 'lodash';
+import * as InstagramStrategy from 'passport-instagram';
+import {authenticate} from '../../../decorators';
+import {Strategies, VerifyCallback, VerifyFunction} from '../../../strategies';
+import {STRATEGY} from '../../../strategy-name.enum';
+import {userWithoutReqObj} from '../../fixtures/data/bearer-data';
+import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
+import {givenApp} from '../helpers/helpers';
 
 describe('getting instagram oauth2 strategy with options', () => {
   let app: Application;

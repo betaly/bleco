@@ -1,5 +1,5 @@
 import {inject} from '@loopback/core';
-import {juggler, DefaultCrudRepository} from '@loopback/repository';
+import {DefaultCrudRepository, juggler} from '@loopback/repository';
 
 import {AuditLog} from '../models';
 import {AuditDbSourceName} from '../types';

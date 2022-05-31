@@ -1,6 +1,6 @@
+import {Blueprint, Schemas} from '@jil/common/optimal';
 import {Configuration} from '@jil/config';
 import {ApplicationConfig} from '@loopback/core';
-import {Blueprint, Schemas} from '@jil/common/optimal';
 import {ApplicationConfigSchema} from './schemas';
 
 export class ApplicationConfiguration<T extends ApplicationConfig = ApplicationConfig> extends Configuration<T> {

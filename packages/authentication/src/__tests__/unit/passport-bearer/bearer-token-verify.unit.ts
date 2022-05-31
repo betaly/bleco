@@ -1,7 +1,7 @@
-import {IAuthUser} from '../../../types';
-import {BearerStrategyFactoryProvider, BearerStrategyFactory} from '../../../strategies';
-import * as PassportBearer from 'passport-http-bearer';
 import {expect} from '@loopback/testlab';
+import * as PassportBearer from 'passport-http-bearer';
+import {BearerStrategyFactory, BearerStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 /**
  * Testing to get bearer strategy from providers

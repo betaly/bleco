@@ -1,13 +1,13 @@
 import {BindingKey} from '@loopback/context';
 import {MetadataAccessor} from '@loopback/metadata';
 import {
-  AuthorizeFn,
   AuthorizationMetadata,
-  UserPermissionsFn,
   AuthorizationOptions,
+  AuthorizeFn,
   CasbinAuthorizeFn,
   CasbinEnforcerConfigGetterFn,
   CasbinResourceModifierFn,
+  UserPermissionsFn,
 } from './types';
 
 /**

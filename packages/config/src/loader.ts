@@ -1,10 +1,10 @@
 import {PortablePath} from '@jil/ncommon';
+import {ApplicationConfig} from '@loopback/core';
+import {readEnv} from 'read-env';
 import {isString} from 'tily/is/string';
 import {mergeDeep} from 'tily/object/mergeDeep';
-import {readEnv} from 'read-env';
-import {ApplicationConfig} from '@loopback/core';
-import {ApplicationConfiguration} from './configuration';
 import toUpper from 'tily/string/toUpper';
+import {ApplicationConfiguration} from './configuration';
 
 export class ConfigLoader<T extends ApplicationConfig = ApplicationConfig> {
   configuration: ApplicationConfiguration;

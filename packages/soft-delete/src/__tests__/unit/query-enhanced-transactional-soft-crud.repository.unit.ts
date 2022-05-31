@@ -1,10 +1,10 @@
-import {Entity, juggler} from '@loopback/repository';
-import {QueryEnhancedTransactionalSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {UserLike} from '../../types';
-import {Customer, testSoftCrudRepository} from './repository.suite';
-import {givenDsAndRepo} from '../support';
+import {Entity, juggler} from '@loopback/repository';
 import {expect} from '@loopback/testlab';
+import {QueryEnhancedTransactionalSoftCrudRepository} from '../../repositories';
+import {UserLike} from '../../types';
+import {givenDsAndRepo} from '../support';
+import {Customer, testSoftCrudRepository} from './repository.suite';
 
 class CustomerCrudRepo extends QueryEnhancedTransactionalSoftCrudRepository<Customer, number> {
   constructor(

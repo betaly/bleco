@@ -1,8 +1,8 @@
 import {Provider} from '@loopback/core';
-import {VerifyCallback, VerifyFunction} from '../../../strategies';
-import * as InstagramStrategy from 'passport-instagram';
-import {IAuthUser} from '../../../types';
 import {Request} from '@loopback/rest';
+import * as InstagramStrategy from 'passport-instagram';
+import {VerifyCallback, VerifyFunction} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 export class BearerTokenVerifyProvider implements Provider<VerifyFunction.InstagramAuthFn> {
   constructor() {}

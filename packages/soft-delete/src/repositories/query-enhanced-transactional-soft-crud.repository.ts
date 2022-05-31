@@ -1,10 +1,10 @@
-import {EntityClass, QueryEnhancedTransactionalRepository} from '@bleco/query';
-import {juggler} from '@loopback/repository';
-import {Getter} from '@loopback/core';
 import {mixin} from '@bleco/mixin';
-import {UserLike} from '../types';
-import {SoftDeleteEntity} from '../models';
+import {EntityClass, QueryEnhancedTransactionalRepository} from '@bleco/query';
+import {Getter} from '@loopback/core';
+import {juggler} from '@loopback/repository';
 import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
+import {SoftDeleteEntity} from '../models';
+import {UserLike} from '../types';
 
 @mixin(SoftCrudRepositoryMixin)
 export class QueryEnhancedTransactionalSoftCrudRepository<

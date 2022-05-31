@@ -3,13 +3,13 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {Entity, juggler} from '@loopback/repository';
-import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
 import {Getter} from '@loopback/context';
-import {UserLike} from '../../types';
-import {Customer, testSoftCrudRepository} from './repository.suite';
-import {givenDsAndRepo} from '../support';
+import {Entity, juggler} from '@loopback/repository';
 import {expect} from '@loopback/testlab';
+import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
+import {UserLike} from '../../types';
+import {givenDsAndRepo} from '../support';
+import {Customer, testSoftCrudRepository} from './repository.suite';
 
 class CustomerCrudRepo extends DefaultTransactionalSoftCrudRepository<Customer, number> {
   constructor(

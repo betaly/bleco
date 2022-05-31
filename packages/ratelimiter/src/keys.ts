@@ -1,6 +1,6 @@
 import {BindingKey, MetadataAccessor} from '@loopback/core';
 import {Store} from 'express-rate-limit';
-import {RateLimitAction, RateLimitOptions, RateLimitMetadata} from './types';
+import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from './types';
 
 export namespace RateLimitSecurityBindings {
   export const RATELIMIT_SECURITY_ACTION = BindingKey.create<RateLimitAction>('eco.security.ratelimit.actions');

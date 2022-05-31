@@ -1,4 +1,4 @@
-import {Component, ProviderMap, Binding} from '@loopback/core';
+import {Binding, Component, ProviderMap} from '@loopback/core';
 import {HelmetSecurityBindings} from './keys';
 import {HelmetActionProvider} from './providers/helmet-action.provider';
 

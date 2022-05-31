@@ -10,7 +10,7 @@ import {
   SequenceHandler,
 } from '@loopback/rest';
 import {AuthenticateFn, AuthenticationBindings} from '../../../';
-import {IAuthUser, IAuthClient} from '../../../types';
+import {IAuthClient, IAuthUser} from '../../../types';
 const SequenceActions = RestBindings.SequenceActions;
 
 export class MyAuthenticationSequence implements SequenceHandler {

@@ -1,7 +1,7 @@
-import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
+import merge from 'tily/object/merge';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';

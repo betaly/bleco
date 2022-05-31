@@ -1,8 +1,8 @@
 import {BindingAddress, BindingKey, Context} from '@loopback/context';
-import each from 'tily/object/each';
-import isPlainObject from 'tily/is/plainObject';
 import {CoreBindings} from '@loopback/core';
 import {assert} from 'tily/assert';
+import isPlainObject from 'tily/is/plainObject';
+import each from 'tily/object/each';
 
 export interface AliasMetadata {
   [prop: string]: BindingAddress | AliasMetadata;

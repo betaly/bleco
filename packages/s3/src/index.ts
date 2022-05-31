@@ -1,3 +1,3 @@
 export * from './component';
-export * from './types';
 export * from './providers';
+export * from './types';

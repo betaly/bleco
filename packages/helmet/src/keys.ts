@@ -1,6 +1,6 @@
 import {BindingKey} from '@loopback/core';
-import {HelmetAction} from './providers';
 import * as helmet from 'helmet';
+import {HelmetAction} from './providers';
 
 export namespace HelmetSecurityBindings {
   export const HELMET_SECURITY_ACTION = BindingKey.create<HelmetAction>('eco.security.helmet.actions');

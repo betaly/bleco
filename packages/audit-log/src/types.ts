@@ -1,5 +1,5 @@
-import {AuditLogRepository} from './repositories';
 import {Options} from '@loopback/repository';
+import {AuditLogRepository} from './repositories';
 
 export const AuditDbSourceName = 'AuditDB';
 export interface IAuditMixin<UserID> {

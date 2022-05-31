@@ -1,6 +1,6 @@
-import {Provider, inject} from '@loopback/core';
-import {AwsS3Config, AWSS3Bindings} from '../types';
+import {inject, Provider} from '@loopback/core';
 import {S3WithSigner} from '..';
+import {AWSS3Bindings, AwsS3Config} from '../types';
 
 export class AwsS3Provider implements Provider<S3WithSigner> {
   constructor(

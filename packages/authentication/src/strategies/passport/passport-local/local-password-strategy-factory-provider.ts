@@ -1,8 +1,8 @@
-import merge from 'tily/object/merge';
-import isEmpty from 'tily/is/empty';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as PassportLocal from 'passport-local';
+import isEmpty from 'tily/is/empty';
+import merge from 'tily/object/merge';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';

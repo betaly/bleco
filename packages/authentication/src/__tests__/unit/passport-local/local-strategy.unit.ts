@@ -1,8 +1,8 @@
-import {IAuthUser} from '../../../types';
-import {expect} from '@loopback/testlab';
-import {LocalPasswordStrategyFactoryProvider, LocalPasswordStrategyFactory} from '../../../strategies';
 import {Request} from '@loopback/rest';
+import {expect} from '@loopback/testlab';
 import * as PassportLocal from 'passport-local';
+import {LocalPasswordStrategyFactory, LocalPasswordStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 describe('getting local strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {

@@ -1,10 +1,10 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import * as InstagramStrategy from 'passport-instagram';
 import {
-  InstagramAuthStrategyFactoryProvider,
   InstagramAuthStrategyFactory,
+  InstagramAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-insta-oauth2';
+import {IAuthUser} from '../../../types';
 
 describe('getting instagram-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {

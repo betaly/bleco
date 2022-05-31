@@ -1,7 +1,7 @@
-import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as ClientPasswordStrategy from 'passport-oauth2-client-password';
+import merge from 'tily/object/merge';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient} from '../../../types';

@@ -1,15 +1,15 @@
-import {Client, createClientForHandler, expect} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
+import {RestServer} from '@loopback/rest';
+import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {authenticate} from '../../../decorators';
-import {STRATEGY} from '../../../strategy-name.enum';
-import {givenApp} from '../helpers/helpers';
-import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
-import {Strategies} from '../../../strategies/keys';
-import {ResourceOwnerVerifyProvider} from '../../fixtures/providers/resource-owner.provider';
 import {AuthenticationBindings} from '../../../keys';
+import {Strategies} from '../../../strategies/keys';
+import {STRATEGY} from '../../../strategy-name.enum';
 import {IAuthUser} from '../../../types';
+import {ResourceOwnerVerifyProvider} from '../../fixtures/providers/resource-owner.provider';
+import {MyAuthenticationSequence} from '../../fixtures/sequences/authentication.sequence';
+import {givenApp} from '../helpers/helpers';
 
 describe('Resource-owner-password strategy', () => {
   let app: Application;

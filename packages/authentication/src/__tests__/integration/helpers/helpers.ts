@@ -1,6 +1,6 @@
 import {Application, ApplicationConfig} from '@loopback/core';
-import {AuthenticationComponent} from '../../../component';
 import {RestComponent} from '@loopback/rest';
+import {AuthenticationComponent} from '../../../component';
 
 /**
  *Gives an instance of application

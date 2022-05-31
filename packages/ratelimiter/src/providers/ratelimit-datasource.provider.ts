@@ -1,14 +1,13 @@
 import {CoreBindings, inject, Provider} from '@loopback/core';
-import {Getter} from '@loopback/repository';
+import {Getter, juggler} from '@loopback/repository';
+import {HttpErrors, RestApplication} from '@loopback/rest';
 import {Store} from 'express-rate-limit';
-import RedisStore from 'rate-limit-redis';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
-import {juggler} from '@loopback/repository';
-import {HttpErrors, RestApplication} from '@loopback/rest';
+import RedisStore from 'rate-limit-redis';
 
-import {RateLimitMetadata, RateLimitOptions} from '../types';
 import {RateLimitSecurityBindings} from '../keys';
+import {RateLimitMetadata, RateLimitOptions} from '../types';
 
 export class RatelimitDatasourceProvider implements Provider<Store | MemcachedStore | undefined> {
   constructor(

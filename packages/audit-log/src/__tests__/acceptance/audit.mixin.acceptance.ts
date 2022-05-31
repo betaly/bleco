@@ -1,12 +1,12 @@
-import {TestDataSource} from './fixtures/datasources/test.datasource';
-import {testAuditOpts, TestRepository} from './fixtures/repositories/test.repository';
 import {expect, sinon} from '@loopback/testlab';
-import {TestAuditLogRepository} from './fixtures/repositories/audit.repository';
-import {TestAuditDataSource} from './fixtures/datasources/audit.datasource';
-import {TestModel} from './fixtures/models/test.model';
-import {Action} from '../..';
 import {v4 as uuidv4} from 'uuid';
+import {Action} from '../..';
+import {TestAuditDataSource} from './fixtures/datasources/audit.datasource';
+import {TestDataSource} from './fixtures/datasources/test.datasource';
+import {TestModel} from './fixtures/models/test.model';
 import {TestAuditLogErrorRepository} from './fixtures/repositories/audit-error.repository';
+import {TestAuditLogRepository} from './fixtures/repositories/audit.repository';
+import {testAuditOpts, TestRepository} from './fixtures/repositories/test.repository';
 
 export let consoleMessage: string;
 console.error = (message: string) => {

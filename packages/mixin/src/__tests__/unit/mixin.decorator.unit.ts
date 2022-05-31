@@ -1,7 +1,7 @@
-import {Repository} from '../fixtures/repository';
 import {mixin} from '../../mixin.decorator';
-import {Foo, FooMixin} from '../fixtures/foo.mixin';
 import {Bar, BarMixin} from '../fixtures/bar.mixin';
+import {Foo, FooMixin} from '../fixtures/foo.mixin';
+import {Repository} from '../fixtures/repository';
 
 describe('@mixin', function () {
   it('should mixin a class', function () {

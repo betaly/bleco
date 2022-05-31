@@ -1,7 +1,7 @@
 import {Application, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
+import {NotificationAliaser} from './alias';
 import {NotificationBindings} from './keys';
 import {NotificationProvider, NotificationProvidersAliaser} from './providers';
-import {NotificationAliaser} from './alias';
 
 export class NotificationsComponent implements Component {
   providers?: ProviderMap = {

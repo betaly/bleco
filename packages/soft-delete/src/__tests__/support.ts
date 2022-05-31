@@ -1,5 +1,5 @@
-import {juggler} from '@loopback/repository';
 import {Constructor} from '@loopback/context';
+import {juggler} from '@loopback/repository';
 import {SoftCrudRepository} from '../mixins';
 import {Customer} from './unit/repository.suite';
 

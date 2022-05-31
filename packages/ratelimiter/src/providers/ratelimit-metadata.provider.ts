@@ -1,7 +1,7 @@
 import {Constructor, inject, MetadataInspector, Provider} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
-import {RateLimitMetadata} from '../types';
 import {RATELIMIT_METADATA_ACCESSOR} from '../keys';
+import {RateLimitMetadata} from '../types';
 
 export class RateLimitMetadataProvider implements Provider<RateLimitMetadata | undefined> {
   constructor(

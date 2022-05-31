@@ -1,5 +1,6 @@
 import {Application, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 
+import {StrategiesAliaser} from './alias';
 import {AuthenticationBindings} from './keys';
 import {
   AuthenticateActionProvider,
@@ -32,7 +33,6 @@ import {
   ResourceOwnerVerifyProvider,
   Strategies,
 } from './strategies';
-import {StrategiesAliaser} from './alias';
 
 export class AuthenticationComponent implements Component {
   providers?: ProviderMap = {

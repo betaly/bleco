@@ -1,10 +1,10 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
-import {IProfile, IOIDCStrategyOptionWithRequest, IOIDCStrategyOptionWithoutRequest} from 'passport-azure-ad';
+import {IOIDCStrategyOptionWithoutRequest, IOIDCStrategyOptionWithRequest, IProfile} from 'passport-azure-ad';
 import {
-  AzureADAuthStrategyFactoryProvider,
   AzureADAuthStrategyFactory,
+  AzureADAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-azure-ad';
+import {IAuthUser} from '../../../types';
 
 describe('getting azuread auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {

@@ -1,5 +1,4 @@
 import {BindingKey} from '@loopback/core';
-import {VerifyFunction} from './types';
 import {
   AppleAuthStrategyFactoryProvider,
   AzureADAuthStrategyFactoryProvider,
@@ -12,6 +11,7 @@ import {
   LocalPasswordStrategyFactory,
   ResourceOwnerPasswordStrategyFactory,
 } from './passport';
+import {VerifyFunction} from './types';
 
 export namespace Strategies {
   export namespace Passport {

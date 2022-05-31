@@ -1,4 +1,3 @@
-import merge from 'tily/object/merge';
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {
@@ -8,6 +7,7 @@ import {
   OIDCStrategy,
   VerifyCallback,
 } from 'passport-azure-ad';
+import merge from 'tily/object/merge';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';

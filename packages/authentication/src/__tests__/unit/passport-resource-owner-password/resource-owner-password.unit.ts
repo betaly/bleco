@@ -1,11 +1,11 @@
-import {expect} from '@loopback/testlab';
 import {Request} from '@loopback/rest';
-import {IAuthUser, IAuthClient} from '../../../types';
+import {expect} from '@loopback/testlab';
 import {
-  ResourceOwnerPasswordStrategyFactoryProvider,
-  ResourceOwnerPasswordStrategyFactory,
   Oauth2ResourceOwnerPassword,
+  ResourceOwnerPasswordStrategyFactory,
+  ResourceOwnerPasswordStrategyFactoryProvider,
 } from '../../../strategies';
+import {IAuthClient, IAuthUser} from '../../../types';
 
 describe('getting resource-owner strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {

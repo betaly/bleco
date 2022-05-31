@@ -1,12 +1,12 @@
 import {Context, inject, Provider} from '@loopback/core';
 import {Strategy} from 'passport';
-import * as GoogleStrategy from 'passport-google-oauth20';
-import * as AzureADAuthStrategy from 'passport-azure-ad';
-import * as PassportBearer from 'passport-http-bearer';
-import * as PassportLocal from 'passport-local';
-import * as InstagramStrategy from 'passport-instagram';
-import * as FacebookStrategy from 'passport-facebook';
 import * as AppleStrategy from 'passport-apple';
+import * as AzureADAuthStrategy from 'passport-azure-ad';
+import * as FacebookStrategy from 'passport-facebook';
+import * as GoogleStrategy from 'passport-google-oauth20';
+import * as PassportBearer from 'passport-http-bearer';
+import * as InstagramStrategy from 'passport-instagram';
+import * as PassportLocal from 'passport-local';
 
 import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';

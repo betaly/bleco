@@ -1,6 +1,6 @@
 import {expect} from '@loopback/testlab';
-import {MockClient} from './mock-client';
 import {VaultConnector, VaultConnectProvider} from '../../services';
+import {MockClient} from './mock-client';
 
 describe('Vault Service', () => {
   describe('Vault Service', () => {

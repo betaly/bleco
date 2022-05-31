@@ -1,10 +1,10 @@
 import {Request} from '@loopback/rest';
-import * as GoogleStrategy from 'passport-google-oauth20';
-import * as AzureADStrategy from 'passport-azure-ad';
-import * as InstagramStrategy from 'passport-instagram';
-import * as FacebookStrategy from 'passport-facebook';
 import * as AppleStrategy from 'passport-apple';
 import {DecodedIdToken} from 'passport-apple';
+import * as AzureADStrategy from 'passport-azure-ad';
+import * as FacebookStrategy from 'passport-facebook';
+import * as GoogleStrategy from 'passport-google-oauth20';
+import * as InstagramStrategy from 'passport-instagram';
 import {IAuthClient, IAuthUser} from '../../types';
 import {Keycloak} from './keycloak.types';
 

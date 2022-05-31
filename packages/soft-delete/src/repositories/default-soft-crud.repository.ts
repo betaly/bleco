@@ -1,10 +1,10 @@
+import {mixin} from '@bleco/mixin';
+import {EntityClass} from '@bleco/query';
 import {Getter} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
 import {SoftDeleteEntity} from '../models';
 import {UserLike} from '../types';
-import {EntityClass} from '@bleco/query';
-import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
-import {mixin} from '@bleco/mixin';
 
 @mixin(SoftCrudRepositoryMixin)
 export class DefaultSoftCrudRepository<

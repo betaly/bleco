@@ -1,6 +1,6 @@
-import {IAuthClient} from '../../../types';
-import {ClientPasswordStrategyFactoryProvider, ClientPasswordStrategyFactory} from '../../../strategies';
 import {expect} from '@loopback/testlab';
+import {ClientPasswordStrategyFactory, ClientPasswordStrategyFactoryProvider} from '../../../strategies';
+import {IAuthClient} from '../../../types';
 
 /**
  * Testing to get bearer strategy from providers

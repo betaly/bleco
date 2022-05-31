@@ -1,3 +1,3 @@
-export * from './local-password-verify.provider';
-export * from './local-password-strategy-factory-provider';
 export * from './keys';
+export * from './local-password-strategy-factory-provider';
+export * from './local-password-verify.provider';

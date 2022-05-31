@@ -1,13 +1,13 @@
 import {inject} from '@loopback/context';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-import {TestApplication} from '../fixtures/application';
 import {DefaultRepositoryFactory} from '../../factories';
-import {givenApp} from '../support';
+import {RepositoryFactoryBindings} from '../../keys';
+import {DefaultRepositoryFactoryProvider} from '../../providers';
+import {TestApplication} from '../fixtures/application';
 import {Note} from '../fixtures/models/note.model';
 import {Product} from '../fixtures/models/product.model';
 import {ProductRepository} from '../fixtures/repositories/product.repository';
-import {DefaultRepositoryFactoryProvider} from '../../providers';
-import {RepositoryFactoryBindings} from '../../keys';
+import {givenApp} from '../support';
 
 describe('DefaultRepositoryFactory', function () {
   let app: TestApplication;

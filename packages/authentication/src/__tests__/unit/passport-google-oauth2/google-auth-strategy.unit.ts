@@ -1,10 +1,10 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import {
-  GoogleAuthStrategyFactoryProvider,
   GoogleAuthStrategyFactory,
+  GoogleAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-google-oauth2';
+import {IAuthUser} from '../../../types';
 
 describe('getting google-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {

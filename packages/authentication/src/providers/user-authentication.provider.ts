@@ -5,7 +5,7 @@ import {Strategy} from 'passport';
 import {AuthErrorKeys} from '../error-keys';
 import {AuthenticationBindings} from '../keys';
 import {StrategyAdapter} from '../strategy-adapter';
-import {AuthenticateFn, IAuthUser, AuthenticationMetadata} from '../types';
+import {AuthenticateFn, AuthenticationMetadata, IAuthUser} from '../types';
 
 export class AuthenticateActionProvider implements Provider<AuthenticateFn<IAuthUser | undefined>> {
   constructor(

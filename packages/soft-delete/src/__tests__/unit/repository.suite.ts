@@ -1,9 +1,9 @@
 import {Constructor} from '@loopback/context';
-import {SoftCrudRepository} from '../../mixins';
 import {EntityNotFoundError, model, property} from '@loopback/repository';
-import {SoftDeleteEntity} from '../../models';
 import {expect} from '@loopback/testlab';
 import {fail} from 'assert';
+import {SoftCrudRepository} from '../../mixins';
+import {SoftDeleteEntity} from '../../models';
 
 /**
  * A mock up model class
