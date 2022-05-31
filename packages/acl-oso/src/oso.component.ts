@@ -1,8 +1,8 @@
 import {AclBindings} from '@bleco/acl';
-import {Application, Component, ContextTags, CoreBindings, inject, injectable, ProviderMap} from '@loopback/core';
 import {DefaultRepositoryFactoryProvider, RepositoryFactoryBindings} from '@bleco/repository-factory';
-import {OsoBindings} from './keys';
+import {Application, Component, ContextTags, CoreBindings, inject, injectable, ProviderMap} from '@loopback/core';
 import {OsoAliaser} from './alias';
+import {OsoBindings} from './keys';
 import {OsoEnforcerProvider} from './providers';
 
 @injectable({tags: {[ContextTags.KEY]: OsoBindings.COMPONENT.key}})

@@ -1,5 +1,3 @@
-import debugFactory from 'debug';
-import {isConstructor} from 'tily/is/constructor';
 import {
   Entity,
   HasManyDefinition,
@@ -9,12 +7,14 @@ import {
   RelationMetadata,
   RelationType,
 } from '@loopback/repository';
-import {Class} from 'oso/dist/src/types';
-import {Relation} from 'oso/dist/src/filter';
 import {resolveBelongsToMetadata} from '@loopback/repository/dist/relations/belongs-to/belongs-to.helpers';
-import {BelongsToDefinition} from '@loopback/repository/src/relations/relation.types';
 import {resolveHasManyMetadata} from '@loopback/repository/dist/relations/has-many/has-many.helpers';
 import {resolveHasOneMetadata} from '@loopback/repository/dist/relations/has-one/has-one.helpers';
+import {BelongsToDefinition} from '@loopback/repository/src/relations/relation.types';
+import debugFactory from 'debug';
+import {Relation} from 'oso/dist/src/filter';
+import {Class} from 'oso/dist/src/types';
+import {isConstructor} from 'tily/is/constructor';
 
 const debug = debugFactory('bleco:oso:oso-helper');
 

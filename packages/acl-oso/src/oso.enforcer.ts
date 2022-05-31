@@ -1,10 +1,10 @@
+import {AuthorizedFilter, EnforcerStrategy} from '@bleco/acl';
+import {EntityClass} from '@bleco/query';
+import {Entity, EntityCrudRepository} from '@loopback/repository';
 import debugFactory from 'debug';
 import {Oso} from 'oso';
-import {AuthorizedFilter, EnforcerStrategy} from '@bleco/acl';
-import {Class, ClassParams, Options} from 'oso/dist/src/types';
-import {Entity, EntityCrudRepository} from '@loopback/repository';
-import {EntityClass} from '@bleco/query';
 import {Relation} from 'oso/dist/src/filter';
+import {Class, ClassParams, Options} from 'oso/dist/src/types';
 
 const debug = debugFactory('bleco:oso:enforcer');
 

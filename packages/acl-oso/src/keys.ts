@@ -1,6 +1,6 @@
 import {BindingKey} from '@loopback/context';
-import {EnforcerOptions} from './oso.enforcer';
 import {OsoComponent} from './oso.component';
+import {EnforcerOptions} from './oso.enforcer';
 
 export namespace OsoBindings {
   export const COMPONENT = BindingKey.create<OsoComponent>('components.OsoComponent');

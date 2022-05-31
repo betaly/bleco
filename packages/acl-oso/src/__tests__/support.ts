@@ -1,5 +1,5 @@
-import {Application} from '@loopback/core';
 import {AclBindings} from '@bleco/acl';
+import {Application} from '@loopback/core';
 import {OsoEnforcer} from '../oso.enforcer';
 
 const debug = require('debug')('bleco:oso:test');

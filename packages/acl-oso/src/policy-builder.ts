@@ -1,8 +1,8 @@
 import {isPrincipalPolicy, isResourcePolicy, PolicyManager} from '@bleco/acl';
-import {Class} from 'oso/dist/src/types';
-import {Entity} from '@loopback/repository';
 import {EntityClass} from '@bleco/query';
+import {Entity} from '@loopback/repository';
 import {Relation} from 'oso/dist/src/filter';
+import {Class} from 'oso/dist/src/types';
 import {buildClassFields} from './helper';
 import {PolarGeneration} from './polar';
 
