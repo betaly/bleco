@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.7.0...@bleco/query@0.8.0) (2022-06-02)
+
+
+### Features
+
+* using left join to replace inner join ([350df2d](https://gitr.net/betaly/bleco/commits/350df2d4f742f3635b9f14341ff3e92d350b3518))
+
+
+
+
+
 # [0.7.0](https://gitr.net/betaly/bleco/compare/@bleco/query@0.6.0...@bleco/query@0.7.0) (2022-05-26)
 
 ### Features
