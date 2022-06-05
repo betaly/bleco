@@ -35,11 +35,11 @@ export class DefaultRepositoryFactory implements RepositoryFactory {
     debug(`Discovered ${count} repositories`);
   }
 
-  async getRepository<T extends Entity>(
+  async getRepository<T extends Entity, R extends object = {}>(
     entityClass: string | EntityClass<T>,
-  ): Promise<EntityCrudRepository<T, unknown>> {
+  ): Promise<EntityCrudRepository<T, unknown, R>> {
     const modelName = typeof entityClass === 'string' ? entityClass : entityClass.name;
-    const repo = this.repositories.get(modelName) as unknown as EntityCrudRepository<T, unknown>;
+    const repo = this.repositories.get(modelName) as unknown as EntityCrudRepository<T, unknown, R>;
     if (!repo) {
       throw new Error(`No repository found for model ${modelName}`);
     }
