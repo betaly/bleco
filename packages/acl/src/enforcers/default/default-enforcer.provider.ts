@@ -1,10 +1,9 @@
 import {RepositoryFactory} from '@bleco/repository-factory';
 import {BindingScope, inject, injectable, Provider} from '@loopback/context';
-import {EnforcerStrategy} from '../../../dist';
 import {Enforcer} from '../../enforcer';
 import {AclBindings} from '../../keys';
 import {PolicyRegistry} from '../../policies';
-import {DefaultEnforcerOptions, DefaultEnhancer} from './index';
+import {DefaultEnforcerOptions, DefaultEnhancer} from './default-enforcer';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class DefaultEnforcerProvider implements Provider<Enforcer> {
@@ -17,7 +16,7 @@ export class DefaultEnforcerProvider implements Provider<Enforcer> {
     readonly options: DefaultEnforcerOptions = {},
   ) {}
 
-  value(): EnforcerStrategy {
+  value(): Enforcer {
     return new DefaultEnhancer(this.policyRegistry, this.repositoryFactory, this.options);
   }
 }

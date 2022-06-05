@@ -1,4 +1,3 @@
-import {AuthorizedFilter} from '@bleco/acl';
 import {RepositoryFactory} from '@bleco/repository-factory';
 import {Entity, Where, WhereBuilder} from '@loopback/repository';
 import debugFactory from 'debug';
@@ -7,6 +6,7 @@ import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
 import {inspect} from 'util';
+import {AuthorizedFilter} from './types';
 
 const debug = debugFactory('bleco:oso:juggler');
 

@@ -1,4 +1,3 @@
-import {AuthorizedFilter} from '@bleco/acl';
 import {EntityClass} from '@bleco/query';
 import {RepositoryFactory} from '@bleco/repository-factory';
 import {Context} from '@loopback/context';
@@ -8,6 +7,7 @@ import debugFactory from 'debug';
 import {Oso} from 'oso';
 import {OsoJugglerHelper} from '../../helper';
 import {JugglerAdapter} from '../../juggler-adapter';
+import {AuthorizedFilter} from '../../types';
 
 const debug = debugFactory('bleco:enforcer-adapter-juggler:enforcer');
 
