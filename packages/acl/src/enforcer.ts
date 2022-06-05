@@ -1,10 +1,9 @@
-import {Class} from 'tily/typings/types';
-import {Entity} from '@loopback/repository';
-import {QueryWhere} from '@bleco/query';
+import {Entity, FilterExcludingWhere, Options, Where} from '@loopback/repository';
+import {Constructor} from 'tily/typings/types';
 
 export interface AuthorizedFilter<T extends Entity = Entity> {
   model: string;
-  where: QueryWhere<T>;
+  where: Where<T>;
 }
 
 export interface Enforcer<Principal extends Entity = Entity, Resource extends Entity = Entity> {
@@ -123,7 +122,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
    * @param resourceCls Object type.
    * @returns A query that selects authorized resources of type `resourceCls`
    */
-  authorizedQuery(principal: Principal, action: string, resourceCls: Class<Resource>): Promise<AuthorizedFilter>;
+  authorizedQuery(principal: Principal, action: string, resourceCls: Constructor<Resource>): Promise<AuthorizedFilter>;
 
   /**
    * Determine the resources of type `resourceCls` that `principal`
@@ -132,16 +131,15 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
    * @param principal Subject.
    * @param action Verb.
    * @param resourceCls Object type.
+   * @param filter Additional filter to apply to the query.
+   * @param options Query options.
    * @returns An array of authorized resources.
    */
-  authorizedResources(principal: Principal, action: string, resourceCls: Class<Resource>): Promise<Resource[]>;
-}
-
-export interface EnforcerStrategy<Principal extends Entity = Entity, Resource extends Entity = Entity>
-  extends Enforcer<Principal, Resource> {
-  /**
-   * The 'name' property is a unique identifier for the
-   * enforcer strategy ( for example : 'basic', 'oso', etc)
-   */
-  name: string;
+  authorizedResources<T extends Resource>(
+    principal: Principal,
+    action: string,
+    resourceCls: Constructor<T>,
+    filter?: FilterExcludingWhere<T>,
+    options?: Options,
+  ): Promise<T[]>;
 }

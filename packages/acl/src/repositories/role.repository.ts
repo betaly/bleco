@@ -1,13 +1,13 @@
 import {inject} from '@loopback/context';
 import {Getter, HasManyRepositoryFactory, juggler, Options, repository} from '@loopback/repository';
-import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
-import {AclAuthDBName, ResourcePolymorphicOrEntity} from '../types';
-import {RoleMappingRepository} from './role-mapping.repository';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
-import {PolicyManager} from '../policies';
-import {RoleBaseRepository} from './role.base.repository';
+import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
+import {PolicyRegistry} from '../policies';
+import {AclAuthDBName, ResourcePolymorphicOrEntity} from '../types';
+import {RoleMappingRepository} from './role-mapping.repository';
 import {RolePermissionRepository} from './role-permission.repository';
+import {RoleBaseRepository} from './role.base.repository';
 
 export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototype.id, RoleRelations, RoleAttrs> {
   public readonly principals: HasManyRepositoryFactory<RoleMapping, typeof RoleMapping.prototype.id>;
@@ -20,8 +20,8 @@ export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototy
     protected readonly roleMappingRepositoryGetter: Getter<RoleMappingRepository>,
     @repository.getter('RolePermissionRepository')
     protected readonly rolePermissionRepositoryGetter: Getter<RolePermissionRepository>,
-    @inject(AclBindings.POLICY_MANAGER)
-    public readonly policyManager: PolicyManager,
+    @inject(AclBindings.POLICY_REGISTRY)
+    public readonly policyRegistry: PolicyRegistry,
   ) {
     super(Role, dataSource);
     this.principals = this.createHasManyRepositoryFactoryFor('principals', roleMappingRepositoryGetter);
@@ -32,7 +32,7 @@ export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototy
 
   isBuiltInRole(roleName: string, resourceType: string | ResourcePolymorphicOrEntity): boolean {
     resourceType = typeof resourceType === 'string' ? resourceType : toResourcePolymorphic(resourceType).resourceType;
-    const policy = this.policyManager.get(resourceType);
+    const policy = this.policyRegistry.get(resourceType);
     return !!policy.roles?.includes(roleName);
   }
 

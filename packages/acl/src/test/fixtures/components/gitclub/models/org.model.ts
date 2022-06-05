@@ -18,13 +18,13 @@ export class Org extends Entity {
   @property({
     type: 'string',
   })
-  base_repo_role: string;
+  base_repo_role?: string;
 
   @property({
     type: 'string',
     name: 'billing_address',
   })
-  billing_address: string;
+  billing_address?: string;
 
   @hasMany(() => Repo)
   repositories: Repo[];

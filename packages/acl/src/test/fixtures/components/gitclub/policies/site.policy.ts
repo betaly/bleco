@@ -8,23 +8,23 @@ export const SiteRoles = {
 
 export type SiteRole = typeof SiteRoles[keyof typeof SiteRoles];
 
-export const SitePermissions = {
+export const SiteActions = {
   manage: 'manage',
   create_orgs: 'create_orgs',
 } as const;
 
-export type SitePermission = typeof SitePermissions[keyof typeof SitePermissions];
+export type SiteAction = typeof SiteActions[keyof typeof SiteActions];
 
-export const SitePolicy: ResourcePolicy<SiteRole, SitePermission> = {
+export const SitePolicy: ResourcePolicy<SiteRole, SiteAction> = {
   type: 'resource',
   model: Site,
   roles: ['admin', 'member'],
-  permissions: Object.values(SitePermissions),
-  rolePermissions: {
+  actions: Object.values(SiteActions),
+  roleActions: {
     admin: ['manage'],
     member: ['create_orgs'],
   },
-  roleInherits: {
-    admin: ['member'],
+  roleDerivations: {
+    member: ['admin'],
   },
 };

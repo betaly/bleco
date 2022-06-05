@@ -1,15 +1,15 @@
 import {inject} from '@loopback/context';
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';
-import {AclRoleMappingRelations, Role, RoleMapping, RoleMappingAttrs, RoleMappingProps} from '../models';
-import {AclAuthDBName} from '../types';
-import {RoleRepository} from './role.repository';
 import {resolveRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../helpers';
+import {Role, RoleMapping, RoleMappingAttrs, RoleMappingProps, RoleMappingRelations} from '../models';
+import {AclAuthDBName} from '../types';
 import {RoleBaseRepository} from './role.base.repository';
+import {RoleRepository} from './role.repository';
 
 export class RoleMappingRepository extends RoleBaseRepository<
   RoleMapping,
   typeof RoleMapping.prototype.id,
-  AclRoleMappingRelations,
+  RoleMappingRelations,
   RoleMappingAttrs
 > {
   public readonly role: BelongsToAccessor<Role, typeof Role.prototype.id>;

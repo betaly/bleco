@@ -1,8 +1,8 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
-import {RoleMapping} from './role-mapping.model';
-import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
 import {RolePermission} from '../models';
+import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
 import {AclResource} from './models';
+import {RoleMapping} from './role-mapping.model';
 
 @model()
 export class Role extends Entity implements DomainAware, ResourceAware {
@@ -55,5 +55,5 @@ export type RoleWithRelations = Role & RoleRelations;
 export type RoleProps = ObjectProps<Omit<Role, 'permissions' | 'principals'>>;
 export type RoleAttrs = RoleProps & {
   resource?: ResourcePolymorphicOrEntity;
-  permissions?: string[];
+  actions?: string[];
 };

@@ -1,19 +1,20 @@
+import {ApplicationWithRepositories} from '@loopback/repository';
+import {AclBindings} from '../../keys';
+import {UserRepository} from './components/account';
 import {
   DefaultSite,
   IssueRepository,
-  OrgPermissions,
+  OrgActions,
   OrgRepository,
   OrgRoles,
   RepoRepository,
   RepoRoles,
+  SiteRepository,
   SiteRoles,
-  UserRepository,
 } from './components/gitclub';
-import {ApplicationWithRepositories} from '@loopback/repository';
 import {TestDomain} from './constants';
-import {AclBindings} from '../../keys';
 
-export const OrgManagerPermissions = Object.values(OrgPermissions).filter(p => p !== 'create_repos');
+export const OrgManagerActions = Object.values(OrgActions).filter(p => p !== 'create_repos');
 
 export type TestData = Awaited<ReturnType<typeof seedData>>;
 
@@ -24,10 +25,13 @@ export async function seed(app: ApplicationWithRepositories) {
 }
 
 export async function seedData(app: ApplicationWithRepositories) {
+  const siteRepo = await app.getRepository(SiteRepository);
   const userRepo = await app.getRepository(UserRepository);
   const orgRepo = await app.getRepository(OrgRepository);
   const repoRepo = await app.getRepository(RepoRepository);
   const issueRepo = await app.getRepository(IssueRepository);
+
+  await siteRepo.create(DefaultSite);
 
   const god = await userRepo.create({name: 'God'});
 
@@ -36,8 +40,9 @@ export async function seedData(app: ApplicationWithRepositories) {
   const jerry = await userRepo.create({name: 'Jerry'});
   const ava = await userRepo.create({name: 'Ava'});
   const james = await userRepo.create({name: 'James'});
+  const guest = await userRepo.create({name: 'Guest'});
 
-  const users = {god, musk, tom, jerry, ava, james};
+  const users = {god, musk, tom, jerry, ava, james, guest};
 
   const tesla = await orgRepo.create({name: 'Tesla'});
   const google = await orgRepo.create({name: 'Google'});
@@ -89,7 +94,7 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   // Site roles
   await rms.addInDomain(users.god, SiteRoles.admin, DefaultSite, TestDomain);
   for (const u of Object.values(users)) {
-    if (u === users.god) continue;
+    if (u === users.god || u === users.guest) continue;
     await rms.addInDomain(u, SiteRoles.member, DefaultSite, TestDomain);
   }
 
@@ -98,10 +103,13 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
     {
       name: 'manager',
       resource: orgs.tesla,
-      permissions: OrgManagerPermissions,
+      actions: OrgManagerActions,
     },
     TestDomain,
   );
+
+  await rms.addInDomain(users.god, SiteRoles.admin, DefaultSite, TestDomain);
+  await rms.addInDomain(users.guest, SiteRoles.member, DefaultSite, TestDomain);
 
   await rms.addInDomain(users.musk, OrgRoles.owner, orgs.tesla, TestDomain);
   await rms.addInDomain(users.jerry, OrgRoles.member, orgs.tesla, TestDomain);

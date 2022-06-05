@@ -1,5 +1,4 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {Role} from './role.model';
 import {
   DomainAware,
   ObjectProps,
@@ -10,6 +9,7 @@ import {
   RoleAware,
 } from '../types';
 import {AclPrincipal, AclResource} from './models';
+import {Role, RoleWithRelations} from './role.model';
 
 @model()
 export class RoleMapping extends Entity implements DomainAware, PrincipalAware, ResourceAware, RoleAware {
@@ -77,13 +77,13 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
   }
 }
 
-export interface AclRoleMappingRelations {
-  role?: Role;
+export interface RoleMappingRelations {
+  role?: RoleWithRelations;
   resource?: AclResource;
   principal?: AclPrincipal;
 }
 
-export type RoleMappingWithRelations = RoleMapping & AclRoleMappingRelations;
+export type RoleMappingWithRelations = RoleMapping & RoleMappingRelations;
 
 export type RoleMappingProps = ObjectProps<Omit<RoleMapping, 'resource' | 'principal' | 'role'>>;
 export type RoleMappingAttrs = RoleMappingProps & {

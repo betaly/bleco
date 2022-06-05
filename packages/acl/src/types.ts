@@ -1,7 +1,7 @@
-import {Entity, Filter} from '@loopback/repository';
 import {KeyOf} from '@loopback/filter/src/query';
-import {OmitProperties} from 'ts-essentials';
 import {AnyObject} from '@loopback/filter/src/types';
+import {Entity, Filter} from '@loopback/repository';
+import {OmitProperties} from 'ts-essentials';
 
 export const AclAuthDBName = 'AclAuthDB';
 export const AclResourceDBName = 'AclResourceDB';

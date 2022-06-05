@@ -1,3 +1,3 @@
-export * from './role.service';
+export * from './principal.service';
 export * from './role-mapping.service';
-export * from './enforcer.service';
+export * from './role.service';

@@ -1,31 +1,31 @@
 import {Application, Binding, BindingFromClassOptions, Constructor, CoreBindings, MixinTarget} from '@loopback/core';
-import {Class} from 'tily/typings/types';
 import {Entity} from '@loopback/repository';
 import debugFactory from 'debug';
-import {AclBindings, AclTags} from '../keys';
+import {Class} from 'tily/typings/types';
 import {AclComponent} from '../component';
-import {Policy, PolicyManager} from '../policies';
+import {AclBindings, AclTags} from '../keys';
+import {Policy, PolicyRegistry} from '../policies';
 
 const debug = debugFactory('bleco:acl:mixin');
 
 export function AclMixin<T extends MixinTarget<Application>>(superClass: T) {
   return class extends superClass {
-    policyManager: PolicyManager;
+    policyRegistry: PolicyRegistry;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
       this.component(AclComponent);
-      this.policyManager = new PolicyManager();
-      const binding: Binding<PolicyManager> = this.bind(AclBindings.POLICY_MANAGER).to(this.policyManager);
+      this.policyRegistry = new PolicyRegistry();
+      const binding: Binding<PolicyRegistry> = this.bind(AclBindings.POLICY_REGISTRY).to(this.policyRegistry);
       debug('Binding created for policy manager', binding);
     }
 
     policy(policy: Policy) {
-      this.policyManager.add(policy);
+      this.policyRegistry.add(policy);
       const name = policy.model.name;
       const binding: Binding<Policy> = this.bind(`${AclBindings.POLICIES}.${name}`)
-        .toDynamicValue(() => this.policyManager.get(name))
+        .toDynamicValue(() => this.policyRegistry.get(name))
         .tag(AclTags.POLICY);
       this.add(binding);
       return binding;
@@ -33,12 +33,12 @@ export function AclMixin<T extends MixinTarget<Application>>(superClass: T) {
 
     findPolicy(model: Class<Entity> | string): Policy | undefined {
       const name = typeof model === 'string' ? model : model.name;
-      return this.policyManager.find(name);
+      return this.policyRegistry.find(name);
     }
 
     getPolicy(model: Class<Entity> | string): Policy {
       const name = typeof model === 'string' ? model : model.name;
-      return this.policyManager.get(name);
+      return this.policyRegistry.get(name);
     }
 
     /**

@@ -1,7 +1,12 @@
+import {RepositoryFactory} from '@bleco/repository-factory';
+import {Authorizer} from '@loopback/authorization';
 import {BindingKey} from '@loopback/context';
-import {EnforcerStrategy} from './enforcer';
-import {PolicyManager} from './policies';
-import {EnforcerService, RoleMappingService, RoleService} from './services';
+import {Entity} from '@loopback/repository';
+import {Acl} from './acl';
+import {Enforcer} from './enforcer';
+import {DefaultEnforcerOptions} from './enforcers/default';
+import {PolicyRegistry} from './policies';
+import {PrincipalService, RoleMappingService, RoleService} from './services';
 
 export namespace AclBindings {
   /**
@@ -9,15 +14,23 @@ export namespace AclBindings {
    */
   export const POLICIES = 'policies';
 
-  export const POLICY_MANAGER = BindingKey.create<PolicyManager>('acl.PolicyManager');
+  export const ENFORCER = BindingKey.create<Enforcer>('acl.enforcer');
+  export const ACL = BindingKey.create<Acl>('acl.acl');
 
-  export const ENFORCER_STRATEGY = BindingKey.create<EnforcerStrategy>('acl.enforcer.strategy');
+  export const REPOSITORY_FACTORY = BindingKey.create<RepositoryFactory>('acl.repositoryFactory');
 
-  export const ROLE_SERVICE = BindingKey.create<RoleService>('services.role');
+  export const POLICY_REGISTRY = BindingKey.create<PolicyRegistry>('acl.policyRegistry');
 
-  export const ROLE_MAPPING_SERVICE = BindingKey.create<RoleMappingService>('services.role-mapping');
+  export const ROLE_SERVICE = BindingKey.create<RoleService>('acl.services.role');
+  export const ROLE_MAPPING_SERVICE = BindingKey.create<RoleMappingService>('acl.services.roleMapping');
 
-  export const ENFORCER_SERVICE = BindingKey.create<EnforcerService>('services.enforcer');
+  export const PRINCIPAL_SERVICE = BindingKey.create<PrincipalService>('acl.services.principal');
+
+  export const AUTHORIZER = BindingKey.create<Authorizer>('acl.authorization.authorizer');
+
+  export const RESOURCE = BindingKey.create<Entity>('acl.authorization.resource');
+
+  export const DEFAULT_ENFORCER_OPTIONS = BindingKey.create<DefaultEnforcerOptions>('acl.enforcer.default.options');
 }
 
 export namespace AclTags {

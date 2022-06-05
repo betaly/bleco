@@ -1,9 +1,9 @@
 import {Where} from '@loopback/repository';
-import {RoleMappingRepository, RoleRepository} from '../../repositories';
-import {RoleMapping} from '../../models';
-import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
-import {RoleMappingService} from '../../services';
 import {AclBindings} from '../..';
+import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
+import {RoleMapping} from '../../models';
+import {RoleMappingRepository, RoleRepository} from '../../repositories';
+import {RoleMappingService} from '../../services';
 import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
 
 describe('RoleMappingService integration tests', function () {

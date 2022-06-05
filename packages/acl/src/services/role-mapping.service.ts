@@ -1,5 +1,12 @@
+import {inject, injectable} from '@loopback/context';
+import {BindingScope} from '@loopback/core';
 import {Options, repository, Where} from '@loopback/repository';
+import debugFactory from 'debug';
+import {toResourcePolymorphic} from '../helpers';
+import {AclBindings} from '../keys';
 import {RoleMapping, RoleMappingAttrs} from '../models';
+import {PolicyRegistry} from '../policies';
+import {RoleMappingRepository, RoleRepository} from '../repositories';
 import {
   DomainAware,
   GlobalDomain,
@@ -9,13 +16,6 @@ import {
   RoleAware,
 } from '../types';
 import {RoleBaseService} from './role.base.service';
-import {inject, injectable} from '@loopback/context';
-import {BindingScope} from '@loopback/core';
-import debugFactory from 'debug';
-import {RoleMappingRepository, RoleRepository} from '../repositories';
-import {AclBindings} from '../keys';
-import {PolicyManager} from '../policies';
-import {toResourcePolymorphic} from '../helpers';
 
 const debug = debugFactory('bleco:acl:role-mapping-service');
 
@@ -26,12 +26,12 @@ export class RoleMappingService extends RoleBaseService<RoleMapping> {
   constructor(
     @repository(RoleMappingRepository)
     repo: RoleMappingRepository,
-    @inject(AclBindings.POLICY_MANAGER)
-    policyManager: PolicyManager,
+    @inject(AclBindings.POLICY_REGISTRY)
+    policyRegistry: PolicyRegistry,
     @repository(RoleRepository)
     public roleRepository: RoleRepository,
   ) {
-    super(repo, policyManager);
+    super(repo, policyRegistry);
   }
 
   async add(

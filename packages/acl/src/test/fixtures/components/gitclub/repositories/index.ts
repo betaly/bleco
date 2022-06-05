@@ -1,11 +1,11 @@
-import {UserRepository} from './user.repository';
+import {IssueRepository} from './issue.repository';
 import {OrgRepository} from './org.repository';
 import {RepoRepository} from './repo.repository';
-import {IssueRepository} from './issue.repository';
+import {SiteRepository} from './site.repository';
 
-export * from './user.repository';
+export * from './issue.repository';
 export * from './org.repository';
 export * from './repo.repository';
-export * from './issue.repository';
+export * from './site.repository';
 
-export const repositories = [UserRepository, OrgRepository, RepoRepository, IssueRepository];
+export const repositories = [SiteRepository, OrgRepository, RepoRepository, IssueRepository];

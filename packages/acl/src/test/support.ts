@@ -1,5 +1,5 @@
-import path from 'path';
 import {givenHttpServerConfig} from '@loopback/testlab';
+import path from 'path';
 import {GitClubApplication, seed} from './fixtures';
 import {AppInit} from './types';
 

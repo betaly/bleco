@@ -1,0 +1,449 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Policy Linker should link 1`] = `
+Array [
+  Object {
+    "actionRoles": Object {
+      "create_repos": Object {
+        "$": Array [
+          "owner",
+        ],
+      },
+      "create_role_assignments": Object {
+        "$": Array [
+          "owner",
+        ],
+      },
+      "delete_role_assignments": Object {
+        "$": Array [
+          "owner",
+        ],
+      },
+      "list_repos": Object {
+        "$": Array [
+          "member",
+          "owner",
+        ],
+      },
+      "list_role_assignments": Object {
+        "$": Array [
+          "member",
+          "owner",
+        ],
+      },
+      "read": Object {
+        "$": Array [
+          "member",
+          "owner",
+        ],
+      },
+      "update_role_assignments": Object {
+        "$": Array [
+          "owner",
+        ],
+      },
+    },
+    "actions": Array [
+      "read",
+      "create_repos",
+      "list_repos",
+      "create_role_assignments",
+      "list_role_assignments",
+      "update_role_assignments",
+      "delete_role_assignments",
+    ],
+    "definition": Object {
+      "actions": Array [
+        "read",
+        "create_repos",
+        "list_repos",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
+      "model": [Function],
+      "roleActions": Object {
+        "member": Array [
+          "read",
+          "list_repos",
+          "list_role_assignments",
+        ],
+        "owner": Array [
+          "create_repos",
+          "create_role_assignments",
+          "update_role_assignments",
+          "delete_role_assignments",
+        ],
+      },
+      "roleDerivations": Object {
+        "member": Array [
+          "owner",
+        ],
+      },
+      "roles": Array [
+        "owner",
+        "member",
+      ],
+      "type": "resource",
+    },
+    "model": [Function],
+    "roleActions": Object {
+      "$:member": Array [
+        "read",
+        "list_repos",
+        "list_role_assignments",
+      ],
+      "$:owner": Array [
+        "read",
+        "create_repos",
+        "list_repos",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
+    },
+    "roleChildren": Object {
+      "member": Object {
+        "$": Array [
+          "owner",
+        ],
+      },
+      "owner": Object {
+        "$": Array [],
+      },
+    },
+    "roleParents": Object {
+      "member": Array [],
+      "owner": Array [
+        "member",
+      ],
+    },
+    "roles": Object {
+      "$": Array [
+        "member",
+        "owner",
+      ],
+    },
+  },
+  Object {
+    "actionRoles": Object {
+      "create_issues": Object {
+        "$": Array [
+          "reader",
+          "admin",
+          "maintainer",
+        ],
+        "org": Array [
+          "owner",
+          "member",
+        ],
+      },
+      "create_role_assignments": Object {
+        "$": Array [
+          "admin",
+        ],
+        "org": Array [
+          "owner",
+        ],
+      },
+      "delete_role_assignments": Object {
+        "$": Array [
+          "admin",
+        ],
+        "org": Array [
+          "owner",
+        ],
+      },
+      "list_issues": Object {
+        "$": Array [
+          "reader",
+          "admin",
+          "maintainer",
+        ],
+        "org": Array [
+          "owner",
+          "member",
+        ],
+      },
+      "list_role_assignments": Object {
+        "$": Array [
+          "admin",
+        ],
+        "org": Array [
+          "owner",
+        ],
+      },
+      "read": Object {
+        "$": Array [
+          "reader",
+          "admin",
+          "maintainer",
+        ],
+        "org": Array [
+          "owner",
+          "member",
+        ],
+      },
+      "update_role_assignments": Object {
+        "$": Array [
+          "admin",
+        ],
+        "org": Array [
+          "owner",
+        ],
+      },
+    },
+    "actions": Array [
+      "read",
+      "create_issues",
+      "list_issues",
+      "create_role_assignments",
+      "list_role_assignments",
+      "update_role_assignments",
+      "delete_role_assignments",
+    ],
+    "definition": Object {
+      "actions": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
+      "model": [Function],
+      "relations": Array [
+        "org",
+      ],
+      "roleActions": Object {
+        "admin": Array [
+          "create_role_assignments",
+          "list_role_assignments",
+          "update_role_assignments",
+          "delete_role_assignments",
+        ],
+        "reader": Array [
+          "read",
+          "list_issues",
+          "create_issues",
+        ],
+      },
+      "roleDerivations": Object {
+        "admin": Array [
+          "org.owner",
+        ],
+        "maintainer": Array [
+          "admin",
+        ],
+        "reader": Array [
+          "org.member",
+          "maintainer",
+        ],
+      },
+      "roles": Array [
+        "admin",
+        "maintainer",
+        "reader",
+      ],
+      "type": "resource",
+    },
+    "model": [Function],
+    "roleActions": Object {
+      "$:admin": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
+      "$:maintainer": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+      ],
+      "$:reader": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+      ],
+      "org:member": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+      ],
+      "org:owner": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
+    },
+    "roleChildren": Object {
+      "admin": Object {
+        "$": Array [],
+        "org": Array [
+          "owner",
+        ],
+      },
+      "maintainer": Object {
+        "$": Array [
+          "admin",
+        ],
+        "org": Array [
+          "owner",
+        ],
+      },
+      "reader": Object {
+        "$": Array [
+          "admin",
+          "maintainer",
+        ],
+        "org": Array [
+          "owner",
+          "member",
+        ],
+      },
+    },
+    "roleParents": Object {
+      "admin": Array [
+        "maintainer",
+        "reader",
+      ],
+      "maintainer": Array [
+        "reader",
+      ],
+      "org.member": Array [
+        "reader",
+      ],
+      "org.owner": Array [
+        "admin",
+        "maintainer",
+        "reader",
+      ],
+      "reader": Array [],
+    },
+    "roles": Object {
+      "$": Array [
+        "reader",
+        "admin",
+        "maintainer",
+      ],
+      "org": Array [
+        "owner",
+        "member",
+      ],
+    },
+  },
+  Object {
+    "actionRoles": Object {
+      "close": Object {
+        "$": Array [
+          "creator",
+        ],
+        "repo": Array [
+          "maintainer",
+          "admin",
+        ],
+        "repo.org": Array [
+          "owner",
+        ],
+      },
+      "read": Object {
+        "$": Array [],
+        "repo": Array [
+          "reader",
+          "admin",
+          "maintainer",
+        ],
+        "repo.org": Array [
+          "owner",
+          "member",
+        ],
+      },
+    },
+    "actions": Array [
+      "read",
+      "close",
+    ],
+    "definition": Object {
+      "actions": Array [
+        "read",
+        "close",
+      ],
+      "model": [Function],
+      "relations": Array [
+        "repo",
+      ],
+      "roleActions": Object {
+        "creator": Array [
+          "close",
+        ],
+        "repo.maintainer": Array [
+          "close",
+        ],
+        "repo.reader": Array [
+          "read",
+        ],
+      },
+      "roles": Array [
+        "creator",
+      ],
+      "type": "resource",
+    },
+    "model": [Function],
+    "roleActions": Object {
+      "$:creator": Array [
+        "close",
+      ],
+      "repo.org:member": Array [
+        "read",
+      ],
+      "repo.org:owner": Array [
+        "read",
+        "close",
+      ],
+      "repo:admin": Array [
+        "read",
+        "close",
+      ],
+      "repo:maintainer": Array [
+        "read",
+        "close",
+      ],
+      "repo:reader": Array [
+        "read",
+      ],
+    },
+    "roleChildren": Object {
+      "creator": Object {
+        "$": Array [],
+      },
+    },
+    "roleParents": Object {
+      "creator": Array [],
+    },
+    "roles": Object {
+      "$": Array [
+        "creator",
+      ],
+      "repo": Array [
+        "reader",
+        "admin",
+        "maintainer",
+      ],
+      "repo.org": Array [
+        "owner",
+        "member",
+      ],
+    },
+  },
+]
+`;

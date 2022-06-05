@@ -1,6 +1,6 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {User} from '../../account';
 import {Repo} from './repo.model';
-import {User} from './user.model';
 
 @model()
 export class Issue extends Entity {

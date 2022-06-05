@@ -1,18 +1,10 @@
 import {Where} from '@loopback/repository';
-import {RoleService} from '../../services';
-import {RoleMappingRepository, RoleRepository} from '../../repositories';
-import {AclBindings} from '../../keys';
 import {toResourcePolymorphic} from '../../helpers';
+import {AclBindings} from '../../keys';
 import {Role} from '../../models';
-import {
-  GitClubApplication,
-  givenApp,
-  OrgManagerPermissions,
-  OrgPermissions,
-  OrgRoles,
-  TestData,
-  TestDomain,
-} from '../../test';
+import {RoleMappingRepository, RoleRepository} from '../../repositories';
+import {RoleService} from '../../services';
+import {GitClubApplication, givenApp, OrgActions, OrgManagerActions, OrgRoles, TestData, TestDomain} from '../../test';
 
 describe('RoleService integration tests', function () {
   let app: GitClubApplication;
@@ -46,12 +38,12 @@ describe('RoleService integration tests', function () {
       const roleName = 'test_role';
       const resource = orgs.google;
 
-      const permissions = [OrgPermissions.read, OrgPermissions.list_repos];
+      const permissions = [OrgActions.read, OrgActions.list_repos];
 
       const role = await roleService.add({
         name: roleName,
         resource,
-        permissions,
+        actions: permissions,
       });
       expect(role.name).toBe(roleName);
 
@@ -59,7 +51,7 @@ describe('RoleService integration tests', function () {
       expect(found).toBeTruthy();
       expect(found.id).toBe(role.id);
       expect(found.name).toBe(role.name);
-      expect(found.permissions?.map(p => p.permission).sort()).toEqual(permissions.sort());
+      expect(found.permissions?.map(p => p.action).sort()).toEqual(permissions.sort());
     });
 
     it('should throw error if role already exists', async () => {
@@ -68,7 +60,12 @@ describe('RoleService integration tests', function () {
       const resource = orgs.google;
 
       await roleService.add({name: roleName, resource});
-      await expect(roleService.add({name: roleName, resource})).rejects.toThrow('The following role(s) already exist');
+      await expect(
+        roleService.add({
+          name: roleName,
+          resource,
+        }),
+      ).rejects.toThrow('The following role(s) already exist');
     });
 
     it('should throw error if role is builtin', async () => {
@@ -119,14 +116,14 @@ describe('RoleService integration tests', function () {
       const {orgs} = td;
       const resource = orgs.tesla;
 
-      const newPermissions = [OrgPermissions.read, OrgPermissions.list_repos];
+      const newPermissions = [OrgActions.read, OrgActions.list_repos];
       const role = (await roleService.findOneInDomain(
         {where: {name: 'manager', ...toResourcePolymorphic(resource)}},
         TestDomain,
         {include: ['permissions']},
       ))!;
       expect(role).toBeDefined();
-      const oldPermissions = role.permissions?.map(p => p.permission);
+      const oldPermissions = role.permissions?.map(p => p.action);
       expect(oldPermissions?.sort()).not.toEqual(newPermissions.sort());
 
       await roleService.updatePermissions(role.id, newPermissions);
@@ -134,7 +131,7 @@ describe('RoleService integration tests', function () {
       expect(found).toBeTruthy();
       expect(found.id).toBe(role.id);
       expect(found.name).toBe(role.name);
-      expect(found.permissions?.map(p => p.permission).sort()).toEqual(newPermissions.sort());
+      expect(found.permissions?.map(p => p.action).sort()).toEqual(newPermissions.sort());
     });
   });
 
@@ -279,7 +276,7 @@ describe('RoleService integration tests', function () {
       }))!;
       expect(found).toBeTruthy();
       expect(found.name).toBe('manager');
-      expect(found.permissions?.map(p => p.permission).sort()).toEqual(OrgManagerPermissions.sort());
+      expect(found.permissions?.map(p => p.action).sort()).toEqual(OrgManagerActions.sort());
     });
 
     it('check some one has permission on the resource with repository', async () => {
@@ -293,7 +290,7 @@ describe('RoleService integration tests', function () {
           domain: TestDomain,
           principalId: users.tom.id,
           ...toResourcePolymorphic(resource),
-          'role.permissions.permission': OrgPermissions.create_role_assignments,
+          'role.permissions.action': OrgActions.create_role_assignments,
         },
       });
 
@@ -307,7 +304,7 @@ describe('RoleService integration tests', function () {
           domain: TestDomain,
           principalId: users.jerry.id,
           ...toResourcePolymorphic(resource),
-          'role.permissions.permission': OrgPermissions.create_repos,
+          'role.permissions.action': OrgActions.create_repos,
         },
       });
 

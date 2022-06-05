@@ -1,7 +1,7 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {Role} from './role.model';
 import {DomainAware, ObjectProps, ResourcePolymorphicOrEntity} from '../types';
 import {AclResource} from './models';
+import {Role} from './role.model';
 
 @model()
 export class RolePermission extends Entity implements DomainAware {
@@ -46,7 +46,7 @@ export class RolePermission extends Entity implements DomainAware {
   @property({
     index: true,
   })
-  permission: string;
+  action: string;
 
   constructor(data?: Partial<RolePermission>) {
     super(data);

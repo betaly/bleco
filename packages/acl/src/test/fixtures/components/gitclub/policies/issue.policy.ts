@@ -7,20 +7,20 @@ export const IssueRoles = {
 
 export type IssueRole = typeof IssueRoles[keyof typeof IssueRoles];
 
-export const IssuePermissions = {
+export const IssueActions = {
   read: 'read',
   close: 'close',
 };
 
-export type IssuePermission = typeof IssuePermissions[keyof typeof IssuePermissions];
+export type IssueAction = typeof IssueActions[keyof typeof IssueActions];
 
-export const IssuePolicy: ResourcePolicy<IssueRole, IssuePermission> = {
+export const IssuePolicy: ResourcePolicy<IssueRole, IssueAction> = {
   type: 'resource',
   model: Issue,
   roles: ['creator'],
-  permissions: ['read', 'close'],
+  actions: ['read', 'close'],
   relations: ['repo'],
-  rolePermissions: {
+  roleActions: {
     'repo.reader': ['read'],
     'repo.maintainer': ['close'],
     creator: ['close'],

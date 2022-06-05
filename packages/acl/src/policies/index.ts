@@ -1,2 +1,3 @@
 export * from './policy';
-export * from './policy.manager';
+export * from './policy.registry';
+export * from './types';

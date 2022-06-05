@@ -1,6 +1,7 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
 import {inject} from '@loopback/context';
 import {juggler} from '@loopback/repository';
+import {resolveRoleId, toResourcePolymorphic} from '../helpers';
 import {
   RoleMappingProps,
   RolePermission,
@@ -9,7 +10,6 @@ import {
   RolePermissionRelations,
 } from '../models';
 import {AclAuthDBName} from '../types';
-import {resolveRoleId, toResourcePolymorphic} from '../helpers';
 
 export class RolePermissionRepository extends QueryEnhancedCrudRepository<
   RolePermission,

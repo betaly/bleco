@@ -1,7 +1,7 @@
 import {Application} from '@loopback/core';
-import {AclMixin, ApplicationWithAcl} from '../../mixins';
 import {PolicyBooter, PolicyDefaults} from '../../booters';
 import {AclBindings, AclTags} from '../../keys';
+import {AclMixin, ApplicationWithAcl} from '../../mixins';
 import {componentsPath, fixturesPath} from '../../test';
 
 describe('Acl policy booter unit tests', function () {

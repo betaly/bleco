@@ -1,18 +1,18 @@
-import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
-import debugFactory from 'debug';
-import {Condition, Options, repository, Where} from '@loopback/repository';
 import {inject, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
+import {Condition, Options, repository, Where} from '@loopback/repository';
+import debugFactory from 'debug';
 import toArray from 'tily/array/toArray';
 import {assert} from 'tily/assert';
-import {DeleteResult, EntityLike, GlobalDomain, ResourcePolymorphicOrEntity} from '../types';
+import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
+import {RolesExistsError} from '../errors';
+import {resolveRoleId} from '../helpers';
 import {AclBindings} from '../keys';
 import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
-import {resolveRoleId} from '../helpers';
-import {PolicyManager} from '../policies';
-import {RolesExistsError} from '../errors';
-import {RoleBaseService} from './role.base.service';
+import {PolicyRegistry} from '../policies';
 import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
+import {DeleteResult, EntityLike, GlobalDomain, ResourcePolymorphicOrEntity} from '../types';
+import {RoleBaseService} from './role.base.service';
 
 const debug = debugFactory('bleco:acl:role-service');
 
@@ -27,14 +27,14 @@ export class RoleService extends RoleBaseService<Role> {
   constructor(
     @repository(RoleRepository)
     repo: RoleRepository,
-    @inject(AclBindings.POLICY_MANAGER)
-    policyManager: PolicyManager,
+    @inject(AclBindings.POLICY_REGISTRY)
+    policyRegistry: PolicyRegistry,
     @repository(RoleMappingRepository)
     public roleMappingRepository: RoleMappingRepository,
     @repository(RolePermissionRepository)
     public rolePermissionRepository: RolePermissionRepository,
   ) {
-    super(repo, policyManager);
+    super(repo, policyRegistry);
   }
 
   async add(entity: RoleInput, options?: Options): Promise<Role> {
@@ -78,7 +78,7 @@ export class RoleService extends RoleBaseService<Role> {
 
     // prepare roles and rolePermissions
     toArray(entities).forEach(entity => {
-      const {permissions, ...unwrappedAttrs} = entity;
+      const {actions, ...unwrappedAttrs} = entity;
       const props = this.repo.resolveProps(unwrappedAttrs, {domain});
 
       assert(props.name, 'Role name is required');
@@ -89,7 +89,7 @@ export class RoleService extends RoleBaseService<Role> {
       }
 
       rolesProps.push(props);
-      rolesPermissions.push(permissions);
+      rolesPermissions.push(actions);
       existsConditions.push(props);
     });
 
@@ -184,7 +184,7 @@ export class RoleService extends RoleBaseService<Role> {
             roleId: role.id,
             resourceType: role.resourceType,
             resourceId: role.resourceId,
-            permission,
+            action: permission,
             domain,
           })),
           options,
