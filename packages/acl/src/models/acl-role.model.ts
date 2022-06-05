@@ -1,11 +1,11 @@
 import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
-import {RolePermission} from '../models';
+import {AclRolePermission} from '../models';
 import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
+import {AclRoleMapping} from './acl-role-mapping.model';
 import {AclResource} from './models';
-import {RoleMapping} from './role-mapping.model';
 
 @model()
-export class Role extends Entity implements DomainAware, ResourceAware {
+export class AclRole extends Entity implements DomainAware, ResourceAware {
   @property({
     type: 'string',
     id: true,
@@ -39,21 +39,21 @@ export class Role extends Entity implements DomainAware, ResourceAware {
   })
   resourceType: string;
 
-  @hasMany(() => RolePermission, {keyTo: 'roleId'})
-  permissions?: RolePermission[];
+  @hasMany(() => AclRolePermission, {keyTo: 'roleId'})
+  permissions?: AclRolePermission[];
 
-  @hasMany(() => RoleMapping, {keyTo: 'roleId'})
-  principals?: RoleMapping[];
+  @hasMany(() => AclRoleMapping, {keyTo: 'roleId'})
+  principals?: AclRoleMapping[];
 }
 
-export interface RoleRelations {
+export interface AclRoleRelations {
   resource?: Entity;
 }
 
-export type RoleWithRelations = Role & RoleRelations;
+export type AclRoleWithRelations = AclRole & AclRoleRelations;
 
-export type RoleProps = ObjectProps<Omit<Role, 'permissions' | 'principals'>>;
-export type RoleAttrs = RoleProps & {
+export type AclRoleProps = ObjectProps<Omit<AclRole, 'permissions' | 'principals'>>;
+export type AclRoleAttrs = AclRoleProps & {
   resource?: ResourcePolymorphicOrEntity;
   actions?: string[];
 };

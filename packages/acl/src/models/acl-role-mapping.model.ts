@@ -8,11 +8,11 @@ import {
   ResourcePolymorphicOrEntity,
   RoleAware,
 } from '../types';
+import {AclRole, AclRoleWithRelations} from './acl-role.model';
 import {AclPrincipal, AclResource} from './models';
-import {Role, RoleWithRelations} from './role.model';
 
 @model()
-export class RoleMapping extends Entity implements DomainAware, PrincipalAware, ResourceAware, RoleAware {
+export class AclRoleMapping extends Entity implements DomainAware, PrincipalAware, ResourceAware, RoleAware {
   @property({
     type: 'string',
     id: true,
@@ -42,7 +42,7 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
   principalType: string;
 
   @belongsTo(
-    () => Role,
+    () => AclRole,
     {},
     {
       name: 'role_id',
@@ -68,7 +68,7 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
   })
   resourceType: string;
 
-  constructor(data?: Partial<RoleMapping>) {
+  constructor(data?: Partial<AclRoleMapping>) {
     super(data);
   }
 
@@ -77,17 +77,17 @@ export class RoleMapping extends Entity implements DomainAware, PrincipalAware, 
   }
 }
 
-export interface RoleMappingRelations {
-  role?: RoleWithRelations;
+export interface AclRoleMappingRelations {
+  role?: AclRoleWithRelations;
   resource?: AclResource;
   principal?: AclPrincipal;
 }
 
-export type RoleMappingWithRelations = RoleMapping & RoleMappingRelations;
+export type AclRoleMappingWithRelations = AclRoleMapping & AclRoleMappingRelations;
 
-export type RoleMappingProps = ObjectProps<Omit<RoleMapping, 'resource' | 'principal' | 'role'>>;
-export type RoleMappingAttrs = RoleMappingProps & {
-  role?: Role | string;
+export type AclRoleMappingProps = ObjectProps<Omit<AclRoleMapping, 'resource' | 'principal' | 'role'>>;
+export type AclRoleMappingAttrs = AclRoleMappingProps & {
+  role?: AclRole | string;
   resource?: ResourcePolymorphicOrEntity;
   principal?: PrincipalPolymorphicOrEntity;
 };

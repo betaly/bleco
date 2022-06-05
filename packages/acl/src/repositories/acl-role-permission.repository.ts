@@ -3,27 +3,27 @@ import {inject} from '@loopback/context';
 import {juggler} from '@loopback/repository';
 import {resolveRoleId, toResourcePolymorphic} from '../helpers';
 import {
-  RoleMappingProps,
-  RolePermission,
-  RolePermissionAttrs,
-  RolePermissionProps,
-  RolePermissionRelations,
+  AclRoleMappingProps,
+  AclRolePermission,
+  AclRolePermissionAttrs,
+  AclRolePermissionProps,
+  AclRolePermissionRelations,
 } from '../models';
 import {AclAuthDBName} from '../types';
 
-export class RolePermissionRepository extends QueryEnhancedCrudRepository<
-  RolePermission,
-  typeof RolePermission.prototype.id,
-  RolePermissionRelations
+export class AclRolePermissionRepository extends QueryEnhancedCrudRepository<
+  AclRolePermission,
+  typeof AclRolePermission.prototype.id,
+  AclRolePermissionRelations
 > {
   constructor(
     @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
   ) {
-    super(RolePermission, dataSource);
+    super(AclRolePermission, dataSource);
   }
 
-  resolveProps(attrs: RolePermissionAttrs, defaults?: RoleMappingProps): RolePermissionProps {
+  resolveProps(attrs: AclRolePermissionAttrs, defaults?: AclRoleMappingProps): AclRolePermissionProps {
     const {resource, role, ...props} = {...defaults, ...attrs};
     if (resource) {
       Object.assign(props, toResourcePolymorphic(resource));

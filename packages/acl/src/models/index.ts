@@ -1,9 +1,9 @@
-import {RoleMapping} from './role-mapping.model';
-import {RolePermission} from './role-permission.model';
-import {Role} from './role.model';
+import {AclRoleMapping} from './acl-role-mapping.model';
+import {AclRolePermission} from './acl-role-permission.model';
+import {AclRole} from './acl-role.model';
 
-export * from './role-mapping.model';
-export * from './role-permission.model';
-export * from './role.model';
+export * from './acl-role-mapping.model';
+export * from './acl-role-permission.model';
+export * from './acl-role.model';
 
-export const models = [Role, RolePermission, RoleMapping];
+export const models = [AclRole, AclRolePermission, AclRoleMapping];

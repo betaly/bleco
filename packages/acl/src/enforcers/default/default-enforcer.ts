@@ -10,7 +10,7 @@ import {inspect} from 'util';
 import {AuthorizedFilter, Enforcer} from '../../enforcer';
 import {ForbiddenError, NotFoundError} from '../../errors';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
-import {RoleMapping, RoleMappingRelations} from '../../models';
+import {AclRoleMapping, AclRoleMappingRelations} from '../../models';
 import {AclModelRelationKeys, PolicyRegistry, ResolvedPolicy, resolveModelName} from '../../policies';
 import {buildRolesInclusion, PolicyBuilder, REL_LOCAL} from './policies';
 import ResourceRoles = AclModelRelationKeys.ResourceRoles;
@@ -47,7 +47,7 @@ export class DefaultEnhancer implements Enforcer {
     let where: Where;
     let repo: EntityCrudRepository<Entity, unknown>;
     if (isEmpty(roles)) {
-      repo = await this.repositoryFactory.getRepository(RoleMapping.name);
+      repo = await this.repositoryFactory.getRepository(AclRoleMapping.name);
       where = buildAllowedWhereForRoleMappings(principal, resource, action, $);
     } else {
       repo = await this.repositoryFactory.getRepository(resource.constructor.name);
@@ -86,8 +86,8 @@ export class DefaultEnhancer implements Enforcer {
   ): Promise<Set<string | '*'>> {
     const resourceCls = resource.constructor as typeof Entity;
     const resourceRepo = await this.repositoryFactory.getRepository(resourceCls.name);
-    const roleMappingRepo = await this.repositoryFactory.getRepository<RoleMapping, RoleMappingRelations>(
-      RoleMapping.name,
+    const roleMappingRepo = await this.repositoryFactory.getRepository<AclRoleMapping, AclRoleMappingRelations>(
+      AclRoleMapping.name,
     );
 
     const policy = this.policyBuilder.get(resource);

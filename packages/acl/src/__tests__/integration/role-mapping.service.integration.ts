@@ -1,8 +1,8 @@
 import {Where} from '@loopback/repository';
 import {AclBindings} from '../..';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
-import {RoleMapping} from '../../models';
-import {RoleMappingRepository, RoleRepository} from '../../repositories';
+import {AclRoleMapping} from '../../models';
+import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
 import {RoleMappingService} from '../../services';
 import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
 
@@ -11,15 +11,15 @@ describe('RoleMappingService integration tests', function () {
   let td: TestData;
   let roleMappingService: RoleMappingService;
 
-  let roleRepo: RoleRepository;
-  let roleMappingRepo: RoleMappingRepository;
+  let roleRepo: AclRoleRepository;
+  let roleMappingRepo: AclRoleMappingRepository;
 
   beforeEach(async () => {
     ({app, td} = await givenApp());
 
     roleMappingService = await app.get<RoleMappingService>(AclBindings.ROLE_MAPPING_SERVICE);
-    roleMappingRepo = await app.getRepository(RoleMappingRepository);
-    roleRepo = await app.getRepository(RoleRepository);
+    roleMappingRepo = await app.getRepository(AclRoleMappingRepository);
+    roleRepo = await app.getRepository(AclRoleRepository);
   });
 
   afterEach(async () => {
@@ -46,7 +46,7 @@ describe('RoleMappingService integration tests', function () {
         const roleName = OrgRoles.owner;
         const resource = orgs.google;
 
-        const where: Where<RoleMapping> = {
+        const where: Where<AclRoleMapping> = {
           domain: TestDomain,
           roleId: roleName,
           ...toPrincipalPolymorphic(principal),

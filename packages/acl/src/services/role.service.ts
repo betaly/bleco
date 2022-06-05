@@ -8,40 +8,40 @@ import {ArrayOrSingle, MarkRequired} from 'ts-essentials';
 import {RolesExistsError} from '../errors';
 import {resolveRoleId} from '../helpers';
 import {AclBindings} from '../keys';
-import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps} from '../models';
+import {AclRole, AclRoleAttrs, AclRoleMapping, AclRolePermission, AclRoleProps} from '../models';
 import {PolicyRegistry} from '../policies';
-import {RoleMappingRepository, RolePermissionRepository, RoleRepository} from '../repositories';
+import {AclRoleMappingRepository, AclRolePermissionRepository, AclRoleRepository} from '../repositories';
 import {DeleteResult, EntityLike, GlobalDomain, ResourcePolymorphicOrEntity} from '../types';
 import {RoleBaseService} from './role.base.service';
 
 const debug = debugFactory('bleco:acl:role-service');
 
-export type RoleInput = MarkRequired<RoleAttrs, 'name' | 'resource'>;
+export type RoleInput = MarkRequired<AclRoleAttrs, 'name' | 'resource'>;
 
 export type RoleDeleteResult = DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}>;
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleService extends RoleBaseService<Role> {
-  repo: RoleRepository;
+export class RoleService extends RoleBaseService<AclRole> {
+  repo: AclRoleRepository;
 
   constructor(
-    @repository(RoleRepository)
-    repo: RoleRepository,
+    @repository(AclRoleRepository)
+    repo: AclRoleRepository,
     @inject(AclBindings.POLICY_REGISTRY)
     policyRegistry: PolicyRegistry,
-    @repository(RoleMappingRepository)
-    public roleMappingRepository: RoleMappingRepository,
-    @repository(RolePermissionRepository)
-    public rolePermissionRepository: RolePermissionRepository,
+    @repository(AclRoleMappingRepository)
+    public roleMappingRepository: AclRoleMappingRepository,
+    @repository(AclRolePermissionRepository)
+    public rolePermissionRepository: AclRolePermissionRepository,
   ) {
     super(repo, policyRegistry);
   }
 
-  async add(entity: RoleInput, options?: Options): Promise<Role> {
+  async add(entity: RoleInput, options?: Options): Promise<AclRole> {
     return this.addInDomain(entity, GlobalDomain, options);
   }
 
-  async addAll(entities: RoleInput[], options?: Options): Promise<Role[]> {
+  async addAll(entities: RoleInput[], options?: Options): Promise<AclRole[]> {
     return this.addAllInDomain(entities, GlobalDomain, options);
   }
 
@@ -61,20 +61,20 @@ export class RoleService extends RoleBaseService<Role> {
     return this.deleteForResourceInDomain(resource, GlobalDomain, options);
   }
 
-  async updatePermissions(roleOrId: string | Role, permissions: string[], options?: Options) {
+  async updatePermissions(roleOrId: string | AclRole, permissions: string[], options?: Options) {
     return this.updatePermissionsInDomain(roleOrId, permissions, GlobalDomain, options);
   }
 
-  async addInDomain(entity: RoleInput, domain: string, options?: Options): Promise<Role> {
+  async addInDomain(entity: RoleInput, domain: string, options?: Options): Promise<AclRole> {
     return (await this.addAllInDomain([entity], domain, options))[0];
   }
 
-  async addAllInDomain(entities: RoleInput[], domain: string, options?: Options): Promise<Role[]> {
+  async addAllInDomain(entities: RoleInput[], domain: string, options?: Options): Promise<AclRole[]> {
     options = {...options};
 
-    const rolesProps: RoleProps[] = [];
+    const rolesProps: AclRoleProps[] = [];
     const rolesPermissions: (string[] | undefined)[] = [];
-    const existsConditions: Condition<Role>[] = [];
+    const existsConditions: Condition<AclRole>[] = [];
 
     // prepare roles and rolePermissions
     toArray(entities).forEach(entity => {
@@ -137,15 +137,15 @@ export class RoleService extends RoleBaseService<Role> {
     const rolesWhere = {
       id: {inq: ids},
       domain,
-    } as Where<Role>;
+    } as Where<AclRole>;
     const roleMappingsWhere = {
       roleId: {inq: ids},
       domain,
-    } as Where<RoleMapping>;
+    } as Where<AclRoleMapping>;
     const rolePermissionsWhere = {
       roleId: {inq: ids},
       domain,
-    } as Where<RolePermission>;
+    } as Where<AclRolePermission>;
     return this.deleteCascade({rolesWhere, rolePermissionsWhere, roleMappingsWhere}, options);
   }
 
@@ -155,12 +155,12 @@ export class RoleService extends RoleBaseService<Role> {
     options?: Options,
   ): Promise<RoleDeleteResult> {
     options = {...options};
-    const roleWhere = this.repo.resolveProps({resource}, {domain}) as Condition<Role>;
-    const roleMappingWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<RoleMapping>;
+    const roleWhere = this.repo.resolveProps({resource}, {domain}) as Condition<AclRole>;
+    const roleMappingWhere = this.roleMappingRepository.resolveProps({resource}, {domain}) as Condition<AclRoleMapping>;
     const rolePermissionsWhere = this.rolePermissionRepository.resolveProps(
       {resource},
       {domain},
-    ) as Condition<RolePermission>;
+    ) as Condition<AclRolePermission>;
 
     return this.deleteCascade(
       {
@@ -172,7 +172,12 @@ export class RoleService extends RoleBaseService<Role> {
     );
   }
 
-  async updatePermissionsInDomain(roleOrId: string | Role, permissions: string[], domain: string, options?: Options) {
+  async updatePermissionsInDomain(
+    roleOrId: string | AclRole,
+    permissions: string[],
+    domain: string,
+    options?: Options,
+  ) {
     options = {...options};
     const tx = await this.tf.beginTransaction(options);
     try {
@@ -199,9 +204,9 @@ export class RoleService extends RoleBaseService<Role> {
 
   protected async deleteCascade(
     where: {
-      rolesWhere: Where<Role>;
-      rolePermissionsWhere: Where<RolePermission>;
-      roleMappingsWhere: Where<RoleMapping>;
+      rolesWhere: Where<AclRole>;
+      rolePermissionsWhere: Where<AclRolePermission>;
+      roleMappingsWhere: Where<AclRoleMapping>;
     },
     options: Options,
   ): Promise<RoleDeleteResult> {

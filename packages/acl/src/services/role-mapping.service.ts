@@ -4,9 +4,9 @@ import {Options, repository, Where} from '@loopback/repository';
 import debugFactory from 'debug';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
-import {RoleMapping, RoleMappingAttrs} from '../models';
+import {AclRoleMapping, AclRoleMappingAttrs} from '../models';
 import {PolicyRegistry} from '../policies';
-import {RoleMappingRepository, RoleRepository} from '../repositories';
+import {AclRoleMappingRepository, AclRoleRepository} from '../repositories';
 import {
   DomainAware,
   GlobalDomain,
@@ -20,16 +20,16 @@ import {RoleBaseService} from './role.base.service';
 const debug = debugFactory('bleco:acl:role-mapping-service');
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleMappingService extends RoleBaseService<RoleMapping> {
-  repo: RoleMappingRepository;
+export class RoleMappingService extends RoleBaseService<AclRoleMapping> {
+  repo: AclRoleMappingRepository;
 
   constructor(
-    @repository(RoleMappingRepository)
-    repo: RoleMappingRepository,
+    @repository(AclRoleMappingRepository)
+    repo: AclRoleMappingRepository,
     @inject(AclBindings.POLICY_REGISTRY)
     policyRegistry: PolicyRegistry,
-    @repository(RoleRepository)
-    public roleRepository: RoleRepository,
+    @repository(AclRoleRepository)
+    public roleRepository: AclRoleRepository,
   ) {
     super(repo, policyRegistry);
   }
@@ -43,7 +43,7 @@ export class RoleMappingService extends RoleBaseService<RoleMapping> {
     return this.addInDomain(principal, roleIdOrName, resource, GlobalDomain, options);
   }
 
-  async remove(condition: RoleMappingAttrs, options?: Options) {
+  async remove(condition: AclRoleMappingAttrs, options?: Options) {
     return this.removeInDomain(condition, GlobalDomain, options);
   }
 
@@ -89,9 +89,9 @@ export class RoleMappingService extends RoleBaseService<RoleMapping> {
     }
   }
 
-  async removeInDomain(condition: RoleMappingAttrs, domain: string, options?: Options) {
+  async removeInDomain(condition: AclRoleMappingAttrs, domain: string, options?: Options) {
     options = {...options};
-    const where = this.repo.resolveProps(condition, {domain}) as Where<RoleMapping>;
+    const where = this.repo.resolveProps(condition, {domain}) as Where<AclRoleMapping>;
 
     debug('remove with props', where);
 

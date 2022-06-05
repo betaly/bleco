@@ -1,32 +1,32 @@
 import {inject} from '@loopback/context';
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';
 import {resolveRoleId, toPrincipalPolymorphic, toResourcePolymorphic} from '../helpers';
-import {Role, RoleMapping, RoleMappingAttrs, RoleMappingProps, RoleMappingRelations} from '../models';
+import {AclRole, AclRoleMapping, AclRoleMappingAttrs, AclRoleMappingProps, AclRoleMappingRelations} from '../models';
 import {AclAuthDBName} from '../types';
+import {AclRoleRepository} from './acl-role.repository';
 import {RoleBaseRepository} from './role.base.repository';
-import {RoleRepository} from './role.repository';
 
-export class RoleMappingRepository extends RoleBaseRepository<
-  RoleMapping,
-  typeof RoleMapping.prototype.id,
-  RoleMappingRelations,
-  RoleMappingAttrs
+export class AclRoleMappingRepository extends RoleBaseRepository<
+  AclRoleMapping,
+  typeof AclRoleMapping.prototype.id,
+  AclRoleMappingRelations,
+  AclRoleMappingAttrs
 > {
-  public readonly role: BelongsToAccessor<Role, typeof Role.prototype.id>;
+  public readonly role: BelongsToAccessor<AclRole, typeof AclRole.prototype.id>;
 
   constructor(
     @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
-    @repository.getter('RoleRepository')
-    protected readonly roleRepositoryGetter: Getter<RoleRepository>,
+    @repository.getter('AclRoleRepository')
+    protected readonly roleRepositoryGetter: Getter<AclRoleRepository>,
   ) {
-    super(RoleMapping, dataSource);
+    super(AclRoleMapping, dataSource);
 
     this.role = this.createBelongsToAccessorFor('role', roleRepositoryGetter);
     this.registerInclusionResolver('role', this.role.inclusionResolver);
   }
 
-  resolveProps(attrs: RoleMappingAttrs, defaults?: RoleMappingProps): RoleMappingProps {
+  resolveProps(attrs: AclRoleMappingAttrs, defaults?: AclRoleMappingProps): AclRoleMappingProps {
     const {principal, resource, role, ...props} = {...defaults, ...attrs};
     if (principal) {
       Object.assign(props, toPrincipalPolymorphic(principal));

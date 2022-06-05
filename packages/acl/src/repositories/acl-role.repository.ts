@@ -2,28 +2,33 @@ import {inject} from '@loopback/context';
 import {Getter, HasManyRepositoryFactory, juggler, Options, repository} from '@loopback/repository';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
-import {Role, RoleAttrs, RoleMapping, RolePermission, RoleProps, RoleRelations} from '../models';
+import {AclRole, AclRoleAttrs, AclRoleMapping, AclRolePermission, AclRoleProps, AclRoleRelations} from '../models';
 import {PolicyRegistry} from '../policies';
 import {AclAuthDBName, ResourcePolymorphicOrEntity} from '../types';
-import {RoleMappingRepository} from './role-mapping.repository';
-import {RolePermissionRepository} from './role-permission.repository';
+import {AclRoleMappingRepository} from './acl-role-mapping.repository';
+import {AclRolePermissionRepository} from './acl-role-permission.repository';
 import {RoleBaseRepository} from './role.base.repository';
 
-export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototype.id, RoleRelations, RoleAttrs> {
-  public readonly principals: HasManyRepositoryFactory<RoleMapping, typeof RoleMapping.prototype.id>;
-  public readonly permissions: HasManyRepositoryFactory<RolePermission, typeof RolePermission.prototype.id>;
+export class AclRoleRepository extends RoleBaseRepository<
+  AclRole,
+  typeof AclRole.prototype.id,
+  AclRoleRelations,
+  AclRoleAttrs
+> {
+  public readonly principals: HasManyRepositoryFactory<AclRoleMapping, typeof AclRoleMapping.prototype.id>;
+  public readonly permissions: HasManyRepositoryFactory<AclRolePermission, typeof AclRolePermission.prototype.id>;
 
   constructor(
     @inject(`datasources.${AclAuthDBName}`)
     dataSource: juggler.DataSource,
-    @repository.getter('RoleMappingRepository')
-    protected readonly roleMappingRepositoryGetter: Getter<RoleMappingRepository>,
-    @repository.getter('RolePermissionRepository')
-    protected readonly rolePermissionRepositoryGetter: Getter<RolePermissionRepository>,
+    @repository.getter('AclRoleMappingRepository')
+    protected readonly roleMappingRepositoryGetter: Getter<AclRoleMappingRepository>,
+    @repository.getter('AclRolePermissionRepository')
+    protected readonly rolePermissionRepositoryGetter: Getter<AclRolePermissionRepository>,
     @inject(AclBindings.POLICY_REGISTRY)
     public readonly policyRegistry: PolicyRegistry,
   ) {
-    super(Role, dataSource);
+    super(AclRole, dataSource);
     this.principals = this.createHasManyRepositoryFactoryFor('principals', roleMappingRepositoryGetter);
     this.registerInclusionResolver('principals', this.principals.inclusionResolver);
     this.permissions = this.createHasManyRepositoryFactoryFor('permissions', rolePermissionRepositoryGetter);
@@ -40,7 +45,7 @@ export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototy
     roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
     options?: Options,
-  ): Promise<Role | null> {
+  ): Promise<AclRole | null> {
     const {resourceType, resourceId} = toResourcePolymorphic(resource);
     return this.findOne(
       {
@@ -58,14 +63,14 @@ export class RoleRepository extends RoleBaseRepository<Role, typeof Role.prototy
     roleIdOrName: string,
     resource: ResourcePolymorphicOrEntity,
     options?: Options,
-  ): Promise<string | Role | null> {
+  ): Promise<string | AclRole | null> {
     if (this.isBuiltInRole(roleIdOrName, resource)) {
       return roleIdOrName;
     }
     return this.findByIdOrName(roleIdOrName, resource, options);
   }
 
-  resolveProps(attrs: RoleAttrs, defaults?: RoleProps): RoleProps {
+  resolveProps(attrs: AclRoleAttrs, defaults?: AclRoleProps): AclRoleProps {
     const {resource, ...props} = {...defaults, ...attrs};
     if (resource) {
       const polymorphic = toResourcePolymorphic(resource);

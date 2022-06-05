@@ -1,5 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
-import {Role, RoleMapping} from '../../models';
+import {AclRole, AclRoleMapping} from '../../models';
 import {AclModelRelationKeys, Policy, PolicyRegistry} from '../../policies';
 import PrincipalRoleMappings = AclModelRelationKeys.PrincipalRoleMappings;
 
@@ -39,7 +39,7 @@ describe('PolicyRegistry', function () {
       expect(registry.has(User.name)).toBe(true);
       const rel = definition.relations[PrincipalRoleMappings];
       expect(rel).toBeTruthy();
-      expect(rel.target()).toEqual(RoleMapping);
+      expect(rel.target()).toEqual(AclRoleMapping);
     });
 
     it('should defineRolesRelationOnResource', function () {
@@ -56,11 +56,11 @@ describe('PolicyRegistry', function () {
       expect(registry.has(Org.name)).toBe(true);
       let rel = definition.relations['roles'];
       expect(rel).toBeTruthy();
-      expect(rel.target()).toEqual(Role);
+      expect(rel.target()).toEqual(AclRole);
 
       rel = definition.relations['principals'];
       expect(rel).toBeTruthy();
-      expect(rel.target()).toEqual(RoleMapping);
+      expect(rel.target()).toEqual(AclRoleMapping);
     });
   });
 });

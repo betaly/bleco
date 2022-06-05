@@ -2,7 +2,7 @@ import {EntityClass} from '@bleco/query';
 import {Entity} from '@loopback/repository';
 import debugFactory from 'debug';
 import {Constructor} from 'tily/typings/types';
-import {Role, RoleMapping} from '../models';
+import {AclRole, AclRoleMapping} from '../models';
 import {Policy} from './policy';
 import {AclModelRelationKeys} from './types';
 import ResourceRoleMappings = AclModelRelationKeys.ResourceRoleMappings;
@@ -56,14 +56,14 @@ export class PolicyRegistry {
     const definition = principalCls.definition;
     const rel = definition.relations[PrincipalRoleMappings];
     if (rel) {
-      if (rel.target() === RoleMapping) {
+      if (rel.target() === AclRoleMapping) {
         return;
       }
       throw new Error(`${principalCls.name} has a relation to ${rel.target().name} but it is not AclRoleActor`);
     }
     definition.hasMany(PrincipalRoleMappings, {
       source: principalCls,
-      target: () => RoleMapping,
+      target: () => AclRoleMapping,
       keyTo: 'principalId',
     });
   }
@@ -89,27 +89,27 @@ export class PolicyRegistry {
     const definition = resourceCls.definition;
     let rel = definition.relations[ResourceRoles];
     if (rel) {
-      if (rel.target() === Role) {
+      if (rel.target() === AclRole) {
         return;
       }
       throw new Error(`${resourceCls.name} has a relation to ${rel.target().name} but it is not Role`);
     }
     definition.hasMany(ResourceRoles, {
       source: resourceCls,
-      target: () => Role,
+      target: () => AclRole,
       keyTo: 'resourceId',
     });
 
     rel = definition.relations[ResourceRoleMappings];
     if (rel) {
-      if (rel.target() === RoleMapping) {
+      if (rel.target() === AclRoleMapping) {
         return;
       }
       throw new Error(`${resourceCls.name} has a relation to ${rel.target().name} but it is not RoleMapping`);
     }
     definition.hasMany(ResourceRoleMappings, {
       source: resourceCls,
-      target: () => RoleMapping,
+      target: () => AclRoleMapping,
       keyTo: 'resourceId',
     });
   }

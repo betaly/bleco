@@ -1,10 +1,10 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {DomainAware, ObjectProps, ResourcePolymorphicOrEntity} from '../types';
+import {AclRole} from './acl-role.model';
 import {AclResource} from './models';
-import {Role} from './role.model';
 
 @model()
-export class RolePermission extends Entity implements DomainAware {
+export class AclRolePermission extends Entity implements DomainAware {
   @property({
     type: 'string',
     id: true,
@@ -18,7 +18,7 @@ export class RolePermission extends Entity implements DomainAware {
   domain: string;
 
   @belongsTo(
-    () => Role,
+    () => AclRole,
     {},
     {
       name: 'role_id',
@@ -48,20 +48,20 @@ export class RolePermission extends Entity implements DomainAware {
   })
   action: string;
 
-  constructor(data?: Partial<RolePermission>) {
+  constructor(data?: Partial<AclRolePermission>) {
     super(data);
   }
 }
 
-export interface RolePermissionRelations {
-  role?: Role;
+export interface AclRolePermissionRelations {
+  role?: AclRole;
   resource?: AclResource;
 }
 
-export type RolePermissionWithRelations = RolePermission & RolePermissionRelations;
+export type AclRolePermissionWithRelations = AclRolePermission & AclRolePermissionRelations;
 
-export type RolePermissionProps = ObjectProps<Omit<RolePermission, 'roles' | 'resource'>>;
-export type RolePermissionAttrs = RolePermissionProps & {
-  role?: Role | string;
+export type AclRolePermissionProps = ObjectProps<Omit<AclRolePermission, 'roles' | 'resource'>>;
+export type AclRolePermissionAttrs = AclRolePermissionProps & {
+  role?: AclRole | string;
   resource?: ResourcePolymorphicOrEntity;
 };
