@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://gitr.net/betaly/bleco/compare/@bleco/ds-timestamp@0.2.4...@bleco/ds-timestamp@0.2.5) (2022-06-07)
+
+**Note:** Version bump only for package @bleco/ds-timestamp
+
+
+
+
+
 ## 0.2.4 (2022-06-07)
 
 **Note:** Version bump only for package @bleco/ds-timestamp
