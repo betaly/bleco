@@ -109,7 +109,7 @@ describe('FCM Service', () => {
       };
       const result = fcmProvider.sendingPushToConditions(message, generalMessageObj);
       expect(result).which.eql([]);
-    }, 5000);
+    }, 10000);
 
     it('returns array for sending push to receive tokens', async () => {
       const message: FcmMessage = {
@@ -138,7 +138,7 @@ describe('FCM Service', () => {
       expect(result).to.have.Array();
       // ignore net error
       await Promise.all(result).catch(() => {});
-    }, 5000);
+    }, 10000);
 
     it('returns array for sending push to topics', () => {
       const message: FcmMessage = {
@@ -165,7 +165,7 @@ describe('FCM Service', () => {
       };
       const result = fcmProvider.sendingPushToTopics(message, generalMessageObj);
       expect(result).which.eql([]);
-    }, 5000);
+    }, 10000);
 
     it('returns promise for sending in value function', async () => {
       const message: FcmMessage = {
@@ -187,6 +187,6 @@ describe('FCM Service', () => {
       expect(result).to.have.Promise();
       // ignore net error
       await result.catch(() => {});
-    }, 5000);
+    }, 10000);
   });
 });
