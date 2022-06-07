@@ -1,7 +1,7 @@
 import {MixinTarget} from '@bleco/mixin';
 import {Model, property} from '@loopback/repository';
 
-export function UserUpdatableEntityMixin<T extends MixinTarget<Model>>(superClass: T) {
+export function UserUpdatableModelMixin<T extends MixinTarget<Model>>(superClass: T) {
   class MixedModel extends superClass implements UserUpdatableModel {
     @property({
       type: 'string',

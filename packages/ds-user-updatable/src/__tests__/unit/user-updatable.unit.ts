@@ -2,8 +2,8 @@ import {mixin} from '@bleco/mixin';
 import {DefaultCrudRepository, Entity, juggler, model, property} from '@loopback/repository';
 import {
   UserType,
-  UserUpdatableEntityMixin,
   UserUpdatableModel,
+  UserUpdatableModelMixin,
   UserUpdatableRepository,
   UserUpdatableRepositoryMixin,
 } from '../../mixins';
@@ -13,7 +13,7 @@ describe('UserUpdatableMixin', function () {
   let repo: BookRepository;
 
   @model()
-  @mixin(UserUpdatableEntityMixin)
+  @mixin(UserUpdatableModelMixin)
   class Book extends Entity {
     @property({
       type: 'number',

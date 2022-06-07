@@ -1,14 +1,14 @@
 import {mixin} from '@bleco/mixin';
 import {DefaultCrudRepository, Entity, juggler, model, property} from '@loopback/repository';
 import delay from 'delay';
-import {TimestampEntityMixin, TimestampModel, TimestampRepositoryMixin} from '../../mixins';
+import {TimestampModel, TimestampModelMixin, TimestampRepositoryMixin} from '../../mixins';
 
 describe('TimestampMixin', function () {
   let ds: juggler.DataSource;
   let repo: BookRepository;
 
   @model()
-  @mixin(TimestampEntityMixin)
+  @mixin(TimestampModelMixin)
   class Book extends Entity {
     @property({
       type: 'number',

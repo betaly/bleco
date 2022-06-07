@@ -1,7 +1,7 @@
 import {MixinTarget} from '@loopback/core';
 import {Entity, property} from '@loopback/repository';
 
-export function SoftDeleteEntityMixin<T extends MixinTarget<Entity>>(superClass: T) {
+export function SoftDeleteModelMixin<T extends MixinTarget<Entity>>(superClass: T) {
   class SoftDeleteEntityClass extends superClass {
     @property({
       type: 'boolean',
@@ -29,4 +29,10 @@ export function SoftDeleteEntityMixin<T extends MixinTarget<Entity>>(superClass:
   }
 
   return SoftDeleteEntityClass;
+}
+
+export interface SoftDeleteModel {
+  deleted?: boolean;
+  deletedOn?: Date;
+  deletedBy?: string;
 }

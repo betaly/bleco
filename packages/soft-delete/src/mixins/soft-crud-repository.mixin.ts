@@ -1,15 +1,24 @@
 import {Getter, MixinTarget} from '@loopback/core';
-import {AndClause, Condition, DataObject, DefaultCrudRepository, Filter, OrClause, Where} from '@loopback/repository';
+import {
+  AndClause,
+  Condition,
+  DataObject,
+  DefaultCrudRepository,
+  Entity,
+  Filter,
+  OrClause,
+  Where,
+} from '@loopback/repository';
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
 import {Options} from 'loopback-datasource-juggler';
 import {ErrorKeys} from '../error-keys';
 import {getUserId} from '../helpers';
-import {SoftDeleteEntity} from '../models';
 import {UserLike} from '../types';
+import {SoftDeleteModel} from './soft-delete-model.mixin';
 
 export function SoftCrudRepositoryMixin<
-  T extends SoftDeleteEntity,
+  T extends SoftDeleteModel & Entity,
   ID,
   Relations extends object,
   R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
@@ -179,9 +188,9 @@ export function SoftCrudRepositoryMixin<
 
     delete = async (entity: T, options?: Options): Promise<void> => {
       // Do soft delete, no hard delete allowed
-      (entity as SoftDeleteEntity).deleted = true;
-      (entity as SoftDeleteEntity).deletedOn = new Date();
-      (entity as SoftDeleteEntity).deletedBy = await this.getUserId();
+      (entity as SoftDeleteModel).deleted = true;
+      (entity as SoftDeleteModel).deletedOn = new Date();
+      (entity as SoftDeleteModel).deletedBy = await this.getUserId();
       return super.update(entity, options);
     };
 
@@ -252,7 +261,7 @@ export function SoftCrudRepositoryMixin<
   };
 }
 
-export interface SoftCrudRepository<T extends SoftDeleteEntity, ID, Relations extends object = {}>
+export interface SoftCrudRepository<T extends SoftDeleteModel & Entity, ID, Relations extends object = {}>
   extends DefaultCrudRepository<T, ID, Relations> {
   find(filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]>;
 

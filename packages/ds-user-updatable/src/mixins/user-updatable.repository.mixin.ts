@@ -12,7 +12,7 @@ import {
 } from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {toArray} from 'tily/array/toArray';
-import {UserUpdatableModel} from './user-updatable-entity.mixin';
+import {UserUpdatableModel} from './user-updatable-model.mixin';
 
 export const InvalidCredentials = 'Invalid Credentials';
 
