@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://gitr.net/betaly/bleco/compare/@bleco/mixin-timestamp@0.2.2...@bleco/mixin-timestamp@0.2.3) (2022-06-07)
+
+**Note:** Version bump only for package @bleco/mixin-timestamp
+
+
+
+
+
 ## [0.2.2](https://gitr.net/betaly/bleco/compare/@bleco/mixin-timestamp@0.2.1...@bleco/mixin-timestamp@0.2.2) (2022-06-07)
 
 **Note:** Version bump only for package @bleco/mixin-timestamp
