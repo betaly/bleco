@@ -1,5 +1,5 @@
 {
-  "name": "@bleco/mixin-user-updatable",
+  "name": "@bleco/ds-user-updatable",
   "description": "A loopback next extension for automatically adding and managing createdBy and updatedBy attributes to Model",
   "version": "0.2.4",
   "keywords": [],
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "nb-tsc",
-    "clean": "nb-clean 'bleco-mixin-user-updatable*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "nb-clean 'bleco-ds-user-updatable*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"

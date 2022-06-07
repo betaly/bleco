@@ -1,4 +1,4 @@
-# @bleco/mixin-timestamp
+# @bleco/ds-timestamp
 
 > A loopback next extension for automatically adding and managing createAt and updatedAt attributes to Model
 

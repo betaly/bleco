@@ -1,4 +1,4 @@
-# @bleco/mixin-user-updatable
+# @bleco/ds-user-updatable
 
 > A loopback next extension for automatically adding and managing createdBy and updatedBy attributes to Model
 

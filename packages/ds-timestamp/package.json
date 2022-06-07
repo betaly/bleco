@@ -1,5 +1,5 @@
 {
-  "name": "@bleco/mixin-timestamp",
+  "name": "@bleco/ds-timestamp",
   "description": "A loopback next extension for automatically adding and managing createAt and updatedAt attributes to Model",
   "version": "0.2.3",
   "keywords": [],
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "nb-tsc",
-    "clean": "nb-clean 'bleco-mixin-timestamp*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "nb-clean 'bleco-ds-timestamp*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"
