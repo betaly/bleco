@@ -1475,7 +1475,7 @@ __metadata:
     "@bleco/boot": ^0.2.12
     "@bleco/oso-juggler": ^0.2.0
     "@bleco/query": ^0.8.2
-    "@bleco/soft-delete": ^0.3.3
+    "@bleco/soft-delete": ^0.3.4
     "@loopback/authorization": ^0.12.0
     "@loopback/context": ^5.0.0
     "@loopback/core": ^4.0.0
@@ -1651,9 +1651,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/mixin-timestamp@workspace:packages/mixin-timestamp":
+"@bleco/mixin-timestamp@workspace:packages/ds-timestamp":
   version: 0.0.0-use.local
-  resolution: "@bleco/mixin-timestamp@workspace:packages/mixin-timestamp"
+  resolution: "@bleco/mixin-timestamp@workspace:packages/ds-timestamp"
   dependencies:
     "@bleco/mixin": ^0.2.3
     "@loopback/core": ^4.0.0
@@ -1668,9 +1668,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/mixin-user-updatable@workspace:packages/mixin-user-updatable":
+"@bleco/mixin-user-updatable@workspace:packages/ds-user-updatable":
   version: 0.0.0-use.local
-  resolution: "@bleco/mixin-user-updatable@workspace:packages/mixin-user-updatable"
+  resolution: "@bleco/mixin-user-updatable@workspace:packages/ds-user-updatable"
   dependencies:
     "@bleco/mixin": ^0.2.3
     "@loopback/core": ^4.0.0
@@ -1843,7 +1843,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/soft-delete@^0.3.3, @bleco/soft-delete@workspace:packages/soft-delete":
+"@bleco/soft-delete@^0.3.4, @bleco/soft-delete@workspace:packages/soft-delete":
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:

@@ -9,7 +9,7 @@ For example, if you have a model called `Book`:
 ```ts
 // book.model.ts
 import {Entity, model, property} from '@loopback/repository';
-import {UserUpdatableModelMixin} from '@bleco/mixin-user-updatable';
+import {UserUpdatableModelMixin} from '';
 
 @model()
 @mixin(UserUpdatableModelMixin)
@@ -31,7 +31,8 @@ class Book extends Entity {
   }
 }
 
-interface Book extends UserUpdatableModel {}
+interface Book extends UserUpdatableModel {
+}
 ```
 
 And then, you define a repository with `UserUpdatableRepositoryMixin`:
@@ -39,7 +40,7 @@ And then, you define a repository with `UserUpdatableRepositoryMixin`:
 ```ts
 // book.repository.ts
 import {mixin} from '@bleco/mixin';
-import {UserUpdatableRepositoryMixin} from '@bleco/mixin-user-updatable';
+import {UserUpdatableRepositoryMixin} from '';
 import {DefaultCrudRepository} from '@loopback/repository';
 
 @mixin(UserUpdatableRepositoryMixin({throwIfNoUser: true, userIdKey: ['userTenantId', 'id']}))
@@ -48,7 +49,9 @@ class BookRepository extends DefaultCrudRepository<Book, typeof Book.prototype.i
     super(Book, dataSource);
   }
 }
-interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {}
+
+interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {
+}
 ```
 
 `UserUpdatableRepositoryMixinOptions` is an optional parameter for `@mixin(UserUpdatableRepositoryMixin(options))`

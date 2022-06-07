@@ -6,7 +6,7 @@
 
 ```ts
 // book.model.ts
-import {TimestampMixin} from '@bleco/mixin-timestamp';
+import {TimestampMixin} from '';
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
@@ -29,13 +29,14 @@ class Book extends Entity {
   }
 }
 
-interface Book extends TimestampModel {}
+interface Book extends TimestampModel {
+}
 ```
 
 ```ts
 // book.repository.ts
 import {mixin} from '@bleco/mixin';
-import {TimestampModelMixin} from '@bleco/mixin-timestamp';
+import {TimestampModelMixin} from '';
 import {DefaultCrudRepository} from '@loopback/repository';
 import {Book} from '../models';
 

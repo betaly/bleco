@@ -9,7 +9,7 @@ import {
   Options,
   Where,
 } from '@loopback/repository';
-import {TimestampModel} from './timestamp.model.mixin';
+import {TimestampModel} from './timestamp.entity.mixin';
 
 export interface TimestampRepositoryOperationOptions extends Options {
   skipUpdatedAt?: boolean;
