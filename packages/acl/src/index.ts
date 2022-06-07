@@ -13,5 +13,5 @@ export * from './models';
 export * from './policies';
 export * from './repositories';
 export * from './services';
-export * from './transaction';
+export * from './transactions';
 export * from './types';

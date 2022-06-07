@@ -7,13 +7,13 @@ import {DefaultEnforcerProvider} from './enforcers/default';
 import {AclBindings} from './keys';
 import {models} from './models';
 import {repositories} from './repositories';
-import {RoleMappingService, RoleService} from './services';
+import {AclRoleMappingService, AclRoleService} from './services';
 
 export class AclComponent implements Component {
   bindings: Binding[] = [
     createBindingFromClass(PolicyBooter),
-    createBindingFromClass(RoleService, {key: AclBindings.ROLE_SERVICE}),
-    createBindingFromClass(RoleMappingService, {key: AclBindings.ROLE_MAPPING_SERVICE}),
+    createBindingFromClass(AclRoleService, {key: AclBindings.ROLE_SERVICE}),
+    createBindingFromClass(AclRoleMappingService, {key: AclBindings.ROLE_MAPPING_SERVICE}),
     createBindingFromClass(Acl, {key: AclBindings.ACL}),
   ];
 

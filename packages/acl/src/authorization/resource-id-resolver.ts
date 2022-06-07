@@ -3,7 +3,7 @@ import {AuthorizationContext, AuthorizationDecision, AuthorizationMetadata, Auth
 import {Entity} from '@loopback/repository';
 import {AclBindings} from '../keys';
 
-export function createResourceResolver(resourceOrClass: typeof Entity | Entity, idIndex: number = 0): Authorizer {
+export function createResourceResolver(resourceOrClass: typeof Entity | Entity, idIndex = 0): Authorizer {
   let resource: Entity;
   let EntityClass: typeof Entity;
   if (!isClass(resourceOrClass)) {

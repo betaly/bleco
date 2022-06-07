@@ -7,7 +7,7 @@ export function compile(policy: Policy): CompiledPolicy;
 export function compile(policy: Policy[]): CompiledPolicy[];
 export function compile(policy: Policy | Policy[]): CompiledPolicy | CompiledPolicy[] {
   if (isArray(policy)) {
-    return policy.map(policy => compile(policy));
+    return policy.map(p => compile(p));
   }
 
   const resolved: CompiledPolicy = {

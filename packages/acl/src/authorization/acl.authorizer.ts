@@ -9,7 +9,7 @@ import {inject, injectable, Provider} from '@loopback/context';
 import debugFactory from 'debug';
 import {Acl} from '../acl';
 import {AclBindings} from '../keys';
-import {PrincipalService} from '../services';
+import {PrincipalResolver} from '../types';
 
 const debug = debugFactory('bleco:acl:authorizer');
 
@@ -20,8 +20,8 @@ export class AclAuthorizerProvider implements Provider<Authorizer> {
   constructor(
     @inject(AclBindings.ACL)
     private acl: Acl,
-    @inject(AclBindings.PRINCIPAL_SERVICE)
-    private principalService: PrincipalService,
+    @inject(AclBindings.PRINCIPAL_RESOLVER)
+    private resolvePrincipal: PrincipalResolver,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class AclAuthorizerProvider implements Provider<Authorizer> {
     metadata: AuthorizationMetadata,
   ): Promise<AuthorizationDecision> {
     debug('Authorizing...');
-    const principal = await this.principalService.getPrincipal(authorizationCtx.invocationContext);
+    const principal = await this.resolvePrincipal(authorizationCtx.invocationContext);
     debug('Principal: %O', principal);
     if (!principal) {
       debug('Access denied');

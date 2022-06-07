@@ -143,9 +143,9 @@ export function testEnforcerBatch(init?: AppInit) {
         const {users} = td;
 
         // evaluate authorized query for Repo that "musk" can "read"
-        let query = await enforcer.authorizedQuery(users.musk, RepoActions.read, Repo);
+        const query = await enforcer.authorizedQuery(users.musk, RepoActions.read, Repo);
         expect(query).toBeDefined();
-        let results = await repo.find({where: query.where});
+        const results = await repo.find({where: query.where});
         expect(results).toHaveLength(3);
       });
     });

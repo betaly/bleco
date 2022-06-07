@@ -10,9 +10,9 @@ import {inspect} from 'util';
 import {AuthorizedFilter, Enforcer} from '../../enforcer';
 import {ForbiddenError, NotFoundError} from '../../errors';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
-import {AclRoleMapping, AclRoleMappingRelations} from '../../models';
+import {AclRoleMapping, AclRoleMappingRelations, AclRolePermission} from '../../models';
 import {AclModelRelationKeys, PolicyRegistry, ResolvedPolicy, resolveModelName} from '../../policies';
-import {buildRolesInclusion, PolicyBuilder, REL_LOCAL} from './policies';
+import {buildRelationRolesIncludes, PolicyBuilder, REL_LOCAL} from './policies';
 import ResourceRoles = AclModelRelationKeys.ResourceRoles;
 import ResourceRoleMappings = AclModelRelationKeys.ResourceRoleMappings;
 
@@ -92,7 +92,7 @@ export class DefaultEnhancer implements Enforcer {
 
     const policy = this.policyBuilder.get(resource);
 
-    const inclusion = buildRolesInclusion(resource, policy.roles);
+    const inclusion = buildRelationRolesIncludes(resource, policy.roles);
     debug(`authorizedActions - resolve resource relations with:`, inspect(inclusion, {depth: null, colors: true}));
 
     // resolve resource relations
@@ -162,8 +162,8 @@ export class DefaultEnhancer implements Enforcer {
     // resolve actions from custom roles
     for (const mapping of mappings) {
       const role = mapping.role;
-      if (role && role.permissions) {
-        for (const action of role.permissions.map(p => p.action)) {
+      if (role?.permissions) {
+        for (const action of role.permissions.map((p: AclRolePermission) => p.action)) {
           actions.add(action);
         }
       }

@@ -70,9 +70,9 @@ function resolveRolesRecursion(
   const {$, ...relRoles} = roles;
   const resolved: CompositeRoles = {$};
   for (const rel in relRoles) {
-    const relRoles = resolveRelativeRoles(policies, R.definition.relations[rel].target(), roles[rel], rel);
-    for (const relRole in relRoles) {
-      resolved[relRole] = uniq([...(roles[relRole] ?? []), ...relRoles[relRole]]);
+    const resolvedRelRoles = resolveRelativeRoles(policies, R.definition.relations[rel].target(), roles[rel], rel);
+    for (const r in resolvedRelRoles) {
+      resolved[r] = uniq([...(roles[r] ?? []), ...resolvedRelRoles[r]]);
     }
   }
   return resolved;

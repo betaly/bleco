@@ -1,6 +1,5 @@
-import {KeyOf} from '@loopback/filter/src/query';
-import {AnyObject} from '@loopback/filter/src/types';
-import {Entity, Filter} from '@loopback/repository';
+import {InvocationContext} from '@loopback/context';
+import {AnyObject, Entity, Filter, KeyOf} from '@loopback/repository';
 import {OmitProperties} from 'ts-essentials';
 
 export const AclAuthDBName = 'AclAuthDB';
@@ -47,3 +46,34 @@ export type PrincipalPolymorphicOrEntity = Entity | PrincipalPolymorphic;
 export type ResourcePolymorphic = Required<ResourceAware>;
 
 export type ResourcePolymorphicOrEntity = Entity | ResourcePolymorphic;
+
+/**
+ * Get the principal object from the given invocation context
+ * @example
+ * A pseudocode for basic principle retrieval:
+ * ```ts
+ * class MyPrincipalResolverProvider implements Provider<PrincipalResolver> {
+ *   constructor(
+ *     @repository(UserRepository) private userRepository: UserRepository,
+ *   ) {}
+ *
+ *   value(): PrincipalResolver {
+ *     return this.resolve.bind(this);
+ *   }
+ *
+ *   resolve(invocationCtx: InvocationContext): Promise<User> {
+ *     const user = await invocationCtx.get<UserProfile>(SecurityBindings.USER);
+ *     if (user instanceof User) {
+ *       return user;
+ *     }
+ *     return this.userRepository.findById(user.id);
+ *     // or
+ *     // return new User(user);
+ *   }
+ * }
+ *
+ * ```
+ *
+ * @param invocationCtx - The invocation context
+ */
+export type PrincipalResolver<T extends Entity = Entity> = (invocationCtx: InvocationContext) => Promise<T | undefined>;

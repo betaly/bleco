@@ -2,7 +2,7 @@ import {QueryFilter} from '@bleco/query';
 import {AnyObject, Entity, Filter, Options} from '@loopback/repository';
 import {PolicyRegistry} from '../policies';
 import {RoleBaseRepository} from '../repositories/role.base.repository';
-import {TransactionFactory} from '../transaction';
+import {TransactionFactory} from '../transactions';
 import {QueryWhereExcludingWhere} from '../types';
 
 export class RoleBaseService<T extends Entity> {

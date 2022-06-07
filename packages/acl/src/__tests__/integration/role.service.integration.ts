@@ -3,13 +3,13 @@ import {toResourcePolymorphic} from '../../helpers';
 import {AclBindings} from '../../keys';
 import {AclRole} from '../../models';
 import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
-import {RoleService} from '../../services';
+import {AclRoleService} from '../../services';
 import {GitClubApplication, givenApp, OrgActions, OrgManagerActions, OrgRoles, TestData, TestDomain} from '../../test';
 
 describe('RoleService integration tests', function () {
   let app: GitClubApplication;
   let td: TestData;
-  let roleService: RoleService;
+  let roleService: AclRoleService;
 
   let roleRepo: AclRoleRepository;
   let roleMappingRepo: AclRoleMappingRepository;
@@ -17,7 +17,7 @@ describe('RoleService integration tests', function () {
   beforeEach(async () => {
     ({app, td} = await givenApp());
 
-    roleService = await app.get<RoleService>(AclBindings.ROLE_SERVICE);
+    roleService = await app.get<AclRoleService>(AclBindings.ROLE_SERVICE);
 
     roleMappingRepo = await app.getRepository(AclRoleMappingRepository);
     roleRepo = await app.getRepository(AclRoleRepository);
@@ -28,7 +28,7 @@ describe('RoleService integration tests', function () {
   });
 
   it('should bind AclRoleService correctly', async () => {
-    const service = await app.get<RoleService>(AclBindings.ROLE_SERVICE);
+    const service = await app.get<AclRoleService>(AclBindings.ROLE_SERVICE);
     expect(roleService).toBe(service);
   });
 

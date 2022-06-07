@@ -48,34 +48,35 @@ export class PolicyBuilder {
   }
 }
 
-export function buildRolesInclusion(resource: Constructor<Entity> | Entity, roles: CompositeRoles): Inclusion[] {
+export function buildRelationRolesIncludes(resource: Constructor<Entity> | Entity, roles: CompositeRoles): Inclusion[] {
   const resourceCls = (typeof resource === 'function' ? resource : resource.constructor) as typeof Entity;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {$, ...relRoles} = roles;
   if (isEmpty(relRoles)) {
     return [];
   }
-  const inclusions: Inclusion[] = [];
+  const includes: Inclusion[] = [];
   for (const rel of Object.keys(relRoles)) {
     const items = relRoles[rel];
     if (items.length === 0) {
       continue;
     }
 
-    buildInclusion(inclusions, rel, resourceCls);
+    buildInclusion(includes, rel, resourceCls);
   }
 
-  return inclusions;
+  return includes;
 
-  function buildInclusion(inclusions: Inclusion[], key: string, model: typeof Entity) {
+  function buildInclusion(includes_: Inclusion[], key: string, model: typeof Entity) {
     const parts = key.split('.');
     const rel = model.definition.relations[parts[0]];
     if (!rel) {
       throw new Error(`${model.name} has no relation ${key}`);
     }
-    let inclusion = inclusions.find(i => i.relation === parts[0]);
+    let inclusion = includes_.find(i => i.relation === parts[0]);
     if (!inclusion) {
       inclusion = {relation: parts[0], scope: {fields: [...model.getIdProperties()]}};
-      inclusions.push(inclusion);
+      includes_.push(inclusion);
     }
     if (parts.length > 1) {
       const include = (inclusion.scope!.include = inclusion.scope!.include ?? []) as Inclusion[];

@@ -20,7 +20,7 @@ import {RoleBaseService} from './role.base.service';
 const debug = debugFactory('bleco:acl:role-mapping-service');
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleMappingService extends RoleBaseService<AclRoleMapping> {
+export class AclRoleMappingService extends RoleBaseService<AclRoleMapping> {
   repo: AclRoleMappingRepository;
 
   constructor(

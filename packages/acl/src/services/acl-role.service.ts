@@ -21,7 +21,7 @@ export type RoleInput = MarkRequired<AclRoleAttrs, 'name' | 'resource'>;
 export type RoleDeleteResult = DeleteResult<{Role: number; RolePermission: number; RoleMapping: number}>;
 
 @injectable({scope: BindingScope.SINGLETON})
-export class RoleService extends RoleBaseService<AclRole> {
+export class AclRoleService extends RoleBaseService<AclRole> {
   repo: AclRoleRepository;
 
   constructor(

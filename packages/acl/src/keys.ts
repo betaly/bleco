@@ -6,7 +6,8 @@ import {Acl} from './acl';
 import {Enforcer} from './enforcer';
 import {DefaultEnforcerOptions} from './enforcers/default';
 import {PolicyRegistry} from './policies';
-import {PrincipalService, RoleMappingService, RoleService} from './services';
+import {AclRoleMappingService, AclRoleService} from './services';
+import {PrincipalResolver} from './types';
 
 export namespace AclBindings {
   /**
@@ -21,10 +22,10 @@ export namespace AclBindings {
 
   export const POLICY_REGISTRY = BindingKey.create<PolicyRegistry>('acl.policyRegistry');
 
-  export const ROLE_SERVICE = BindingKey.create<RoleService>('acl.services.role');
-  export const ROLE_MAPPING_SERVICE = BindingKey.create<RoleMappingService>('acl.services.roleMapping');
+  export const ROLE_SERVICE = BindingKey.create<AclRoleService>('acl.services.role');
+  export const ROLE_MAPPING_SERVICE = BindingKey.create<AclRoleMappingService>('acl.services.roleMapping');
 
-  export const PRINCIPAL_SERVICE = BindingKey.create<PrincipalService>('acl.services.principal');
+  export const PRINCIPAL_RESOLVER = BindingKey.create<PrincipalResolver>('acl.principalResolver');
 
   export const AUTHORIZER = BindingKey.create<Authorizer>('acl.authorization.authorizer');
 
