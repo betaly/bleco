@@ -1,5 +1,5 @@
 import {RepositoryFactory} from '@bleco/repository-factory';
-import {Entity, Where, WhereBuilder} from '@loopback/repository';
+import {AnyObject, Entity, Where, WhereBuilder} from '@loopback/repository';
 import debugFactory from 'debug';
 import {Adapter, Datum, Filter, FilterCondition, Projection} from 'oso';
 import {Immediate, isProjection} from 'oso/dist/src/filter';
@@ -56,7 +56,7 @@ export class JugglerAdapter<T extends Entity = Entity> implements Adapter<Author
           const idProp = getIdProp(types.get(type) as UserType<typeof Entity>);
           acc[`${relationKeys[type]}.${idProp}`] = {neq: null};
           return acc;
-        }, {} as Record<string, any>),
+        }, {} as Record<string, AnyObject>),
       );
     }
 
