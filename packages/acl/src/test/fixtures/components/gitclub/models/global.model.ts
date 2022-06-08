@@ -1,16 +1,16 @@
 import {Entity, model, property} from '@loopback/repository';
 
 @model()
-export class Site extends Entity {
+export class Global extends Entity {
   @property({
     type: 'string',
     id: true,
   })
   id: string;
 
-  constructor(data?: Partial<Site>) {
+  constructor(data?: Partial<Global>) {
     super(data);
   }
 }
 
-export const DefaultSite = new Site({id: 'default'});
+export const GLOBAL = new Global({id: 'global'});

@@ -2,7 +2,8 @@ import {ApplicationWithRepositories} from '@loopback/repository';
 import {AclBindings} from '../../keys';
 import {UserRepository} from './components/account';
 import {
-  DefaultSite,
+  GLOBAL,
+  GlobalRoles,
   IssueRepository,
   OrgActions,
   OrgRepository,
@@ -10,7 +11,6 @@ import {
   RepoRepository,
   RepoRoles,
   SiteRepository,
-  SiteRoles,
 } from './components/gitclub';
 import {TestDomain} from './constants';
 
@@ -25,13 +25,13 @@ export async function seed(app: ApplicationWithRepositories) {
 }
 
 export async function seedData(app: ApplicationWithRepositories) {
-  const siteRepo = await app.getRepository(SiteRepository);
+  const globalRepo = await app.getRepository(SiteRepository);
   const userRepo = await app.getRepository(UserRepository);
   const orgRepo = await app.getRepository(OrgRepository);
   const repoRepo = await app.getRepository(RepoRepository);
   const issueRepo = await app.getRepository(IssueRepository);
 
-  await siteRepo.create(DefaultSite);
+  await globalRepo.create(GLOBAL);
 
   const god = await userRepo.create({name: 'God'});
 
@@ -92,10 +92,10 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
   const {orgs, users, repos} = data;
 
   // Site roles
-  await rms.addInDomain(users.god, SiteRoles.admin, DefaultSite, TestDomain);
+  await rms.addInDomain(users.god, GlobalRoles.admin, GLOBAL, TestDomain);
   for (const u of Object.values(users)) {
     if (u === users.god || u === users.guest) continue;
-    await rms.addInDomain(u, SiteRoles.member, DefaultSite, TestDomain);
+    await rms.addInDomain(u, GlobalRoles.member, GLOBAL, TestDomain);
   }
 
   // Tesla
@@ -108,8 +108,8 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
     TestDomain,
   );
 
-  await rms.addInDomain(users.god, SiteRoles.admin, DefaultSite, TestDomain);
-  await rms.addInDomain(users.guest, SiteRoles.member, DefaultSite, TestDomain);
+  await rms.addInDomain(users.god, GlobalRoles.admin, GLOBAL, TestDomain);
+  await rms.addInDomain(users.guest, GlobalRoles.member, GLOBAL, TestDomain);
 
   await rms.addInDomain(users.musk, OrgRoles.owner, orgs.tesla, TestDomain);
   await rms.addInDomain(users.jerry, OrgRoles.member, orgs.tesla, TestDomain);

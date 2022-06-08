@@ -2,7 +2,7 @@ import {Application, BindingScope} from '@loopback/core';
 import {Acl} from '../../acl';
 import {DefaultEnforcerProvider} from '../../enforcers/default';
 import {AclBindings} from '../../keys';
-import {DefaultSite, givenApp, Org, OrgActions, SiteActions, TestData} from '../../test';
+import {givenApp, GLOBAL, GlobalActions, Org, OrgActions, TestData} from '../../test';
 
 describe('DefaultEnforcerStrategy', function () {
   let app: Application;
@@ -15,24 +15,24 @@ describe('DefaultEnforcerStrategy', function () {
   describe('isAllowed', function () {
     it('allows create organization for site member', async () => {
       const user = td.users.tom;
-      expect(await enforcer.isAllowed(user, SiteActions.create_orgs, DefaultSite)).toBe(true);
+      expect(await enforcer.isAllowed(user, GlobalActions.create_orgs, GLOBAL)).toBe(true);
     });
 
     it('denies manage for regular user', async () => {
       const user = td.users.tom;
-      expect(await enforcer.isAllowed(user, SiteActions.manage, DefaultSite)).toBe(false);
+      expect(await enforcer.isAllowed(user, GlobalActions.manage, GLOBAL)).toBe(false);
     });
   });
 
   describe('authorize', function () {
     it('allows create organization for site member', async () => {
       const user = td.users.jerry;
-      await enforcer.authorize(user, SiteActions.create_orgs, DefaultSite);
+      await enforcer.authorize(user, GlobalActions.create_orgs, GLOBAL);
     });
 
     it('denies delete for regular user', async () => {
       const user = td.users.jerry;
-      await expect(enforcer.authorize(user, SiteActions.manage, DefaultSite)).rejects.toThrow('ForbiddenError');
+      await expect(enforcer.authorize(user, GlobalActions.manage, GLOBAL)).rejects.toThrow('ForbiddenError');
     });
   });
 

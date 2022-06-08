@@ -1,8 +1,9 @@
 import {Enforcer} from '../enforcer';
 import {AclBindings} from '../keys';
 import {
-  DefaultSite,
   GitClubApplication,
+  GLOBAL,
+  GlobalActions,
   Org,
   OrgActions,
   OrgManagerActions,
@@ -12,7 +13,6 @@ import {
   Repo,
   RepoActions,
   RepoRepository,
-  SiteActions,
   TestData,
 } from './fixtures';
 import {givenApp} from './support';
@@ -63,10 +63,10 @@ export function testEnforcerBatch(init?: AppInit) {
 
       it('static resource', async () => {
         const {users} = td;
-        expect(await enforcer.isAllowed(users.god, SiteActions.manage, DefaultSite)).toBe(true);
-        expect(await enforcer.isAllowed(users.ava, SiteActions.manage, DefaultSite)).toBe(false);
-        expect(await enforcer.isAllowed(users.god, SiteActions.create_orgs, DefaultSite)).toBe(true);
-        expect(await enforcer.isAllowed(users.ava, SiteActions.create_orgs, DefaultSite)).toBe(true);
+        expect(await enforcer.isAllowed(users.god, GlobalActions.manage, GLOBAL)).toBe(true);
+        expect(await enforcer.isAllowed(users.ava, GlobalActions.manage, GLOBAL)).toBe(false);
+        expect(await enforcer.isAllowed(users.god, GlobalActions.create_orgs, GLOBAL)).toBe(true);
+        expect(await enforcer.isAllowed(users.ava, GlobalActions.create_orgs, GLOBAL)).toBe(true);
       });
     });
 

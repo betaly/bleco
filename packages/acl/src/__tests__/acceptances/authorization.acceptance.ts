@@ -3,7 +3,7 @@ import {SecurityBindings, securityId} from '@loopback/security';
 import {acls} from '../../decorators';
 import {DefaultEnforcerProvider} from '../../enforcers/default';
 import {AclBindings} from '../../keys';
-import {DefaultSite, givenApp, Org, OrgActions, OrgRoles, SiteActions, TestData} from '../../test';
+import {givenApp, GLOBAL, GlobalActions, Org, OrgActions, OrgRoles, TestData} from '../../test';
 import {User} from '../../test/fixtures/components/account';
 
 describe('Authorization', function () {
@@ -44,7 +44,7 @@ describe('Authorization', function () {
   class OrgController {
     orgs: Partial<Org>[] = [];
 
-    @acls.authorize(SiteActions.create_orgs, DefaultSite)
+    @acls.authorize(GlobalActions.create_orgs, GLOBAL)
     async create(org: Partial<Org>) {
       org.id = `org-${this.orgs.length + 1}`;
       this.orgs.push(org);
@@ -56,7 +56,7 @@ describe('Authorization', function () {
       return this.orgs.find(o => o.id === orgId);
     }
 
-    @acls.authorize(SiteActions.manage, DefaultSite)
+    @acls.authorize(GlobalActions.manage, GLOBAL)
     async delete(orgId: string) {
       const index = this.orgs.findIndex(o => o.id === orgId);
       if (index < 0) return false;

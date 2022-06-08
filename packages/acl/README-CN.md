@@ -187,7 +187,7 @@ export class MyController {
     // ... other parameters
   ) {}
 
-  @acls.authorize(SiteActions.create_orgs, DefaultSite)
+  @acls.authorize(GlobalActions.create_orgs, GLOBAL)
   async create(org: Partial<Org>) {}
 }
 ```
@@ -249,14 +249,14 @@ export namespace acls {
 
 ### 定义和初始化全局资源
 
-- 定义一个 [Site](src/test/fixtures/components/gitclub/models/site.model.ts) 模型(可以是其他模型名称，比如: `System`)
-- 定义一个 Site [Repository](src/test/fixtures/components/gitclub/repositories/site.repository.ts)
-- 定义一个 Site [Policy](src/test/fixtures/components/gitclub/policies/site.policy.ts)
-- App 启动时，或者初始化系统原始数据时来添加一条 `DefaultSite` 数据库记录。
+- 定义一个 [Global](src/test/fixtures/components/gitclub/models/global.model.ts) 模型
+- 定义一个 Global [Repository](src/test/fixtures/components/gitclub/repositories/site.repository.ts)
+- 定义一个 Global [Policy](src/test/fixtures/components/gitclub/policies/global.policy.ts)
+- App 启动时，或者初始化系统原始数据时来添加一条 `GLOBAL` 数据库记录。
   ```ts
-  // create DefaultSite if not exists
-  if (!(await siteRepo.findOne({where: {id: DefaultSite.id}}))) {
-    await siteRepo.create(DefaultSite);
+  // create GLOBAL if not exists
+  if (!(await siteRepo.findOne({where: {id: GLOBAL.id}}))) {
+    await siteRepo.create(GLOBAL);
   }
   ```
 
@@ -265,17 +265,17 @@ export namespace acls {
 - 将全局角色授予某个用户
 
   ```ts
-  await roleMappingService.add(someUser, SiteRoles.admin, DefaultSite);
+  await roleMappingService.add(someUser, GlobalRoles.admin, GLOBAL);
   // or working is domain
-  await roleMappingService.add(someUser, SiteRoles.admin, DefaultSite, CurrentDomain);
+  await roleMappingService.add(someUser, GlobalRoles.admin, GLOBAL, CurrentDomain);
   ```
 
 - 鉴权
 
   ```ts
-  await acl.authorize(someUser, SiteActions.create_orgs, DefaultSite);
+  await acl.authorize(someUser, GlobalActions.create_orgs, GLOBAL);
   // or
-  await acl.isAllowed(someUser, SiteActions.create_orgs, DefaultSite);
+  await acl.isAllowed(someUser, GlobalActions.create_orgs, GLOBAL);
   ```
 
 - 角色派生
@@ -291,8 +291,8 @@ export namespace acls {
     export class Org extends Entity {
       //...
 
-      @belongsTo(() => Site)
-      siteId: Site;
+      @belongsTo(() => Global)
+      siteId: Global;
 
       //...
     }
@@ -321,7 +321,7 @@ export namespace acls {
       },
       roleDerivations: {
         member: ['owner'],
-        // 从资源 owner 角色派生到 Site 的管理员角色，即赋予全局管理员对所有 Org 拥有等同于 Org ower 角色的权限
+        // 从资源 owner 角色派生到 Global 的管理员角色，即赋予全局管理员对所有 Org 拥有等同于 Org ower 角色的权限
         owner: ['site.admin'],
       },
     };
