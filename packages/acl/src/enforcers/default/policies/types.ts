@@ -1,1 +1,1 @@
-export const REL_LOCAL = '$';
+export const LOCAL = '_';

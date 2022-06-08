@@ -11,7 +11,7 @@ export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {
     const resolved: ResolvedPolicy = {
       ...cloneDeep(policy),
       roleActions: {},
-      roles: {$: []},
+      roles: {_: []},
     };
 
     // link action roles
@@ -67,8 +67,8 @@ function resolveRolesRecursion(
   roles: CompositeRoles,
 ): CompositeRoles {
   const R = (isClass(resource) ? resource : resource.constructor) as typeof Entity;
-  const {$, ...relRoles} = roles;
-  const resolved: CompositeRoles = {$};
+  const {_, ...relRoles} = roles;
+  const resolved: CompositeRoles = {_: _};
   for (const rel in relRoles) {
     const resolvedRelRoles = resolveRelativeRoles(policies, R.definition.relations[rel].target(), roles[rel], rel);
     for (const r in resolvedRelRoles) {
@@ -100,10 +100,10 @@ function resolveRelativeRoles(
     return acc;
   }, {} as CompositeRoles);
 
-  const {$, ...relativeRoles} = children;
+  const {_, ...relativeRoles} = children;
 
   const resolved: RelativeRoles = {
-    [prefix]: [...roles, ...($ ?? [])],
+    [prefix]: [...roles, ...(_ ?? [])],
   };
 
   for (const rel in relativeRoles) {

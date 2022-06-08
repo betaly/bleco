@@ -12,25 +12,25 @@ describe('Policy Compiler', function () {
         actions: ['read', 'manage'],
         actionRoles: {
           manage: {
-            $: ['admin'],
+            _: ['admin'],
             org: ['owner'],
           },
           read: {
-            $: ['reader', 'admin', 'maintainer'],
+            _: ['reader', 'admin', 'maintainer'],
             org: ['owner', 'member'],
           },
         },
         roleChildren: {
           admin: {
-            $: [],
+            _: [],
             org: ['owner'],
           },
           maintainer: {
-            $: ['admin'],
+            _: ['admin'],
             org: ['owner'],
           },
           reader: {
-            $: ['admin', 'maintainer'],
+            _: ['admin', 'maintainer'],
             org: ['owner', 'member'],
           },
         },
@@ -52,17 +52,17 @@ describe('Policy Compiler', function () {
         actions: ['read', 'close'],
         actionRoles: {
           close: {
-            $: ['creator'],
+            _: ['creator'],
             repo: ['maintainer'],
           },
           read: {
-            $: [],
+            _: [],
             repo: ['reader'],
           },
         },
         roleChildren: {
           creator: {
-            $: [],
+            _: [],
           },
         },
         roleParents: {

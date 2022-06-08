@@ -12,7 +12,7 @@ import {ForbiddenError, NotFoundError} from '../../errors';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {AclRoleMapping, AclRoleMappingRelations, AclRolePermission} from '../../models';
 import {AclModelRelationKeys, PolicyRegistry, ResolvedPolicy, resolveModelName} from '../../policies';
-import {buildRelationRolesIncludes, PolicyBuilder, REL_LOCAL} from './policies';
+import {buildRelationRolesIncludes, LOCAL, PolicyBuilder} from './policies';
 import ResourceRoles = AclModelRelationKeys.ResourceRoles;
 import ResourceRoleMappings = AclModelRelationKeys.ResourceRoleMappings;
 
@@ -42,13 +42,13 @@ export class DefaultEnhancer implements Enforcer {
   }
 
   async isAllowed(principal: Entity, action: string, resource: Entity): Promise<boolean> {
-    const {$, ...roles} = this.policyBuilder.get(resource).actionRoles[action];
+    const {_, ...roles} = this.policyBuilder.get(resource).actionRoles[action];
 
     let where: Where;
     let repo: EntityCrudRepository<Entity, unknown>;
     if (isEmpty(roles)) {
       repo = await this.repositoryFactory.getRepository(AclRoleMapping.name);
-      where = buildAllowedWhereForRoleMappings(principal, resource, action, $);
+      where = buildAllowedWhereForRoleMappings(principal, resource, action, _);
     } else {
       repo = await this.repositoryFactory.getRepository(resource.constructor.name);
       where = buildAllowedWhereForResource(principal, this.policyBuilder.get(resource), action);
@@ -100,13 +100,13 @@ export class DefaultEnhancer implements Enforcer {
       include: inclusion,
     });
 
-    const {$, ...relRoles} = policy.roles;
+    const {_, ...relRoles} = policy.roles;
     const or: AnyObject = [{'role.id': {neq: null}}];
-    if ($) {
+    if (_) {
       // `or` custom role conditions
       or.push({
         ...toResourcePolymorphic(resource),
-        roleId: {inq: $},
+        roleId: {inq: _},
       });
     }
     if (relRoles) {
@@ -148,9 +148,9 @@ export class DefaultEnhancer implements Enforcer {
       let [rel, role] = key.split(':');
       if (!role) {
         role = rel;
-        rel = REL_LOCAL;
+        rel = LOCAL;
       }
-      const r = rel === REL_LOCAL ? resource : get(resourceWithRelations, rel);
+      const r = rel === LOCAL ? resource : get(resourceWithRelations, rel);
       const roleMapping = mappings.find(
         m => m.roleId === role && m.resourceId === r?.getId() && m.resourceType === resolveModelName(r?.constructor),
       );
@@ -228,10 +228,10 @@ function buildAllowedWhereForRoleMappings(
 
 function buildAllowedWhereForResource(principal: Entity, resourcePolicy: ResolvedPolicy, action: string) {
   const {principalType, principalId} = toPrincipalPolymorphic(principal);
-  const {$, ...roles} = resourcePolicy.actionRoles[action];
+  const {_, ...roles} = resourcePolicy.actionRoles[action];
   const or: AnyObject[] = [{[`${ResourceRoles}.permissions.action`]: action}];
-  if (!isEmpty($)) {
-    or.push({[`${ResourceRoleMappings}.roleId`]: {inq: $}});
+  if (!isEmpty(_)) {
+    or.push({[`${ResourceRoleMappings}.roleId`]: {inq: _}});
   }
   if (!isEmpty(roles)) {
     for (const rel of Object.keys(roles)) {

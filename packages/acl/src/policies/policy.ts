@@ -32,7 +32,7 @@ export type RelativeRoles = {
 };
 
 export type CompositeRoles = {
-  $: string[];
+  _: string[];
   [rel: string]: string[];
 };
 
@@ -57,7 +57,7 @@ export interface ResolvedPolicy extends CompiledPolicy {
    *
    * {
    *   // local role
-   *   '$:admin': ['create', 'read', 'update', 'delete'],
+   *   '_:admin': ['create', 'read', 'update', 'delete'],
    *   // relation role
    *   'repo.org:member': ['create', 'read', 'update', 'delete'],
    * }

@@ -36,13 +36,13 @@ export function compile(policy: Policy | Policy[]): CompiledPolicy | CompiledPol
   policy.actions?.forEach(action => {
     for (const role in policy.roleActions) {
       if (policy.roleActions[role].includes(action)) {
-        resolved.actionRoles[action] = resolved.actionRoles[action] ?? {$: []};
+        resolved.actionRoles[action] = resolved.actionRoles[action] ?? {_: []};
         const actionRoles: CompositeRoles = resolved.actionRoles[action];
         if (role.includes('.')) {
           const [relName, relRole] = role.split('.');
           actionRoles[relName] = uniq([...(actionRoles[relName] ?? []), relRole]);
         } else {
-          actionRoles.$.push(role);
+          actionRoles._.push(role);
         }
 
         const children = resolved.roleChildren[role];
@@ -68,7 +68,7 @@ function resolveParentRoles(policy: Policy, role: string, parentRoles: Set<strin
 
 function normalizeRoles(roles: string[]): CompositeRoles {
   const resolved: CompositeRoles = {
-    $: [],
+    _: [],
   };
   roles.forEach(role => {
     if (role.includes('.')) {
@@ -76,7 +76,7 @@ function normalizeRoles(roles: string[]): CompositeRoles {
       resolved[relName] = resolved[relName] ?? [];
       resolved[relName].push(relRole);
     } else {
-      resolved.$.push(role);
+      resolved._.push(role);
     }
   });
   return resolved;

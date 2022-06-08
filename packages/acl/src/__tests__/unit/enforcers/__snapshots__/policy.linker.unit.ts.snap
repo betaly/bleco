@@ -5,40 +5,40 @@ Array [
   Object {
     "actionRoles": Object {
       "create_repos": Object {
-        "$": Array [
+        "_": Array [
           "owner",
         ],
       },
       "create_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "owner",
         ],
       },
       "delete_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "owner",
         ],
       },
       "list_repos": Object {
-        "$": Array [
+        "_": Array [
           "member",
           "owner",
         ],
       },
       "list_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "member",
           "owner",
         ],
       },
       "read": Object {
-        "$": Array [
+        "_": Array [
           "member",
           "owner",
         ],
       },
       "update_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "owner",
         ],
       },
@@ -89,12 +89,12 @@ Array [
     },
     "model": [Function],
     "roleActions": Object {
-      "$:member": Array [
+      "_:member": Array [
         "read",
         "list_repos",
         "list_role_assignments",
       ],
-      "$:owner": Array [
+      "_:owner": Array [
         "read",
         "create_repos",
         "list_repos",
@@ -106,12 +106,12 @@ Array [
     },
     "roleChildren": Object {
       "member": Object {
-        "$": Array [
+        "_": Array [
           "owner",
         ],
       },
       "owner": Object {
-        "$": Array [],
+        "_": Array [],
       },
     },
     "roleParents": Object {
@@ -121,7 +121,7 @@ Array [
       ],
     },
     "roles": Object {
-      "$": Array [
+      "_": Array [
         "member",
         "owner",
       ],
@@ -130,7 +130,7 @@ Array [
   Object {
     "actionRoles": Object {
       "create_issues": Object {
-        "$": Array [
+        "_": Array [
           "reader",
           "admin",
           "maintainer",
@@ -141,7 +141,7 @@ Array [
         ],
       },
       "create_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "admin",
         ],
         "org": Array [
@@ -149,7 +149,7 @@ Array [
         ],
       },
       "delete_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "admin",
         ],
         "org": Array [
@@ -157,7 +157,7 @@ Array [
         ],
       },
       "list_issues": Object {
-        "$": Array [
+        "_": Array [
           "reader",
           "admin",
           "maintainer",
@@ -168,7 +168,7 @@ Array [
         ],
       },
       "list_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "admin",
         ],
         "org": Array [
@@ -176,7 +176,7 @@ Array [
         ],
       },
       "read": Object {
-        "$": Array [
+        "_": Array [
           "reader",
           "admin",
           "maintainer",
@@ -187,7 +187,7 @@ Array [
         ],
       },
       "update_role_assignments": Object {
-        "$": Array [
+        "_": Array [
           "admin",
         ],
         "org": Array [
@@ -252,7 +252,7 @@ Array [
     },
     "model": [Function],
     "roleActions": Object {
-      "$:admin": Array [
+      "_:admin": Array [
         "read",
         "create_issues",
         "list_issues",
@@ -261,12 +261,12 @@ Array [
         "update_role_assignments",
         "delete_role_assignments",
       ],
-      "$:maintainer": Array [
+      "_:maintainer": Array [
         "read",
         "create_issues",
         "list_issues",
       ],
-      "$:reader": Array [
+      "_:reader": Array [
         "read",
         "create_issues",
         "list_issues",
@@ -288,13 +288,13 @@ Array [
     },
     "roleChildren": Object {
       "admin": Object {
-        "$": Array [],
+        "_": Array [],
         "org": Array [
           "owner",
         ],
       },
       "maintainer": Object {
-        "$": Array [
+        "_": Array [
           "admin",
         ],
         "org": Array [
@@ -302,7 +302,7 @@ Array [
         ],
       },
       "reader": Object {
-        "$": Array [
+        "_": Array [
           "admin",
           "maintainer",
         ],
@@ -331,7 +331,7 @@ Array [
       "reader": Array [],
     },
     "roles": Object {
-      "$": Array [
+      "_": Array [
         "reader",
         "admin",
         "maintainer",
@@ -345,7 +345,7 @@ Array [
   Object {
     "actionRoles": Object {
       "close": Object {
-        "$": Array [
+        "_": Array [
           "creator",
         ],
         "repo": Array [
@@ -357,7 +357,7 @@ Array [
         ],
       },
       "read": Object {
-        "$": Array [],
+        "_": Array [],
         "repo": Array [
           "reader",
           "admin",
@@ -400,7 +400,7 @@ Array [
     },
     "model": [Function],
     "roleActions": Object {
-      "$:creator": Array [
+      "_:creator": Array [
         "close",
       ],
       "repo.org:member": Array [
@@ -424,14 +424,14 @@ Array [
     },
     "roleChildren": Object {
       "creator": Object {
-        "$": Array [],
+        "_": Array [],
       },
     },
     "roleParents": Object {
       "creator": Array [],
     },
     "roles": Object {
-      "$": Array [
+      "_": Array [
         "creator",
       ],
       "repo": Array [
