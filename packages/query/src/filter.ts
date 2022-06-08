@@ -26,9 +26,10 @@ export type QueryCondition<MT extends object> =
   | {
       [P in KeyOf<MT>]?:
         | NullablePredicateComparison<MT[P]> // {x: {lt: 1}}
-        | (MT[P] & ShortHandEqualType); // {x: 1},
+        | (MT[P] & ShortHandEqualType) // {x: 1},
+        | null;
     }
-  | Record<string, NullablePredicateComparison<ShortHandEqualType> | ShortHandEqualType>;
+  | Record<string, NullablePredicateComparison<ShortHandEqualType> | ShortHandEqualType | null>;
 
 export type QueryWhere<MT extends object = AnyObject> =
   | QueryCondition<MT>
@@ -76,21 +77,3 @@ export interface QueryOrClause<MT extends object> {
 export type QueryFilter<MT extends object = AnyObject> = Omit<Filter<MT>, 'where'> & {
   where?: QueryWhere<MT>;
 };
-
-// const nonQueryWhereFields = ['fields', 'order', 'limit', 'skip', 'offset', 'include', 'joins'];
-//
-// const queryFilterFields = ['where', ...nonQueryWhereFields];
-//
-// /**
-//  * TypeGuard for Filter
-//  * @param candidate
-//  */
-// export function isQueryFilter<MT extends object>(candidate: any): candidate is Filter<MT> {
-//   if (typeof candidate !== 'object') return false;
-//   for (const key in candidate) {
-//     if (!queryFilterFields.includes(key)) {
-//       return false;
-//     }
-//   }
-//   return true;
-// }
