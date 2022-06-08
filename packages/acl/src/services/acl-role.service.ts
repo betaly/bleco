@@ -90,31 +90,31 @@ export class AclRoleService extends RoleBaseService<AclRole> {
 
       rolesProps.push(props);
       rolesPermissions.push(actions);
-      existsConditions.push(props);
+      existsConditions.push(props as Condition<AclRole>);
     });
 
     const tx = await this.tf.beginTransaction(options);
     try {
-      await (async () => {
-        const founds = await this.repo.find(
-          {
-            where: {or: existsConditions},
-            fields: ['id', 'name', 'resourceType', 'resourceId'],
-          },
-          options,
-        );
-        if (founds.length > 0) {
-          throw new RolesExistsError(founds.map(({id}) => id));
-        }
-      })();
+      const founds = await this.repo.find(
+        {
+          where: {or: existsConditions},
+          fields: ['id', 'name', 'resourceType', 'resourceId'],
+        },
+        options,
+      );
+      if (founds.length > 0) {
+        throw new RolesExistsError(founds.map(({id}) => id));
+      }
 
       const roles = await this.repo.createAll(rolesProps, options);
       for (let i = 0; i < rolesPermissions.length; i++) {
+        debug('roles created %O', roles);
         const permissions = rolesPermissions[i];
         if (!permissions) {
           continue;
         }
         await this.updatePermissions(roles[i].id, permissions, options);
+        debug('permissions updated %O %O', roles[i].id, permissions);
       }
       await tx.commit();
       return roles;

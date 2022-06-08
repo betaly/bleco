@@ -1,8 +1,7 @@
-import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, hasMany, model, property} from '@loopback/repository';
 import {AclRolePermission} from '../models';
 import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
 import {AclRoleMapping} from './acl-role-mapping.model';
-import {AclResource} from './models';
 
 @model()
 export class AclRole extends Entity implements DomainAware, ResourceAware {
@@ -23,18 +22,16 @@ export class AclRole extends Entity implements DomainAware, ResourceAware {
   })
   domain: string;
 
-  @belongsTo(
-    () => AclResource,
-    {polymorphic: {discriminator: 'resource_type'}},
-    {
-      name: 'resource_id',
-      index: true,
-    },
-  )
-  resourceId: string;
+  @property({
+    name: 'resource_id',
+    type: 'string',
+    index: true,
+  })
+  resourceId?: string | null;
 
   @property({
     name: 'resource_type',
+    type: 'string',
     index: true,
   })
   resourceType: string;
@@ -46,13 +43,11 @@ export class AclRole extends Entity implements DomainAware, ResourceAware {
   principals?: AclRoleMapping[];
 }
 
-export interface AclRoleRelations {
-  resource?: Entity;
-}
+export interface AclRoleRelations {}
 
 export type AclRoleWithRelations = AclRole & AclRoleRelations;
 
-export type AclRoleProps = ObjectProps<Omit<AclRole, 'permissions' | 'principals'>>;
+export type AclRoleProps = ObjectProps<Omit<AclRole, 'permissions' | 'principals' | 'resource'>>;
 export type AclRoleAttrs = AclRoleProps & {
   resource?: ResourcePolymorphicOrEntity;
   actions?: string[];

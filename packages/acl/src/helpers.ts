@@ -2,7 +2,6 @@
 
 import {Entity} from '@loopback/repository';
 import {
-  DomainLike,
   EntityLike,
   PrincipalPolymorphic,
   PrincipalPolymorphicOrEntity,
@@ -20,14 +19,21 @@ export function toPrincipalPolymorphic(principal: PrincipalPolymorphicOrEntity):
   };
 }
 
-export function toResourcePolymorphic(resource: ResourcePolymorphicOrEntity): ResourcePolymorphic {
+export function toResourcePolymorphic(resource: ResourcePolymorphicOrEntity | string): ResourcePolymorphic {
   if (isResourcePolymorphic(resource)) {
     return resource;
   }
-  return {
-    resourceType: resource.constructor.name,
-    resourceId: resource.getId(),
-  };
+  if (typeof resource === 'string') {
+    return {
+      resourceType: resource,
+      resourceId: null,
+    };
+  } else {
+    return {
+      resourceType: resource.constructor.name,
+      resourceId: resource.getId().toString(),
+    };
+  }
 }
 
 export function resolveRoleId(role: EntityLike | string): string {
@@ -41,15 +47,15 @@ export function resolveRoleId(role: EntityLike | string): string {
   throw new Error('Invalid role parameter: ' + role);
 }
 
-export function resolveDomain(domain?: DomainLike | string): string | undefined {
-  if (typeof domain === 'string') {
-    return domain;
-  } else if (isEntity(domain)) {
-    return domain.getId().toString();
-  } else if (domain && 'id' in domain) {
-    return domain.id.toString();
-  }
-}
+// export function resolveDomain(domain?: DomainLike | string): string | undefined {
+//   if (typeof domain === 'string') {
+//     return domain;
+//   } else if (isEntity(domain)) {
+//     return domain.getId().toString();
+//   } else if (domain && 'id' in domain) {
+//     return domain.id.toString();
+//   }
+// }
 
 export function isEntity(x: any): x is Entity {
   return x?.getId != null && x.getIdObject != null;
@@ -59,14 +65,14 @@ export function isPrincipalPolymorphic(x: any): x is PrincipalPolymorphic {
   return x?.principalType != null && x.principalId != null;
 }
 
-export function isPrincipalPolymorphicOrEntity(x: any): x is PrincipalPolymorphicOrEntity {
-  return isPrincipalPolymorphic(x) || isEntity(x);
-}
+// export function isPrincipalPolymorphicOrEntity(x: any): x is PrincipalPolymorphicOrEntity {
+//   return isPrincipalPolymorphic(x) || isEntity(x);
+// }
 
 export function isResourcePolymorphic(x: any): x is ResourcePolymorphic {
-  return x?.resourceType != null && x.resourceId != null;
+  return x?.resourceType != null;
 }
 
-export function isResourcePolymorphicOrEntity(x: any): x is ResourcePolymorphicOrEntity {
-  return isResourcePolymorphic(x) || isEntity(x);
-}
+// export function isResourcePolymorphicOrEntity(x: any): x is ResourcePolymorphicOrEntity {
+//   return isResourcePolymorphic(x) || isEntity(x);
+// }

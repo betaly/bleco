@@ -37,7 +37,7 @@ export class AclRoleMappingService extends RoleBaseService<AclRoleMapping> {
   async add(
     principal: PrincipalPolymorphicOrEntity,
     roleIdOrName: string,
-    resource: ResourcePolymorphicOrEntity,
+    resource: ResourcePolymorphicOrEntity | string,
     options?: Options,
   ) {
     return this.addInDomain(principal, roleIdOrName, resource, GlobalDomain, options);
@@ -50,7 +50,7 @@ export class AclRoleMappingService extends RoleBaseService<AclRoleMapping> {
   async addInDomain(
     principal: PrincipalPolymorphicOrEntity,
     roleIdOrName: string,
-    resource: ResourcePolymorphicOrEntity,
+    resource: ResourcePolymorphicOrEntity | string,
     domain: string,
     options?: Options,
   ) {
@@ -59,7 +59,7 @@ export class AclRoleMappingService extends RoleBaseService<AclRoleMapping> {
     const role = await this.roleRepository.resolveRoleByIdOrName(roleIdOrName, resource, options);
     if (!role) {
       throw new Error(
-        `Role "${roleIdOrName}" dose not exist on resource "${resourceType}(id=${resourceId})" in domain ${domain}.`,
+        `Role "${roleIdOrName}" dose not exist on resource "${resourceType}(id=${resourceId})" in domain "${domain}".`,
       );
     }
 
@@ -77,7 +77,7 @@ export class AclRoleMappingService extends RoleBaseService<AclRoleMapping> {
     const tx = await this.tf.beginTransaction(options);
 
     try {
-      let answer = await this.repo.findOne({where: props}, options);
+      let answer = await this.repo.findOne({where: props as Where}, options);
       if (!answer) {
         answer = await this.repo.create(props, options);
       }

@@ -1,5 +1,5 @@
 import {inject} from '@loopback/context';
-import {Getter, HasManyRepositoryFactory, juggler, Options, repository} from '@loopback/repository';
+import {Getter, HasManyRepositoryFactory, juggler, Options, repository, Where} from '@loopback/repository';
 import {toResourcePolymorphic} from '../helpers';
 import {AclBindings} from '../keys';
 import {AclRole, AclRoleAttrs, AclRoleMapping, AclRolePermission, AclRoleProps, AclRoleRelations} from '../models';
@@ -43,7 +43,7 @@ export class AclRoleRepository extends RoleBaseRepository<
 
   async findByIdOrName(
     roleIdOrName: string,
-    resource: ResourcePolymorphicOrEntity,
+    resource: ResourcePolymorphicOrEntity | string,
     options?: Options,
   ): Promise<AclRole | null> {
     const {resourceType, resourceId} = toResourcePolymorphic(resource);
@@ -53,7 +53,7 @@ export class AclRoleRepository extends RoleBaseRepository<
           resourceType,
           resourceId,
           or: [{id: roleIdOrName}, {name: roleIdOrName}],
-        },
+        } as Where,
       },
       options,
     );
@@ -61,7 +61,7 @@ export class AclRoleRepository extends RoleBaseRepository<
 
   async resolveRoleByIdOrName(
     roleIdOrName: string,
-    resource: ResourcePolymorphicOrEntity,
+    resource: ResourcePolymorphicOrEntity | string,
     options?: Options,
   ): Promise<string | AclRole | null> {
     if (this.isBuiltInRole(roleIdOrName, resource)) {

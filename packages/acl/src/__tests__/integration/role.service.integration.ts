@@ -5,6 +5,7 @@ import {AclRole} from '../../models';
 import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
 import {AclRoleService} from '../../services';
 import {GitClubApplication, givenApp, OrgActions, OrgManagerActions, OrgRoles, TestData, TestDomain} from '../../test';
+import {QueryWhere} from '@bleco/query';
 
 describe('RoleService integration tests', function () {
   let app: GitClubApplication;
@@ -158,7 +159,7 @@ describe('RoleService integration tests', function () {
       const role3Name = 'test_role_3';
       const resource = orgs.google;
 
-      const where: Where<AclRole> = {
+      const where: QueryWhere<AclRole> = {
         domain: TestDomain,
         ...toResourcePolymorphic(resource),
       };
@@ -166,10 +167,10 @@ describe('RoleService integration tests', function () {
       const role1 = await roleService.addInDomain({name: role1Name, resource}, TestDomain);
       const role2 = await roleService.addInDomain({name: role2Name, resource}, TestDomain);
       const role3 = await roleService.addInDomain({name: role3Name, resource}, TestDomain);
-      expect((await roleRepo.count(where)).count).toBe(3);
+      expect((await roleRepo.count(where as Where)).count).toBe(3);
 
       await roleService.deleteInDomain([role1, role2.id], TestDomain);
-      expect((await roleRepo.count(where)).count).toBe(1);
+      expect((await roleRepo.count(where as Where)).count).toBe(1);
 
       const found = await roleRepo.findById(role3.id);
       expect(found).toBeDefined();
@@ -182,17 +183,17 @@ describe('RoleService integration tests', function () {
       const role2 = 'test_role_2';
       const resource = orgs.google;
 
-      const where: Where<AclRole> = {
+      const where: QueryWhere<AclRole> = {
         domain: TestDomain,
         ...toResourcePolymorphic(resource),
       };
 
       await roleService.addInDomain({name: role1, resource}, TestDomain);
       await roleService.addInDomain({name: role2, resource}, TestDomain);
-      expect((await roleRepo.count(where)).count).toBe(2);
+      expect((await roleRepo.count(where as Where)).count).toBe(2);
 
       await roleService.deleteForResourceInDomain(resource, TestDomain);
-      expect((await roleRepo.count(where)).count).toBe(0);
+      expect((await roleRepo.count(where as Where)).count).toBe(0);
     });
 
     it('should return count 0 when to delete a role that does not exist', async () => {
@@ -271,7 +272,7 @@ describe('RoleService integration tests', function () {
       const resource = orgs.tesla;
 
       const found = (await roleRepo.findOne({
-        where: {name: roleName, ...toResourcePolymorphic(resource)},
+        where: {name: roleName, ...toResourcePolymorphic(resource)} as Where,
         include: ['permissions'],
       }))!;
       expect(found).toBeTruthy();

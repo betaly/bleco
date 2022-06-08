@@ -35,8 +35,8 @@ export interface RoleAware {
 }
 
 export interface ResourceAware {
-  resourceId?: string;
   resourceType?: string;
+  resourceId?: string | null;
 }
 
 export type PrincipalPolymorphic = Required<PrincipalAware>;

@@ -1,10 +1,11 @@
-import {Where} from '@loopback/repository';
 import {AclBindings} from '../..';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {AclRoleMapping} from '../../models';
 import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
 import {AclRoleMappingService} from '../../services';
 import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
+import {QueryWhere} from '@bleco/query';
+import {Where} from '@loopback/repository';
 
 describe('RoleMappingService integration tests', function () {
   let app: GitClubApplication;
@@ -46,7 +47,7 @@ describe('RoleMappingService integration tests', function () {
         const roleName = OrgRoles.owner;
         const resource = orgs.google;
 
-        const where: Where<AclRoleMapping> = {
+        const where: QueryWhere<AclRoleMapping> = {
           domain: TestDomain,
           roleId: roleName,
           ...toPrincipalPolymorphic(principal),
@@ -54,12 +55,12 @@ describe('RoleMappingService integration tests', function () {
         };
         let found;
 
-        found = await roleMappingRepo.findOne({where});
+        found = await roleMappingRepo.findOne({where: where as Where});
         expect(found).toBeFalsy();
 
         const roleMapping = await roleMappingService.addInDomain(users.tom, roleName, orgs.google, TestDomain);
 
-        found = await roleMappingRepo.findOne({where});
+        found = await roleMappingRepo.findOne({where: where as Where});
         expect(found).toMatchObject({...roleMapping, roleId: roleName, domain: TestDomain});
       });
     });
@@ -105,7 +106,7 @@ describe('RoleMappingService integration tests', function () {
           ...toResourcePolymorphic(resource),
         },
       });
-      expect(founds[0]).toMatchObject(roleMapping);
+      expect(founds[0]).toMatchObject({...roleMapping});
     });
   });
 
@@ -136,11 +137,11 @@ describe('RoleMappingService integration tests', function () {
         ...toResourcePolymorphic(resource),
       };
 
-      let found = await roleMappingRepo.find({where});
+      let found = await roleMappingRepo.find({where: where as Where});
       expect(found.length).toBeGreaterThan(0);
 
       await roleMappingService.removeInDomain({resource}, TestDomain);
-      found = await roleMappingRepo.find({where});
+      found = await roleMappingRepo.find({where: where as Where});
       expect(found).toHaveLength(0);
     });
 
@@ -155,11 +156,11 @@ describe('RoleMappingService integration tests', function () {
         ...toResourcePolymorphic(resource),
       };
 
-      let found = await roleMappingRepo.find({where});
+      let found = await roleMappingRepo.find({where: where as Where});
       expect(found.length).toBeGreaterThan(0);
 
       await roleMappingService.removeInDomain({principal}, TestDomain);
-      found = await roleMappingRepo.find({where});
+      found = await roleMappingRepo.find({where: where as Where});
       expect(found).toHaveLength(0);
     });
   });

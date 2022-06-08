@@ -9,7 +9,6 @@ import {
   RoleAware,
 } from '../types';
 import {AclRole, AclRoleWithRelations} from './acl-role.model';
-import {AclPrincipal, AclResource} from './models';
 
 @model()
 export class AclRoleMapping extends Entity implements DomainAware, PrincipalAware, ResourceAware, RoleAware {
@@ -25,14 +24,10 @@ export class AclRoleMapping extends Entity implements DomainAware, PrincipalAwar
   })
   domain: string;
 
-  @belongsTo(
-    () => AclPrincipal,
-    {polymorphic: {discriminator: 'principal_type'}},
-    {
-      name: 'principal_id',
-      index: true,
-    },
-  )
+  @property({
+    name: 'principal_id',
+    index: true,
+  })
   principalId: string;
 
   @property({
@@ -52,18 +47,16 @@ export class AclRoleMapping extends Entity implements DomainAware, PrincipalAwar
   )
   roleId: string;
 
-  @belongsTo(
-    () => AclResource,
-    {polymorphic: {discriminator: 'resource_type'}},
-    {
-      name: 'resource_id',
-      index: true,
-    },
-  )
-  resourceId: string;
+  @property({
+    name: 'resource_id',
+    type: 'string',
+    index: true,
+  })
+  resourceId?: string | null;
 
   @property({
     name: 'resource_type',
+    type: 'string',
     index: true,
   })
   resourceType: string;
@@ -71,16 +64,10 @@ export class AclRoleMapping extends Entity implements DomainAware, PrincipalAwar
   constructor(data?: Partial<AclRoleMapping>) {
     super(data);
   }
-
-  isRole(name: string): boolean {
-    return this.roleId.endsWith(':' + name);
-  }
 }
 
 export interface AclRoleMappingRelations {
   role?: AclRoleWithRelations;
-  resource?: AclResource;
-  principal?: AclPrincipal;
 }
 
 export type AclRoleMappingWithRelations = AclRoleMapping & AclRoleMappingRelations;
@@ -88,6 +75,6 @@ export type AclRoleMappingWithRelations = AclRoleMapping & AclRoleMappingRelatio
 export type AclRoleMappingProps = ObjectProps<Omit<AclRoleMapping, 'resource' | 'principal' | 'role'>>;
 export type AclRoleMappingAttrs = AclRoleMappingProps & {
   role?: AclRole | string;
-  resource?: ResourcePolymorphicOrEntity;
+  resource?: ResourcePolymorphicOrEntity | string;
   principal?: PrincipalPolymorphicOrEntity;
 };
