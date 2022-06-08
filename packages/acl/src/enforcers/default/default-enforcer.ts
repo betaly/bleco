@@ -2,7 +2,7 @@ import {RepositoryFactory} from '@bleco/repository-factory';
 import {BindingScope, injectable} from '@loopback/context';
 import {AnyObject, Entity, EntityCrudRepository, FilterExcludingWhere, Options, Where} from '@loopback/repository';
 import debugFactory from 'debug';
-import _ from 'lodash';
+import {get} from 'lodash';
 import {toArray} from 'tily/array/toArray';
 import isEmpty from 'tily/is/empty';
 import {Constructor} from 'tily/typings/types';
@@ -112,7 +112,7 @@ export class DefaultEnhancer implements Enforcer {
     if (relRoles) {
       // `or` relation roles conditions
       for (const rel of Object.keys(relRoles)) {
-        const relResource = _.get(resourceWithRelations, rel);
+        const relResource = get(resourceWithRelations, rel);
         if (relResource) {
           or.push({
             ...toResourcePolymorphic(relResource),
@@ -150,7 +150,7 @@ export class DefaultEnhancer implements Enforcer {
         role = rel;
         rel = REL_LOCAL;
       }
-      const r = rel === REL_LOCAL ? resource : _.get(resourceWithRelations, rel);
+      const r = rel === REL_LOCAL ? resource : get(resourceWithRelations, rel);
       const roleMapping = mappings.find(
         m => m.roleId === role && m.resourceId === r?.getId() && m.resourceType === resolveModelName(r?.constructor),
       );
