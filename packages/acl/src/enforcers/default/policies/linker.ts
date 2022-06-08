@@ -1,9 +1,8 @@
-import {isClass} from '@bleco/boot';
 import {Entity} from '@loopback/repository';
 import uniq from 'tily/array/uniq';
 import mergeWith from 'tily/object/mergeWith';
 import {Constructor} from 'tily/typings/types';
-import {CompiledPolicy, CompositeRoles, RelativeRoles, ResolvedPolicy} from '../../../policies';
+import {CompiledPolicy, CompositeRoles, RelativeRoles, ResolvedPolicy, resolveModelName} from '../../../policies';
 import {cloneDeep} from 'lodash';
 
 export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {
@@ -16,7 +15,7 @@ export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {
 
     // link action roles
     for (const action in resolved.actionRoles) {
-      resolved.actionRoles[action] = resolveActionRoles(policies, resolved.model, action);
+      resolved.actionRoles[action] = resolveActionRoles(policies, resolved.definition.name, action);
     }
 
     // link role actions by action roles
@@ -45,17 +44,17 @@ export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {
 
 function resolveActionRoles(
   policies: CompiledPolicy[],
-  resource: Constructor<Entity> | Entity,
+  resource: string | Constructor<Entity> | Entity,
   action: string,
 ): CompositeRoles {
-  const R = (isClass(resource) ? resource : resource.constructor) as typeof Entity;
-  const policy = policies.find(p => p.model === R);
+  const name = resolveModelName(resource);
+  const policy = policies.find(p => p.definition.name === name);
   if (!policy) {
-    throw new Error(`No policy found for resource ${R.name}`);
+    throw new Error(`No policy found for resource ${name}`);
   }
   const roles = policy.actionRoles[action];
   if (!roles) {
-    throw new Error(`No roles found for action ${action} in ${R.name}`);
+    throw new Error(`No roles found for action ${action} in ${name}`);
   }
 
   return resolveRolesRecursion(policies, resource, roles);
@@ -63,14 +62,24 @@ function resolveActionRoles(
 
 function resolveRolesRecursion(
   policies: CompiledPolicy[],
-  resource: Constructor<Entity> | Entity,
+  resource: string | Constructor<Entity> | Entity,
   roles: CompositeRoles,
 ): CompositeRoles {
-  const R = (isClass(resource) ? resource : resource.constructor) as typeof Entity;
+  const name = resolveModelName(resource);
+  const policy = policies.find(p => p.definition.name === name);
+  if (!policy) {
+    throw new Error(`No policy found for resource ${name}`);
+  }
+  const model = policy.model;
   const {_, ...relRoles} = roles;
-  const resolved: CompositeRoles = {_: _};
+  const resolved: CompositeRoles = {_};
   for (const rel in relRoles) {
-    const resolvedRelRoles = resolveRelativeRoles(policies, R.definition.relations[rel].target(), roles[rel], rel);
+    const resolvedRelRoles = resolveRelativeRoles(
+      policies,
+      model ? model.definition.relations[rel].target() : name,
+      roles[rel],
+      rel,
+    );
     for (const r in resolvedRelRoles) {
       resolved[r] = uniq([...(roles[r] ?? []), ...resolvedRelRoles[r]]);
     }
@@ -80,13 +89,14 @@ function resolveRolesRecursion(
 
 function resolveRelativeRoles(
   policies: CompiledPolicy[],
-  model: typeof Entity,
+  model: string | typeof Entity,
   roles: string[],
   prefix: string,
 ): RelativeRoles {
-  const policy = policies.find(p => p.model === model);
+  const name = resolveModelName(model);
+  const policy = policies.find(p => p.definition.name === name);
   if (!policy) {
-    throw new Error(`No policy found for resource ${model.name}`);
+    throw new Error(`No policy found for resource ${name}`);
   }
 
   const children = roles.reduce((acc, role) => {
@@ -112,12 +122,19 @@ function resolveRelativeRoles(
     resolved[key].push(...children[rel]);
   }
 
-  for (const rel in relativeRoles) {
-    const key = `${prefix}.${rel}`;
-    const relRoles = resolveRelativeRoles(policies, model.definition.relations[rel].target(), children[rel], key);
-    for (const relRole in relRoles) {
-      resolved[relRole] = resolved[relRole] ?? [];
-      resolved[relRole].push(...relRoles[relRole]);
+  if (policy.model) {
+    for (const rel in relativeRoles) {
+      const key = `${prefix}.${rel}`;
+      const relRoles = resolveRelativeRoles(
+        policies,
+        policy.model.definition.relations[rel].target(),
+        children[rel],
+        key,
+      );
+      for (const relRole in relRoles) {
+        resolved[relRole] = resolved[relRole] ?? [];
+        resolved[relRole].push(...relRoles[relRole]);
+      }
     }
   }
 

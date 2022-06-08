@@ -13,7 +13,7 @@ export class PolicyBuilder {
   constructor(policies: Policy[]) {
     const compiled = compile(policies);
     const resolved = link(compiled);
-    this.policies = new Map(resolved.map(r => [r.model.modelName, r]));
+    this.policies = new Map(resolved.map(p => [p.definition.name, p]));
   }
 
   has(name: string | Constructor | object) {

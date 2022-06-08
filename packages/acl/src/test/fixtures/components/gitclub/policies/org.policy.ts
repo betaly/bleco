@@ -1,5 +1,5 @@
-import {ResourcePolicy} from '../../../../../policies';
 import {Org} from '../models';
+import {defineResourcePolicy} from '../../../../../policies';
 
 export const OrgRoles = {
   owner: 'owner',
@@ -20,8 +20,7 @@ export const OrgActions = {
 
 export type OrgAction = typeof OrgActions[keyof typeof OrgActions];
 
-export const OrgPolicy: ResourcePolicy<OrgRole, OrgAction> = {
-  type: 'resource',
+export const OrgPolicy = defineResourcePolicy<OrgRole, OrgAction>({
   model: Org,
   roles: ['owner', 'member'],
   actions: [
@@ -40,4 +39,4 @@ export const OrgPolicy: ResourcePolicy<OrgRole, OrgAction> = {
   roleDerivations: {
     member: ['owner'],
   },
-};
+});

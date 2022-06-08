@@ -1,4 +1,4 @@
-import {ResourcePolicy} from '../../../../../policies';
+import {defineResourcePolicy} from '../../../../../policies';
 import {Global} from '../models';
 
 export const GlobalRoles = {
@@ -15,8 +15,8 @@ export const GlobalActions = {
 
 export type GlobalAction = typeof GlobalActions[keyof typeof GlobalActions];
 
-export const GlobalPolicy: ResourcePolicy<GlobalRole, GlobalAction> = {
-  type: 'resource',
+export const GlobalPolicy = defineResourcePolicy<GlobalRole, GlobalAction>({
+  // name: 'global',
   model: Global,
   roles: ['admin', 'member'],
   actions: Object.values(GlobalActions),
@@ -27,4 +27,4 @@ export const GlobalPolicy: ResourcePolicy<GlobalRole, GlobalAction> = {
   roleDerivations: {
     member: ['admin'],
   },
-};
+});

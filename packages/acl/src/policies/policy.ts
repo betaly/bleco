@@ -1,28 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {EntityClass} from '@bleco/query';
 import {Entity} from '@loopback/repository';
+import {MarkOptional, MarkRequired, ValueOf} from 'ts-essentials';
 
-export type PolicyModelType = 'principal' | 'resource';
+export const PolicyModelType = {
+  principal: 'principal',
+  resource: 'resource',
+};
+
+export type PolicyModelType = ValueOf<typeof PolicyModelType>;
+
+export const PolicyModelTypes = Object.values(PolicyModelType);
 
 export type PolicyModel<T extends Entity = Entity> = typeof Entity & {prototype: T};
 
 export interface Policy<Role = string, Action = string> {
   type: PolicyModelType;
-  model: PolicyModel;
+  name: string;
+  model?: PolicyModel;
   actions?: string[];
   roles?: Role[];
   roleActions?: Record<string, Action[]>;
   roleDerivations?: Record<string, string[]>;
   relations?: string[];
   rules?: Record<string, string[]>;
-}
-
-export interface PrincipalPolicy<Role = string, Action = string> extends Policy<Role, Action> {
-  type: 'principal';
-}
-
-export interface ResourcePolicy<Role = string, Action = string> extends Policy<Role, Action> {
-  type: 'resource';
 }
 
 export type RelativeRoles = {
@@ -36,7 +36,7 @@ export type CompositeRoles = {
 
 export interface CompiledPolicy {
   definition: Policy;
-  model: EntityClass;
+  model?: typeof Entity;
   /**
    * All actions
    */
@@ -69,13 +69,37 @@ export interface ResolvedPolicy extends CompiledPolicy {
 }
 
 export function isPolicy(x: any): x is Policy {
-  return x?.type !== undefined && x.model !== undefined;
+  return PolicyModelTypes.includes(x?.type);
 }
 
-export function isPrincipalPolicy(x: any): x is PrincipalPolicy {
-  return x?.type === 'principal';
+export type PolicyExcludeType<Role = string, Action = string> = Omit<Policy<Role, Action>, 'type'>;
+export type PolicyDefinitionOptions<Role = string, Action = string> =
+  | PolicyExcludeType<Role, Action>
+  | MarkOptional<MarkRequired<PolicyExcludeType<Role, Action>, 'model'>, 'name'>;
+
+export function definePolicy<Role = string, Action = string>(
+  type: PolicyModelType,
+  definition: PolicyDefinitionOptions<Role, Action>,
+): Policy<Role, Action> {
+  if (!definition.name && !definition.model) {
+    throw new Error(`Policy definition must have either a name or a model`);
+  }
+  const name = (definition.name ?? definition.model?.modelName)!;
+  return {
+    type,
+    name,
+    ...definition,
+  };
 }
 
-export function isResourcePolicy(x: any): x is ResourcePolicy {
-  return x?.type === 'resource';
+export function defineResourcePolicy<Role = string, Action = string>(
+  definition: PolicyDefinitionOptions<Role, Action>,
+): Policy<Role, Action> {
+  return definePolicy(PolicyModelType.resource, definition);
+}
+
+export function definePrincipalPolicy<Role = string, Action = string>(
+  definition: PolicyDefinitionOptions<Role, Action>,
+): Policy<Role, Action> {
+  return definePolicy(PolicyModelType.principal, definition);
 }

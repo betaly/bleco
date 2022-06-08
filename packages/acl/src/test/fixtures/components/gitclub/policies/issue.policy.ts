@@ -1,5 +1,5 @@
-import {ResourcePolicy} from '../../../../../policies';
 import {Issue} from '../models';
+import {defineResourcePolicy} from '../../../../../policies';
 
 export const IssueRoles = {
   creator: 'creator',
@@ -14,8 +14,7 @@ export const IssueActions = {
 
 export type IssueAction = typeof IssueActions[keyof typeof IssueActions];
 
-export const IssuePolicy: ResourcePolicy<IssueRole, IssueAction> = {
-  type: 'resource',
+export const IssuePolicy = defineResourcePolicy<IssueRole, IssueAction>({
   model: Issue,
   roles: ['creator'],
   actions: ['read', 'close'],
@@ -25,4 +24,4 @@ export const IssuePolicy: ResourcePolicy<IssueRole, IssueAction> = {
     'repo.maintainer': ['close'],
     creator: ['close'],
   },
-};
+});

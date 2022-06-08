@@ -19,20 +19,22 @@ export class PolicyRegistry {
   }
 
   add(policy: Policy) {
-    debug('Adding policy', policy.model.name);
-    switch (policy.type) {
-      case 'principal':
-        this.defineRolesRelationOnPrincipal(policy.model);
-        // this.definePrincipalRelationOnRoleMapping(policy.model);
-        break;
-      case 'resource':
-        this.defineRolesRelationOnResource(policy.model);
-        // this.defineResourceRelationOnRoleMapping(policy.model);
-        break;
-      default:
-        throw new Error(`Invalid policy type ${policy.type}`);
+    debug('Adding policy', policy.name);
+    if (policy.model) {
+      switch (policy.type) {
+        case 'principal':
+          this.defineRolesRelationOnPrincipal(policy.model);
+          // this.definePrincipalRelationOnRoleMapping(policy.model);
+          break;
+        case 'resource':
+          this.defineRolesRelationOnResource(policy.model);
+          // this.defineResourceRelationOnRoleMapping(policy.model);
+          break;
+        default:
+          throw new Error(`Invalid policy type ${policy.type}`);
+      }
     }
-    this.policiesMap.set(policy.model.name, policy);
+    this.policiesMap.set(policy.name, policy);
   }
 
   has(name: string | Constructor | object) {
@@ -68,23 +70,6 @@ export class PolicyRegistry {
     });
   }
 
-  // protected definePrincipalRelationOnRoleMapping(principalCls: EntityClass) {
-  //   const definition = RoleMapping.definition;
-  //   const relKey = RoleMappingPrincipal(principalCls);
-  //   const rel = definition.relations[relKey];
-  //   if (rel) {
-  //     if (rel.target() === principalCls) {
-  //       return;
-  //     }
-  //     throw new Error(`${principalCls.name} has a relation to ${rel.target().name} but it is not ${principalCls.name}`);
-  //   }
-  //   definition.hasMany(relKey, {
-  //     source: RoleMapping,
-  //     target: () => principalCls,
-  //     keyFrom: 'principalId',
-  //   });
-  // }
-
   protected defineRolesRelationOnResource(resourceCls: EntityClass) {
     const definition = resourceCls.definition;
     let rel = definition.relations[ResourceRoles];
@@ -113,23 +98,6 @@ export class PolicyRegistry {
       keyTo: 'resourceId',
     });
   }
-
-  // protected defineResourceRelationOnRoleMapping(resourceCls: EntityClass) {
-  //   const definition = RoleMapping.definition;
-  //   const relKey = RoleMappingResource(resourceCls);
-  //   let rel = definition.relations[relKey];
-  //   if (rel) {
-  //     if (rel.target() === resourceCls) {
-  //       return;
-  //     }
-  //     throw new Error(`${RoleMapping.name} has a relation to ${rel.target().name} but it is not ${resourceCls.name}`);
-  //   }
-  //   definition.belongsTo(relKey, {
-  //     source: RoleMapping,
-  //     target: () => resourceCls,
-  //     keyFrom: 'resourceId',
-  //   });
-  // }
 }
 
 export function resolveModelName(name: string | Constructor | object): string {

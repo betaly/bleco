@@ -1,4 +1,4 @@
-import {ResourcePolicy} from '../../../../../policies';
+import {defineResourcePolicy} from '../../../../../policies';
 import {Repo} from '../models';
 
 export const RepoRoles = {
@@ -21,8 +21,7 @@ export const RepoActions = {
 
 export type RepoAction = typeof RepoActions[keyof typeof RepoActions];
 
-export const RepoPolicy: ResourcePolicy<RepoRole, RepoAction> = {
-  type: 'resource',
+export const RepoPolicy = defineResourcePolicy<RepoRole, RepoAction>({
   model: Repo,
   roles: ['admin', 'maintainer', 'reader'],
   relations: ['org'],
@@ -44,4 +43,4 @@ export const RepoPolicy: ResourcePolicy<RepoRole, RepoAction> = {
     reader: ['org.member', 'maintainer'],
     maintainer: ['admin'],
   },
-};
+});

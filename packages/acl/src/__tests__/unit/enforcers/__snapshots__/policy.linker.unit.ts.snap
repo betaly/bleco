@@ -63,6 +63,7 @@ Array [
         "delete_role_assignments",
       ],
       "model": [Function],
+      "name": "Org",
       "roleActions": Object {
         "member": Array [
           "read",
@@ -215,6 +216,7 @@ Array [
         "delete_role_assignments",
       ],
       "model": [Function],
+      "name": "Repo",
       "relations": Array [
         "org",
       ],
@@ -379,6 +381,7 @@ Array [
         "close",
       ],
       "model": [Function],
+      "name": "Issue",
       "relations": Array [
         "repo",
       ],

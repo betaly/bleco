@@ -1,8 +1,7 @@
-import {Policy, ResourcePolicy} from '../../policies';
-import {Issue, IssueAction, IssueRole, Org, Repo} from '../../test';
+import {defineResourcePolicy, Policy} from '../../policies';
+import {Issue, Org, Repo} from '../../test';
 
-export const OrgPolicy: Policy = {
-  type: 'resource',
+export const OrgPolicy = defineResourcePolicy({
   model: Org,
   roles: ['owner', 'member'],
   actions: ['manage', 'read', 'create_repos'],
@@ -13,11 +12,10 @@ export const OrgPolicy: Policy = {
   roleDerivations: {
     member: ['owner'],
   },
-};
+});
 
-export const RepoPolicy: Policy = {
+export const RepoPolicy = defineResourcePolicy({
   model: Repo,
-  type: 'resource',
   roles: ['admin', 'maintainer', 'reader'],
   relations: ['org'],
   actions: ['read', 'manage'],
@@ -30,10 +28,9 @@ export const RepoPolicy: Policy = {
     reader: ['org.member', 'maintainer'],
     maintainer: ['admin'],
   },
-};
+});
 
-export const IssuePolicy: ResourcePolicy<IssueRole, IssueAction> = {
-  type: 'resource',
+export const IssuePolicy = defineResourcePolicy({
   model: Issue,
   roles: ['creator'],
   actions: ['read', 'close'],
@@ -43,6 +40,6 @@ export const IssuePolicy: ResourcePolicy<IssueRole, IssueAction> = {
     'repo.maintainer': ['close'],
     creator: ['close'],
   },
-};
+});
 
 export const TestPolicies: Policy[] = [OrgPolicy, RepoPolicy, IssuePolicy];

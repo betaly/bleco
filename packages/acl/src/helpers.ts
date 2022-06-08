@@ -15,8 +15,8 @@ export function toPrincipalPolymorphic(principal: PrincipalPolymorphicOrEntity):
     return principal;
   }
   return {
-    principalId: principal.getId(),
     principalType: principal.constructor.name,
+    principalId: principal.getId(),
   };
 }
 
@@ -25,8 +25,8 @@ export function toResourcePolymorphic(resource: ResourcePolymorphicOrEntity): Re
     return resource;
   }
   return {
-    resourceId: resource.getId(),
     resourceType: resource.constructor.name,
+    resourceId: resource.getId(),
   };
 }
 

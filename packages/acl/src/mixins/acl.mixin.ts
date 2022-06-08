@@ -23,7 +23,7 @@ export function AclMixin<T extends MixinTarget<Application>>(superClass: T) {
 
     policy(policy: Policy) {
       this.policyRegistry.add(policy);
-      const name = policy.model.name;
+      const name = policy.name;
       const binding: Binding<Policy> = this.bind(`${AclBindings.POLICIES}.${name}`)
         .toDynamicValue(() => this.policyRegistry.get(name))
         .tag(AclTags.POLICY);

@@ -43,7 +43,7 @@ export class PolicyBooter extends BaseArtifactBooter {
         for (const k in policies) {
           const policy = policies[k];
           if (isPolicy(policy)) {
-            debug('Bind policy: %s', policy.model.name);
+            debug('Bind policy: %s', policy.name);
             this.app.policy(policy);
           }
         }

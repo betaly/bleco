@@ -1,6 +1,6 @@
 import {Entity, model, property} from '@loopback/repository';
 import {AclRole, AclRoleMapping} from '../../models';
-import {AclModelRelationKeys, Policy, PolicyRegistry} from '../../policies';
+import {AclModelRelationKeys, definePrincipalPolicy, defineResourcePolicy, PolicyRegistry} from '../../policies';
 import PrincipalRoleMappings = AclModelRelationKeys.PrincipalRoleMappings;
 
 @model()
@@ -26,10 +26,9 @@ class Org extends Entity {
 describe('PolicyRegistry', function () {
   describe('add', function () {
     it('should defineRolesRelationOnPrincipal', function () {
-      const userPolicy: Policy = {
-        type: 'principal',
+      const userPolicy = definePrincipalPolicy({
         model: User,
-      };
+      });
 
       const definition = User.definition;
       expect(definition.relations).not.toHaveProperty(PrincipalRoleMappings);
@@ -43,10 +42,9 @@ describe('PolicyRegistry', function () {
     });
 
     it('should defineRolesRelationOnResource', function () {
-      const orgPolicy: Policy = {
-        type: 'resource',
+      const orgPolicy = defineResourcePolicy({
         model: Org,
-      };
+      });
       const definition = Org.definition;
       expect(definition.relations).not.toHaveProperty('roles');
       expect(definition.relations).not.toHaveProperty('principals');

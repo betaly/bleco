@@ -1,7 +1,6 @@
-import {PrincipalPolicy} from '../../../../../policies';
+import {definePrincipalPolicy} from '../../../../../policies';
 import {User} from '../models';
 
-export const UserPolicy: PrincipalPolicy = {
-  type: 'principal',
+export const UserPolicy = definePrincipalPolicy({
   model: User,
-};
+});
