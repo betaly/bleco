@@ -14,9 +14,7 @@ export interface Policy<Role = string, Action = string> {
   roleActions?: Record<string, Action[]>;
   roleDerivations?: Record<string, string[]>;
   relations?: string[];
-  rules?: {
-    [key: string]: string[];
-  };
+  rules?: Record<string, string[]>;
 }
 
 export interface PrincipalPolicy<Role = string, Action = string> extends Policy<Role, Action> {
