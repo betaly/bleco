@@ -1,4 +1,5 @@
-import {Entity, hasMany, model, property} from '@loopback/repository';
+import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
+import {Global} from './global.model';
 import {Repo} from './repo.model';
 
 @model()
@@ -25,6 +26,9 @@ export class Org extends Entity {
     name: 'billing_address',
   })
   billing_address?: string;
+
+  @belongsTo(() => Global)
+  globalId: string;
 
   @hasMany(() => Repo)
   repositories: Repo[];

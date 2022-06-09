@@ -56,6 +56,13 @@ describe('DefaultEnforcerStrategy', function () {
                 inq: ['member', 'owner'],
               },
             },
+            {
+              'global.principals.principalId': user.id,
+              'global.principals.principalType': user.constructor.name,
+              'global.principals.roleId': {
+                inq: ['admin'],
+              },
+            },
           ],
         },
       });

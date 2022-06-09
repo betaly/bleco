@@ -3,6 +3,7 @@ import {AclBindings} from '../../keys';
 import {UserRepository} from './components/account';
 import {
   GLOBAL,
+  GlobalRepository,
   GlobalRoles,
   IssueRepository,
   OrgActions,
@@ -24,10 +25,13 @@ export async function seed(app: ApplicationWithRepositories) {
 }
 
 export async function seedData(app: ApplicationWithRepositories) {
+  const globalRepo = await app.getRepository(GlobalRepository);
   const userRepo = await app.getRepository(UserRepository);
   const orgRepo = await app.getRepository(OrgRepository);
   const repoRepo = await app.getRepository(RepoRepository);
   const issueRepo = await app.getRepository(IssueRepository);
+
+  await globalRepo.ensureGLOBAL();
 
   const god = await userRepo.create({name: 'God'});
 

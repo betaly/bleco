@@ -18,7 +18,7 @@ export type GlobalAction = typeof GlobalActions[keyof typeof GlobalActions];
 export const GlobalPolicy = defineResourcePolicy<GlobalRole, GlobalAction>({
   model: Global,
   roles: ['admin', 'member'],
-  actions: Object.values(GlobalActions),
+  actions: ['manage', 'create_orgs'],
   roleActions: {
     admin: ['manage'],
     member: ['create_orgs'],
