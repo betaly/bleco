@@ -15,7 +15,7 @@ export class DefaultSoftCrudRepository<
   constructor(
     entityClass: EntityClass<T>,
     dataSource: juggler.DataSource,
-    readonly getCurrentUser?: Getter<UserLike | undefined>,
+    public getCurrentUser?: Getter<UserLike | undefined>,
   ) {
     super(entityClass, dataSource);
   }

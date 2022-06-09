@@ -250,13 +250,13 @@ export function SoftCrudRepositoryMixin<
       return super.deleteById(id, options);
     }
 
-    async getUserId(options?: Options): Promise<string | undefined> {
+    async getUserId(options?: Options): Promise<string> {
       if (!this.getCurrentUser) {
-        return undefined;
+        return '';
       }
       let currentUser = await this.getCurrentUser();
       currentUser = currentUser ?? options?.currentUser;
-      return currentUser ? getUserId(currentUser) : undefined;
+      return currentUser ? getUserId(currentUser) : '';
     }
   };
 }
@@ -306,5 +306,5 @@ export interface SoftCrudRepository<T extends SoftDeleteModel & Entity, ID, Rela
    */
   deleteByIdHard(id: ID, options?: Options): Promise<void>;
 
-  getUserId(options?: Options): Promise<string | undefined>;
+  getUserId(options?: Options): Promise<string>;
 }
