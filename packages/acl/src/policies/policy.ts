@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Entity} from '@loopback/repository';
-import {MarkOptional, MarkRequired, ValueOf} from 'ts-essentials';
+import {MarkOptional, ValueOf} from 'ts-essentials';
 
 export const PolicyModelType = {
   principal: 'principal',
@@ -16,7 +16,7 @@ export type PolicyModel<T extends Entity = Entity> = typeof Entity & {prototype:
 export interface Policy<Role = string, Action = string> {
   type: PolicyModelType;
   name: string;
-  model?: PolicyModel;
+  model: PolicyModel;
   actions?: string[];
   roles?: Role[];
   roleActions?: Record<string, Action[]>;
@@ -36,7 +36,7 @@ export type CompositeRoles = {
 
 export interface CompiledPolicy {
   definition: Policy;
-  model?: typeof Entity;
+  model: typeof Entity;
   /**
    * All actions
    */
@@ -73,9 +73,10 @@ export function isPolicy(x: any): x is Policy {
 }
 
 export type PolicyExcludeType<Role = string, Action = string> = Omit<Policy<Role, Action>, 'type'>;
-export type PolicyDefinitionOptions<Role = string, Action = string> =
-  | PolicyExcludeType<Role, Action>
-  | MarkOptional<MarkRequired<PolicyExcludeType<Role, Action>, 'model'>, 'name'>;
+export type PolicyDefinitionOptions<Role = string, Action = string> = MarkOptional<
+  PolicyExcludeType<Role, Action>,
+  'name'
+>;
 
 export function definePolicy<Role = string, Action = string>(
   type: PolicyModelType,

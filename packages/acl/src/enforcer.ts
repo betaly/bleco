@@ -16,7 +16,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
    * @param resource Object.
    * @returns An access control decision.
    */
-  isAllowed(principal: Principal, action: string, resource: Resource): Promise<boolean>;
+  isAllowed(principal: Principal, action: string, resource: Resource | string): Promise<boolean>;
 
   /**
    * Ensure that `principal` is allowed to perform `action` on
@@ -42,7 +42,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
   authorize(
     principal: Principal,
     action: string,
-    resource: Resource,
+    resource: Resource | string,
     options?: {
       checkRead?: boolean;
     },
@@ -65,7 +65,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
    */
   authorizedActions(
     principal: Principal,
-    resource: Resource,
+    resource: Resource | string,
     options?: {
       allowWildcard?: boolean;
     },
@@ -85,7 +85,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
    * @param resource The resource being accessed.
    * @param field The name of the field being accessed.
    */
-  authorizeField(principal: Principal, action: string, resource: Resource, field: string): Promise<void>;
+  authorizeField(principal: Principal, action: string, resource: Resource | string, field: string): Promise<void>;
 
   /**
    * Determine the fields of `resource` on which `principal` is allowed to
@@ -107,7 +107,7 @@ export interface Enforcer<Principal extends Entity = Entity, Resource extends En
   authorizedFields(
     principal: Principal,
     action: string,
-    resource: Resource,
+    resource: Resource | string,
     options?: {
       allowWildcard?: boolean;
     },

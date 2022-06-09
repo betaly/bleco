@@ -4,19 +4,105 @@ exports[`Policy Linker should link 1`] = `
 Array [
   Object {
     "actionRoles": Object {
+      "create_orgs": Object {
+        "_": Array [
+          "member",
+          "admin",
+        ],
+      },
+      "manage": Object {
+        "_": Array [
+          "admin",
+        ],
+      },
+    },
+    "actions": Array [
+      "manage",
+      "create_orgs",
+    ],
+    "definition": Object {
+      "actions": Array [
+        "manage",
+        "create_orgs",
+      ],
+      "model": [Function],
+      "name": "Global",
+      "roleActions": Object {
+        "admin": Array [
+          "manage",
+        ],
+        "member": Array [
+          "create_orgs",
+        ],
+      },
+      "roleDerivations": Object {
+        "member": Array [
+          "admin",
+        ],
+      },
+      "roles": Array [
+        "admin",
+        "member",
+      ],
+      "type": "resource",
+    },
+    "model": [Function],
+    "roleActions": Object {
+      "_:admin": Array [
+        "manage",
+        "create_orgs",
+      ],
+      "_:member": Array [
+        "create_orgs",
+      ],
+    },
+    "roleChildren": Object {
+      "admin": Object {
+        "_": Array [],
+      },
+      "member": Object {
+        "_": Array [
+          "admin",
+        ],
+      },
+    },
+    "roleParents": Object {
+      "admin": Array [
+        "member",
+      ],
+      "member": Array [],
+    },
+    "roles": Object {
+      "_": Array [
+        "admin",
+        "member",
+      ],
+    },
+  },
+  Object {
+    "actionRoles": Object {
       "create_repos": Object {
         "_": Array [
           "owner",
+        ],
+        "global": Array [
+          "admin",
         ],
       },
       "create_role_assignments": Object {
         "_": Array [
           "owner",
         ],
+        "global": Array [
+          "admin",
+        ],
       },
       "delete_role_assignments": Object {
         "_": Array [
           "owner",
+        ],
+        "global": Array [
+          "admin",
         ],
       },
       "list_repos": Object {
@@ -24,11 +110,17 @@ Array [
           "member",
           "owner",
         ],
+        "global": Array [
+          "admin",
+        ],
       },
       "list_role_assignments": Object {
         "_": Array [
           "member",
           "owner",
+        ],
+        "global": Array [
+          "admin",
         ],
       },
       "read": Object {
@@ -36,10 +128,16 @@ Array [
           "member",
           "owner",
         ],
+        "global": Array [
+          "admin",
+        ],
       },
       "update_role_assignments": Object {
         "_": Array [
           "owner",
+        ],
+        "global": Array [
+          "admin",
         ],
       },
     },
@@ -64,6 +162,9 @@ Array [
       ],
       "model": [Function],
       "name": "Org",
+      "relations": Array [
+        "global",
+      ],
       "roleActions": Object {
         "member": Array [
           "read",
@@ -80,6 +181,9 @@ Array [
       "roleDerivations": Object {
         "member": Array [
           "owner",
+        ],
+        "owner": Array [
+          "global.admin",
         ],
       },
       "roles": Array [
@@ -104,18 +208,37 @@ Array [
         "update_role_assignments",
         "delete_role_assignments",
       ],
+      "global:admin": Array [
+        "read",
+        "create_repos",
+        "list_repos",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
     },
     "roleChildren": Object {
       "member": Object {
         "_": Array [
           "owner",
         ],
+        "global": Array [
+          "admin",
+        ],
       },
       "owner": Object {
         "_": Array [],
+        "global": Array [
+          "admin",
+        ],
       },
     },
     "roleParents": Object {
+      "global.admin": Array [
+        "owner",
+        "member",
+      ],
       "member": Array [],
       "owner": Array [
         "member",
@@ -125,6 +248,9 @@ Array [
       "_": Array [
         "member",
         "owner",
+      ],
+      "global": Array [
+        "admin",
       ],
     },
   },
@@ -140,6 +266,9 @@ Array [
           "owner",
           "member",
         ],
+        "org.global": Array [
+          "admin",
+        ],
       },
       "create_role_assignments": Object {
         "_": Array [
@@ -148,6 +277,9 @@ Array [
         "org": Array [
           "owner",
         ],
+        "org.global": Array [
+          "admin",
+        ],
       },
       "delete_role_assignments": Object {
         "_": Array [
@@ -155,6 +287,9 @@ Array [
         ],
         "org": Array [
           "owner",
+        ],
+        "org.global": Array [
+          "admin",
         ],
       },
       "list_issues": Object {
@@ -167,6 +302,9 @@ Array [
           "owner",
           "member",
         ],
+        "org.global": Array [
+          "admin",
+        ],
       },
       "list_role_assignments": Object {
         "_": Array [
@@ -174,6 +312,9 @@ Array [
         ],
         "org": Array [
           "owner",
+        ],
+        "org.global": Array [
+          "admin",
         ],
       },
       "read": Object {
@@ -186,6 +327,9 @@ Array [
           "owner",
           "member",
         ],
+        "org.global": Array [
+          "admin",
+        ],
       },
       "update_role_assignments": Object {
         "_": Array [
@@ -193,6 +337,9 @@ Array [
         ],
         "org": Array [
           "owner",
+        ],
+        "org.global": Array [
+          "admin",
         ],
       },
     },
@@ -273,6 +420,15 @@ Array [
         "create_issues",
         "list_issues",
       ],
+      "org.global:admin": Array [
+        "read",
+        "create_issues",
+        "list_issues",
+        "create_role_assignments",
+        "list_role_assignments",
+        "update_role_assignments",
+        "delete_role_assignments",
+      ],
       "org:member": Array [
         "read",
         "create_issues",
@@ -342,6 +498,9 @@ Array [
         "owner",
         "member",
       ],
+      "org.global": Array [
+        "admin",
+      ],
     },
   },
   Object {
@@ -357,6 +516,9 @@ Array [
         "repo.org": Array [
           "owner",
         ],
+        "repo.org.global": Array [
+          "admin",
+        ],
       },
       "read": Object {
         "_": Array [],
@@ -368,6 +530,9 @@ Array [
         "repo.org": Array [
           "owner",
           "member",
+        ],
+        "repo.org.global": Array [
+          "admin",
         ],
       },
     },
@@ -404,6 +569,10 @@ Array [
     "model": [Function],
     "roleActions": Object {
       "_:creator": Array [
+        "close",
+      ],
+      "repo.org.global:admin": Array [
+        "read",
         "close",
       ],
       "repo.org:member": Array [
@@ -445,6 +614,9 @@ Array [
       "repo.org": Array [
         "owner",
         "member",
+      ],
+      "repo.org.global": Array [
+        "admin",
       ],
     },
   },

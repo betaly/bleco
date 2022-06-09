@@ -45,16 +45,25 @@ describe('DefaultEnforcerStrategy', function () {
         where: {
           or: [
             {
+              'roles.principals.principalId': user.id,
+              'roles.principals.principalType': user.constructor.name,
               'roles.permissions.action': OrgActions.read,
             },
             {
+              'principals.principalId': user.id,
+              'principals.principalType': user.constructor.name,
               'principals.roleId': {
                 inq: ['member', 'owner'],
               },
             },
+            {
+              'global.principals.principalId': user.id,
+              'global.principals.principalType': user.constructor.name,
+              'global.principals.roleId': {
+                inq: ['admin'],
+              },
+            },
           ],
-          'principals.principalId': user.id,
-          'principals.principalType': user.constructor.name,
         },
       });
     });

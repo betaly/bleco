@@ -23,6 +23,7 @@ export type OrgAction = typeof OrgActions[keyof typeof OrgActions];
 export const OrgPolicy = defineResourcePolicy<OrgRole, OrgAction>({
   model: Org,
   roles: ['owner', 'member'],
+  relations: ['global'],
   actions: [
     'read',
     'create_repos',
@@ -37,6 +38,7 @@ export const OrgPolicy = defineResourcePolicy<OrgRole, OrgAction>({
     member: ['read', 'list_repos', 'list_role_assignments'],
   },
   roleDerivations: {
+    owner: ['global.admin'],
     member: ['owner'],
   },
 });

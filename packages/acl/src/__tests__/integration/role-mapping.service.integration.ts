@@ -1,11 +1,11 @@
-import {QueryWhere} from '@bleco/query';
-import {Where} from '@loopback/repository';
 import {AclBindings} from '../..';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {AclRoleMapping} from '../../models';
 import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
 import {AclRoleMappingService} from '../../services';
 import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
+import {QueryWhere} from '@bleco/query';
+import {Where} from '@loopback/repository';
 
 describe('RoleMappingService integration tests', function () {
   let app: GitClubApplication;

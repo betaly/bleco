@@ -1,12 +1,23 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
-import {BindingScope, inject} from '@loopback/context';
+import {BindingScope, Getter, inject} from '@loopback/context';
 import {injectable} from '@loopback/core';
-import {juggler} from '@loopback/repository';
-import {Org} from '../models';
+import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
+import {Global, Org} from '../models';
+import {GlobalRepository} from './global.repository';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class OrgRepository extends QueryEnhancedCrudRepository<Org, typeof Org.prototype.id> {
-  constructor(@inject('datasources.db') dataSource: juggler.DataSource) {
+  global: BelongsToAccessor<Global, typeof Global.prototype.id>;
+
+  constructor(
+    @inject('datasources.db')
+    dataSource: juggler.DataSource,
+    @repository.getter('GlobalRepository')
+    protected globalRepositoryGetter: Getter<GlobalRepository>,
+  ) {
     super(Org, dataSource);
+
+    this.global = this.createBelongsToAccessorFor('global', this.globalRepositoryGetter);
+    this.registerInclusionResolver('global', this.global.inclusionResolver);
   }
 }
