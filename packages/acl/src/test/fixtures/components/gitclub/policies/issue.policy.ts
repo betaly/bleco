@@ -1,5 +1,5 @@
-import {Issue} from '../models';
 import {defineResourcePolicy} from '../../../../../policies';
+import {Issue} from '../models';
 
 export const IssueRoles = {
   creator: 'creator',

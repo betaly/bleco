@@ -31,8 +31,7 @@ class Book extends Entity {
   }
 }
 
-interface Book extends UserUpdatableModel {
-}
+interface Book extends UserUpdatableModel {}
 ```
 
 And then, you define a repository with `UserUpdatableRepositoryMixin`:
@@ -50,8 +49,7 @@ class BookRepository extends DefaultCrudRepository<Book, typeof Book.prototype.i
   }
 }
 
-interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {
-}
+interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {}
 ```
 
 `UserUpdatableRepositoryMixinOptions` is an optional parameter for `@mixin(UserUpdatableRepositoryMixin(options))`
