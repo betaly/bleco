@@ -15,7 +15,6 @@ export type DeleteResult<D extends Record<string, number> = Record<string, numbe
 };
 
 export type EntityLike = Entity | {id: string | number};
-export type DomainLike = EntityLike;
 
 export type ObjectProps<MT extends object, MP extends object = OmitProperties<MT, Function>> = {
   [P in KeyOf<MP>]?: MP[P];

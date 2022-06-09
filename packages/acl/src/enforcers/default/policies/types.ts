@@ -1,1 +1,1 @@
-export const LOCAL = '_';
+export const LocalRoleKey = '_';

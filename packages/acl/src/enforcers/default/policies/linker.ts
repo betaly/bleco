@@ -89,11 +89,11 @@ function resolveRolesRecursion(
 
 function resolveRelativeRoles(
   policies: CompiledPolicy[],
-  model: string | typeof Entity,
+  nameOrModel: string | typeof Entity,
   roles: string[],
   prefix: string,
 ): RelativeRoles {
-  const name = resolveModelName(model);
+  const name = resolveModelName(nameOrModel);
   const policy = policies.find(p => p.definition.name === name);
   if (!policy) {
     throw new Error(`No policy found for resource ${name}`);

@@ -12,7 +12,7 @@ import {ForbiddenError, NotFoundError} from '../../errors';
 import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {AclRoleMapping, AclRoleMappingRelations, AclRolePermission} from '../../models';
 import {AclModelRelationKeys, PolicyRegistry, ResolvedPolicy, resolveModelName} from '../../policies';
-import {buildRelationRolesIncludes, LOCAL, PolicyBuilder} from './policies';
+import {buildRelationRolesIncludes, LocalRoleKey, PolicyBuilder} from './policies';
 import ResourceRoles = AclModelRelationKeys.ResourceRoles;
 import ResourceRoleMappings = AclModelRelationKeys.ResourceRoleMappings;
 
@@ -148,9 +148,9 @@ export class DefaultEnhancer implements Enforcer {
       let [rel, role] = key.split(':');
       if (!role) {
         role = rel;
-        rel = LOCAL;
+        rel = LocalRoleKey;
       }
-      const r = rel === LOCAL ? resource : get(resourceWithRelations, rel);
+      const r = rel === LocalRoleKey ? resource : get(resourceWithRelations, rel);
       const roleMapping = mappings.find(
         m => m.roleId === role && m.resourceId === r?.getId() && m.resourceType === resolveModelName(r?.constructor),
       );
@@ -229,18 +229,28 @@ function buildAllowedWhereForRoleMappings(
 function buildAllowedWhereForResource(principal: Entity, resourcePolicy: ResolvedPolicy, action: string) {
   const {principalType, principalId} = toPrincipalPolymorphic(principal);
   const {_, ...roles} = resourcePolicy.actionRoles[action];
-  const or: AnyObject[] = [{[`${ResourceRoles}.permissions.action`]: action}];
+  const or: AnyObject[] = [
+    {
+      [`${ResourceRoles}.principals.principalType`]: principalType,
+      [`${ResourceRoles}.principals.principalId`]: principalId,
+      [`${ResourceRoles}.permissions.action`]: action,
+    },
+  ];
   if (!isEmpty(_)) {
-    or.push({[`${ResourceRoleMappings}.roleId`]: {inq: _}});
+    or.push({
+      [`${ResourceRoleMappings}.principalType`]: principalType,
+      [`${ResourceRoleMappings}.principalId`]: principalId,
+      [`${ResourceRoleMappings}.roleId`]: {inq: _},
+    });
   }
   if (!isEmpty(roles)) {
     for (const rel of Object.keys(roles)) {
-      or.push({[`${rel}.${ResourceRoleMappings}.roleId`]: {inq: roles[rel]}});
+      or.push({
+        [`${rel}.${ResourceRoleMappings}.principalType`]: principalType,
+        [`${rel}.${ResourceRoleMappings}.principalId`]: principalId,
+        [`${rel}.${ResourceRoleMappings}.roleId`]: {inq: roles[rel]},
+      });
     }
   }
-  return {
-    [`${ResourceRoleMappings}.principalType`]: principalType,
-    [`${ResourceRoleMappings}.principalId`]: principalId,
-    or,
-  } as Where;
+  return {or} as Where;
 }

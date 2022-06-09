@@ -3,7 +3,7 @@ import {toPrincipalPolymorphic, toResourcePolymorphic} from '../../helpers';
 import {AclRoleMapping} from '../../models';
 import {AclRoleMappingRepository, AclRoleRepository} from '../../repositories';
 import {AclRoleMappingService} from '../../services';
-import {GitClubApplication, givenApp, OrgRoles, TestData, TestDomain} from '../../test';
+import {GitClubApplication, givenApp, GLOBAL, GlobalRoles, OrgRoles, TestData, TestDomain} from '../../test';
 import {QueryWhere} from '@bleco/query';
 import {Where} from '@loopback/repository';
 
@@ -86,6 +86,16 @@ describe('RoleMappingService integration tests', function () {
           ...toPrincipalPolymorphic(principal),
           ...toResourcePolymorphic(resource),
         });
+      });
+    });
+
+    describe('global roles', function () {
+      it('should assign a global role for user', async () => {
+        const {users} = td;
+        const roleMapping = await roleMappingService.addInDomain(users.tom, GlobalRoles.admin, GLOBAL, TestDomain);
+        expect(roleMapping).toBeDefined();
+        expect(roleMapping.resourceType).toBe(GLOBAL.constructor.name);
+        expect(roleMapping.resourceId).toBe(GLOBAL.id);
       });
     });
   });

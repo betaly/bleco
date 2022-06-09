@@ -10,7 +10,6 @@ import {
   OrgRoles,
   RepoRepository,
   RepoRoles,
-  SiteRepository,
 } from './components/gitclub';
 import {TestDomain} from './constants';
 
@@ -25,13 +24,13 @@ export async function seed(app: ApplicationWithRepositories) {
 }
 
 export async function seedData(app: ApplicationWithRepositories) {
-  const globalRepo = await app.getRepository(SiteRepository);
+  // const globalRepo = await app.getRepository(SiteRepository);
   const userRepo = await app.getRepository(UserRepository);
   const orgRepo = await app.getRepository(OrgRepository);
   const repoRepo = await app.getRepository(RepoRepository);
   const issueRepo = await app.getRepository(IssueRepository);
 
-  await globalRepo.create(GLOBAL);
+  // await globalRepo.create(GLOBAL);
 
   const god = await userRepo.create({name: 'God'});
 
@@ -91,7 +90,7 @@ export async function seedRoles(app: ApplicationWithRepositories, data: TestData
 
   const {orgs, users, repos} = data;
 
-  // Site roles
+  // Global roles
   await rms.addInDomain(users.god, GlobalRoles.admin, GLOBAL, TestDomain);
   for (const u of Object.values(users)) {
     if (u === users.god || u === users.guest) continue;
