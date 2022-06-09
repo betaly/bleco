@@ -1,9 +1,9 @@
 import {Entity} from '@loopback/repository';
+import {cloneDeep} from 'lodash';
 import uniq from 'tily/array/uniq';
 import mergeWith from 'tily/object/mergeWith';
 import {Constructor} from 'tily/typings/types';
 import {CompiledPolicy, CompositeRoles, RelativeRoles, ResolvedPolicy, resolveModelName} from '../../../policies';
-import {cloneDeep} from 'lodash';
 
 export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {
   return policies.map(policy => {

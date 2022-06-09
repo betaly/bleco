@@ -29,8 +29,7 @@ class Book extends Entity {
   }
 }
 
-interface Book extends TimestampModel {
-}
+interface Book extends TimestampModel {}
 ```
 
 ```ts
