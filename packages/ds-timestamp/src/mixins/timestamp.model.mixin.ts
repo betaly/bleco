@@ -13,7 +13,7 @@ export function TimestampModelMixin<T extends MixinTarget<Model>>(superClass: T)
     @property({
       type: 'date',
       default: () => new Date(),
-      name: 'modified_at',
+      name: 'updated_at',
     })
     updatedAt?: Date;
   }
