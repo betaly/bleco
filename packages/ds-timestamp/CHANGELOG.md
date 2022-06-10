@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/ds-timestamp@0.2.7...@bleco/ds-timestamp@0.3.0) (2022-06-10)
+
+
+### Features
+
+* fix timestamp database column name ([3ea8877](https://gitr.net/betaly/bleco/commits/3ea887776510acfbd0db0e750143772f085ed399))
+
+
+
+
+
 ## [0.2.7](https://gitr.net/betaly/bleco/compare/@bleco/ds-timestamp@0.2.6...@bleco/ds-timestamp@0.2.7) (2022-06-09)
 
 **Note:** Version bump only for package @bleco/ds-timestamp
