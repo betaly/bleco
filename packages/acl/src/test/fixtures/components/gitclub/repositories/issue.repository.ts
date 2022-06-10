@@ -7,7 +7,7 @@ import {RepoRepository} from './repo.repository';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class IssueRepository extends QueryEnhancedCrudRepository<Issue, typeof Issue.prototype.id, IssueRelations> {
-  repo: BelongsToAccessor<Repo, typeof Repo.prototype.id>;
+  repo: BelongsToAccessor<Repo, typeof Issue.prototype.id>;
 
   constructor(
     @inject('datasources.db')

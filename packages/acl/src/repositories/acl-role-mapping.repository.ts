@@ -12,7 +12,7 @@ export class AclRoleMappingRepository extends RoleBaseRepository<
   AclRoleMappingRelations,
   AclRoleMappingAttrs
 > {
-  public readonly role: BelongsToAccessor<AclRole, typeof AclRole.prototype.id>;
+  public readonly role: BelongsToAccessor<AclRole, typeof AclRoleMapping.prototype.id>;
 
   constructor(
     @inject(`datasources.${AclAuthDBName}`)

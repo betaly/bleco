@@ -7,7 +7,7 @@ import {OrgRepository} from './org.repository';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class RepoRepository extends QueryEnhancedCrudRepository<Repo, typeof Repo.prototype.id, RepoRelations> {
-  org: BelongsToAccessor<Org, typeof Org.prototype.id>;
+  org: BelongsToAccessor<Org, typeof Repo.prototype.id>;
 
   constructor(
     @inject('datasources.db') dataSource: juggler.DataSource,

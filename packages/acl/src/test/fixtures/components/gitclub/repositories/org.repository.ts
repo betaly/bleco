@@ -7,7 +7,7 @@ import {GlobalRepository} from './global.repository';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class OrgRepository extends QueryEnhancedCrudRepository<Org, typeof Org.prototype.id> {
-  global: BelongsToAccessor<Global, typeof Global.prototype.id>;
+  global: BelongsToAccessor<Global, typeof Org.prototype.id>;
 
   constructor(
     @inject('datasources.db')
