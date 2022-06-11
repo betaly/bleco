@@ -8,6 +8,8 @@ used as store for rate limiting key storage using [rate-limit-redis](https://git
 [rate-limit-memcached](https://github.com/linyows/rate-limit-memcached) and
 [rate-limit-mongo](https://github.com/2do2go/rate-limit-mongo)
 
+This package is initial forked from [loopback4-ratelimiter](https://github.com/sourcefuse/loopback4-ratelimiter)
+
 ## Install
 
 ```sh
@@ -216,4 +218,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)

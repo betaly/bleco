@@ -38,6 +38,8 @@ You can use one or more strategies of the above in your application. For each of
 just need to provide your own verifier function, making it easily configurable. Rest of the strategy implementation
 intricacies is handled by extension.
 
+This package is initial forked from [loopback4-authentication](https://github.com/sourcefuse/loopback4-authentication)
+
 ## Install
 
 ```sh
@@ -2500,4 +2502,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)

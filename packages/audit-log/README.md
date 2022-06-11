@@ -3,6 +3,8 @@
 A loopback-next extension for implementing audit logs in loopback applications for all DB transactions.This extension
 provides a generic model to store audit data, which can be backed by any datasource you want.
 
+This package is initial forked from [loopback4-audit-log](https://github.com/sourcefuse/loopback4-audit-log)
+
 ## Install
 
 ```sh
@@ -216,4 +218,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)

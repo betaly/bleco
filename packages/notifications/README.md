@@ -22,6 +22,8 @@ EmailProvider. It also provides support for 3 very popular external services for
 You can use one of these services or add your own implementation or integration using the same interfaces and attach it
 as a provider for that specific type.
 
+This package is initial forked from [loopback4-notification](https://github.com/sourcefuse/loopback4-notification)
+
 ## Install
 
 ```sh
@@ -624,4 +626,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)

@@ -4,6 +4,8 @@
 
 A simple loopback-next extension for [helmetjs](https://helmetjs.github.io/) integration in loopback applications.
 
+This package is initial forked from [loopback4-helmet](https://github.com/sourcefuse/loopback4-helmet)
+
 ## Install
 
 ```sh
@@ -93,4 +95,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)

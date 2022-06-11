@@ -19,6 +19,8 @@ It provides three ways of integration
 
 Refer to the usage section below for details on integration
 
+This package is initial forked from [loopback4-authorization](https://github.com/sourcefuse/loopback4-authorization)
+
 ## Install
 
 ```sh
@@ -507,4 +509,8 @@ Code of conduct guidelines [here](https://github.com/betaly/bleco/blob/master/.g
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)
+
+## Credits
+
+- [SourceFuse](https://github.com/sourcefuse)
