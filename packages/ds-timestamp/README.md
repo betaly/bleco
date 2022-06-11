@@ -46,3 +46,7 @@ class BookRepository extends DefaultCrudRepository<Book, typeof Book.prototype.i
   }
 }
 ```
+
+## License
+
+[MIT](LICENSE)

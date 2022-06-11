@@ -501,3 +501,7 @@ const users = await userQuery.find({
   across one postgres datasource
 - [loopback-connector-postgresql-include](https://github.com/Denys8/loopback-connector-postgresql-include): Resolving
   [Include filter](https://loopback.io/doc/en/lb4/Include-filter.html) with `left join`
+
+## License
+
+[MIT](LICENSE)

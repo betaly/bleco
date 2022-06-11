@@ -81,4 +81,4 @@ export interface MyRepository<T extends object, ID> extends Foo<T, ID> {}
 
 ## License
 
-[MIT](https://github.com/betaly/bleco/blob/master/LICENSE)
+[MIT](LICENSE)

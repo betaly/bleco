@@ -62,3 +62,7 @@ type UserUpdatableRepositoryMixinOptions = {
   userIdKey?: string | string[];
 };
 ```
+
+## License
+
+[MIT](LICENSE)

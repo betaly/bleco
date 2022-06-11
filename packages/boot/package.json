@@ -20,6 +20,9 @@
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"
   },
+  "dependencies": {
+    "@loopback/boot": "^5.0.0"
+  },
   "devDependencies": {
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
@@ -28,11 +31,9 @@
   },
   "files": [
     "README.md",
+    "LICENSE",
     "dist",
     "src",
     "!*/__tests__"
-  ],
-  "dependencies": {
-    "@loopback/boot": "^5.0.0"
-  }
+  ]
 }
