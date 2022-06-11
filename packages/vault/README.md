@@ -1,7 +1,7 @@
 # @bleco/vault
 
 > A loopback-next extension for HashiCorp's Vault integration in loopback-next applications
-> 
+>
 > This package is forked from [loopback4-vault](https://github.com/sourcefuse/loopback4-vault)
 
 ## Install

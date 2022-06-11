@@ -3,7 +3,7 @@
 [![LoopBack](<https://github.com/strongloop/loopback-next/raw/master/docs/site/imgs/branding/Powered-by-LoopBack-Badge-(blue)-@2x.png>)](http://loopback.io/)
 
 > A loopback-next extension for soft delete feature
-> 
+>
 > This package is initial forked from [loopback4-soft-delete](https://github.com/sourcefuse/loopback4-soft-delete)
 
 ## Install
