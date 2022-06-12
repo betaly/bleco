@@ -1,4 +1,4 @@
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {RepositoryFactory} from '@bleco/repo';
 import {AnyObject, Entity, Where, WhereBuilder} from '@loopback/repository';
 import debugFactory from 'debug';
 import {Adapter, Datum, Filter, FilterCondition, Projection} from 'oso';

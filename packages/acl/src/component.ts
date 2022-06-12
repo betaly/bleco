@@ -1,4 +1,4 @@
-import {DefaultRepositoryFactoryProvider} from '@bleco/repository-factory';
+import {DefaultRepositoryFactoryProvider} from '@bleco/repo';
 import {Binding, Component, createBindingFromClass} from '@loopback/core';
 import {Acl} from './acl';
 import {AclAuthorizerProvider} from './authorization';

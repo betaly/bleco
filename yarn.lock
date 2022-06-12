@@ -1489,7 +1489,7 @@ __metadata:
     "@bleco/boot": ^0.2.14
     "@bleco/oso-juggler": ^0.2.3
     "@bleco/query": ^0.8.5
-    "@bleco/repository-factory": ^0.2.5
+    "@bleco/repo": ^0.2.5
     "@bleco/soft-delete": ^0.3.9
     "@loopback/authorization": ^0.12.0
     "@loopback/context": ^5.0.0
@@ -1752,7 +1752,7 @@ __metadata:
   dependencies:
     "@bleco/boot": ^0.2.14
     "@bleco/query": ^0.8.5
-    "@bleco/repository-factory": ^0.2.5
+    "@bleco/repo": ^0.2.5
     "@loopback/repository": ^5.0.0
     "@nutol/build": ^0.2.9
     "@nutol/eslint-config": ^0.2.4
@@ -1818,9 +1818,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/repository-factory@^0.2.5, @bleco/repository-factory@workspace:packages/repository-factory":
+"@bleco/repo@^0.2.5, @bleco/repo@workspace:packages/repo":
   version: 0.0.0-use.local
-  resolution: "@bleco/repository-factory@workspace:packages/repository-factory"
+  resolution: "@bleco/repo@workspace:packages/repo"
   dependencies:
     "@bleco/boot": ^0.2.14
     "@loopback/context": ^5.0.0

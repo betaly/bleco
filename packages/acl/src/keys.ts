@@ -1,4 +1,4 @@
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {RepositoryFactory} from '@bleco/repo';
 import {Authorizer} from '@loopback/authorization';
 import {BindingKey} from '@loopback/context';
 import {Entity} from '@loopback/repository';

@@ -1,5 +1,5 @@
 import {EntityClass} from '@bleco/query';
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {RepositoryFactory} from '@bleco/repo';
 import {Context} from '@loopback/context';
 import {Binding} from '@loopback/core';
 import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';

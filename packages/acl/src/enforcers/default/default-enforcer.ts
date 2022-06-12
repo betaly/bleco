@@ -1,4 +1,4 @@
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {RepositoryFactory} from '@bleco/repo';
 import {BindingScope, injectable} from '@loopback/context';
 import {AnyObject, Entity, EntityCrudRepository, FilterExcludingWhere, Options, Where} from '@loopback/repository';
 import debugFactory from 'debug';

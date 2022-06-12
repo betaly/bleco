@@ -1,6 +1,6 @@
 {
-  "name": "@bleco/repository-factory",
-  "description": "A loopback next extension for repository factory",
+  "name": "@bleco/repo",
+  "description": "A loopback next repository enhancement extension",
   "version": "0.2.5",
   "keywords": [],
   "main": "dist/index.js",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "nb-tsc",
-    "clean": "nb-clean 'bleco-repository-factory*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "clean": "nb-clean 'bleco-repo*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest"

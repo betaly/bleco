@@ -1,7 +1,7 @@
 import {inject} from '@loopback/context';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
 import {DefaultRepositoryFactory} from '../../factories';
-import {RepositoryFactoryBindings} from '../../keys';
+import {RepoBindings} from '../../keys';
 import {DefaultRepositoryFactoryProvider} from '../../providers';
 import {TestApplication} from '../fixtures/application';
 import {Note} from '../fixtures/models/note.model';
@@ -66,8 +66,8 @@ describe('DefaultRepositoryFactoryProvider', function () {
   });
 
   it('should work', async () => {
-    app.bind(RepositoryFactoryBindings.REPOSITORY_FACTORY).toProvider(DefaultRepositoryFactoryProvider);
-    const rf = await app.get<DefaultRepositoryFactory>(RepositoryFactoryBindings.REPOSITORY_FACTORY);
+    app.bind(RepoBindings.REPOSITORY_FACTORY).toProvider(DefaultRepositoryFactoryProvider);
+    const rf = await app.get<DefaultRepositoryFactory>(RepoBindings.REPOSITORY_FACTORY);
     expect(rf).toBeInstanceOf(DefaultRepositoryFactory);
     const noteRepo = await rf.getRepository(Note);
     expect(noteRepo).toBeDefined();

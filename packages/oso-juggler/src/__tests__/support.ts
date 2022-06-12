@@ -1,4 +1,4 @@
-import {RepositoryFactoryBindings} from '@bleco/repository-factory';
+import {RepoBindings} from '@bleco/repo';
 import {Entity} from '@loopback/repository';
 import {givenHttpServerConfig} from '@loopback/testlab';
 import {Class} from 'oso/dist/src/types';
@@ -19,7 +19,7 @@ export async function givenAppAndEnforcer() {
   await app.migrateSchema({existingSchema: 'drop'});
   await app.start();
 
-  const enforcer = new Enforcer(await app.get(RepositoryFactoryBindings.REPOSITORY_FACTORY));
+  const enforcer = new Enforcer(await app.get(RepoBindings.REPOSITORY_FACTORY));
   await enforcer.registerModelsFromApplication(app);
   return {app, enforcer};
 }

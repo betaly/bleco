@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@bleco/query": "^0.8.5",
-    "@bleco/repository-factory": "^0.2.5",
+    "@bleco/repo": "^0.2.5",
     "@loopback/repository": "^5.0.0",
     "debug": "^4.3.4",
     "oso": "^0.26.1",

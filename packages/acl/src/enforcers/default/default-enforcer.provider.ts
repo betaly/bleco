@@ -1,4 +1,4 @@
-import {RepositoryFactory} from '@bleco/repository-factory';
+import {RepositoryFactory} from '@bleco/repo';
 import {BindingScope, inject, injectable, Provider} from '@loopback/context';
 import {Enforcer} from '../../enforcer';
 import {AclBindings} from '../../keys';
