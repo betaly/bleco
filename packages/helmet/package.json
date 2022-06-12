@@ -1,7 +1,7 @@
 {
   "name": "@bleco/helmet",
   "description": "A loopback-next extension for helmetjs integration",
-  "version": "0.3.19",
+  "version": "0.3.20",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

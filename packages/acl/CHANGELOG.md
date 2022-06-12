@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/acl@0.2.9...@bleco/acl@0.3.0) (2022-06-12)
+
+
+### Features
+
+* rename @bleco/repository-factory to @bleco/repo ([ca8c4a5](https://gitr.net/betaly/bleco/commits/ca8c4a540b67db1c95af27622e0e3b8afe2f0658))
+
+
+
+
+
 ## [0.2.9](https://gitr.net/betaly/bleco/compare/@bleco/acl@0.2.8...@bleco/acl@0.2.9) (2022-06-12)
 
 **Note:** Version bump only for package @bleco/acl

@@ -1,7 +1,7 @@
 {
   "name": "@bleco/oso-juggler",
   "description": "An oso data filtering adapter for loopback juggler orm",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "keywords": [
     "oso",
     "adapter",
@@ -32,15 +32,15 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/query": "^0.8.5",
-    "@bleco/repo": "^0.2.5",
+    "@bleco/query": "^0.8.6",
+    "@bleco/repo": "^0.3.0",
     "@loopback/repository": "^5.0.0",
     "debug": "^4.3.4",
     "oso": "^0.26.1",
     "tily": "^2.16.1"
   },
   "devDependencies": {
-    "@bleco/boot": "^0.2.14",
+    "@bleco/boot": "^0.2.15",
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
     "@types/jest": "^28.1.1",

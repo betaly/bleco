@@ -1,7 +1,7 @@
 {
   "name": "@bleco/ratelimiter",
   "description": "A loopback-next rate limiting extension",
-  "version": "0.2.21",
+  "version": "0.2.22",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

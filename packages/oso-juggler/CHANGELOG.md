@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/oso-juggler@0.2.3...@bleco/oso-juggler@0.3.0) (2022-06-12)
+
+
+### Features
+
+* rename @bleco/repository-factory to @bleco/repo ([ca8c4a5](https://gitr.net/betaly/bleco/commits/ca8c4a540b67db1c95af27622e0e3b8afe2f0658))
+
+
+
+
+
 ## [0.2.3](https://gitr.net/betaly/bleco/compare/@bleco/oso-juggler@0.2.2...@bleco/oso-juggler@0.2.3) (2022-06-11)
 
 **Note:** Version bump only for package @bleco/oso-juggler
