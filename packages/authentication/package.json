@@ -53,7 +53,7 @@
     "@nutol/eslint-config": "^0.2.4",
     "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^17.0.41",
+    "@types/node": "^17.0.42",
     "@types/passport": "^1.0.8",
     "@types/passport-apple": "^1.1.1",
     "@types/passport-azure-ad": "^4.3.1",
