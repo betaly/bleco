@@ -1,7 +1,7 @@
 {
   "name": "@bleco/acl",
   "description": "A LoopBack 4 component for ACLs support",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
