@@ -25,6 +25,26 @@ class Org extends Entity {
 
 describe('PolicyRegistry', function () {
   describe('add', function () {
+    it('should throw error if model is not defined with @model()', function () {
+      class Note extends Entity {
+        @property({
+          type: 'number',
+          id: true,
+          generated: true,
+        })
+        id?: number;
+      }
+
+      const NotePolicy = definePrincipalPolicy({
+        model: Note,
+      });
+
+      const registry = new PolicyRegistry();
+      expect(() => registry.add(NotePolicy)).toThrowError(
+        /Note has no definition. Maybe you forgot to add decorator @model()?/i,
+      );
+    });
+
     it('should defineRolesRelationOnPrincipal', function () {
       const userPolicy = definePrincipalPolicy({
         model: User,

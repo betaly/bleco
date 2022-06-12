@@ -55,6 +55,7 @@ export class PolicyRegistry {
   }
 
   protected defineRolesRelationOnPrincipal(principalCls: EntityClass) {
+    checkHaveDefinitionInEntityClass(principalCls);
     const definition = principalCls.definition;
     const rel = definition.relations[PrincipalRoleMappings];
     if (rel) {
@@ -71,6 +72,7 @@ export class PolicyRegistry {
   }
 
   protected defineRolesRelationOnResource(resourceCls: EntityClass) {
+    checkHaveDefinitionInEntityClass(resourceCls);
     const definition = resourceCls.definition;
     let rel = definition.relations[ResourceRoles];
     if (rel) {
@@ -107,4 +109,10 @@ export function resolveModelName(name: string | Constructor | object): string {
     name = name.constructor;
   }
   return (name as typeof Entity).modelName ?? (name as Constructor).name;
+}
+
+export function checkHaveDefinitionInEntityClass(cls: typeof Entity) {
+  if (!cls.definition) {
+    throw new Error(`${cls.name} has no definition. Maybe you forgot to add decorator @model()?`);
+  }
 }
