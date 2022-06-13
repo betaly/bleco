@@ -20,7 +20,7 @@ const MixinSpecs: [string, ModelRepositoryCtor<Foo>][] = [
   ['decorator', FooRepositoryWithQueryDecoratedFull],
 ];
 
-describe('Query Mixin', () => {
+describe('Query Mixin Integration Tests', () => {
   let db: DB;
 
   let findSpy: jest.SpyInstance;
@@ -28,12 +28,12 @@ describe('Query Mixin', () => {
   let countSpy: jest.SpyInstance;
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
+    db = givenDb();
     await db.ds.automigrate();
     await seed(db.repos);
   });
 
-  describe('mixin without overrideCruds', () => {
+  describe('mixin without "overrideCruds"', () => {
     let repo: FooRepositoryWithQueryDecorated;
 
     beforeAll(() => {

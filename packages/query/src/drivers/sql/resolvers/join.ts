@@ -122,12 +122,15 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
     let parentPrefix = '';
     let parentEntity = this.entityClass;
     let join: RelationJoin | undefined;
+    let potentialRelationPath = relationPath;
 
     for (let i = 0; i < relationChain.length; i++) {
+      const modelDefinition = parentEntity.definition;
+
       // Build a prefix for alias to prevent conflict
       const prefix = nextPrefix(session, i);
       const {name: candidateRelation, polymorphicValue} = relationChain[i];
-      const modelDefinition = parentEntity.definition; //this.orm.getModelDefinition(parentModel);
+      potentialRelationPath += '.' + candidateRelation;
 
       if (!modelDefinition) {
         debug('No definition for model %s', parentEntity);
@@ -155,7 +158,6 @@ export class JoinResolver<TModel extends Entity> extends ClauseResolver<TModel> 
       relation = resolveRelation(relation);
 
       const target = relation.target();
-      const potentialRelationPath = `${relationPath}.${candidateRelation}`;
       let polymorphic;
 
       // Check if the relation is already joined

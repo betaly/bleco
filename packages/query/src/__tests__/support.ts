@@ -5,6 +5,7 @@ import {
   createHasManyInclusionResolver,
   DefaultCrudRepository,
   Entity,
+  Getter,
   HasManyDefinition,
   HasOneDefinition,
   juggler,
@@ -13,10 +14,12 @@ import {
 import {createHasManyThroughInclusionResolver} from '@loopback/repository/dist/relations/has-many/has-many-through.inclusion-resolver';
 import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
 import PgMock2 from 'pgmock2';
+import temp from 'temp';
 import noop from 'tily/function/noop';
 import {ValueOf} from 'ts-essentials';
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
 import {DefaultQuery, Query} from '../query';
+import {QueryEnhancedCrudRepository} from '../repository';
 import {EntityClass} from '../types';
 import {Bar} from './fixtures/models/bar';
 import {Letter, Parcel} from './fixtures/models/deliverable';
@@ -65,33 +68,38 @@ export interface DB {
   repos: Repos;
 }
 
-export function givenDb(dsConfig: Options) {
-  const ds = new juggler.DataSource(dsConfig);
-  const repos = Entities.reduce((acc, entity) => {
-    acc[entity.name as EntityName] = new DefaultCrudRepository<any, any>(entity, ds);
+export function givenDb(dsConfig?: Options): DB {
+  const {ds, repos} = givenRepositories(Object.values(EntityMap), dsConfig);
+  return {ds, repos: repos as Repos};
+}
+
+export function givenRepositories(models: EntityClass[], dsConfig?: Options) {
+  const ds = new juggler.DataSource(Object.assign({connector: 'sqlite3e', file: temp.path('.db')}, dsConfig));
+
+  const repos = models.reduce((acc, cls) => {
+    acc[cls.name as EntityName] = new QueryEnhancedCrudRepository<Entity, unknown>(cls, ds);
     return acc;
-  }, {} as Repos);
+  }, {} as Record<string, QueryEnhancedCrudRepository<Entity, unknown>>);
 
-  const entityClasses = Object.values(EntityMap);
+  const reposDict = Object.keys(repos).reduce((acc, key) => {
+    acc[key] = async () => repos[key];
+    return acc;
+  }, {} as Record<string, Getter<QueryEnhancedCrudRepository<Entity, unknown>>>);
 
-  Object.entries(repos).forEach(([name, repo]) => {
-    const model = EntityMap[name as EntityName];
-    const definition = model.definition;
+  models.forEach(cls => {
+    const definition = cls.definition;
+    const repo = repos[cls.name];
     for (const relationName in definition.relations) {
       const relation = definition.relations[relationName];
       const target = relation.target();
       const targetRepo = repos[target.name as EntityName];
 
-      const getTargetRepoDict = {[target.name]: async () => targetRepo};
-
-      for (const cls of entityClasses) {
-        getTargetRepoDict[cls.name] = async () => repos[cls.name as EntityName];
-      }
+      // const getTargetRepoDict = {[target.name]: async () => targetRepo};
 
       if (relation.type === 'belongsTo') {
         repo.registerInclusionResolver(
           relationName,
-          createBelongsToInclusionResolver(relation as BelongsToDefinition, getTargetRepoDict),
+          createBelongsToInclusionResolver(relation as BelongsToDefinition, reposDict),
         );
       } else if (relation.type === 'hasMany') {
         if ('through' in relation && relation.through) {
@@ -100,7 +108,7 @@ export function givenDb(dsConfig: Options) {
             createHasManyThroughInclusionResolver(
               relation as HasManyDefinition,
               async () => repos[relation.through!.model().name as EntityName],
-              getTargetRepoDict,
+              reposDict,
             ),
           );
         } else {
@@ -112,7 +120,7 @@ export function givenDb(dsConfig: Options) {
       } else if (relation.type === 'hasOne') {
         repo.registerInclusionResolver(
           relationName,
-          createHasOneInclusionResolver(relation as HasOneDefinition, getTargetRepoDict),
+          createHasOneInclusionResolver(relation as HasOneDefinition, reposDict),
         );
       }
     }
