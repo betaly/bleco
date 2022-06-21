@@ -1,10 +1,9 @@
 import {mixin} from '@bleco/mixin';
-import {EntityClass} from '@bleco/query';
 import {Getter} from '@loopback/core';
-import {DefaultCrudRepository, juggler} from '@loopback/repository';
+import {DefaultCrudRepository, Entity, juggler} from '@loopback/repository';
+import {AnyObj} from 'tily/typings/types';
 import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
 import {SoftDeleteEntity} from '../models';
-import {UserLike} from '../types';
 
 @mixin(SoftCrudRepositoryMixin)
 export class DefaultSoftCrudRepository<
@@ -13,9 +12,9 @@ export class DefaultSoftCrudRepository<
   Relations extends object = {},
 > extends DefaultCrudRepository<T, ID, Relations> {
   constructor(
-    entityClass: EntityClass<T>,
+    entityClass: typeof Entity & {prototype: T},
     dataSource: juggler.DataSource,
-    public getCurrentUser?: Getter<UserLike | undefined>,
+    public getCurrentUser?: Getter<AnyObj | undefined>,
   ) {
     super(entityClass, dataSource);
   }

@@ -12,9 +12,9 @@ import {
 import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
 import {Options} from 'loopback-datasource-juggler';
+import {AnyObj} from 'tily/typings/types';
 import {ErrorKeys} from '../error-keys';
 import {getUserId} from '../helpers';
-import {UserLike} from '../types';
 import {SoftDeleteModel} from './soft-delete-model.mixin';
 
 export function SoftCrudRepositoryMixin<
@@ -24,7 +24,7 @@ export function SoftCrudRepositoryMixin<
   R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
 >(superClass: R) {
   return class extends superClass implements Partial<SoftCrudRepository<T, ID, Relations>> {
-    getCurrentUser?: Getter<UserLike | undefined>;
+    getCurrentUser?: Getter<AnyObj | undefined>;
 
     find = (filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]> => {
       // Filter out soft deleted entries

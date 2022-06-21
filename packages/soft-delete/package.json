@@ -24,7 +24,8 @@
     "@loopback/boot": "^5.0.1",
     "@loopback/context": "^5.0.1",
     "@loopback/repository": "^5.0.1",
-    "loopback-datasource-juggler": "^4.27.1"
+    "loopback-datasource-juggler": "^4.27.1",
+    "tily": "^2.16.1"
   },
   "dependencies": {
     "@bleco/mixin": "^0.2.7",
