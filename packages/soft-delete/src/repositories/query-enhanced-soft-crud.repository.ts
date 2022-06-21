@@ -15,7 +15,7 @@ export class QueryEnhancedSoftCrudRepository<
   constructor(
     entityClass: typeof Entity & {prototype: T},
     dataSource: juggler.DataSource,
-    readonly getCurrentUser?: Getter<AnyObj | undefined>,
+    public getCurrentUser?: Getter<AnyObj | undefined>,
   ) {
     super(entityClass, dataSource);
   }

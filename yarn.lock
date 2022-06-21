@@ -1495,7 +1495,7 @@ __metadata:
     "@bleco/oso-juggler": ^0.3.2
     "@bleco/query": ^0.8.8
     "@bleco/repo": ^0.3.1
-    "@bleco/soft-delete": ^0.3.11
+    "@bleco/soft-delete": ^0.3.12
     "@loopback/authorization": ^0.12.1
     "@loopback/context": ^5.0.1
     "@loopback/core": ^4.0.1
@@ -1865,7 +1865,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/soft-delete@^0.3.11, @bleco/soft-delete@workspace:packages/soft-delete":
+"@bleco/soft-delete@^0.3.12, @bleco/soft-delete@workspace:packages/soft-delete":
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
