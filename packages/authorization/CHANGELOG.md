@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.16](https://gitr.net/betaly/bleco/compare/@bleco/authorization@0.4.15...@bleco/authorization@0.4.16) (2022-06-21)
+
+**Note:** Version bump only for package @bleco/authorization
+
+
+
+
+
 ## [0.4.15](https://gitr.net/betaly/bleco/compare/@bleco/authorization@0.4.14...@bleco/authorization@0.4.15) (2022-06-12)
 
 **Note:** Version bump only for package @bleco/authorization

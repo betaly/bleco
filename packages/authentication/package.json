@@ -1,7 +1,7 @@
 {
   "name": "@bleco/authentication",
   "description": "A loopback-next extension for authentication feature. Oauth strategies supported.",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,7 +25,7 @@
     "@loopback/rest": "^11.0.0"
   },
   "dependencies": {
-    "@bleco/aliaser": "^0.3.15",
+    "@bleco/aliaser": "^0.3.16",
     "@exlinc/keycloak-passport": "^1.0.2",
     "@loopback/context": "^5.0.1",
     "@loopback/core": "^4.0.1",
