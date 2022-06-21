@@ -40,7 +40,7 @@ describe('UserUpdatableMixin', function () {
       super(Book, dataSource);
     }
   }
-  interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {}
+  interface BookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book> {}
 
   beforeEach(async () => {
     ds = givenDataSource();
@@ -168,8 +168,7 @@ describe('UserUpdatableMixin', function () {
           super(Book, dataSource);
         }
       }
-      interface UserOptionalBookRepository
-        extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book, string> {}
+      interface UserOptionalBookRepository extends UserUpdatableRepository<Book, typeof Book.prototype.id, Book> {}
 
       beforeEach(async () => {
         userOptionalRepo = new UserOptionalBookRepository(ds);

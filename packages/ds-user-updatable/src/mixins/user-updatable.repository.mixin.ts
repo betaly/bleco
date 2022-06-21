@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import {MixinTarget} from '@bleco/mixin';
+import {Getter} from '@loopback/core';
 import {
   AnyObject,
   Count,
@@ -12,8 +13,8 @@ import {
 } from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {toArray} from 'tily/array/toArray';
+import {AnyObj} from 'tily/typings/types';
 import {UserUpdatableModel} from './user-updatable-model.mixin';
-import {Getter} from '@loopback/core';
 
 export const InvalidCredentials = 'Invalid Credentials';
 
@@ -37,7 +38,6 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
     T extends Entity & UserUpdatableModel,
     ID,
     Relations extends object,
-    UserID,
     R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
   >(
     superClass: R,
@@ -47,8 +47,8 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
 
     const getUserId = userIdGetter(userIdKeys as string[]);
 
-    class MixedRepository extends superClass implements UserUpdatableRepository<T, ID, Relations, UserID> {
-      getCurrentUser?: Getter<UserType<UserID> | undefined>;
+    class MixedRepository extends superClass implements UserUpdatableRepository<T, ID, Relations> {
+      getCurrentUser?: Getter<AnyObj | undefined>;
 
       // @ts-ignore
       async create(entity: DataObject<T>, options?: Options): Promise<T> {
@@ -151,6 +151,6 @@ function userIdGetter(keys: string[]) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export interface UserUpdatableRepository<T extends Entity & UserUpdatableModel, ID, Relations extends object, UserID> {
-  getCurrentUser?: Getter<UserType<UserID> | undefined>;
+export interface UserUpdatableRepository<T extends Entity & UserUpdatableModel, ID, Relations extends object> {
+  getCurrentUser?: Getter<AnyObj | undefined>;
 }
