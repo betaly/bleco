@@ -21,13 +21,13 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.0"
+    "@loopback/boot": "^5.0.1"
   },
   "devDependencies": {
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
-    "@types/jest": "^28.1.1",
-    "@types/node": "^17.0.42"
+    "@types/jest": "^28.1.2",
+    "@types/node": "^18.0.0"
   },
   "files": [
     "README.md",
