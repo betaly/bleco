@@ -36,6 +36,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
     T extends Entity & UserUpdatableModel,
     ID,
     Relations extends object,
+    UserID,
     R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
   >(
     superClass: R,
@@ -45,8 +46,8 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
 
     const getUserId = userIdGetter(userIdKeys as string[]);
 
-    class MixedRepository extends superClass {
-      getCurrentUser?: () => Promise<AnyObject>;
+    class MixedRepository extends superClass implements UserUpdatableRepository<T, ID, Relations, UserID> {
+      getCurrentUser?: () => Promise<UserType<UserID>>;
 
       // @ts-ignore
       async create(entity: DataObject<T>, options?: Options): Promise<T> {
@@ -148,7 +149,7 @@ function userIdGetter(keys: string[]) {
   };
 }
 
-export interface UserUpdatableRepository<T extends Entity & UserUpdatableModel, ID, Relations extends object, UserID>
-  extends DefaultCrudRepository<T, ID, Relations> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export interface UserUpdatableRepository<T extends Entity & UserUpdatableModel, ID, Relations extends object, UserID> {
   getCurrentUser?: () => Promise<UserType<UserID>>;
 }
