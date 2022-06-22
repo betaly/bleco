@@ -38,7 +38,7 @@ Right now, this extension exports three abstract classes which are actually help
   wrapper over Entity class from
   [@loopback/repository](https://github.com/strongloop/loopback-next/tree/master/packages/repository) adding three
   attributes to the model class for handling soft-delete, namely, deleted, deletedAt, deletedBy. The column names needed
-  to be there in DB within that table are - 'deleted', 'deleted_on', 'deleted_by'. If you are using auto-migration of
+  to be there in DB within that table are - 'deleted', 'deleted_at', 'deleted_by'. If you are using auto-migration of
   loopback 4, then, you may not need to do anything specific to add this column. If not, then please add these columns
   to the DB table.
 - **DefaultSoftCrudRepository** - An abstract base class for all repositories which require soft delete feature. This

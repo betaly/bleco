@@ -11,7 +11,7 @@ export function SoftDeleteModelMixin<T extends MixinTarget<Entity>>(superClass: 
 
     @property({
       type: 'date',
-      name: 'deleted_on',
+      name: 'deleted_at',
       jsonSchema: {
         nullable: true,
       },
