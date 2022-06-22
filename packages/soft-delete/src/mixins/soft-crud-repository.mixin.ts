@@ -189,7 +189,7 @@ export function SoftCrudRepositoryMixin<
     delete = async (entity: T, options?: Options): Promise<void> => {
       // Do soft delete, no hard delete allowed
       (entity as SoftDeleteModel).deleted = true;
-      (entity as SoftDeleteModel).deletedOn = new Date();
+      (entity as SoftDeleteModel).deletedAt = new Date();
       (entity as SoftDeleteModel).deletedBy = await this.getUserId();
       return super.update(entity, options);
     };
@@ -199,7 +199,7 @@ export function SoftCrudRepositoryMixin<
       return this.updateAll(
         {
           deleted: true,
-          deletedOn: new Date(),
+          deletedAt: new Date(),
           deletedBy: await this.getUserId(),
         } as DataObject<T>,
         where,
@@ -213,7 +213,7 @@ export function SoftCrudRepositoryMixin<
         id,
         {
           deleted: true,
-          deletedOn: new Date(),
+          deletedAt: new Date(),
           deletedBy: await this.getUserId(),
         } as DataObject<T>,
         options,

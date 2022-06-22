@@ -7,7 +7,7 @@ import {SoftDeleteModelMixin} from '../mixins';
  * @description
  * Base class for all soft-delete enabled models created.
  * It adds three attributes to the model class for handling soft-delete,
- * namely, 'deleted', deletedOn, deletedBy
+ * namely, 'deleted', deletedAt, deletedBy
  * Its an abstract class so no repository class should be based on this.
  */
 export abstract class SoftDeleteEntity extends SoftDeleteModelMixin(Entity) {

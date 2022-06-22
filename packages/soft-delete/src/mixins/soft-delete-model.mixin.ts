@@ -16,7 +16,7 @@ export function SoftDeleteModelMixin<T extends MixinTarget<Entity>>(superClass: 
         nullable: true,
       },
     })
-    deletedOn?: Date;
+    deletedAt?: Date;
 
     @property({
       type: 'string',
@@ -33,6 +33,6 @@ export function SoftDeleteModelMixin<T extends MixinTarget<Entity>>(superClass: 
 
 export interface SoftDeleteModel {
   deleted?: boolean;
-  deletedOn?: Date;
+  deletedAt?: Date;
   deletedBy?: string;
 }
