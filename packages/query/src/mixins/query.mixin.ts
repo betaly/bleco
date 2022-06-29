@@ -45,16 +45,17 @@ export function QueryRepositoryMixin<
       return this.__query__;
     }
 
-    find = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]> => {
+    // @ts-ignore
+    async find(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations)[]> {
       if (overrideCruds && this.query) {
         debug(`${this.constructor.name} find() -> query.find()`);
         return this.query.find(filter, options);
       }
       debug(`${this.constructor.name} find() -> super.find()`);
       return super.find(filter as Filter<M>, options);
-    };
+    }
 
-    findOne = async (filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> => {
+    async findOne(filter?: QueryFilter<M>, options?: object): Promise<(M & Relations) | null> {
       if (overrideCruds && this.query) {
         debug(`${this.constructor.name} findOne() -> query.findOne()`);
         return this.query.findOne(filter, options);
@@ -66,15 +67,16 @@ export function QueryRepositoryMixin<
       debug(`${this.constructor.name} findOne() -> super.findOne()`);
       // @ts-ignore
       return super.findOne(filter, options);
-    };
+    }
 
-    count = async (where?: QueryWhere<M>, options?: object): Promise<{count: number}> => {
+    // @ts-ignore
+    async count(where?: QueryWhere<M>, options?: object): Promise<{count: number}> {
       if (overrideCruds && this.query) {
         debug(`${this.constructor.name} count() -> query.count()`);
         return this.query.count(where, options);
       }
       debug(`${this.constructor.name} count() -> super.count()`);
       return super.count(where as Where<M>, options);
-    };
+    }
   };
 }

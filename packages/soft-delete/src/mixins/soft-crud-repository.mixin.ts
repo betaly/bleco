@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {Getter, MixinTarget} from '@loopback/core';
 import {
   AndClause,
@@ -23,10 +24,12 @@ export function SoftCrudRepositoryMixin<
   Relations extends object,
   R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
 >(superClass: R) {
-  return class extends superClass implements Partial<SoftCrudRepository<T, ID, Relations>> {
+  return class extends superClass {
+    // implements Partial<SoftCrudRepository<T, ID, Relations>> {
     getCurrentUser?: Getter<AnyObj | undefined>;
 
-    find = (filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]> => {
+    // @ts-ignore
+    async find(filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]> {
       // Filter out soft deleted entries
       if (filter?.where && (filter.where as AndClause<T>).and && (filter.where as AndClause<T>).and.length > 0) {
         (filter.where as AndClause<T>).and.push({
@@ -51,14 +54,15 @@ export function SoftCrudRepositoryMixin<
 
       // Now call super
       return super.find(filter, options);
-    };
+    }
 
     //find all entities including soft deleted records
     findAll(filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]> {
       return super.find(filter, options);
     }
 
-    findOne = (filter?: Filter<T>, options?: Options): Promise<(T & Relations) | null> => {
+    // @ts-ignore
+    findOne(filter?: Filter<T>, options?: Options): Promise<(T & Relations) | null> {
       // Filter out soft deleted entries
       if (filter?.where && (filter.where as AndClause<T>).and && (filter.where as AndClause<T>).and.length > 0) {
         (filter.where as AndClause<T>).and.push({
@@ -83,14 +87,15 @@ export function SoftCrudRepositoryMixin<
 
       // Now call super
       return super.findOne(filter, options);
-    };
+    }
 
     //findOne() including soft deleted entry
     findOneIncludeSoftDelete(filter?: Filter<T>, options?: Options): Promise<(T & Relations) | null> {
       return super.findOne(filter, options);
     }
 
-    findById = async (id: ID, filter?: Filter<T>, options?: Options): Promise<T & Relations> => {
+    // @ts-ignore
+    async findById(id: ID, filter?: Filter<T>, options?: Options): Promise<T & Relations> {
       // Filter out soft deleted entries
       if (filter?.where && (filter.where as AndClause<T>).and && (filter.where as AndClause<T>).and.length > 0) {
         (filter.where as AndClause<T>).and.push({
@@ -127,14 +132,15 @@ export function SoftCrudRepositoryMixin<
       } else {
         throw new HttpErrors.NotFound(ErrorKeys.EntityNotFound);
       }
-    };
+    }
 
     //find by `id` including soft deleted record
     async findByIdIncludeSoftDelete(id: ID, filter?: Filter<T>, options?: Options): Promise<T & Relations> {
       return super.findById(id, filter, options);
     }
 
-    updateAll = (data: DataObject<T>, where?: Where<T>, options?: Options): Promise<Count> => {
+    // @ts-ignore
+    updateAll(data: DataObject<T>, where?: Where<T>, options?: Options): Promise<Count> {
       // Filter out soft deleted entries
       if (where && (where as AndClause<T>).and && (where as AndClause<T>).and.length > 0) {
         (where as AndClause<T>).and.push({
@@ -158,9 +164,10 @@ export function SoftCrudRepositoryMixin<
 
       // Now call super
       return super.updateAll(data, where, options);
-    };
+    }
 
-    count = (where?: Where<T>, options?: Options): Promise<Count> => {
+    // @ts-ignore
+    count(where?: Where<T>, options?: Options): Promise<Count> {
       // Filter out soft deleted entries
       if (where && (where as AndClause<T>).and && (where as AndClause<T>).and.length > 0) {
         (where as AndClause<T>).and.push({
@@ -184,17 +191,19 @@ export function SoftCrudRepositoryMixin<
 
       // Now call super
       return super.count(where, options);
-    };
+    }
 
-    delete = async (entity: T, options?: Options): Promise<void> => {
+    // @ts-ignore
+    async delete(entity: T, options?: Options): Promise<void> {
       // Do soft delete, no hard delete allowed
       (entity as SoftDeleteModel).deleted = true;
       (entity as SoftDeleteModel).deletedAt = new Date();
       (entity as SoftDeleteModel).deletedBy = await this.getUserId();
       return super.update(entity, options);
-    };
+    }
 
-    deleteAll = async (where?: Where<T>, options?: Options): Promise<Count> => {
+    // @ts-ignore
+    async deleteAll(where?: Where<T>, options?: Options): Promise<Count> {
       // Do soft delete, no hard delete allowed
       return this.updateAll(
         {
@@ -205,9 +214,10 @@ export function SoftCrudRepositoryMixin<
         where,
         options,
       );
-    };
+    }
 
-    deleteById = async (id: ID, options?: Options): Promise<void> => {
+    // @ts-ignore
+    async deleteById(id: ID, options?: Options): Promise<void> {
       // Do soft delete, no hard delete allowed
       return super.updateById(
         id,
@@ -218,7 +228,7 @@ export function SoftCrudRepositoryMixin<
         } as DataObject<T>,
         options,
       );
-    };
+    }
 
     /**
      * Method to perform hard delete of entries. Take caution.
