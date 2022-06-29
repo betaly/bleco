@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.16](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.3.15...@bleco/soft-delete@0.3.16) (2022-06-29)
+
+
+### Bug Fixes
+
+* member property and member function conflicting in mixin inheritance ([fc23194](https://gitr.net/betaly/bleco/commits/fc23194f3c496c56f3d3383a6d790d6675c56eef))
+
+
+
+
+
 ## [0.3.15](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.3.14...@bleco/soft-delete@0.3.15) (2022-06-22)
 
 **Note:** Version bump only for package @bleco/soft-delete
