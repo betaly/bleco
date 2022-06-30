@@ -74,7 +74,7 @@ export function givenDb(dsConfig?: Options): DB {
 }
 
 export function givenRepositories(models: EntityClass[], dsConfig?: Options) {
-  const ds = new juggler.DataSource(Object.assign({connector: 'sqlite3e', file: temp.path('.db')}, dsConfig));
+  const ds = new juggler.DataSource(Object.assign({connector: 'sqlite3s', file: temp.path('.db')}, dsConfig));
 
   const repos = models.reduce((acc, cls) => {
     acc[cls.name as EntityName] = new QueryEnhancedCrudRepository<Entity, unknown>(cls, ds);

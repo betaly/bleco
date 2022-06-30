@@ -37,7 +37,7 @@ describe('query decorator', function () {
   beforeAll(function () {
     ds = new juggler.DataSource({
       name: 'db',
-      connector: 'sqlite3e',
+      connector: 'sqlite3s',
       file: ':memory:',
     });
 

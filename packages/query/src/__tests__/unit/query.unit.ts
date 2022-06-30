@@ -14,7 +14,7 @@ describe('Query', () => {
   describe('initiation', () => {
     it('should create a query with specified client', () => {
       const spy = jest.spyOn(knex, 'createKnex');
-      const db = givenDb({connector: 'sqlite3e', file: ':memory:', query: {client: 'better-sqlite3'}});
+      const db = givenDb({connector: 'sqlite3s', file: ':memory:', query: {client: 'better-sqlite3'}});
       const query = new DefaultQuery(db.repos.User);
       expect(query).toBeInstanceOf(DefaultQuery);
       expect(spy).toHaveBeenCalledWith(db.ds, {driver: 'sql', client: 'better-sqlite3'});
@@ -36,7 +36,7 @@ describe('Query', () => {
     let projQuery: Query<ProjWithRelations>;
 
     beforeAll(async () => {
-      db = givenDb({connector: 'sqlite3e', file: ':memory:'});
+      db = givenDb({connector: 'sqlite3s', file: ':memory:'});
       repos = db.repos;
       fooQuery = new DefaultQuery<Foo>(repos.Foo);
       userQuery = new DefaultQuery<User>(repos.User);

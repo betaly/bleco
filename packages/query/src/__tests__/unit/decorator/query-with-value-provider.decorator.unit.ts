@@ -9,7 +9,7 @@ describe('query with value provider', () => {
   beforeAll(function () {
     const ds = new juggler.DataSource({
       name: 'db',
-      connector: 'sqlite3e',
+      connector: 'sqlite3s',
       file: ':memory:',
     });
 

@@ -12,7 +12,7 @@ export async function givenDsAndRepo<T extends SoftCrudRepository<Customer, type
 ) {
   const ds: juggler.DataSource = new juggler.DataSource({
     name: 'db',
-    connector: 'sqlite3e',
+    connector: 'sqlite3s',
   });
   const repo = new repoClass(Customer, ds, () => Promise.resolve(user));
   await ds.automigrate();

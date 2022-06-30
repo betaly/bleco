@@ -15,7 +15,7 @@ describe('QueryEnhancedCrudRepository', function () {
   }
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3s', file: ':memory:'});
     await db.ds.automigrate();
   });
 

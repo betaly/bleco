@@ -67,7 +67,7 @@
     "@types/node": "^18.0.0",
     "@types/temp": "^0.9.1",
     "loopback-connector-postgresql": "^5.5.0",
-    "loopback-connector-sqlite3e": "^3.2.0",
+    "loopback-connector-sqlite3s": "^3.5.0",
     "pgmock2": "^2.1.3",
     "temp": "^0.9.4"
   },

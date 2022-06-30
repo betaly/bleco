@@ -15,7 +15,7 @@ describe('SqlDriver', () => {
   let driver: Driver;
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3s', file: ':memory:'});
     repos = db.repos;
     driver = new SqlDriver(db.ds);
 

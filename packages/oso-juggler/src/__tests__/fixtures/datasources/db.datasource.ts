@@ -5,7 +5,7 @@ import temp from 'temp';
 
 const config = {
   name: 'db',
-  connector: 'sqlite3e',
+  connector: 'sqlite3s',
   file: temp.path({suffix: '.db'}),
   debug: true,
 };

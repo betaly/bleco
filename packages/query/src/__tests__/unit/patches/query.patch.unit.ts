@@ -16,7 +16,7 @@ describe('patch/unpatch', () => {
   const originalSpies: Record<string, jest.SpyInstance> = {};
 
   beforeAll(async () => {
-    db = givenDb({connector: 'sqlite3e', file: ':memory:'});
+    db = givenDb({connector: 'sqlite3s', file: ':memory:'});
     memdb = givenDb({connector: 'memory'});
     await db.ds.automigrate();
     await memdb.ds.automigrate();

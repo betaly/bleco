@@ -20,7 +20,7 @@ describe('query with di', () => {
 
   const ds: juggler.DataSource = new juggler.DataSource({
     name: 'db',
-    connector: 'sqlite3e',
+    connector: 'sqlite3s',
     file: ':memory:',
   });
 
