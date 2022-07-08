@@ -7,6 +7,9 @@ export function TimestampModelMixin<T extends MixinTarget<Model>>(superClass: T)
       type: 'date',
       default: () => new Date(),
       name: 'created_at',
+      mysql: {
+        columnName: 'created_at',
+      },
     })
     createdAt?: Date;
 
@@ -14,6 +17,9 @@ export function TimestampModelMixin<T extends MixinTarget<Model>>(superClass: T)
       type: 'date',
       default: () => new Date(),
       name: 'updated_at',
+      mysql: {
+        columnName: 'updated_at',
+      },
     })
     updatedAt?: Date;
   }

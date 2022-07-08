@@ -6,12 +6,18 @@ export function UserUpdatableModelMixin<T extends MixinTarget<Model>>(superClass
     @property({
       type: 'string',
       name: 'created_by',
+      mysql: {
+        columnName: 'created_by',
+      },
     })
     createdBy?: string;
 
     @property({
       type: 'string',
       name: 'updated_by',
+      mysql: {
+        columnName: 'updated_by',
+      },
     })
     updatedBy?: string;
   }
