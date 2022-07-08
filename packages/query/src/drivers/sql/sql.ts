@@ -24,7 +24,7 @@ export class SqlDriver extends Driver {
     filter = filter ?? {};
     const [qb] = this.buildSelect(model, filter);
     resolver.resolveColumns(qb, filter);
-    const s = qb.toSQL();
+    const s = qb.toSQL().toNative();
     if (debug.enabled) {
       debug(`Find with SQL: %s`, s.sql);
       debug(`Parameters: %o`, s.bindings);
@@ -41,7 +41,7 @@ export class SqlDriver extends Driver {
     const [qb, session] = this.buildSelect(model, {where});
     const builder = session.hasRelationJoins() ? this.knex(qb) : qb;
     builder.count('*', {as: 'cnt'});
-    const s = builder.toSQL();
+    const s = builder.toSQL().toNative();
     if (debug.enabled) {
       debug(`Count with SQL: %s`, s.sql);
       debug(`Parameters: %o`, s.bindings);
