@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.18](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.3.17...@bleco/soft-delete@0.3.18) (2022-07-08)
+
+**Note:** Version bump only for package @bleco/soft-delete
+
+
+
+
+
 ## [0.3.17](https://gitr.net/betaly/bleco/compare/@bleco/soft-delete@0.3.16...@bleco/soft-delete@0.3.17) (2022-06-30)
 
 **Note:** Version bump only for package @bleco/soft-delete
