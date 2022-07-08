@@ -36,8 +36,8 @@
     "@loopback/testlab": "^5.0.1",
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
-    "@types/jest": "^28.1.3",
-    "@types/node": "^18.0.0",
+    "@types/jest": "^28.1.4",
+    "@types/node": "^18.0.3",
     "cross-env": "^7.0.3"
   },
   "files": [

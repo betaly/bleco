@@ -34,7 +34,7 @@
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^18.0.0",
+    "@types/node": "^18.0.3",
     "fs-extra": "^10.1.0"
   },
   "files": [

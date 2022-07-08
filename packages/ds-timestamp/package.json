@@ -30,8 +30,8 @@
   "devDependencies": {
     "@nutol/build": "^0.2.9",
     "@nutol/eslint-config": "^0.2.4",
-    "@types/jest": "^28.1.3",
-    "@types/node": "^18.0.0",
+    "@types/jest": "^28.1.4",
+    "@types/node": "^18.0.3",
     "delay": "^5.0.0"
   },
   "files": [
