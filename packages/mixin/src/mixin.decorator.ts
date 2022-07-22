@@ -52,5 +52,8 @@ import {Mixer, MixinTarget} from './types';
  *
  */
 export function mixin<T extends object, M extends MixinTarget<T>>(mixer: Mixer<T, M>) {
-  return (superClass: M) => mixer(superClass);
+  return (superClass: M) => {
+    const defineNamedClass = new Function('mixinClass', `return class ${superClass.name} extends mixinClass {}`);
+    return defineNamedClass(mixer(superClass));
+  };
 }
