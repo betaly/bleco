@@ -92,12 +92,15 @@ export class OperatorHandlerRegistry {
       const {key, value, params} = condition;
 
       if (condition.directive === '$expr') {
+        if (debug.enabled) debug('whereRaw:', `${key} = ${value}`, params);
         return qb.whereRaw(`${key} = ${value}`, params);
       }
 
       if (value == null) {
+        if (debug.enabled) debug('whereNull:', key);
         qb.whereNull(key);
       } else {
+        if (debug.enabled) debug('where:', key, value);
         qb.where(key, '=', value);
       }
     };
@@ -109,12 +112,15 @@ export class OperatorHandlerRegistry {
       const {key, value, params} = condition;
 
       if (condition.directive === '$expr') {
+        if (debug.enabled) debug('whereRaw:', `${key} != ${value}`, params);
         return qb.whereRaw(`${key} != ${value}`, params);
       }
 
       if (value == null) {
+        if (debug.enabled) debug('whereNotNull:', key);
         qb.whereNotNull(key);
       } else {
+        if (debug.enabled) debug('where:', key, value);
         qb.where(key, '!=', value);
       }
     };
@@ -125,9 +131,11 @@ export class OperatorHandlerRegistry {
       debug('- comparison:', condition);
       const {key, value, params} = condition;
       if (condition.directive === '$expr') {
+        if (debug.enabled) debug('whereRaw:', `${key} ${operator} ${value}`, params);
         return qb.whereRaw(`${key} ${operator} ${value}`, params);
       }
 
+      if (debug.enabled) debug('where:', key, value);
       qb.where(key, operator, value);
     };
   }
@@ -136,6 +144,7 @@ export class OperatorHandlerRegistry {
     return function (this: WhereResolver<any>, qb: Knex.QueryBuilder, condition: Condition, session: QuerySession) {
       debug('- not:', condition);
       const {value} = condition;
+      if (debug.enabled) debug('whereNot:', value);
       qb.whereNot(qb => this.build(qb, value, session));
     };
   }
@@ -240,7 +249,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
         params.push(v);
         return '?';
       });
-    } else {
+    } else if (key) {
       if (isString(key)) {
         key = this.resolveKey(key, session);
       } else {

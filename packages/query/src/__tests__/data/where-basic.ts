@@ -194,6 +194,14 @@ export default [
     bindings: [5, 6],
   },
   {
+    only: true,
+    name: 'query with "props" and "or"',
+    model: 'Foo',
+    where: {a: 1, or: [{b: {'>': 2}}, {c: {'<': 3}}]},
+    sql: 'select * from "public"."foo" where "a" = ? and (("b" > ?) or ("c" < ?))',
+    bindings: [1, 2, 3],
+  },
+  {
     name: 'query with "or" with nested "and"',
     model: 'Foo',
     where: {

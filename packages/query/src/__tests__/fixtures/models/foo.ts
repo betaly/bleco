@@ -19,6 +19,9 @@ export class Foo extends Entity {
   @property()
   b?: number;
 
+  @property()
+  c?: number;
+
   @hasMany(() => Bar)
   bars: Bar[];
 
