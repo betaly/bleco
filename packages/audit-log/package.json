@@ -21,17 +21,17 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.1",
-    "@loopback/core": "^4.0.1",
+    "@loopback/boot": "^5.0.2",
+    "@loopback/core": "^4.0.2",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@loopback/testlab": "^5.0.1",
-    "@nutol/build": "^0.2.9",
-    "@nutol/eslint-config": "^0.2.4",
+    "@loopback/testlab": "^5.0.2",
+    "@nutol/build": "^0.2.10",
+    "@nutol/eslint-config": "^0.2.5",
     "@types/lodash": "^4.14.182",
-    "@types/node": "^18.0.3",
+    "@types/node": "^18.6.1",
     "@types/uuid": "^8.3.4",
     "fs-extra": "^10.1.0"
   },
