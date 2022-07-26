@@ -75,7 +75,24 @@ export class DefaultQuery<T extends Entity, Relations extends object = {}> imple
   async find(filter?: QueryFilter<T>, options?: Options): Promise<(T & Relations)[]> {
     filter = filter ?? {};
     const data = await this.driver.find(this.entityClass, filter, options);
-    const entities = this.toEntities(data);
+    const modelClass = this.dataSource.getModel(this.entityClass.definition.name);
+    if (!modelClass) {
+      throw new Error(`Model class ${this.entityClass.definition.name} not found`);
+    }
+    const objects = data
+      .map(
+        m =>
+          new modelClass(m, {
+            fields: filter?.fields,
+            applySetters: false,
+            persisted: true,
+            // see https://github.com/strongloop/loopback-datasource-juggler/issues/1692
+            applyDefaultValues: false,
+          }),
+      )
+      .map(m => m.toObject());
+
+    const entities = this.toEntities(objects);
     if (this.repo) {
       return includeRelatedModels(this.repo, entities, filter.include, options);
     }

@@ -22,7 +22,7 @@ describe('Query Integration Tests', function () {
   it('should support finding with multiple relation paths through a same model(table)', async () => {
     const org1 = await organizationRepo.create({name: 'Org1'});
     await addressRepo.create({detail: 'Org1 Address', resourceId: org1.id});
-    const empolyee = await employeeRepo.create({name: 'Org1 Employee', orgId: org1.id});
+    const employee = await employeeRepo.create({name: 'Org1 Employee', orgId: org1.id, titles: ['Org1 Employee']});
 
     const employeeQuery = employeeRepo.query!;
     const found = await employeeQuery.findOne({
@@ -37,7 +37,7 @@ describe('Query Integration Tests', function () {
         ],
       },
     });
-    expect(found).toEqual(empolyee);
+    expect(found).toEqual(employee);
   });
 });
 
@@ -81,6 +81,12 @@ class Employee extends Entity {
 
   @hasMany(() => Address, {keyTo: 'resourceId'})
   addresses: Address[];
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  titles: string[];
 
   constructor(data?: Partial<Employee>) {
     super(data);
