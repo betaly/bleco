@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.13](https://gitr.net/betaly/bleco/compare/@bleco/query@0.8.12...@bleco/query@0.8.13) (2022-07-26)
+
+
+### Bug Fixes
+
+* **query:** transform records according to property definitions in model when find and findOne ([27df05f](https://gitr.net/betaly/bleco/commits/27df05f56e88a42ec1e74e68948be227b3571c41))
+
+
+
+
+
 ## [0.8.12](https://gitr.net/betaly/bleco/compare/@bleco/query@0.8.11...@bleco/query@0.8.12) (2022-07-08)
 
 **Note:** Version bump only for package @bleco/query
