@@ -7,19 +7,20 @@ import {OidcDataSourceName} from '../types';
 const debug = require('debug')('bleco:oidp:repository');
 
 const TYPES: Record<string, number> = [
+  'Grant',
   'Session',
   'AccessToken',
   'AuthorizationCode',
   'RefreshToken',
-  'DeviceCode',
   'ClientCredentials',
   'Client',
   'InitialAccessToken',
   'RegistrationAccessToken',
+  'DeviceCode',
   'Interaction',
   'ReplayDetection',
+  'BackchannelAuthenticationRequest',
   'PushedAuthorizationRequest',
-  'Grant',
 ].reduce((map, name, i) => ({...map, [name]: i + 1}), {});
 
 @injectable({scope: BindingScope.SINGLETON})
