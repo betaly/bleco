@@ -1,10 +1,10 @@
 import {Application, ApplicationConfig} from '@loopback/core';
+import {RepositoryMixin} from '@loopback/repository';
+import {RestApplication} from '@loopback/rest';
 import {OidpBindings} from '../../keys';
 import {OidpComponent} from '../../oidp.component';
-import {testdb} from '../support';
 import {OidcDataSourceName} from '../../types';
-import {RestApplication} from '@loopback/rest';
-import {RepositoryMixin} from '@loopback/repository';
+import {testdb} from '../support';
 
 describe('OidpComponent', function () {
   describe('OidpComponent with KvAdapter', function () {

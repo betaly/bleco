@@ -1,9 +1,9 @@
-import {TestOidcApplication} from '../fixtures';
 import {Client} from '@loopback/testlab';
-import {setupApplication} from '../support';
-import {OidcProvider} from '../../types';
 import {OidpBindings} from '../../keys';
 import {OidcRepository} from '../../repositories';
+import {OidcProvider} from '../../types';
+import {TestOidcApplication} from '../fixtures';
+import {setupApplication} from '../support';
 
 describe('OIDP - startup with oidc exposing', function () {
   let app: TestOidcApplication;

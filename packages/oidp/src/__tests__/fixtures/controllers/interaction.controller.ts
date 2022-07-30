@@ -1,10 +1,10 @@
-import {api, get, post, requestBody, Response, RestBindings} from '@loopback/rest';
 import {inject} from '@loopback/context';
+import {api, get, post, requestBody, Response, RestBindings} from '@loopback/rest';
+import {InteractionResults} from 'oidc-provider';
 import {OidpBindings} from '../../../keys';
 import {Interaction} from '../../../oidc';
-import {InteractionDetails} from '../../../types/oidc.types';
-import {InteractionResults} from 'oidc-provider';
 import {OidcProvider} from '../../../types';
+import {InteractionDetails} from '../../../types/oidc.types';
 
 interface LoginForm {
   user: string;

@@ -1,5 +1,5 @@
-import {OidcFindAccount} from './types';
 import {AccountClaims} from 'oidc-provider';
+import {OidcFindAccount} from './types';
 
 export const BasicFindAccount: OidcFindAccount = (ctx, id) => {
   return {

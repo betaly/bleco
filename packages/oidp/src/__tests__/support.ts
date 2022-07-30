@@ -1,8 +1,8 @@
 import {ApplicationConfig} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 import hyperid from 'hyperid';
 import {TestOidcApplication} from './fixtures';
-import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 
 const cookie = require('superagent-cookie');
 
@@ -22,9 +22,10 @@ function givenOidpConfiguration() {
         {
           client_id: 'test',
           client_name: 'test',
+          client_secret: 'testsecret',
           application_type: 'web',
           redirect_uris: ['http://localhost:8080'],
-          token_endpoint_auth_method: 'none',
+          // token_endpoint_auth_method: 'none',
         },
       ],
       features: {

@@ -1,11 +1,11 @@
+import {BootMixin} from '@bleco/boot';
+import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {ApplicationConfig} from '@loopback/core';
-import {MySequence} from './sequence';
-import {OidcDataSourceName} from '../../types';
-import {OidpComponent} from '../../oidp.component';
 import {RestExplorerBindings} from '@loopback/rest-explorer';
-import {BootMixin} from '@bleco/boot';
+import {OidpComponent} from '../../oidp.component';
+import {OidcDataSourceName} from '../../types';
+import {MySequence} from './sequence';
 
 export class TestOidcApplication extends BootMixin(RepositoryMixin(RestApplication)) {
   constructor(options?: ApplicationConfig) {

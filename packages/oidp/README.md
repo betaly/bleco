@@ -6,6 +6,4 @@
 
 ```ts
 import {OidpBindings} from '@bleco/oidp';
-
-
 ```
