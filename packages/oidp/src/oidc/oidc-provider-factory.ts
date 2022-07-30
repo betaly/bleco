@@ -1,3 +1,4 @@
+import copy from '@stdlib/utils-copy';
 import {randomBytes} from 'crypto';
 import {exportJWK, generateKeyPair} from 'jose';
 import {Bucket, Store} from 'kvs';
@@ -75,9 +76,9 @@ export class OidcProviderFactory {
 
   private async initConfig(): Promise<OidcConfiguration> {
     // Create a deep copy
-    const config: OidcConfiguration = JSON.parse(JSON.stringify(this.config));
+    const config: OidcConfiguration = copy(this.config);
 
-    config.adapter = this.config.adapter ?? this.adapterFactory;
+    config.adapter = config.adapter ?? this.adapterFactory;
 
     config.jwks = config.jwks ?? (await this.getOrGenerateJwks());
     config.cookies = {
@@ -85,7 +86,7 @@ export class OidcProviderFactory {
       keys: await this.getOrGenerateCookieKeys(),
     };
 
-    config.pkce = this.config.pkce ?? {
+    config.pkce = config.pkce ?? {
       methods: ['S256'],
       required: (): true => true,
     };
