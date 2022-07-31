@@ -144,7 +144,6 @@ export class InteractionController {
         grant.addOIDCClaims(details.missingOIDCClaims as string[]);
       }
       if (details.missingResourceScopes) {
-        // eslint-disable-next-line no-restricted-syntax
         for (const [indicator, scopes] of Object.entries(details.missingResourceScopes as Record<string, string[]>)) {
           grant.addResourceScope(indicator, scopes.join(' '));
         }
