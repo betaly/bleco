@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.8](https://gitr.net/betaly/bleco/compare/@bleco/oso-juggler@0.3.7...@bleco/oso-juggler@0.3.8) (2022-07-31)
+
+**Note:** Version bump only for package @bleco/oso-juggler
+
+
+
+
+
 ## [0.3.7](https://gitr.net/betaly/bleco/compare/@bleco/oso-juggler@0.3.6...@bleco/oso-juggler@0.3.7) (2022-07-26)
 
 **Note:** Version bump only for package @bleco/oso-juggler

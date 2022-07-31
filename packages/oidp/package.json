@@ -1,7 +1,7 @@
 {
   "name": "@bleco/oidp",
   "description": "A loopback 4 extension for integrating an oidc id provider",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/aliaser": "^0.3.19",
+    "@bleco/aliaser": "^0.3.20",
     "@loopback/context": "^5.0.2",
     "@loopback/core": "^4.0.2",
     "@loopback/repository": "^5.0.2",
@@ -35,7 +35,7 @@
     "oidc-provider": "^7.11.5"
   },
   "devDependencies": {
-    "@bleco/boot": "^0.2.19",
+    "@bleco/boot": "^0.2.20",
     "@loopback/rest-explorer": "^5.0.2",
     "@loopback/testlab": "^5.0.2",
     "@nutol/build": "^0.2.10",
