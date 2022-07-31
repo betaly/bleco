@@ -27,7 +27,7 @@ describe('OIDP - startup with oidc exposing', function () {
   });
 
   it('should save a grant through the adapter', async () => {
-    const provider = await app.get<OidcProvider>(OidpBindings.PROVIDER);
+    const provider = await app.get<OidcProvider>(OidpBindings.OIDC_PROVIDER);
     const repo = await app.getRepository(OidcRepository);
 
     const grant = new provider.Grant({

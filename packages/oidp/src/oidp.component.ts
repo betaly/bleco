@@ -35,7 +35,7 @@ export class OidpComponent implements Component {
     ConfigAliaser.alias(app);
 
     this.providers = {
-      [OidpBindings.PROVIDER.key]: OidcProviderProvider,
+      [OidpBindings.OIDC_PROVIDER.key]: OidcProviderProvider,
       [OidpBindings.INTERACTION.key]: InteractionProvider,
     };
 

@@ -17,7 +17,7 @@ describe('OIDP - authorization code flow', function () {
 
   it('should return SessionNotFound error', async () => {
     await client
-      .get('/interaction/login/test')
+      .get('/interaction/test')
       .send()
       .expect(400, {
         error: {
@@ -65,7 +65,7 @@ describe('OIDP - authorization code flow', function () {
 
     it('should authenticate', async () => {
       const res = await client
-        .post(interactionURL)
+        .post(`${interactionURL}/login`)
         .set('cookie', cookies.get())
         .send({
           user: 'test',
@@ -79,7 +79,7 @@ describe('OIDP - authorization code flow', function () {
 
     it('should redirect to the consent endpoint', async () => {
       const res = await client.get(interactionURL).set('cookie', cookies.get()).send().expect(303);
-      expect(res.headers['location']).toMatch(/\/consent\/[^\/]+/);
+      expect(res.headers['location']).toMatch(/\/interaction\/[^\/]+/);
       interactionURL = res.headers['location'];
       cookies.save(res.headers['set-cookie']);
     });

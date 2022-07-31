@@ -8,26 +8,11 @@
 
 `oidp` has some default configurations, but you can override it. It is aliased from `ApplicationConfig.oidp.oidc`.
 
-### [findAccount](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount)
+#### [Clients\*](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#clients)
 
-`oidp` has a basic [findAccount](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount)
-implementation like:
+### [findAccount\*](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount)
 
-```ts
-export async function findAccount(ctx, id) {
-  return {
-    accountId: id,
-    async claims(): Promise<AccountClaims> {
-      return {
-        sub: id,
-      };
-    },
-  };
-}
-```
-
-It is just for demonstration purposes, but it is a good idea to implement your own
-[findAccount](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount) function.
+[findAccount](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount) function is required.
 
 ```ts
 import {Application} from '@loopback/core';

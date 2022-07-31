@@ -14,7 +14,7 @@ interface LoginForm {
 @api({basePath: '/interaction'})
 export class InteractionController {
   constructor(
-    @inject(OidpBindings.PROVIDER)
+    @inject(OidpBindings.OIDC_PROVIDER)
     private readonly provider: OidcProvider,
     @inject(OidpBindings.INTERACTION)
     private readonly interaction: Interaction,
@@ -22,12 +22,12 @@ export class InteractionController {
     private readonly response: Response,
   ) {}
 
-  @get('/login/{uid}')
+  @get('/{uid}')
   async loginGet(): Promise<InteractionDetails> {
     return this.interaction.details();
   }
 
-  @post('/login/{uid}')
+  @post('/{uid}/login')
   async loginPost(@requestBody() loginForm: LoginForm): Promise<void> {
     await this.interaction.details();
 
@@ -44,12 +44,7 @@ export class InteractionController {
     });
   }
 
-  @get('/consent/{uid}')
-  async consentGet(): Promise<InteractionDetails> {
-    return this.interaction.details();
-  }
-
-  @post('/consent/{uid}/confirm')
+  @post('/{uid}/confirm')
   async consentConfirm(): Promise<void> {
     const {prompt, params, session} = await this.interaction.details();
 

@@ -27,6 +27,7 @@
     "@loopback/repository": "^5.0.2",
     "@loopback/rest": "^12.0.2",
     "@stdlib/utils-copy": "^0.0.7",
+    "@stdlib/utils-merge": "^0.0.7",
     "debug": "^4.3.4",
     "express": "^4.18.1",
     "jose": "^4.8.3",

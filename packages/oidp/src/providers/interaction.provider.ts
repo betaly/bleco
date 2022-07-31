@@ -6,7 +6,7 @@ import {Interaction} from '../oidc';
 
 export class InteractionProvider implements Provider<Interaction> {
   constructor(
-    @inject(OidpBindings.PROVIDER)
+    @inject(OidpBindings.OIDC_PROVIDER)
     private provider: oidc.Provider,
     @inject(RestBindings.Http.REQUEST)
     private req: Request,

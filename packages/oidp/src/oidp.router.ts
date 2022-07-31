@@ -38,7 +38,7 @@ class OidpHandler {
   handle = async (request: Request, response: Response) => {
     if (!this.callback) {
       const reqCtx = getMiddlewareContext<RequestContext>(request)!;
-      const provider = await reqCtx.get(OidpBindings.PROVIDER);
+      const provider = await reqCtx.get(OidpBindings.OIDC_PROVIDER);
       this.callback = provider.callback();
     }
 

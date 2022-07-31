@@ -4,8 +4,6 @@ import {OidpBindings} from '../keys';
 import {OidcProviderFactory} from '../oidc/oidc-provider-factory';
 import {OidcAdapterFactory, OidcDefaultPath, OidcFindAccount, OidcProvider, OidpConfig} from '../types';
 
-const debug = require('debug')('bleco:oidp:OidcProviderProvider');
-
 @injectable({scope: BindingScope.SINGLETON})
 export class OidcProviderProvider implements Provider<OidcProvider> {
   private readonly factory: OidcProviderFactory;
@@ -21,7 +19,6 @@ export class OidcProviderProvider implements Provider<OidcProvider> {
     const baseUrl = config?.baseUrl ?? '/';
     const oidcPath = config?.path ?? OidcDefaultPath;
     const storeOptions = config?.store ?? {name: 'memory'};
-    debug('Create OIDC provider factory with config: %o', config);
     this.factory = new OidcProviderFactory(oidcConfig, {
       baseUrl,
       oidcPath,

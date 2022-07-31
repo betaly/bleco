@@ -1,10 +1,12 @@
 import copy from '@stdlib/utils-copy';
+import merge from '@stdlib/utils-merge';
 import {randomBytes} from 'crypto';
 import {exportJWK, generateKeyPair} from 'jose';
 import {Bucket, Store} from 'kvs';
 import {JWK} from 'oidc-provider';
 import {OidcAdapterFactory, OidcConfiguration, OidcFindAccount, OidcProvider} from '../types';
-import {BasicFindAccount} from '../utils';
+
+const debug = require('debug')('bleco:oidp:oidc-provider-factory');
 
 export interface OidcProviderFactoryOptions {
   /**
@@ -16,6 +18,11 @@ export interface OidcProviderFactoryOptions {
    * Path for all requests targeting the OIDC library.
    */
   oidcPath: string;
+
+  /**
+   * JWT algorithm to use. could be RS256 or ES256. default is RS256.
+   */
+  jwtAlg?: string;
 
   /**
    * Storage used to store cookie and JWT keys so they can be re-used in case of multithreading.
@@ -45,11 +52,12 @@ export class OidcProviderFactory {
   private readonly adapterFactory?: OidcAdapterFactory;
   private readonly secretsBucket: Bucket<OidcSecrets>;
 
-  private readonly jwtAlg = 'ES256';
+  private readonly jwtAlg: string;
 
   constructor(private readonly config: OidcConfiguration, private readonly options: OidcProviderFactoryOptions) {
     this.baseUrl = options.baseUrl;
     this.oidcPath = options.oidcPath;
+    this.jwtAlg = options.jwtAlg ?? 'RS256';
     this.adapterFactory = options.adapterFactory;
 
     const store = options.store;
@@ -69,6 +77,7 @@ export class OidcProviderFactory {
     // Render errors with our own error handler
     this.configureErrors(config);
 
+    debug('Creating OIDC Provider %O', config);
     const provider = new OidcProvider(this.baseUrl, config);
     provider.proxy = true;
     return provider;
@@ -82,8 +91,8 @@ export class OidcProviderFactory {
 
     config.jwks = config.jwks ?? (await this.getOrGenerateJwks());
     config.cookies = {
-      ...config.cookies,
       keys: await this.getOrGenerateCookieKeys(),
+      ...config.cookies,
     };
 
     config.pkce = config.pkce ?? {
@@ -93,9 +102,12 @@ export class OidcProviderFactory {
 
     // Default client settings that might not be defined.
     // Mostly relevant for WebID clients.
-    config.clientDefaults = config.clientDefaults ?? {
-      id_token_signed_response_alg: this.jwtAlg,
-    };
+    config.clientDefaults = merge(
+      {
+        id_token_signed_response_alg: this.jwtAlg,
+      },
+      config.clientDefaults ?? {},
+    );
 
     return config;
   }
@@ -144,7 +156,7 @@ export class OidcProviderFactory {
    */
   private configureClaims(config: OidcConfiguration): void {
     if (!config.findAccount) {
-      config.findAccount = this.options.findAccount ?? BasicFindAccount;
+      config.findAccount = this.options.findAccount;
     }
 
     config.features = {
@@ -169,7 +181,7 @@ export class OidcProviderFactory {
     if (!config.interactions) {
       config.interactions = {
         url: (_, interaction) => {
-          return `/interaction/${interaction.prompt.name}/${interaction.uid}`;
+          return `/interaction/${interaction.uid}`;
         },
       };
     }
