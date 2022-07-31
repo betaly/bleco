@@ -32,7 +32,8 @@
     "express": "^4.18.1",
     "jose": "^4.8.3",
     "kvs": "^2.3.0",
-    "oidc-provider": "^7.11.5"
+    "oidc-provider": "^7.11.5",
+    "ts-essentials": "^9.2.0"
   },
   "devDependencies": {
     "@bleco/boot": "^0.2.20",

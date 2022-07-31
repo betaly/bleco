@@ -2,7 +2,7 @@ import {BindingScope, inject, injectable, Provider} from '@loopback/context';
 import {Store} from 'kvs';
 import {OidpBindings} from '../keys';
 import {OidcProviderFactory} from '../oidc/oidc-provider-factory';
-import {OidcAdapterFactory, OidcDefaultPath, OidcFindAccount, OidcProvider, OidpConfig} from '../types';
+import {AdapterFactory, FindAccount, LoadExistingGrant, OidcDefaultPath, OidcProvider, OidpConfig} from '../types';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class OidcProviderProvider implements Provider<OidcProvider> {
@@ -10,10 +10,12 @@ export class OidcProviderProvider implements Provider<OidcProvider> {
   constructor(
     @inject(OidpBindings.CONFIG)
     config?: OidpConfig,
-    @inject(OidpBindings.FIND_ACCOUNT, {optional: true})
-    findAccount?: OidcFindAccount,
     @inject(OidpBindings.ADAPTER_FACTORY, {optional: true})
-    adapterFactory?: OidcAdapterFactory,
+    adapterFactory?: AdapterFactory,
+    @inject(OidpBindings.FIND_ACCOUNT, {optional: true})
+    findAccount?: FindAccount,
+    @inject(OidpBindings.LOAD_EXISTING_GRANT, {optional: true})
+    loadExistingGrant?: LoadExistingGrant,
   ) {
     const oidcConfig = config?.oidc ?? {};
     const baseUrl = config?.baseUrl ?? '/';
@@ -22,8 +24,9 @@ export class OidcProviderProvider implements Provider<OidcProvider> {
     this.factory = new OidcProviderFactory(oidcConfig, {
       baseUrl,
       oidcPath,
-      findAccount,
       adapterFactory,
+      findAccount,
+      loadExistingGrant,
       store: Store.create(storeOptions),
     });
   }

@@ -4,7 +4,7 @@ import {randomBytes} from 'crypto';
 import {exportJWK, generateKeyPair} from 'jose';
 import {Bucket, Store} from 'kvs';
 import {JWK} from 'oidc-provider';
-import {OidcAdapterFactory, OidcConfiguration, OidcFindAccount, OidcProvider} from '../types';
+import {AdapterFactory, FindAccount, LoadExistingGrant, OidcConfiguration, OidcProvider} from '../types';
 
 const debug = require('debug')('bleco:oidp:oidc-provider-factory');
 
@@ -29,9 +29,11 @@ export interface OidcProviderFactoryOptions {
    */
   store: Store;
 
-  findAccount?: OidcFindAccount;
+  adapterFactory?: AdapterFactory;
 
-  adapterFactory?: OidcAdapterFactory;
+  findAccount?: FindAccount;
+
+  loadExistingGrant?: LoadExistingGrant;
 }
 
 interface OidcSecrets {
@@ -49,7 +51,7 @@ interface OidcSecrets {
 export class OidcProviderFactory {
   private readonly baseUrl!: string;
   private readonly oidcPath!: string;
-  private readonly adapterFactory?: OidcAdapterFactory;
+  private readonly adapterFactory?: AdapterFactory;
   private readonly secretsBucket: Bucket<OidcSecrets>;
 
   private readonly jwtAlg: string;
@@ -108,6 +110,10 @@ export class OidcProviderFactory {
       },
       config.clientDefaults ?? {},
     );
+
+    if (this.options.loadExistingGrant) {
+      config.loadExistingGrant = this.options.loadExistingGrant;
+    }
 
     return config;
   }
