@@ -23,3 +23,5 @@ before_script:
 test:
   script:
     - yarn test:ci
+  only:
+    - master
