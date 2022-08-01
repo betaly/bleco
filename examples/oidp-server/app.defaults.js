@@ -14,7 +14,8 @@ module.exports = {
           client_id: 'test',
           client_secret: 'testsecret',
           application_type: 'web',
-          redirect_uris: ['http://localhost:8080/session/callback'],
+          redirect_uris: ['http://localhost:8080/session/callback', 'http://localhost:11080/session/callback'],
+          post_logout_redirect_uris: ['http://localhost:11080/session/logout/end'],
         },
       ],
       claims: {

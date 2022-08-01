@@ -1,4 +1,4 @@
-import {OidcFindAccount} from '@bleco/oidp';
+import {FindAccount} from '@bleco/oidp';
 import {Provider, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {UserRepository} from '../repositories';
@@ -6,7 +6,7 @@ import {UserService} from '../services/user.service';
 
 const debug = require('debug')('bleco:oidp-server:find-account');
 
-export class FindAccountProvider implements Provider<OidcFindAccount> {
+export class FindAccountProvider implements Provider<FindAccount> {
   constructor(
     @repository(UserRepository)
     private readonly userRepository: UserRepository,
@@ -14,11 +14,11 @@ export class FindAccountProvider implements Provider<OidcFindAccount> {
     private readonly userService: UserService,
   ) {}
 
-  value(): OidcFindAccount {
+  value(): FindAccount {
     return (ctx, id, token) => this.findAccount(ctx, id, token);
   }
 
-  findAccount: OidcFindAccount = async (ctx, id, token) => {
+  findAccount: FindAccount = async (ctx, id, token) => {
     debug('findAccount with {id=%s, token=%s}', id, token);
     const user = await this.userRepository.findById(parseInt(id));
     if (!user) {
