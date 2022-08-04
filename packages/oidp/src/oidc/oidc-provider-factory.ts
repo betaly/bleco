@@ -161,8 +161,15 @@ export class OidcProviderFactory {
    * Adds the necessary claims the to id and access tokens based on the Solid OIDC spec.
    */
   private configureClaims(config: OidcConfiguration): void {
-    if (!config.findAccount) {
+    if (this.options.findAccount) {
       config.findAccount = this.options.findAccount;
+    } else if (!config.findAccount) {
+      config.findAccount = (ctx, id) => {
+        return {
+          accountId: id,
+          claims: () => ({sub: id}),
+        };
+      };
     }
 
     config.features = {

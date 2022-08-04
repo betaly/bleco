@@ -44,7 +44,7 @@ class OidpHandler {
 
     const i = request.originalUrl.indexOf(this.basePath);
     request.url = request.originalUrl.substring(i + this.basePath.length);
-    debug('oidc callback: %s -> %s', request.originalUrl, request.url);
+    debug('oidc-provider handle %s', request.originalUrl);
     return this.callback(request, response);
   };
 }

@@ -1,3 +1,4 @@
+import {UserProfile} from '@loopback/security';
 import {StoreOptions} from 'kvs';
 import {OidcConfiguration} from './types/oidc.types';
 
@@ -11,4 +12,11 @@ export interface OidpConfig {
   path?: string;
   oidc?: OidcConfiguration;
   store?: StoreOptions;
+}
+
+/**
+ * The minimum set of attributes that describe a user.
+ */
+export interface AccountProfile extends UserProfile {
+  phone?: string;
 }
