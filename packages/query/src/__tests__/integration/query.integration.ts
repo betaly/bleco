@@ -1,4 +1,5 @@
 import {belongsTo, Entity, hasMany, juggler, model, property} from '@loopback/repository';
+import {AnyObj} from 'tily/typings/types';
 import {QueryEnhancedCrudRepository} from '../../repository';
 import {givenRepositories} from '../support';
 
@@ -38,6 +39,19 @@ describe('Query Integration Tests', function () {
       },
     });
     expect(found).toEqual(employee);
+  });
+
+  it('should find with relation condition but without relation data', async () => {
+    const employee = await employeeRepo.create({name: 'Foo'});
+    const [found] = await employeeRepo.find({
+      where: {
+        'org.name': undefined,
+      } as AnyObj,
+      include: ['org'],
+    });
+    expect(found.id).toEqual(employee.id);
+    expect(found.name).toEqual(employee.name);
+    expect(found.org).toBeUndefined();
   });
 });
 
@@ -87,6 +101,8 @@ class Employee extends Entity {
     itemType: 'string',
   })
   titles: string[];
+
+  org: Organization;
 
   constructor(data?: Partial<Employee>) {
     super(data);

@@ -62,13 +62,13 @@ export class OperatorHandlerRegistry {
     this.register('gt', this.comparison('>'));
     this.register('gte', this.comparison('>='));
     this.register('not', this.not());
-    this.register('in', this.whereFn('whereIn', true));
-    this.register('inq', this.whereFn('whereIn', true));
-    this.register('nin', this.whereFn('whereNotIn', true));
-    this.register('between', this.whereFn('whereBetween', true));
-    this.register('like', this.whereFn('whereLike'));
+    this.register('in', this.whereForArrayValue('whereIn'));
+    this.register('inq', this.whereForArrayValue('whereIn'));
+    this.register('nin', this.whereForArrayValue('whereNotIn'));
+    this.register('between', this.whereForArrayValue('whereBetween'));
+    this.register('like', this.whereLike('whereLike'));
     this.register('nlike', this.comparison('not like'));
-    this.register('ilike', this.whereFn('whereILike'));
+    this.register('ilike', this.whereLike('whereILike'));
     this.register('nilike', this.comparison('not ilike'));
     this.register('or', this.logical('orWhere'));
     this.register('and', this.logical('where'));
@@ -149,17 +149,30 @@ export class OperatorHandlerRegistry {
     };
   }
 
-  whereFn(op: PickKeys<Knex.QueryBuilder, Function>, ignoreEmptyArray?: boolean): OperatorHandler {
+  whereForArrayValue(op: PickKeys<Knex.QueryBuilder, Function>): OperatorHandler {
     return function (qb: Knex.QueryBuilder, condition: Condition) {
-      debug('- whereOp:', op, condition);
-      const {key, value} = condition;
-      if (ignoreEmptyArray) {
-        if (!isArray(value) || isEmpty(value)) {
-          debug('- whereOp(array): empty array');
-          return;
-        }
+      // eslint-disable-next-line prefer-const
+      let {key, value} = condition;
+      if (isArray(value)) {
+        value = value.map(v => (v == null ? null : v));
       }
+      if (op === 'whereIn' && isEmpty(value)) {
+        value = [null];
+      } else if (op === 'whereBetween') {
+        const v1 = value[0] === undefined ? null : value[0];
+        const v2 = value[1] === undefined ? null : value[1];
+        value = [v1, v2];
+      }
+      debug('- [whereForArrayValue] %s: %O', op, {key, value});
       (qb[op] as Function)(key, value);
+    };
+  }
+
+  whereLike(op: PickKeys<Knex.QueryBuilder, Function>, ignoreEmptyArray?: boolean): OperatorHandler {
+    return function (qb: Knex.QueryBuilder, condition: Condition) {
+      debug('- [whereLike] %s: %O', op, condition);
+      const {key, value} = condition;
+      (qb[op] as Function)(key, value == null ? null : value);
     };
   }
 
