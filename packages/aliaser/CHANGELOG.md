@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://gitr.net/betaly/bleco/compare/@bleco/aliaser@0.3.20...@bleco/aliaser@0.3.21) (2022-08-13)
+
+**Note:** Version bump only for package @bleco/aliaser
+
+
+
+
+
 ## [0.3.20](https://gitr.net/betaly/bleco/compare/@bleco/aliaser@0.3.19...@bleco/aliaser@0.3.20) (2022-07-31)
 
 **Note:** Version bump only for package @bleco/aliaser
