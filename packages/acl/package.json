@@ -1,7 +1,7 @@
 {
   "name": "@bleco/acl",
   "description": "A LoopBack 4 component for ACLs support",
-  "version": "0.3.13",
+  "version": "0.3.14",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/query": "^0.8.16",
+    "@bleco/query": "^0.8.17",
     "@bleco/repo": "^0.3.6",
     "@bleco/soft-delete": "^0.3.21",
     "@loopback/authorization": "^0.12.2",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@bleco/boot": "^0.2.21",
-    "@bleco/oso-juggler": "^0.3.10",
+    "@bleco/oso-juggler": "^0.3.11",
     "@loopback/rest": "^12.0.2",
     "@loopback/testlab": "^5.0.2",
     "@nutol/build": "^0.2.10",
