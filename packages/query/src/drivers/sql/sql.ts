@@ -22,6 +22,7 @@ export class SqlDriver extends Driver {
   ): Promise<AnyObject[]> {
     const resolver = this.resolvers.get(model);
     filter = filter ?? {};
+    this.applySortPolicy(model, filter);
     const [qb] = this.buildSelect(model, filter);
     resolver.resolveColumns(qb, filter);
     const s = qb.toSQL().toNative();
@@ -64,7 +65,6 @@ export class SqlDriver extends Driver {
   ): [Knex.QueryBuilder, QuerySession] {
     const transformer = this.resolvers.get(model);
     filter = filter ?? {};
-    this.applySortPolicy(model, filter);
     const session = new QuerySession();
     const qb = this.knex(this.orm.tableEscaped(model.modelName)).queryContext({skipEscape: true});
     transformer.resolveJoin(qb, filter, session);
