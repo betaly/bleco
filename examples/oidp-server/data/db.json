@@ -1,7 +1,8 @@
 {
   "ids": {
     "User": 4,
-    "UserCredentials": 4
+    "UserCredentials": 4,
+    "OidcItem": 8
   },
   "models": {
     "User": {
@@ -13,6 +14,12 @@
       "1": "{\"password\":\"$2a$12$se6pqkfbKuWSh8163zQs9ucr3MuqCyHzx7cMiA6veERqO0rWFlOSi\",\"userId\":1,\"id\":1}",
       "2": "{\"password\":\"$2a$12$se6pqkfbKuWSh8163zQs9ucr3MuqCyHzx7cMiA6veERqO0rWFlOSi\",\"userId\":2,\"id\":2}",
       "3": "{\"password\":\"$2a$12$se6pqkfbKuWSh8163zQs9ucr3MuqCyHzx7cMiA6veERqO0rWFlOSi\",\"userId\":3,\"id\":3}"
+    },
+    "OidcItem": {
+      "99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI": "{\"id\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"type\":1,\"payload\":{\"iat\":1660809145,\"exp\":1662018745,\"accountId\":\"3\",\"clientId\":\"test\",\"kind\":\"Grant\",\"jti\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"openid\":{\"scope\":\"openid\"}},\"expiresAt\":1662018745911}",
+      "TnJhXBKYPKXEgBTcNzcZf7RZOhqLi9GhDJi_94yBtQj": "{\"id\":\"TnJhXBKYPKXEgBTcNzcZf7RZOhqLi9GhDJi_94yBtQj\",\"type\":4,\"payload\":{\"iat\":1660809145,\"exp\":1660809745,\"accountId\":\"3\",\"authTime\":1660809145,\"grantId\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"nonce\":\"N-0.2475391134699494\",\"redirectUri\":\"http://localhost:11080/session/callback\",\"scope\":\"openid\",\"sessionUid\":\"aNwq9EI_rs4rQK-ykR-yv\",\"kind\":\"AuthorizationCode\",\"jti\":\"TnJhXBKYPKXEgBTcNzcZf7RZOhqLi9GhDJi_94yBtQj\",\"clientId\":\"test\",\"expiresWithSession\":true},\"grantId\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"expiresAt\":1660809745927,\"consumedAt\":1660809145954}",
+      "21AG0ZweNW63LRLcZilqJ": "{\"id\":\"21AG0ZweNW63LRLcZilqJ\",\"type\":2,\"payload\":{\"iat\":1660809136,\"exp\":1662018745,\"uid\":\"aNwq9EI_rs4rQK-ykR-yv\",\"accountId\":\"3\",\"loginTs\":1660809145,\"kind\":\"Session\",\"jti\":\"21AG0ZweNW63LRLcZilqJ\",\"authorizations\":{\"test\":{\"sid\":\"VqzcXxS9kyqf0F4XfI5EN\",\"grantId\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\"}}},\"uid\":\"aNwq9EI_rs4rQK-ykR-yv\",\"expiresAt\":1662018745932}",
+      "w2P2eMPMB1yJ8KeprqBpRaVTB6BZFXQ_EnaAFL7NK8f": "{\"id\":\"w2P2eMPMB1yJ8KeprqBpRaVTB6BZFXQ_EnaAFL7NK8f\",\"type\":3,\"payload\":{\"iat\":1660809145,\"exp\":1660812745,\"accountId\":\"3\",\"expiresWithSession\":true,\"grantId\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"gty\":\"authorization_code\",\"sessionUid\":\"aNwq9EI_rs4rQK-ykR-yv\",\"kind\":\"AccessToken\",\"jti\":\"w2P2eMPMB1yJ8KeprqBpRaVTB6BZFXQ_EnaAFL7NK8f\",\"clientId\":\"test\",\"scope\":\"openid\"},\"grantId\":\"99ByRy1EBPPkjYHF97s2ffeEozcJUAr97jEZJjH0yvI\",\"expiresAt\":1660812745957}"
     }
   }
 }

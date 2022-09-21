@@ -21,24 +21,24 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.145.0",
-    "@aws-sdk/s3-request-presigner": "^3.145.0",
-    "@loopback/boot": "^5.0.2",
-    "@loopback/context": "^5.0.2",
-    "@loopback/core": "^4.0.2",
-    "moment-timezone": "^0.5.34"
+    "@aws-sdk/client-s3": "^3.171.0",
+    "@aws-sdk/s3-request-presigner": "^3.173.0",
+    "@loopback/boot": "^5.0.3",
+    "@loopback/context": "^5.0.3",
+    "@loopback/core": "^4.0.3",
+    "moment-timezone": "^0.5.37"
   },
   "devDependencies": {
-    "@loopback/rest": "^12.0.2",
-    "@loopback/rest-explorer": "^5.0.2",
-    "@loopback/testlab": "^5.0.2",
+    "@loopback/rest": "^12.0.3",
+    "@loopback/rest-explorer": "^5.0.3",
+    "@loopback/testlab": "^5.0.3",
     "@nutol/build": "^0.2.10",
     "@nutol/eslint-config": "^0.2.5",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^28.1.6",
+    "@types/jest": "^29.0.3",
     "@types/moment-timezone": "^0.5.30",
-    "@types/node": "^18.7.2",
-    "dotenv": "^16.0.1",
+    "@types/node": "^18.7.18",
+    "dotenv": "^16.0.2",
     "fs-extra": "^10.1.0"
   },
   "files": [
