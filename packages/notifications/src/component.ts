@@ -22,8 +22,8 @@ export class NotificationsComponent implements Component {
     app: Application,
   ) {
     // alias notification config
-    NotificationAliaser.alias(app);
+    NotificationAliaser.apply(app);
     // alias notification providers config
-    NotificationProvidersAliaser.alias(app);
+    NotificationProvidersAliaser.apply(app);
   }
 }

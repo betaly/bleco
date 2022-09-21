@@ -4,7 +4,7 @@ import {EmailAliasMetadata} from './email';
 import {PushAliasMetadata} from './push';
 import {SmsAliasMetadata} from './sms';
 
-export const NotificationProvidersAliaser = Aliaser.create(NotificationBindings.Config, {
+export const NotificationProvidersAliaser = Aliaser.alias(NotificationBindings.Config, {
   ...EmailAliasMetadata,
   ...PushAliasMetadata,
   ...SmsAliasMetadata,

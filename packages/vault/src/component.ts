@@ -8,7 +8,7 @@ export class VaultComponent implements Component {
     @inject(CoreBindings.APPLICATION_INSTANCE)
     private app: Application,
   ) {
-    ConfigAliaser.alias(app);
+    ConfigAliaser.apply(app);
 
     this.providers = {
       [VaultSecurityBindings.VAULT_CONNECTOR.key]: VaultConnectProvider,

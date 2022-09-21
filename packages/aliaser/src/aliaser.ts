@@ -13,31 +13,72 @@ export interface AliasOptions {
 }
 
 export class Aliaser {
+  /**
+   * Create a new aliaser with the given aliasing metadata.
+   * @param from
+   * @param metadata
+   */
+  static alias(from: BindingKey<object>, metadata: AliasMetadata): Aliaser;
+  static alias(metadata: AliasMetadata): Aliaser;
+  static alias(fromOrMetadata: BindingKey<object> | AliasMetadata, metadata?: AliasMetadata): Aliaser {
+    return new Aliaser().alias(fromOrMetadata as BindingKey<object>, metadata!);
+  }
+
+  /**
+   * Create a new aliaser with the given aliasing metadata.
+   *
+   * @deprecated Use `alias` instead.
+   * @param from
+   * @param metadata
+   */
   static create(from: BindingKey<object>, metadata: AliasMetadata): Aliaser;
   static create(metadata: AliasMetadata): Aliaser;
   static create(fromOrMetadata: BindingKey<object> | AliasMetadata, metadata?: AliasMetadata): Aliaser {
+    return new Aliaser().alias(fromOrMetadata as BindingKey<object>, metadata!);
+  }
+
+  private items: [BindingKey<object>, AliasMetadata][] = [];
+
+  private constructor() {}
+
+  alias(from: BindingKey<object>, metadata: AliasMetadata): Aliaser;
+  alias(metadata: AliasMetadata): Aliaser;
+  alias(fromOrMetadata: BindingKey<object> | AliasMetadata, metadata?: AliasMetadata): Aliaser {
     if (isBindingKey(fromOrMetadata)) {
       assert(metadata, '`metadata` is required');
-      return new Aliaser(fromOrMetadata, metadata);
+      this.items.push([fromOrMetadata, metadata]);
     } else {
-      return new Aliaser(CoreBindings.APPLICATION_CONFIG, fromOrMetadata);
+      this.items.push([CoreBindings.APPLICATION_CONFIG, fromOrMetadata]);
     }
+    return this;
   }
 
-  private constructor(public readonly from: BindingKey<object>, public readonly metadata: AliasMetadata) {}
-
-  alias(context: Context, options?: AliasOptions) {
-    this.doAlias(context, '', this.metadata, options ?? {});
+  /**
+   * Apply to the given context with the given metadata.
+   * @param context
+   * @param options
+   */
+  apply(context: Context, options?: AliasOptions) {
+    this.items.forEach(([from, metadata]) => {
+      this._apply(context, from ?? CoreBindings.APPLICATION_CONFIG, '', metadata, options ?? {});
+    });
+    return this;
   }
 
-  protected doAlias(context: Context, prop: string, target: BindingAddress | AliasMetadata, options: AliasOptions) {
+  protected _apply(
+    context: Context,
+    from: BindingKey<object>,
+    prop: string,
+    target: BindingAddress | AliasMetadata,
+    options: AliasOptions,
+  ) {
     if (isBindingAddress(target)) {
       if (options?.override || !context.isBound(target)) {
-        context.bind(target).toAlias(this.from.deepProperty(prop));
+        context.bind(target).toAlias(from.deepProperty(prop));
       }
     } else if (isPlainObject(target)) {
       each((value, key) => {
-        this.doAlias(context, (prop ? prop + '.' : '') + key, value, options);
+        this._apply(context, from, (prop ? prop + '.' : '') + key, value, options);
       }, target);
     } else {
       throw new Error('Invalid alias metadata: ' + prop);

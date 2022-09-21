@@ -29,7 +29,8 @@
     "@nutol/build": "^0.2.10",
     "@nutol/eslint-config": "^0.2.5",
     "@types/jest": "^29.0.3",
-    "@types/node": "^18.7.18"
+    "@types/node": "^18.7.18",
+    "jest": "^29.0.0"
   },
   "files": [
     "README.md",

@@ -12,7 +12,7 @@ import {
   ResourceOwnerPasswordAuthBindings,
 } from './strategies';
 
-export const StrategiesAliaser = Aliaser.create({
+export const StrategiesAliaser = Aliaser.alias({
   auth: {
     apple: AppleAuthBindings.Config,
     azured: AzureAdAuthBindings.Config,

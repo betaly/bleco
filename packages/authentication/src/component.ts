@@ -72,6 +72,6 @@ export class AuthenticationComponent implements Component {
     @inject(CoreBindings.APPLICATION_INSTANCE)
     app: Application,
   ) {
-    StrategiesAliaser.alias(app);
+    StrategiesAliaser.apply(app);
   }
 }
