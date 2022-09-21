@@ -1,7 +1,7 @@
 {
   "name": "@bleco/example-oidp-server",
   "description": "An example OIDP server for LoopBack 4",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "private": true,
   "keywords": [],
   "main": "dist/index.js",
@@ -43,7 +43,7 @@
   "dependencies": {
     "@bleco/boot": "^0.2.22",
     "@bleco/config": "^0.3.22",
-    "@bleco/oidp": "^0.2.4",
+    "@bleco/oidp": "^0.3.0",
     "@loopback/core": "^4.0.3",
     "@loopback/repository": "^5.0.3",
     "@loopback/rest": "^12.0.3",

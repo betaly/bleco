@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/vault@0.2.30...@bleco/vault@0.3.0) (2022-09-21)
+
+
+### Features
+
+* **aliaser:** support multiple aliasing ([116c7b2](https://gitr.net/betaly/bleco/commits/116c7b210829ce8cfcf8985fa40e57330bf62aaa))
+
+
+
+
+
 ## [0.2.30](https://gitr.net/betaly/bleco/compare/@bleco/vault@0.2.29...@bleco/vault@0.2.30) (2022-09-21)
 
 **Note:** Version bump only for package @bleco/vault

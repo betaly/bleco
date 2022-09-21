@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.5](https://gitr.net/betaly/bleco/compare/@bleco/example-oidp-server@0.2.4...@bleco/example-oidp-server@0.2.5) (2022-09-21)
+
+**Note:** Version bump only for package @bleco/example-oidp-server
+
+
+
+
+
 ## [0.2.4](https://gitr.net/betaly/bleco/compare/@bleco/example-oidp-server@0.2.3...@bleco/example-oidp-server@0.2.4) (2022-09-21)
 
 **Note:** Version bump only for package @bleco/example-oidp-server
