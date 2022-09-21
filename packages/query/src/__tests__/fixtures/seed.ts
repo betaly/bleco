@@ -84,7 +84,6 @@ export async function seed(repos: Repos) {
     await parcelRepo.create({parcelTitle: 'parcel2', deliveryId: deliveries[2].id}),
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const transports = [
     await transportRepo.create({
       name: 'transport1',

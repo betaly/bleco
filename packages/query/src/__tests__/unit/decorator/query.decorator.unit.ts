@@ -64,7 +64,6 @@ describe('query decorator', function () {
   it('throws not implemented for class-level @repository', () => {
     expect(() => {
       @query('noteRepo')
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class Controller1 {}
     }).toThrow(/not implemented/);
   });

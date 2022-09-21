@@ -21,11 +21,10 @@ describe('Nodemailer Service', () => {
     createTransport.mockReset();
   });
 
-  describe('nodemailer configration addition', () => {
+  describe('nodemailer configuration addition', () => {
     it('return error when config is not passed', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const nodemailerProvider = new NodemailerProvider();
+        new NodemailerProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('Nodemailer Config missing !');

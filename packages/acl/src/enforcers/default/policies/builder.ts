@@ -50,7 +50,6 @@ export class PolicyBuilder {
 
 export function buildRelationRolesIncludes(resource: Constructor<Entity> | Entity, roles: CompositeRoles): Inclusion[] {
   const resourceCls = (typeof resource === 'function' ? resource : resource.constructor) as typeof Entity;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {_, ...relRoles} = roles;
   if (isEmpty(relRoles)) {
     return [];

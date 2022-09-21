@@ -5,6 +5,7 @@ module.exports = {
       files: ['**/*.ts'],
       rules: {
         '@typescript-eslint/naming-convention': 'off',
+        '@typescript-eslint/no-unused-vars': 'off',
       },
     },
   ],

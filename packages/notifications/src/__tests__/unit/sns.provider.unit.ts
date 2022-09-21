@@ -54,8 +54,7 @@ describe('Sns Service', () => {
 
     it('returns error message when no sns config', async () => {
       try {
-        /* eslint-disable @typescript-eslint/no-unused-vars */
-        const snsProvider = new SnsProvider();
+        new SnsProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('AWS SNS Config missing !');

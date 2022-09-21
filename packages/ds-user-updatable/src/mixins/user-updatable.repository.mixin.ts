@@ -150,7 +150,6 @@ function userIdGetter(keys: string[]) {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface UserUpdatableRepository<T extends Entity & UserUpdatableModel, ID, Relations extends object> {
   getCurrentUser?: Getter<AnyObj | undefined>;
 }

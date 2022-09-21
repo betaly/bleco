@@ -84,8 +84,7 @@ describe('Ses Service', () => {
 
     it('returns error message when no ses config', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const sesProvider = new SesProvider();
+        new SesProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('AWS SES Config missing !');

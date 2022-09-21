@@ -64,8 +64,7 @@ describe('Pubnub Service', () => {
 
     it('returns error message when no pubnub config', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const pubnubProvider = new PubNubProvider();
+        new PubNubProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('Pubnub Config missing !');

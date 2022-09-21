@@ -9,7 +9,6 @@ describe('Vault Service', () => {
     };
     it('returns error message when config is not passed', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const vaultClient = await new VaultConnectProvider().value();
       } catch (err) {
         const result = err.message;
