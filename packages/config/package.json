@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "peerDependencies": {
-    "@loopback/core": "^4.0.3"
+    "@loopback/core": "^4.0.4"
   },
   "dependencies": {
     "@jil/common": "^0.2.31",
@@ -32,12 +32,12 @@
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "@loopback/core": "^4.0.3",
-    "@loopback/testlab": "^5.0.3",
-    "@nutol/build": "^0.2.10",
-    "@nutol/eslint-config": "^0.2.5",
-    "@types/jest": "^29.0.3",
-    "@types/node": "^18.7.18",
+    "@loopback/core": "^4.0.4",
+    "@loopback/testlab": "^5.0.4",
+    "@nutol/build": "^0.2.11",
+    "@nutol/eslint-config": "^0.2.6",
+    "@types/jest": "^29.2.0",
+    "@types/node": "^18.11.0",
     "cross-env": "^7.0.3"
   },
   "files": [
