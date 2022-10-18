@@ -1,54 +1,37 @@
 # Change Log
 
-All notable changes to this project will be documented in this file.
-See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+All notable changes to this project will be documented in this file. See
+[Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.3.1](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.3.0...@bleco/oidp@0.3.1) (2022-10-18)
+
+**Note:** Version bump only for package @bleco/oidp
 
 # [0.3.0](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.2.4...@bleco/oidp@0.3.0) (2022-09-21)
 
-
 ### Features
 
-* **aliaser:** support multiple aliasing ([116c7b2](https://gitr.net/betaly/bleco/commits/116c7b210829ce8cfcf8985fa40e57330bf62aaa))
-
-
-
-
+- **aliaser:** support multiple aliasing
+  ([116c7b2](https://gitr.net/betaly/bleco/commits/116c7b210829ce8cfcf8985fa40e57330bf62aaa))
 
 ## [0.2.4](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.2.3...@bleco/oidp@0.2.4) (2022-09-21)
 
 **Note:** Version bump only for package @bleco/oidp
 
-
-
-
-
 ## [0.2.3](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.2.2...@bleco/oidp@0.2.3) (2022-08-13)
 
 **Note:** Version bump only for package @bleco/oidp
-
-
-
-
 
 ## [0.2.2](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.2.1...@bleco/oidp@0.2.2) (2022-08-04)
 
 **Note:** Version bump only for package @bleco/oidp
 
-
-
-
-
 ## [0.2.1](https://gitr.net/betaly/bleco/compare/@bleco/oidp@0.2.0...@bleco/oidp@0.2.1) (2022-08-01)
 
 **Note:** Version bump only for package @bleco/oidp
 
-
-
-
-
 # 0.2.0 (2022-07-31)
-
 
 ### Features
 
-* initial add oidp component ([86459e9](https://gitr.net/betaly/bleco/commits/86459e938e748c8079c470bf9ff6aeb54aa71d98))
+- initial add oidp component ([86459e9](https://gitr.net/betaly/bleco/commits/86459e938e748c8079c470bf9ff6aeb54aa71d98))
