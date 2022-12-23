@@ -24,20 +24,20 @@
     "@loopback/core": "^4.0.4"
   },
   "dependencies": {
-    "@jil/common": "^0.2.31",
-    "@jil/config": "^0.3.9",
-    "@jil/ncommon": "^0.2.11",
+    "@jil/common": "^0.2.34",
+    "@jil/config": "^0.3.13",
+    "@jil/ncommon": "^0.2.15",
     "read-env": "^2.0.0",
-    "tily": "^2.17.0",
-    "tslib": "^2.4.0"
+    "tily": "^2.19.0",
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@loopback/core": "^4.0.4",
-    "@loopback/testlab": "^5.0.4",
+    "@loopback/core": "^4.0.6",
+    "@loopback/testlab": "^5.0.6",
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
-    "@types/jest": "^29.2.0",
-    "@types/node": "^18.11.0",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^18.11.17",
     "cross-env": "^7.0.3"
   },
   "files": [

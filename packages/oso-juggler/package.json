@@ -34,17 +34,17 @@
   "dependencies": {
     "@bleco/query": "^0.8.19",
     "@bleco/repo": "^0.3.8",
-    "@loopback/repository": "^5.0.4",
+    "@loopback/repository": "^5.1.1",
     "debug": "^4.3.4",
-    "oso": "^0.26.3",
-    "tily": "^2.17.0"
+    "oso": "^0.26.4",
+    "tily": "^2.19.0"
   },
   "devDependencies": {
     "@bleco/boot": "^0.2.23",
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
-    "@types/jest": "^29.2.0",
-    "@types/node": "^18.11.0",
+    "@types/jest": "^29.2.4",
+    "@types/node": "^18.11.17",
     "loopback-connector-sqlite3s": "^3.5.0",
     "temp": "^0.9.4"
   },

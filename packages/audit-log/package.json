@@ -21,19 +21,19 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.4",
-    "@loopback/core": "^4.0.4",
+    "@loopback/boot": "^5.0.6",
+    "@loopback/core": "^4.0.6",
     "lodash": "^4.17.21",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.1"
   },
   "devDependencies": {
-    "@loopback/testlab": "^5.0.4",
+    "@loopback/testlab": "^5.0.6",
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
-    "@types/lodash": "^4.14.186",
-    "@types/node": "^18.11.0",
-    "@types/uuid": "^8.3.4",
-    "fs-extra": "^10.1.0"
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.11.17",
+    "@types/uuid": "^9.0.0",
+    "fs-extra": "^11.1.0"
   },
   "files": [
     "README.md",

@@ -1,10 +1,9 @@
 import {Request, Response} from '@loopback/rest';
-import * as oidc from 'oidc-provider';
-import {InteractionResults} from 'oidc-provider';
+import OidcProvider, {InteractionResults} from 'oidc-provider';
 import {InteractionDetails} from '../types';
 
 export class Interaction {
-  constructor(private provider: oidc.Provider, private req: Request, private res: Response) {}
+  constructor(private provider: OidcProvider, private req: Request, private res: Response) {}
 
   details(): Promise<InteractionDetails> {
     return this.provider.interactionDetails(this.req, this.res);
