@@ -36,7 +36,7 @@ export class VaultConnector {
     });
     if (!health.initialized) {
       const resp = await this._vaultClient.init(opts);
-      if (!resp || !resp.keys || resp.keys.length === 0 || !resp.root_token) {
+      if (!resp?.keys || resp.keys.length === 0 || !resp.root_token) {
         console.error(`Vault initialisation failed ! Response :: ${JSON.stringify(resp)}`);
         throw new Error('Vault initialisation failed !');
       }

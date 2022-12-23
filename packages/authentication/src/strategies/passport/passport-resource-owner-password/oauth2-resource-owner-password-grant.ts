@@ -64,7 +64,7 @@ export namespace Oauth2ResourceOwnerPassword {
 
     authenticate(req: any, options?: {}): void {
       const {usernameField, passwordField} = this.credentialsFields;
-      if (!req.body || !req.body[CLIENT_ID_FIELD] || !req.body[usernameField] || !req.body[passwordField]) {
+      if (!req.body?.[CLIENT_ID_FIELD] || !req.body[usernameField] || !req.body[passwordField]) {
         this.fail();
         return;
       }

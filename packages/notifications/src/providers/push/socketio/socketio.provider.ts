@@ -32,7 +32,7 @@ export class SocketIOProvider implements Provider<SocketNotification> {
            * emitting a message to channel passed via config
            */
 
-          if (!this.socketConfig || !this.socketConfig.defaultPath) {
+          if (!this.socketConfig?.defaultPath) {
             throw new HttpErrors.PreconditionFailed('Channel info is missing !');
           }
           this.socketService.emit(message.options?.path || this.socketConfig.defaultPath, JSON.stringify(message));
