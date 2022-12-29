@@ -1,7 +1,7 @@
 {
   "name": "@bleco/config",
   "description": "A loopback-next configuration loading utility",
-  "version": "0.3.24",
+  "version": "0.3.25",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
