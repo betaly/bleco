@@ -31,7 +31,7 @@
     "@loopback/security": "^0.8.6",
     "debug": "^4.3.4",
     "lodash": "^4.17.21",
-    "tily": "^2.19.0",
+    "tily": "^2.20.0",
     "ts-essentials": "^9.3.0"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.11.18",
     "@types/temp": "^0.9.1",
     "loopback-connector-sqlite3s": "^3.5.0",
     "sqlite3": "^5.1.4",

@@ -33,7 +33,7 @@
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.11.18",
     "fs-extra": "^11.1.0"
   },
   "files": [

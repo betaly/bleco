@@ -53,7 +53,7 @@
     "chalk": "^5.2.0",
     "debug": "^4.3.4",
     "ejs": "^3.1.8",
-    "tily": "^2.19.0"
+    "tily": "^2.20.0"
   },
   "devDependencies": {
     "@loopback/build": "^9.0.6",
@@ -62,7 +62,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/ejs": "^3.1.1",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.11.18",
     "jest": "^29.3.1"
   },
   "files": [

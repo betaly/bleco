@@ -42,7 +42,7 @@
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.11.18",
     "@types/oidc-provider": "^8.0.0",
     "@types/url-join": "^4.0.1",
     "hyperid": "^3.0.1",

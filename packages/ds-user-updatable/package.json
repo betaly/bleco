@@ -26,13 +26,13 @@
     "@loopback/repository": "^5.1.1",
     "@loopback/rest": "^12.0.6",
     "debug": "^4.3.4",
-    "tily": "^2.19.0"
+    "tily": "^2.20.0"
   },
   "devDependencies": {
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
     "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.17"
+    "@types/node": "^18.11.18"
   },
   "files": [
     "README.md",
