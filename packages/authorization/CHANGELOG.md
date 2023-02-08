@@ -1,5 +1,18 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.4.26](https://gitr.net/betaly/bleco/compare/@bleco/authorization@0.4.25...@bleco/authorization@0.4.26) (2023-02-08)
+
+**Note:** Version bump only for package @bleco/authorization
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

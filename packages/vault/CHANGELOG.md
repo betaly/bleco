@@ -1,5 +1,18 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.3.4](https://gitr.net/betaly/bleco/compare/@bleco/vault@0.3.3...@bleco/vault@0.3.4) (2023-02-08)
+
+**Note:** Version bump only for package @bleco/vault
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

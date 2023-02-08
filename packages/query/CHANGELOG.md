@@ -1,5 +1,18 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.8.22](https://gitr.net/betaly/bleco/compare/@bleco/query@0.8.21...@bleco/query@0.8.22) (2023-02-08)
+
+**Note:** Version bump only for package @bleco/query
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 

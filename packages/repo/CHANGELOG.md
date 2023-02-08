@@ -1,5 +1,18 @@
 # Change Log
 
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+## [0.3.11](https://gitr.net/betaly/bleco/compare/@bleco/repo@0.3.10...@bleco/repo@0.3.11) (2023-02-08)
+
+**Note:** Version bump only for package @bleco/repo
+
+
+
+
+
+# Change Log
+
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
