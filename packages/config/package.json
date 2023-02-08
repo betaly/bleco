@@ -28,16 +28,16 @@
     "@jil/config": "^0.3.14",
     "@jil/ncommon": "^0.2.16",
     "read-env": "^2.0.0",
-    "tily": "^2.20.0",
-    "tslib": "^2.4.1"
+    "tily": "^2.20.1",
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@loopback/core": "^4.0.6",
-    "@loopback/testlab": "^5.0.6",
+    "@loopback/core": "^4.0.8",
+    "@loopback/testlab": "^5.0.8",
     "@nutol/build": "^0.2.11",
     "@nutol/eslint-config": "^0.2.6",
-    "@types/jest": "^29.2.4",
-    "@types/node": "^18.11.18",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.13.0",
     "cross-env": "^7.0.3"
   },
   "files": [
