@@ -29,8 +29,8 @@
     "tily": "^2.20.1"
   },
   "devDependencies": {
-    "@nutol/build": "^0.2.11",
-    "@nutol/eslint-config": "^0.2.6",
+    "@nutol/build": "^0.2.13",
+    "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0"
   },

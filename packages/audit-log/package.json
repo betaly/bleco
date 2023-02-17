@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@loopback/testlab": "^5.0.8",
-    "@nutol/build": "^0.2.11",
-    "@nutol/eslint-config": "^0.2.6",
+    "@nutol/build": "^0.2.13",
+    "@nutol/eslint-config": "^0.2.8",
     "@types/lodash": "^4.14.191",
     "@types/node": "^18.13.0",
     "@types/uuid": "^9.0.0",

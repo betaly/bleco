@@ -24,9 +24,9 @@
     "@loopback/core": "^4.0.4"
   },
   "dependencies": {
-    "@jil/common": "^0.2.35",
-    "@jil/config": "^0.3.14",
-    "@jil/ncommon": "^0.2.16",
+    "@jil/common": "^0.2.36",
+    "@jil/config": "^0.3.15",
+    "@jil/ncommon": "^0.2.17",
     "read-env": "^2.0.0",
     "tily": "^2.20.1",
     "tslib": "^2.5.0"
@@ -34,8 +34,8 @@
   "devDependencies": {
     "@loopback/core": "^4.0.8",
     "@loopback/testlab": "^5.0.8",
-    "@nutol/build": "^0.2.11",
-    "@nutol/eslint-config": "^0.2.6",
+    "@nutol/build": "^0.2.13",
+    "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0",
     "cross-env": "^7.0.3"

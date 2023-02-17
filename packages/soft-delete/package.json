@@ -39,14 +39,14 @@
     "@loopback/context": "^5.0.8",
     "@loopback/repository": "^5.1.3",
     "@loopback/testlab": "^5.0.8",
-    "@nutol/build": "^0.2.11",
-    "@nutol/eslint-config": "^0.2.6",
+    "@nutol/build": "^0.2.13",
+    "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0",
     "fs-extra": "^11.1.0",
     "loopback-connector-sqlite3s": "^3.5.0",
     "loopback-datasource-juggler": "^4.28.2",
-    "minimist": "^1.2.7"
+    "minimist": "^1.2.8"
   },
   "files": [
     "README.md",

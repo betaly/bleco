@@ -60,10 +60,10 @@
     "@loopback/eslint-config": "^13.0.8",
     "@loopback/testlab": "^5.0.8",
     "@types/bcryptjs": "2.4.2",
-    "@types/ejs": "^3.1.1",
+    "@types/ejs": "^3.1.2",
     "@types/jest": "^29.4.0",
     "@types/node": "^18.13.0",
-    "jest": "^29.4.2"
+    "jest": "^29.4.3"
   },
   "files": [
     "README.md",
