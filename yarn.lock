@@ -1684,8 +1684,8 @@ __metadata:
     loopback4-authentication: ^7.5.0
     ts-jest: ^29.0.5
   peerDependencies:
-    "@bleco/boot": ^4.0.0
-    "@loopback/rest": ^11.0.0
+    "@loopback/boot": ^5.0.8
+    "@loopback/rest": ^12.0.8
   languageName: unknown
   linkType: soft
 
