@@ -1,7 +1,7 @@
 {
   "name": "@bleco/authentication",
-  "description": "A loopback-next extension for authentication feature. Oauth strategies supported.",
-  "version": "0.4.5",
+  "description": "A loopback-next extension for authentication feature. OAuth strategies supported.",
+  "version": "1.0.0-0",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,52 +21,18 @@
     "jest": "jest"
   },
   "peerDependencies": {
-    "@loopback/boot": "^4.0.0",
-    "@loopback/rest": "^11.0.0"
+    "@loopback/boot": "^5.0.8",
+    "@loopback/rest": "^12.0.08"
   },
   "dependencies": {
-    "@bleco/aliaser": "^0.4.5",
-    "@exlinc/keycloak-passport": "^1.0.2",
-    "@loopback/context": "^5.0.8",
-    "@loopback/core": "^4.0.8",
-    "ajv": "^8.12.0",
-    "eslint": "^8.34.0",
-    "https-proxy-agent": "^5.0.1",
-    "passport": "^0.6.0",
-    "passport-apple": "^2.0.2",
-    "passport-azure-ad": "^4.3.4",
-    "passport-facebook": "^3.0.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-http-bearer": "^1.0.1",
-    "passport-instagram": "^1.0.0",
-    "passport-local": "^1.0.0",
-    "passport-oauth2-client-password": "^0.1.2",
-    "tily": "^2.20.1",
-    "tslib": "^2.5.0"
+    "loopback4-authentication": "^7.5.0"
   },
   "devDependencies": {
-    "@loopback/boot": "^5.0.8",
-    "@loopback/metadata": "^5.0.8",
-    "@loopback/rest": "^12.0.8",
-    "@loopback/testlab": "^5.0.8",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/express": "^4.17.17",
-    "@types/lodash": "^4.14.191",
-    "@types/node": "^18.13.0",
-    "@types/passport": "^1.0.12",
-    "@types/passport-apple": "^1.1.1",
-    "@types/passport-azure-ad": "^4.3.1",
-    "@types/passport-facebook": "^2.1.11",
-    "@types/passport-google-oauth20": "^2.0.11",
-    "@types/passport-http-bearer": "^1.0.37",
-    "@types/passport-instagram": "^1.0.2",
-    "@types/passport-local": "^1.0.35",
-    "@types/passport-oauth2-client-password": "^0.1.2",
-    "@types/uuid": "^9.0.0",
-    "fs-extra": "^11.1.0",
-    "lodash": "^4.17.21",
-    "uuid": "^9.0.0"
+    "@types/node": "^18.14.0",
+    "jest": "^29.4.3",
+    "ts-jest": "^29.0.5"
   },
   "files": [
     "README.md",
