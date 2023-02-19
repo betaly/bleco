@@ -31,14 +31,14 @@
     "jest": "jest"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.4.3",
-    "@commitlint/config-conventional": "^17.4.3",
-    "@commitlint/travis-cli": "^17.4.3",
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@commitlint/travis-cli": "^17.4.4",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@nutol/monorepo": "^0.2.10",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^5.52.0",
     "@typescript-eslint/parser": "^5.52.0",
     "cross-env": "^7.0.3",

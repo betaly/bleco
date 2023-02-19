@@ -42,7 +42,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.13.0",
+    "@types/node": "^18.14.0",
     "fs-extra": "^11.1.0",
     "loopback-connector-sqlite3s": "^3.5.0",
     "loopback-datasource-juggler": "^4.28.2",
