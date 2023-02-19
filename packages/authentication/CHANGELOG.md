@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://gitr.net/betaly/bleco/compare/@bleco/authentication@0.4.5...@bleco/authentication@1.0.0) (2023-02-19)
+
+
+### Features
+
+* initial wrapping upstream authentication module ([5801fc2](https://gitr.net/betaly/bleco/commits/5801fc21016ff65365f8091d540752312eb81932))
+
+
+
+
+
 ## [0.4.5](https://gitr.net/betaly/bleco/compare/@bleco/authentication@0.4.4...@bleco/authentication@0.4.5) (2023-02-17)
 
 **Note:** Version bump only for package @bleco/authentication

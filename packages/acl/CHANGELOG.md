@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.21](https://gitr.net/betaly/bleco/compare/@bleco/acl@0.3.20...@bleco/acl@0.3.21) (2023-02-19)
+
+**Note:** Version bump only for package @bleco/acl
+
+
+
+
+
 ## [0.3.20](https://gitr.net/betaly/bleco/compare/@bleco/acl@0.3.19...@bleco/acl@0.3.20) (2023-02-17)
 
 **Note:** Version bump only for package @bleco/acl
