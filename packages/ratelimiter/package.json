@@ -34,7 +34,7 @@
     "rate-limit-memcached": "^0.6.0",
     "rate-limit-mongo": "^2.3.2",
     "rate-limit-redis": "^3.0.1",
-    "ts-essentials": "^9.3.0"
+    "ts-essentials": "^9.3.1"
   },
   "devDependencies": {
     "@loopback/testlab": "^5.0.8",
@@ -43,7 +43,7 @@
     "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^29.4.0",
     "@types/memcached": "^2.2.7",
-    "@types/node": "^18.14.0",
+    "@types/node": "^18.14.4",
     "@types/rate-limit-redis": "^1.7.4",
     "fs-extra": "^11.1.0",
     "loopback-connector-kv-redis": "^4.0.0",
