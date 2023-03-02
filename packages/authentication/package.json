@@ -80,6 +80,7 @@
     "LICENSE",
     "dist",
     "src",
+    "vendor",
     "!*/__tests__"
   ]
 }
