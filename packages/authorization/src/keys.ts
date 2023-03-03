@@ -1,8 +1,8 @@
 import {BindingKey} from '@loopback/context';
 import {MetadataAccessor} from '@loopback/metadata';
 import {
+  AuthorizationConfig,
   AuthorizationMetadata,
-  AuthorizationOptions,
   AuthorizeFn,
   CasbinAuthorizeFn,
   CasbinEnforcerConfigGetterFn,
@@ -36,7 +36,7 @@ export namespace AuthorizationBindings {
     'bleco.userAuthorization.actions.casbin.resourceModifier',
   );
 
-  export const OPTIONS = BindingKey.create<AuthorizationOptions>('bleco.userAuthorization.options');
+  export const CONFIG = BindingKey.create<AuthorizationConfig>('bleco.userAuthorization.config');
 
   export const PATHS_TO_ALLOW_ALWAYS = 'bleco.userAuthorization.allowAlways';
 }

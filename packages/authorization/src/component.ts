@@ -7,15 +7,15 @@ import {
   CasbinAuthorizationProvider,
   UserPermissionsProvider,
 } from './providers';
-import {AuthorizationOptions} from './types';
+import {AuthorizationConfig} from './types';
 
 export class AuthorizationComponent implements Component {
   providers?: ProviderMap;
   bindings?: Binding[];
 
   constructor(
-    @inject(AuthorizationBindings.OPTIONS)
-    private readonly options?: AuthorizationOptions,
+    @inject(AuthorizationBindings.CONFIG)
+    private readonly config?: AuthorizationConfig,
   ) {
     this.providers = {
       [AuthorizationBindings.AUTHORIZE_ACTION.key]: AuthorizeActionProvider,
@@ -24,8 +24,8 @@ export class AuthorizationComponent implements Component {
       [AuthorizationBindings.USER_PERMISSIONS.key]: UserPermissionsProvider,
     };
 
-    if (this.options?.allowAlwaysPaths && this.options?.allowAlwaysPaths?.length > 0) {
-      this.bindings = [Binding.bind(AuthorizationBindings.PATHS_TO_ALLOW_ALWAYS).to(this.options.allowAlwaysPaths)];
+    if (this.config?.allowAlwaysPaths && this.config?.allowAlwaysPaths?.length > 0) {
+      this.bindings = [Binding.bind(AuthorizationBindings.PATHS_TO_ALLOW_ALWAYS).to(this.config.allowAlwaysPaths)];
     } else {
       this.bindings = [Binding.bind(AuthorizationBindings.PATHS_TO_ALLOW_ALWAYS).to(['/explorer'])];
     }
