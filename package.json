@@ -9,7 +9,7 @@
   "author": "ty",
   "license": "MIT",
   "scripts": {
-    "postinstall": "husky install && yarn run build",
+    "postinstall": "husky install",
     "prerelease": "yarn run build:full && yarn run lint",
     "release": "yarn prerelease && cross-env CI=1 lerna version && lerna publish from-git --yes",
     "lint": "yarn run eslint",
@@ -27,7 +27,7 @@
     "test": "yarn pretest && yarn jest && yarn posttest",
     "posttest": "yarn run lint",
     "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false",
-    "jest": "jest --runInBand"
+    "jest": "jest"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.4.4",

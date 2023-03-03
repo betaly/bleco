@@ -1815,7 +1815,7 @@ __metadata:
   dependencies:
     "@bleco/boot": ^0.2.29
     "@bleco/config": ^0.3.29
-    "@bleco/oidp": ^0.3.7
+    "@bleco/oidp": ^0.3.8
     "@loopback/build": ^9.0.8
     "@loopback/core": ^4.0.8
     "@loopback/eslint-config": ^13.0.8
@@ -1900,7 +1900,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oidp@^0.3.7, @bleco/oidp@workspace:packages/oidp":
+"@bleco/oidp@^0.3.8, @bleco/oidp@workspace:packages/oidp":
   version: 0.0.0-use.local
   resolution: "@bleco/oidp@workspace:packages/oidp"
   dependencies:
