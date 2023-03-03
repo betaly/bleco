@@ -16727,11 +16727,11 @@ __metadata:
 
 "passport-apple@file:vendor/passport-apple::locator=%40bleco%2Fauthentication%40workspace%3Apackages%2Fauthentication":
   version: 2.0.1
-  resolution: "passport-apple@file:vendor/passport-apple#vendor/passport-apple::hash=a8c494&locator=%40bleco%2Fauthentication%40workspace%3Apackages%2Fauthentication"
+  resolution: "passport-apple@file:vendor/passport-apple#vendor/passport-apple::hash=2a22e9&locator=%40bleco%2Fauthentication%40workspace%3Apackages%2Fauthentication"
   dependencies:
     jsonwebtoken: ^9.0.0
     passport-oauth2: ^1.5.0
-  checksum: 2e0a662dac71e7962a283549b470d923cf60247e1e2d4cde7773daba9ef23f94de9faa48a5eca8f285b572330acd6799bcb5dc3618b35a91ab8bde3d00326c8c
+  checksum: 31d8ff307540b88c681114b84cdbc45231b8a263bac56289e654e569b32a5273ae1eef004e2516599c9eb9f1345cde11dbf1144205ee04f5525973af0a008dad
   languageName: node
   linkType: hard
 
