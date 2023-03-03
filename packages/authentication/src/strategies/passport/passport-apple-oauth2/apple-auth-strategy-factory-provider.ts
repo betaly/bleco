@@ -2,11 +2,11 @@ import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {
-  Profile,
   AuthenticateOptions,
   AuthenticateOptionsWithRequest,
-  VerifyCallback,
   DecodedIdToken,
+  Profile,
+  VerifyCallback,
 } from 'passport-apple';
 
 import {AuthErrorKeys} from '../../../error-keys';
@@ -21,17 +21,14 @@ export interface AppleAuthStrategyFactory {
   ): Strategy;
 }
 
-export class AppleAuthStrategyFactoryProvider
-  implements Provider<AppleAuthStrategyFactory>
-{
+export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.APPLE_OAUTH2_VERIFIER)
     private readonly verifierAppleAuth: VerifyFunction.AppleAuthFn,
   ) {}
 
   value(): AppleAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getAppleAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getAppleAuthStrategyVerifier(options, verifier);
   }
 
   getAppleAuthStrategyVerifier(
@@ -54,18 +51,9 @@ export class AppleAuthStrategyFactoryProvider
           cb: VerifyCallback,
         ) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              decodedIdToken,
-              profile,
-              cb,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -85,17 +73,9 @@ export class AppleAuthStrategyFactoryProvider
           cb: VerifyCallback,
         ) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              decodedIdToken,
-              profile,
-              cb,
-            );
+            const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {

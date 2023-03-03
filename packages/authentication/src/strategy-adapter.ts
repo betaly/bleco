@@ -29,11 +29,7 @@ export class StrategyAdapter<T> {
    *     3. authenticate using the strategy
    * @param request The incoming request.
    */
-  authenticate(
-    request: Request,
-    response?: Response,
-    options?: Object,
-  ): Promise<T | void> {
+  authenticate(request: Request, response?: Response, options?: Object): Promise<T | void> {
     return new Promise<T | void>((resolve, reject) => {
       // mix-in passport additions like req.logIn and req.logOut
       for (const key in passportRequestMixin) {

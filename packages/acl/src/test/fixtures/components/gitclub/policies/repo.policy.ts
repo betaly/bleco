@@ -7,7 +7,7 @@ export const RepoRoles = {
   reader: 'reader',
 } as const;
 
-export type RepoRole = typeof RepoRoles[keyof typeof RepoRoles];
+export type RepoRole = (typeof RepoRoles)[keyof typeof RepoRoles];
 
 export const RepoActions = {
   read: 'read',
@@ -19,7 +19,7 @@ export const RepoActions = {
   delete_role_assignments: 'delete_role_assignments',
 } as const;
 
-export type RepoAction = typeof RepoActions[keyof typeof RepoActions];
+export type RepoAction = (typeof RepoActions)[keyof typeof RepoActions];
 
 export const RepoPolicy = defineResourcePolicy<RepoRole, RepoAction>({
   model: Repo,

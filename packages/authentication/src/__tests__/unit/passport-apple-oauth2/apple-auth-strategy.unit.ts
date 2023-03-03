@@ -1,13 +1,7 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
-import {
-  AppleAuthStrategyFactory,
-  AppleAuthStrategyFactoryProvider,
-} from '../../../strategies';
-import AppleStrategy, {
-  AuthenticateOptions,
-  AuthenticateOptionsWithRequest,
-} from 'passport-apple';
+import AppleStrategy, {AuthenticateOptions, AuthenticateOptionsWithRequest} from 'passport-apple';
+import {AppleAuthStrategyFactory, AppleAuthStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 describe('getting apple-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
@@ -25,9 +19,7 @@ describe('getting apple-auth strategy with options', () => {
     const appleAuthStrategyVerifier = strategyVerifier(options);
 
     expect(appleAuthStrategyVerifier).to.have.property('name');
-    expect(appleAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(appleAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
@@ -45,9 +37,7 @@ describe('getting apple-auth strategy with options', () => {
     const appleAuthStrategyVerifier = strategyVerifier(options);
 
     expect(appleAuthStrategyVerifier).to.have.property('name');
-    expect(appleAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(appleAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 

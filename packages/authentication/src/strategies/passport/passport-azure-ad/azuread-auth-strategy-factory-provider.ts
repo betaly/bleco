@@ -1,16 +1,16 @@
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 
+import {
+  IOIDCStrategyOptionWithoutRequest,
+  IOIDCStrategyOptionWithRequest,
+  IProfile,
+  OIDCStrategy,
+  VerifyCallback,
+} from 'passport-azure-ad';
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {
-  IProfile,
-  VerifyCallback,
-  OIDCStrategy,
-  IOIDCStrategyOptionWithRequest,
-  IOIDCStrategyOptionWithoutRequest,
-} from 'passport-azure-ad';
 
 export interface AzureADAuthStrategyFactory {
   (
@@ -19,17 +19,14 @@ export interface AzureADAuthStrategyFactory {
   ): OIDCStrategy;
 }
 
-export class AzureADAuthStrategyFactoryProvider
-  implements Provider<AzureADAuthStrategyFactory>
-{
+export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.AZURE_AD_VERIFIER)
     private readonly verifierAzureADAuth: VerifyFunction.AzureADAuthFn,
   ) {}
 
   value(): AzureADAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getAzureADAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getAzureADAuthStrategyVerifier(options, verifier);
   }
 
   getAzureADAuthStrategyVerifier(
@@ -56,17 +53,9 @@ export class AzureADAuthStrategyFactoryProvider
           }
 
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              done,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, done, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             done(null, user);
           } catch (err) {
@@ -92,16 +81,9 @@ export class AzureADAuthStrategyFactoryProvider
           }
 
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              done,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, done);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             done(null, user);
           } catch (err) {

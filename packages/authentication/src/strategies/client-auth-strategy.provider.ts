@@ -8,9 +8,7 @@ import {AuthenticationMetadata} from '../types';
 import {Strategies} from './keys';
 import {ClientPasswordStrategyFactory} from './passport/passport-client-password';
 
-export class ClientAuthStrategyProvider
-  implements Provider<Strategy | undefined>
-{
+export class ClientAuthStrategyProvider implements Provider<Strategy | undefined> {
   constructor(
     @inject(AuthenticationBindings.CLIENT_METADATA)
     private readonly clientMetadata: AuthenticationMetadata,
@@ -25,9 +23,7 @@ export class ClientAuthStrategyProvider
 
     const name = this.clientMetadata.strategy;
     if (name === STRATEGY.CLIENT_PASSWORD) {
-      return this.getClientPasswordVerifier(
-        this.clientMetadata.options as StrategyOptionsWithRequestInterface,
-      );
+      return this.getClientPasswordVerifier(this.clientMetadata.options as StrategyOptionsWithRequestInterface);
     } else {
       return Promise.reject(`The strategy ${name} is not available.`);
     }

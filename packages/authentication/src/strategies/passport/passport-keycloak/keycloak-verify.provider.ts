@@ -8,9 +8,7 @@ import {Keycloak, VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class KeycloakVerifyProvider
-  implements Provider<VerifyFunction.KeycloakAuthFn>
-{
+export class KeycloakVerifyProvider implements Provider<VerifyFunction.KeycloakAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.KeycloakAuthFn {
@@ -20,9 +18,7 @@ export class KeycloakVerifyProvider
       profile: Keycloak.Profile,
       cb: Keycloak.VerifyCallback,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.KeycloakAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.KeycloakAuthFn is not implemented`);
     };
   }
 }

@@ -1,11 +1,9 @@
 import {Provider} from '@loopback/core';
+import {Request} from '@loopback/rest';
 import {VerifyFunction} from '../../../strategies';
 import {IAuthUser} from '../../../types';
-import {Request} from '@loopback/rest';
 
-export class LocalVerifyProvider
-  implements Provider<VerifyFunction.LocalPasswordFn>
-{
+export class LocalVerifyProvider implements Provider<VerifyFunction.LocalPasswordFn> {
   constructor() {}
 
   value(): VerifyFunction.LocalPasswordFn {

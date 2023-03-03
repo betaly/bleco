@@ -49,11 +49,9 @@ const OAuth2Strategy = require('passport-oauth2'),
 function Strategy(options, verify) {
   // Set the URLs
   options = options || {};
-  options.authorizationURL =
-    options.authorizationURL || 'https://appleid.apple.com/auth/authorize';
+  options.authorizationURL = options.authorizationURL || 'https://appleid.apple.com/auth/authorize';
   options.tokenURL = options.tokenURL || 'https://appleid.apple.com/auth/token';
-  options.passReqToCallback =
-    options.passReqToCallback === undefined ? true : options.passReqToCallback;
+  options.passReqToCallback = options.passReqToCallback === undefined ? true : options.passReqToCallback;
 
   // Make the OAuth call
   OAuth2Strategy.call(this, options, verify);
@@ -77,10 +75,9 @@ function Strategy(options, verify) {
     // Generate the client_secret using the library
     _tokenGenerator
       .generate()
-      .then((client_secret) => {
+      .then(client_secret => {
         params = params || {};
-        const codeParam =
-          params.grant_type === 'refresh_token' ? 'refresh_token' : 'code';
+        const codeParam = params.grant_type === 'refresh_token' ? 'refresh_token' : 'code';
         params[codeParam] = code;
         params['client_id'] = this._clientId;
         params['client_secret'] = client_secret;
@@ -107,7 +104,7 @@ function Strategy(options, verify) {
           },
         );
       })
-      .catch((error) => {
+      .catch(error => {
         callback(error);
       });
   };

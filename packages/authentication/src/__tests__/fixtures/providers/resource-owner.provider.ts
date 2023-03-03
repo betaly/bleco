@@ -1,21 +1,13 @@
 import {Provider} from '@loopback/core';
-import {VerifyFunction} from '../../../strategies';
 import {Request} from 'express';
-import {IAuthUser, IAuthClient} from '../../../types';
+import {VerifyFunction} from '../../../strategies';
+import {IAuthClient, IAuthUser} from '../../../types';
 
-export class ResourceOwnerVerifyProvider
-  implements Provider<VerifyFunction.ResourceOwnerPasswordFn>
-{
+export class ResourceOwnerVerifyProvider implements Provider<VerifyFunction.ResourceOwnerPasswordFn> {
   constructor() {}
 
   value(): VerifyFunction.ResourceOwnerPasswordFn {
-    return async (
-      clientId: string,
-      clientSecret: string,
-      username: string,
-      password: string,
-      req?: Request,
-    ) => {
+    return async (clientId: string, clientSecret: string, username: string, password: string, req?: Request) => {
       if (username === '' || clientId === '') {
         return null;
       }

@@ -1,12 +1,10 @@
 import {Provider} from '@loopback/core';
-import {VerifyFunction} from '../../../strategies';
-import * as AzureADAuthStrategy from 'passport-azure-ad';
-import {IAuthUser} from '../../../types';
 import {Request} from '@loopback/rest';
+import * as AzureADAuthStrategy from 'passport-azure-ad';
+import {VerifyFunction} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
-export class BearerTokenVerifyProvider
-  implements Provider<VerifyFunction.AzureADAuthFn>
-{
+export class BearerTokenVerifyProvider implements Provider<VerifyFunction.AzureADAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.AzureADAuthFn {

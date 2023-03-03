@@ -1,9 +1,6 @@
-import {IAuthClient} from '../../../types';
-import {
-  ClientPasswordStrategyFactoryProvider,
-  ClientPasswordStrategyFactory,
-} from '../../../strategies';
 import {expect} from '@loopback/testlab';
+import {ClientPasswordStrategyFactory, ClientPasswordStrategyFactoryProvider} from '../../../strategies';
+import {IAuthClient} from '../../../types';
 
 /**
  * Testing to get bearer strategy from providers
@@ -21,9 +18,7 @@ describe('getting client-password strategy with options', () => {
     const clientPasswordStrategyVerifier = strategyVerifier(options);
 
     expect(clientPasswordStrategyVerifier).to.have.property('name');
-    expect(clientPasswordStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(clientPasswordStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
@@ -38,9 +33,7 @@ describe('getting client-password strategy with options', () => {
     const clientPasswordStrategyVerifier = strategyVerifier(options);
 
     expect(clientPasswordStrategyVerifier).to.have.property('name');
-    expect(clientPasswordStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(clientPasswordStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy without options', async () => {
@@ -49,9 +42,7 @@ describe('getting client-password strategy with options', () => {
     const clientPasswordStrategyVerifier = strategyVerifier();
 
     expect(clientPasswordStrategyVerifier).to.have.property('name');
-    expect(clientPasswordStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(clientPasswordStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 
@@ -63,10 +54,7 @@ async function getStrategy() {
 }
 
 //returning a user
-function verifierBearer(
-  clientId: string,
-  clientSecret: string,
-): Promise<IAuthClient> {
+function verifierBearer(clientId: string, clientSecret: string): Promise<IAuthClient> {
   const clientToPass: IAuthClient = {
     clientId: clientId,
     clientSecret: clientSecret,

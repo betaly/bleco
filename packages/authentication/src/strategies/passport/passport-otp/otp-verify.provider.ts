@@ -8,9 +8,7 @@ export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
 
   value(): VerifyFunction.OtpAuthFn {
     return async (_key: string, _otp: string) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.OtpAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.OtpAuthFn is not implemented`);
     };
   }
 }

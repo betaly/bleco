@@ -16,14 +16,8 @@ export class SamlVerifyProvider implements Provider<VerifyFunction.SamlFn> {
   }
 
   value(): VerifyFunction.SamlFn {
-    return async (
-      profile: SamlStrategy.Profile,
-      cb: SamlStrategy.VerifiedCallback,
-      req?: Request,
-    ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.SamlFn is not implemented`,
-      );
+    return async (profile: SamlStrategy.Profile, cb: SamlStrategy.VerifiedCallback, req?: Request) => {
+      throw new HttpErrors.NotImplemented(`VerifyFunction.SamlFn is not implemented`);
     };
   }
 }

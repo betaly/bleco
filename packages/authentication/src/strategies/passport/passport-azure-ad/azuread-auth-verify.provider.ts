@@ -9,9 +9,7 @@ import {VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class AzureADAuthVerifyProvider
-  implements Provider<VerifyFunction.AzureADAuthFn>
-{
+export class AzureADAuthVerifyProvider implements Provider<VerifyFunction.AzureADAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.AzureADAuthFn {
@@ -22,9 +20,7 @@ export class AzureADAuthVerifyProvider
       done: AzureADStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.AzureADAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.AzureADAuthFn is not implemented`);
     };
   }
 }

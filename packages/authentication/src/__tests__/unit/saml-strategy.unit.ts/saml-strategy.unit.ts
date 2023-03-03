@@ -1,11 +1,8 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import * as SamlStrategy from '@node-saml/passport-saml';
-import {
-  SamlStrategyFactoryProvider,
-  SamlStrategyFactory,
-} from '../../../strategies/SAML';
 import {SamlConfig} from '@node-saml/passport-saml';
+import {SamlStrategyFactory, SamlStrategyFactoryProvider} from '../../../strategies/SAML';
+import {IAuthUser} from '../../../types';
 
 describe('getting saml strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
@@ -21,9 +18,7 @@ describe('getting saml strategy with options', () => {
     const SamlStrategyVerifier = strategyVerifier(options);
 
     expect(SamlStrategyVerifier).to.have.property('name');
-    expect(SamlStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(SamlStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
@@ -39,9 +34,7 @@ describe('getting saml strategy with options', () => {
     const SamlStrategyVerifier = strategyVerifier(options);
 
     expect(SamlStrategyVerifier).to.have.property('name');
-    expect(SamlStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(SamlStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 
@@ -53,9 +46,7 @@ async function getStrategy() {
 }
 
 //returning a user
-function verifierBearer(
-  profile: SamlStrategy.Profile,
-): Promise<IAuthUser | null> {
+function verifierBearer(profile: SamlStrategy.Profile): Promise<IAuthUser | null> {
   const userToPass: IAuthUser = {
     id: 1,
     username: 'xyz',

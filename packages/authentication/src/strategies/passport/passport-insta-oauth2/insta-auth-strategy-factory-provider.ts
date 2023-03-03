@@ -1,35 +1,24 @@
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {
-  Profile,
-  Strategy,
-  StrategyOption,
-  StrategyOptionWithRequest,
-} from 'passport-instagram';
+import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-instagram';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
 
 export interface InstagramAuthStrategyFactory {
-  (
-    options: StrategyOption | StrategyOptionWithRequest,
-    verifierPassed?: VerifyFunction.InstagramAuthFn,
-  ): Strategy;
+  (options: StrategyOption | StrategyOptionWithRequest, verifierPassed?: VerifyFunction.InstagramAuthFn): Strategy;
 }
 
-export class InstagramAuthStrategyFactoryProvider
-  implements Provider<InstagramAuthStrategyFactory>
-{
+export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER)
     private readonly verifierInstagramAuth: VerifyFunction.InstagramAuthFn,
   ) {}
 
   value(): InstagramAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getInstagramAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getInstagramAuthStrategyVerifier(options, verifier);
   }
 
   getInstagramAuthStrategyVerifier(
@@ -42,25 +31,11 @@ export class InstagramAuthStrategyFactoryProvider
       strategy = new Strategy(
         options,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          req: Request,
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (req: Request, accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              cb,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -72,18 +47,11 @@ export class InstagramAuthStrategyFactoryProvider
       strategy = new Strategy(
         options as StrategyOption,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {

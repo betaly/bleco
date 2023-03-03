@@ -1,16 +1,16 @@
 // SONAR-IGNORE-ALL
 import {inject, Provider} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
 import {AnyObject} from '@loopback/repository';
-import {HttpsProxyAgent} from 'https-proxy-agent';
+import {HttpErrors, Request} from '@loopback/rest';
 import {
   Profile,
+  SamlConfig,
   Strategy,
   VerifiedCallback,
-  SamlConfig,
-  VerifyWithRequest,
   VerifyWithoutRequest,
+  VerifyWithRequest,
 } from '@node-saml/passport-saml';
+import {HttpsProxyAgent} from 'https-proxy-agent';
 import {AuthErrorKeys} from '../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
@@ -18,30 +18,20 @@ export interface SamlStrategyFactory {
   (options: SamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy;
 }
 
-export class SamlStrategyFactoryProvider
-  implements Provider<SamlStrategyFactory>
-{
+export class SamlStrategyFactoryProvider implements Provider<SamlStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.SAML_VERIFIER)
     private readonly verifierSaml: VerifyFunction.SamlFn,
   ) {}
 
   value(): SamlStrategyFactory {
-    return (options, verifier) =>
-      this.getSamlStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getSamlStrategyVerifier(options, verifier);
   }
 
-  getSamlStrategyVerifier(
-    options: SamlConfig,
-    verifierPassed?: VerifyFunction.SamlFn,
-  ): Strategy {
+  getSamlStrategyVerifier(options: SamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy {
     const verifyFn = verifierPassed ?? this.verifierSaml;
     let strategy;
-    const func = async (
-      req: Request,
-      profile: Profile | null | undefined,
-      cb: VerifiedCallback,
-    ) => {
+    const func = async (req: Request, profile: Profile | null | undefined, cb: VerifiedCallback) => {
       try {
         const user = await verifyFn(profile, cb, req);
         if (!user) {
@@ -68,9 +58,7 @@ export class SamlStrategyFactoryProvider
           try {
             const user = await verifyFn(profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, user as unknown as Record<string, unknown>);
           } catch (err) {

@@ -1,10 +1,7 @@
-import {IAuthUser} from '../../../types';
-import {
-  BearerStrategyFactoryProvider,
-  BearerStrategyFactory,
-} from '../../../strategies';
-import * as PassportBearer from 'passport-http-bearer';
 import {expect} from '@loopback/testlab';
+import * as PassportBearer from 'passport-http-bearer';
+import {BearerStrategyFactory, BearerStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 /**
  * Testing to get bearer strategy from providers
@@ -22,9 +19,7 @@ describe('getting bearer token strategy with options', () => {
     const bearerStrategyVerifier = strategyVerifier(options);
 
     expect(bearerStrategyVerifier).to.have.property('name');
-    expect(bearerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(bearerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
@@ -39,9 +34,7 @@ describe('getting bearer token strategy with options', () => {
     const bearerStrategyVerifier = strategyVerifier(options);
 
     expect(bearerStrategyVerifier).to.have.property('name');
-    expect(bearerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(bearerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy without options', async () => {
@@ -50,9 +43,7 @@ describe('getting bearer token strategy with options', () => {
     const bearerStrategyVerifier = strategyVerifier();
 
     expect(bearerStrategyVerifier).to.have.property('name');
-    expect(bearerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(bearerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 

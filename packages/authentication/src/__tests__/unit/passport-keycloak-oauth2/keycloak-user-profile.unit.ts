@@ -1,11 +1,7 @@
-import {expect, sinon} from '@loopback/testlab';
-import {
-  Keycloak,
-  KeycloakStrategyFactory,
-  KeycloakStrategyFactoryProvider,
-} from '../../../strategies';
-import {IAuthUser} from '../../../types';
 import {AnyObject} from '@loopback/repository';
+import {expect, sinon} from '@loopback/testlab';
+import {Keycloak, KeycloakStrategyFactory, KeycloakStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 describe('Keycloak userProfileFn', () => {
   it('should successfully resolve', async () => {
@@ -31,16 +27,13 @@ describe('Keycloak userProfileFn', () => {
           cb(null, JSON.stringify({}));
         }),
       };
-      keycloakAuthStrategyVerifier.userProfile(
-        '',
-        (err: AnyObject, res: AnyObject) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(res);
-          }
-        },
-      );
+      keycloakAuthStrategyVerifier.userProfile('', (err: AnyObject, res: AnyObject) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
     });
     await expect(profilePromise).to.be.fulfilled();
   });

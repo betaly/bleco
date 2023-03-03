@@ -1,15 +1,15 @@
-import {Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer, Request} from '@loopback/rest';
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
+import {Request, RestServer} from '@loopback/rest';
+import {Client, createClientForHandler} from '@loopback/testlab';
 import {authenticate} from '../../../../decorators';
-import {STRATEGY} from '../../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
-import {Strategies} from '../../../../strategies/keys';
 import {VerifyFunction} from '../../../../strategies';
-import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
+import {Strategies} from '../../../../strategies/keys';
+import {STRATEGY} from '../../../../strategy-name.enum';
 import {Cognito} from '../../../../types';
+import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
 import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
+import {getApp} from '../helpers/helpers';
 
 describe('getting cognito oauth2 strategy with options using Middleware Sequence', () => {
   let app: Application;
@@ -46,9 +46,7 @@ describe('getting cognito oauth2 strategy with options using Middleware Sequence
   }
 
   function getAuthVerifier() {
-    app
-      .bind(Strategies.Passport.COGNITO_OAUTH2_VERIFIER)
-      .toProvider(CognitoAuthVerifyProvider);
+    app.bind(Strategies.Passport.COGNITO_OAUTH2_VERIFIER).toProvider(CognitoAuthVerifyProvider);
   }
 
   function givenAuthenticatedSequence() {
@@ -57,9 +55,7 @@ describe('getting cognito oauth2 strategy with options using Middleware Sequence
   }
 });
 
-class CognitoAuthVerifyProvider
-  implements Provider<VerifyFunction.CognitoAuthFn>
-{
+class CognitoAuthVerifyProvider implements Provider<VerifyFunction.CognitoAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.CognitoAuthFn {

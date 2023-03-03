@@ -1,22 +1,16 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
+import {IOIDCStrategyOptionWithoutRequest, IOIDCStrategyOptionWithRequest, IProfile} from 'passport-azure-ad';
 import {
-  IProfile,
-  IOIDCStrategyOptionWithRequest,
-  IOIDCStrategyOptionWithoutRequest,
-} from 'passport-azure-ad';
-import {
-  AzureADAuthStrategyFactoryProvider,
   AzureADAuthStrategyFactory,
+  AzureADAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-azure-ad';
+import {IAuthUser} from '../../../types';
 
 describe('getting azuread auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
     const strategyVerifier: AzureADAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | IOIDCStrategyOptionWithoutRequest
-      | IOIDCStrategyOptionWithRequest = {
+    const options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest = {
       scope: '',
       responseType: 'code',
       responseMode: 'query',
@@ -31,17 +25,13 @@ describe('getting azuread auth strategy with options', () => {
     const azureAdAuthStrategyVerifier = strategyVerifier(options);
 
     expect(azureAdAuthStrategyVerifier).to.have.property('name');
-    expect(azureAdAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(azureAdAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
     const strategyVerifier: AzureADAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | IOIDCStrategyOptionWithoutRequest
-      | IOIDCStrategyOptionWithRequest = {
+    const options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest = {
       scope: '',
       responseType: 'code',
       responseMode: 'query',
@@ -56,9 +46,7 @@ describe('getting azuread auth strategy with options', () => {
     const azureAdAuthStrategyVerifier = strategyVerifier(options);
 
     expect(azureAdAuthStrategyVerifier).to.have.property('name');
-    expect(azureAdAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(azureAdAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 
@@ -70,11 +58,7 @@ async function getStrategy() {
 }
 
 //returning a user
-function verifierBearer(
-  accessToken: string,
-  refreshToken: string,
-  profile: IProfile,
-): Promise<IAuthUser | null> {
+function verifierBearer(accessToken: string, refreshToken: string, profile: IProfile): Promise<IAuthUser | null> {
   const userToPass: IAuthUser = {
     id: 1,
     username: 'xyz',

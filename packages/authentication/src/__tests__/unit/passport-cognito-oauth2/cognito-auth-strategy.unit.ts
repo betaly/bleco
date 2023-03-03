@@ -1,9 +1,9 @@
-import {Cognito, IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import {
-  CognitoStrategyFactoryProvider,
   CognitoAuthStrategyFactory,
+  CognitoStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-cognito-oauth2';
+import {Cognito, IAuthUser} from '../../../types';
 
 describe('getting cognito-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
@@ -21,9 +21,7 @@ describe('getting cognito-auth strategy with options', () => {
     const cognitoAuthStrategyVerifier = strategyVerifier(options);
 
     expect(cognitoAuthStrategyVerifier).to.have.property('name');
-    expect(cognitoAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(cognitoAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
@@ -41,9 +39,7 @@ describe('getting cognito-auth strategy with options', () => {
     const cognitoAuthStrategyVerifier = strategyVerifier(options);
 
     expect(cognitoAuthStrategyVerifier).to.have.property('name');
-    expect(cognitoAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(cognitoAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 

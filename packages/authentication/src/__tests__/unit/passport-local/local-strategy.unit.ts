@@ -1,45 +1,34 @@
-import {IAuthUser} from '../../../types';
-import {expect} from '@loopback/testlab';
-import {
-  LocalPasswordStrategyFactoryProvider,
-  LocalPasswordStrategyFactory,
-} from '../../../strategies';
 import {Request} from '@loopback/rest';
+import {expect} from '@loopback/testlab';
 import * as PassportLocal from 'passport-local';
+import {LocalPasswordStrategyFactory, LocalPasswordStrategyFactoryProvider} from '../../../strategies';
+import {IAuthUser} from '../../../types';
 
 describe('getting local strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
     const strategyVerifier: LocalPasswordStrategyFactory = await getStrategy();
 
-    const options:
-      | PassportLocal.IStrategyOptions
-      | PassportLocal.IStrategyOptionsWithRequest = {
+    const options: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest = {
       passReqToCallback: true,
     };
 
     const localStrategyVerifier = strategyVerifier(options);
 
     expect(localStrategyVerifier).to.have.property('name');
-    expect(localStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(localStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
     const strategyVerifier: LocalPasswordStrategyFactory = await getStrategy();
 
-    const options:
-      | PassportLocal.IStrategyOptions
-      | PassportLocal.IStrategyOptionsWithRequest = {
+    const options: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest = {
       passReqToCallback: false,
     };
 
     const localStrategyVerifier = strategyVerifier(options);
 
     expect(localStrategyVerifier).to.have.property('name');
-    expect(localStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(localStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by not passing any options', async () => {
@@ -48,9 +37,7 @@ describe('getting local strategy with options', () => {
     const localStrategyVerifier = strategyVerifier();
 
     expect(localStrategyVerifier).to.have.property('name');
-    expect(localStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(localStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 
@@ -62,11 +49,7 @@ async function getStrategy() {
 }
 
 //returning a user
-function verifierLocal(
-  username: string,
-  password: string,
-  req?: Request,
-): Promise<IAuthUser | null> {
+function verifierLocal(username: string, password: string, req?: Request): Promise<IAuthUser | null> {
   const userToPass: IAuthUser = {
     id: 1,
     username: 'xyz',

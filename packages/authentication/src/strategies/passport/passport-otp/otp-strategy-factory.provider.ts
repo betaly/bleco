@@ -6,23 +6,17 @@ import {VerifyFunction} from '../../types';
 import {Otp} from './otp-auth';
 
 export interface PassportOtpStrategyFactory {
-  (
-    options: Otp.StrategyOptions,
-    verifierPassed?: VerifyFunction.OtpAuthFn,
-  ): Otp.Strategy;
+  (options: Otp.StrategyOptions, verifierPassed?: VerifyFunction.OtpAuthFn): Otp.Strategy;
 }
 
-export class PassportOtpStrategyFactoryProvider
-  implements Provider<PassportOtpStrategyFactory>
-{
+export class PassportOtpStrategyFactoryProvider implements Provider<PassportOtpStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.OTP_VERIFIER)
     private readonly verifierOtp: VerifyFunction.OtpAuthFn,
   ) {}
 
   value(): PassportOtpStrategyFactory {
-    return (options, verifier) =>
-      this.getPassportOtpStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getPassportOtpStrategyVerifier(options, verifier);
   }
 
   getPassportOtpStrategyVerifier(

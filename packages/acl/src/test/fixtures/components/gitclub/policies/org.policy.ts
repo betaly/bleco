@@ -6,7 +6,7 @@ export const OrgRoles = {
   member: 'member',
 } as const;
 
-export type OrgRole = typeof OrgRoles[keyof typeof OrgRoles];
+export type OrgRole = (typeof OrgRoles)[keyof typeof OrgRoles];
 
 export const OrgActions = {
   read: 'read',
@@ -18,7 +18,7 @@ export const OrgActions = {
   delete_role_assignments: 'delete_role_assignments',
 } as const;
 
-export type OrgAction = typeof OrgActions[keyof typeof OrgActions];
+export type OrgAction = (typeof OrgActions)[keyof typeof OrgActions];
 
 export const OrgPolicy = defineResourcePolicy<OrgRole, OrgAction>({
   model: Org,

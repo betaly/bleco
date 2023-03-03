@@ -1,64 +1,51 @@
-import {IAuthUser, IAuthClient} from '../../../types';
+import {Request} from '@loopback/rest';
 import {expect} from '@loopback/testlab';
 import {
-  ResourceOwnerPasswordStrategyFactoryProvider,
-  ResourceOwnerPasswordStrategyFactory,
   Oauth2ResourceOwnerPassword,
+  ResourceOwnerPasswordStrategyFactory,
+  ResourceOwnerPasswordStrategyFactoryProvider,
 } from '../../../strategies';
-import {Request} from '@loopback/rest';
+import {IAuthClient, IAuthUser} from '../../../types';
 
 describe('getting resource-owner strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
-    const strategyVerifier: ResourceOwnerPasswordStrategyFactory =
-      await getStrategy();
+    const strategyVerifier: ResourceOwnerPasswordStrategyFactory = await getStrategy();
 
-    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface =
-      {
-        passReqToCallback: true,
-      };
+    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface = {
+      passReqToCallback: true,
+    };
 
     const resourceOwnerStrategyVerifier = strategyVerifier(options);
 
     expect(resourceOwnerStrategyVerifier).to.have.property('name');
-    expect(resourceOwnerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(resourceOwnerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
-    const strategyVerifier: ResourceOwnerPasswordStrategyFactory =
-      await getStrategy();
+    const strategyVerifier: ResourceOwnerPasswordStrategyFactory = await getStrategy();
 
-    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface =
-      {
-        passReqToCallback: false,
-      };
+    const options: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface = {
+      passReqToCallback: false,
+    };
 
     const resourceOwnerStrategyVerifier = strategyVerifier(options);
 
     expect(resourceOwnerStrategyVerifier).to.have.property('name');
-    expect(resourceOwnerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(resourceOwnerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by not passing any options', async () => {
-    const strategyVerifier: ResourceOwnerPasswordStrategyFactory =
-      await getStrategy();
+    const strategyVerifier: ResourceOwnerPasswordStrategyFactory = await getStrategy();
 
     const resourceOwnerStrategyVerifier = strategyVerifier();
 
     expect(resourceOwnerStrategyVerifier).to.have.property('name');
-    expect(resourceOwnerStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(resourceOwnerStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 
 async function getStrategy() {
-  const provider = new ResourceOwnerPasswordStrategyFactoryProvider(
-    verifierResourceOwner,
-  );
+  const provider = new ResourceOwnerPasswordStrategyFactoryProvider(verifierResourceOwner);
 
   //this fuction will return a function which will then accept options.
   return provider.value();

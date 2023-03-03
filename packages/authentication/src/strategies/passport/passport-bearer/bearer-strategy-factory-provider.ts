@@ -2,11 +2,11 @@ import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as PassportBearer from 'passport-http-bearer';
 
+import {isEmpty} from 'lodash';
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
-import {isEmpty} from 'lodash';
 
 export interface BearerStrategyFactory {
   (
@@ -15,17 +15,14 @@ export interface BearerStrategyFactory {
   ): PassportBearer.Strategy<VerifyFunction.BearerFn>;
 }
 
-export class BearerStrategyFactoryProvider
-  implements Provider<BearerStrategyFactory>
-{
+export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.BEARER_TOKEN_VERIFIER)
     private readonly verifierBearer: VerifyFunction.BearerFn,
   ) {}
 
   value(): BearerStrategyFactory {
-    return (options, verifier) =>
-      this.getBearerStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getBearerStrategyVerifier(options, verifier);
   }
 
   getBearerStrategyVerifier(
@@ -37,11 +34,7 @@ export class BearerStrategyFactoryProvider
       return new PassportBearer.Strategy(
         options,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          req: Request,
-          token: string,
-          cb: (err: Error | null, user?: IAuthUser | false) => void,
-        ) => {
+        async (req: Request, token: string, cb: (err: Error | null, user?: IAuthUser | false) => void) => {
           try {
             const user = await verifyFn(token, req);
             if (!user) {
@@ -58,10 +51,7 @@ export class BearerStrategyFactoryProvider
         options,
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          token: string,
-          cb: (err: Error | null, user?: IAuthUser | false) => void,
-        ) => {
+        async (token: string, cb: (err: Error | null, user?: IAuthUser | false) => void) => {
           try {
             const user = await verifyFn(token);
             if (!user) {
@@ -76,16 +66,11 @@ export class BearerStrategyFactoryProvider
     } else {
       return new PassportBearer.Strategy(
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          token: string,
-          cb: (err: Error | null, user?: IAuthUser | false) => void,
-        ) => {
+        async (token: string, cb: (err: Error | null, user?: IAuthUser | false) => void) => {
           try {
             const user = await verifyFn(token);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, user);
           } catch (err) {

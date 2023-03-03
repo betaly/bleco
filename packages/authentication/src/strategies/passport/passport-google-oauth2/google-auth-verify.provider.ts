@@ -9,9 +9,7 @@ import {VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class GoogleAuthVerifyProvider
-  implements Provider<VerifyFunction.GoogleAuthFn>
-{
+export class GoogleAuthVerifyProvider implements Provider<VerifyFunction.GoogleAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.GoogleAuthFn {
@@ -22,9 +20,7 @@ export class GoogleAuthVerifyProvider
       cb: GoogleStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.GoogleAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.GoogleAuthFn is not implemented`);
     };
   }
 }

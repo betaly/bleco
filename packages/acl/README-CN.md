@@ -56,7 +56,7 @@ export const OrgRoles = {
 } as const;
 
 // Define resource role type
-export type OrgRole = typeof OrgRoles[keyof typeof OrgRoles];
+export type OrgRole = (typeof OrgRoles)[keyof typeof OrgRoles];
 
 // Define resource actions
 export const OrgActions = {
@@ -70,7 +70,7 @@ export const OrgActions = {
 } as const;
 
 // Define resource action type
-export type OrgAction = typeof OrgActions[keyof typeof OrgActions];
+export type OrgAction = (typeof OrgActions)[keyof typeof OrgActions];
 
 // Define a resource policy
 export const OrgPolicy: Policy<OrgRole, OrgAction> = {

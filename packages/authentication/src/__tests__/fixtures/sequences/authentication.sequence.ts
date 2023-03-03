@@ -10,7 +10,7 @@ import {
   SequenceHandler,
 } from '@loopback/rest';
 import {AuthenticateFn, AuthenticationBindings} from '../../../';
-import {IAuthUser, IAuthClient} from '../../../types';
+import {IAuthClient, IAuthUser} from '../../../types';
 const SequenceActions = RestBindings.SequenceActions;
 
 export class MyAuthenticationSequence implements SequenceHandler {
@@ -22,9 +22,7 @@ export class MyAuthenticationSequence implements SequenceHandler {
     @inject(SequenceActions.SEND) protected send: Send,
     @inject(SequenceActions.REJECT) protected reject: Reject,
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
-    protected authenticateClientRequest: AuthenticateFn<
-      IAuthClient | undefined
-    >,
+    protected authenticateClientRequest: AuthenticateFn<IAuthClient | undefined>,
     @inject(AuthenticationBindings.USER_AUTH_ACTION)
     protected authenticateRequest: AuthenticateFn<IAuthUser | undefined>,
   ) {}
@@ -44,10 +42,7 @@ export class MyAuthenticationSequence implements SequenceHandler {
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (error) {
-      if (
-        error.code === 'AUTHENTICATION_STRATEGY_NOT_FOUND' ||
-        error.code === 'USER_PROFILE_NOT_FOUND'
-      ) {
+      if (error.code === 'AUTHENTICATION_STRATEGY_NOT_FOUND' || error.code === 'USER_PROFILE_NOT_FOUND') {
         Object.assign(error, {statusCode: 401 /* Unauthorized */});
       }
       this.reject(context, error);

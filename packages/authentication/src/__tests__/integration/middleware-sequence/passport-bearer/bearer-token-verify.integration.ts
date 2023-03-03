@@ -1,15 +1,15 @@
-import {IAuthUser} from '../../../../types';
-import {expect, Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, inject} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
+import {RestServer} from '@loopback/rest';
+import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {authenticate} from '../../../../decorators';
-import {STRATEGY} from '../../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
-import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
-import {Strategies} from '../../../../strategies/keys';
 import {AuthenticationBindings} from '../../../../keys';
+import {Strategies} from '../../../../strategies/keys';
+import {STRATEGY} from '../../../../strategy-name.enum';
+import {IAuthUser} from '../../../../types';
 import {BearerTokenVerifyProvider} from '../../../fixtures/providers/bearer-passport.provider';
+import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
+import {getApp} from '../helpers/helpers';
 
 /**
  * Testing overall flow of authentication with bearer strategy
@@ -46,10 +46,7 @@ describe('Bearer-token strategy using Middleware Sequence', () => {
 
     app.controller(BearerTokenController);
 
-    await whenIMakeRequestTo(server)
-      .get('/auth/bearer/token')
-      .set('Authorization', 'Bearer validtoken')
-      .expect(200);
+    await whenIMakeRequestTo(server).get('/auth/bearer/token').set('Authorization', 'Bearer validtoken').expect(200);
   });
 
   it('should return the user passed via verifier when no options are passed', async () => {
@@ -168,10 +165,7 @@ describe('Bearer-token strategy using Middleware Sequence', () => {
 
     app.controller(BearerNoUserController);
 
-    await whenIMakeRequestTo(server)
-      .get('/auth/bearer/no-user')
-      .set('Authorization', 'Bearer sometoken')
-      .expect(401);
+    await whenIMakeRequestTo(server).get('/auth/bearer/no-user').set('Authorization', 'Bearer sometoken').expect(401);
   });
 
   it('should return error when passRequestCallback is true and provider is not returning user', async () => {
@@ -236,9 +230,7 @@ describe('Bearer-token strategy using Middleware Sequence', () => {
   }
 
   function getAuthVerifier() {
-    app
-      .bind(Strategies.Passport.BEARER_TOKEN_VERIFIER)
-      .toProvider(BearerTokenVerifyProvider);
+    app.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(BearerTokenVerifyProvider);
   }
 
   function givenAuthenticatedSequence() {

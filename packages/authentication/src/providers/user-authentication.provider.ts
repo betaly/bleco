@@ -5,16 +5,9 @@ import {Strategy} from 'passport';
 import {AuthErrorKeys} from '../error-keys';
 import {AuthenticationBindings} from '../keys';
 import {StrategyAdapter} from '../strategy-adapter';
-import {
-  AuthenticateFn,
-  IAuthUser,
-  AuthenticationMetadata,
-  EntityWithIdentifier,
-} from '../types';
+import {AuthenticateFn, AuthenticationMetadata, EntityWithIdentifier, IAuthUser} from '../types';
 
-export class AuthenticateActionProvider
-  implements Provider<AuthenticateFn<IAuthUser | undefined>>
-{
+export class AuthenticateActionProvider implements Provider<AuthenticateFn<IAuthUser | undefined>> {
   constructor(
     @inject.getter(AuthenticationBindings.USER_STRATEGY)
     readonly getStrategy: Getter<Strategy>,
@@ -30,10 +23,7 @@ export class AuthenticateActionProvider
     return (request, response) => this.action(request, response);
   }
 
-  async action(
-    request: Request,
-    response?: Response,
-  ): Promise<IAuthUser | undefined> {
+  async action(request: Request, response?: Response): Promise<IAuthUser | undefined> {
     const strategy = await this.getStrategy();
     if (!strategy) {
       this.setCurrentUser(undefined);

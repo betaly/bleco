@@ -1,16 +1,15 @@
-import {Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
-import {authenticate} from '../../../../decorators';
-import {STRATEGY} from '../../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
-import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
-import {Strategies} from '../../../../strategies/keys';
-import {VerifyCallback, VerifyFunction} from '../../../../strategies';
-import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
+import {Request, RestServer} from '@loopback/rest';
+import {Client, createClientForHandler} from '@loopback/testlab';
 import * as InstagramStrategy from 'passport-instagram';
-import {Request} from '@loopback/rest';
+import {authenticate} from '../../../../decorators';
+import {VerifyCallback, VerifyFunction} from '../../../../strategies';
+import {Strategies} from '../../../../strategies/keys';
+import {STRATEGY} from '../../../../strategy-name.enum';
+import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
+import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
+import {getApp} from '../helpers/helpers';
 
 describe('getting instagram oauth2 strategy with options using Middleware Sequence', () => {
   let app: Application;
@@ -47,9 +46,7 @@ describe('getting instagram oauth2 strategy with options using Middleware Sequen
   }
 
   function getAuthVerifier() {
-    app
-      .bind(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER)
-      .toProvider(InstagramAuthVerifyProvider);
+    app.bind(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER).toProvider(InstagramAuthVerifyProvider);
   }
 
   function givenAuthenticatedSequence() {
@@ -58,9 +55,7 @@ describe('getting instagram oauth2 strategy with options using Middleware Sequen
   }
 });
 
-class InstagramAuthVerifyProvider
-  implements Provider<VerifyFunction.InstagramAuthFn>
-{
+class InstagramAuthVerifyProvider implements Provider<VerifyFunction.InstagramAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.InstagramAuthFn {

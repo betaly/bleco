@@ -1,17 +1,27 @@
 import {Context, inject, Provider} from '@loopback/core';
-import {Strategy} from 'passport';
-import * as GoogleStrategy from 'passport-google-oauth20';
-import * as AzureADAuthStrategy from 'passport-azure-ad';
-import * as PassportBearer from 'passport-http-bearer';
-import * as PassportLocal from 'passport-local';
-import * as InstagramStrategy from 'passport-instagram';
-import * as FacebookStrategy from 'passport-facebook';
-import * as AppleStrategy from 'passport-apple';
 import {SamlConfig} from '@node-saml/passport-saml';
+import {Strategy} from 'passport';
+import * as AppleStrategy from 'passport-apple';
+import * as AzureADAuthStrategy from 'passport-azure-ad';
+import * as FacebookStrategy from 'passport-facebook';
+import * as GoogleStrategy from 'passport-google-oauth20';
+import * as PassportBearer from 'passport-http-bearer';
+import * as InstagramStrategy from 'passport-instagram';
+import * as PassportLocal from 'passport-local';
 import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';
 import {AuthenticationMetadata} from '../types';
 import {Strategies} from './keys';
+import {
+  AppleAuthStrategyFactory,
+  CognitoAuthStrategyFactory,
+  FacebookAuthStrategyFactory,
+  InstagramAuthStrategyFactory,
+  KeycloakStrategyFactory,
+  Otp,
+  PassportOtpStrategyFactory,
+} from './passport';
+import {AzureADAuthStrategyFactory} from './passport/passport-azure-ad';
 import {BearerStrategyFactory} from './passport/passport-bearer';
 import {GoogleAuthStrategyFactory} from './passport/passport-google-oauth2';
 import {LocalPasswordStrategyFactory} from './passport/passport-local';
@@ -19,18 +29,8 @@ import {
   Oauth2ResourceOwnerPassword,
   ResourceOwnerPasswordStrategyFactory,
 } from './passport/passport-resource-owner-password';
-import {AzureADAuthStrategyFactory} from './passport/passport-azure-ad';
-import {
-  AppleAuthStrategyFactory,
-  InstagramAuthStrategyFactory,
-  KeycloakStrategyFactory,
-  FacebookAuthStrategyFactory,
-  PassportOtpStrategyFactory,
-  Otp,
-  CognitoAuthStrategyFactory,
-} from './passport';
-import {Cognito, Keycloak, VerifyFunction} from './types';
 import {SamlStrategyFactory} from './SAML';
+import {Cognito, Keycloak, VerifyFunction} from './types';
 
 interface ExtendedStrategyOption extends FacebookStrategy.StrategyOption {
   passReqToCallback?: false;
@@ -75,17 +75,13 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     //check if custom verifier binding is provided in the metadata
     let verifier;
     if (this.metadata.verifier) {
-      verifier = await this.ctx.get<VerifyFunction.GenericAuthFn>(
-        this.metadata.verifier,
-      );
+      verifier = await this.ctx.get<VerifyFunction.GenericAuthFn>(this.metadata.verifier);
     }
 
     const name = this.metadata.strategy;
     if (name === STRATEGY.LOCAL) {
       return this.getLocalStrategyVerifier(
-        this.metadata.options as
-          | PassportLocal.IStrategyOptions
-          | PassportLocal.IStrategyOptionsWithRequest,
+        this.metadata.options as PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
         verifier as VerifyFunction.LocalPasswordFn,
       );
     } else if (name === STRATEGY.BEARER) {
@@ -95,15 +91,12 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       );
     } else if (name === STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT) {
       return this.getResourceOwnerVerifier(
-        this.metadata
-          .options as Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
+        this.metadata.options as Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
         verifier as VerifyFunction.ResourceOwnerPasswordFn,
       );
     } else if (name === STRATEGY.GOOGLE_OAUTH2) {
       return this.getGoogleAuthVerifier(
-        this.metadata.options as
-          | GoogleStrategy.StrategyOptions
-          | GoogleStrategy.StrategyOptionsWithRequest,
+        this.metadata.options as GoogleStrategy.StrategyOptions | GoogleStrategy.StrategyOptionsWithRequest,
         verifier as VerifyFunction.GoogleAuthFn,
       );
     } else if (name === STRATEGY.AZURE_AD) {
@@ -120,23 +113,17 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       );
     } else if (name === STRATEGY.INSTAGRAM_OAUTH2) {
       return this.getInstagramAuthVerifier(
-        this.metadata.options as
-          | InstagramStrategy.StrategyOption
-          | InstagramStrategy.StrategyOptionWithRequest,
+        this.metadata.options as InstagramStrategy.StrategyOption | InstagramStrategy.StrategyOptionWithRequest,
         verifier as VerifyFunction.InstagramAuthFn,
       );
     } else if (name === STRATEGY.APPLE_OAUTH2) {
       return this.getAppleAuthVerifier(
-        this.metadata.options as
-          | AppleStrategy.AuthenticateOptions
-          | AppleStrategy.AuthenticateOptionsWithRequest,
+        this.metadata.options as AppleStrategy.AuthenticateOptions | AppleStrategy.AuthenticateOptionsWithRequest,
         verifier as VerifyFunction.AppleAuthFn,
       );
     } else if (name === STRATEGY.FACEBOOK_OAUTH2) {
       return this.getFacebookAuthVerifier(
-        this.metadata.options as
-          | FacebookStrategy.StrategyOptionWithRequest
-          | ExtendedStrategyOption,
+        this.metadata.options as FacebookStrategy.StrategyOptionWithRequest | ExtendedStrategyOption,
         verifier as VerifyFunction.FacebookAuthFn,
       );
     } else if (name === STRATEGY.COGNITO_OAUTH2) {
@@ -145,15 +132,9 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
         verifier as VerifyFunction.CognitoAuthFn,
       );
     } else if (name === STRATEGY.OTP) {
-      return this.getOtpVerifier(
-        this.metadata.options as Otp.StrategyOptions,
-        verifier as VerifyFunction.OtpAuthFn,
-      );
+      return this.getOtpVerifier(this.metadata.options as Otp.StrategyOptions, verifier as VerifyFunction.OtpAuthFn);
     } else if (name === STRATEGY.SAML) {
-      return this.getSamlVerifier(
-        this.metadata.options as SamlConfig,
-        verifier as VerifyFunction.SamlFn,
-      );
+      return this.getSamlVerifier(this.metadata.options as SamlConfig, verifier as VerifyFunction.SamlFn);
     } else {
       return Promise.reject(`The strategy ${name} is not available.`);
     }

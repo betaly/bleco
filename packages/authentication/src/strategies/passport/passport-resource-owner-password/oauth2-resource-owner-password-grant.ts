@@ -1,5 +1,5 @@
-import * as passport from 'passport';
 import {Request} from '@loopback/rest';
+import * as passport from 'passport';
 import {IAuthClient, IAuthUser} from '../../../types';
 
 export namespace Oauth2ResourceOwnerPassword {
@@ -14,11 +14,7 @@ export namespace Oauth2ResourceOwnerPassword {
       clientSecret: string,
       username: string,
       password: string,
-      done: (
-        error: Error | null,
-        client?: IAuthClient | false,
-        info?: IAuthUser | false,
-      ) => void,
+      done: (error: Error | null, client?: IAuthClient | false, info?: IAuthUser | false) => void,
     ): void;
   }
 
@@ -28,11 +24,7 @@ export namespace Oauth2ResourceOwnerPassword {
       clientSecret: string,
       username: string,
       password: string,
-      done: (
-        error: Error | null,
-        client?: IAuthClient | false,
-        info?: IAuthUser | false,
-      ) => void,
+      done: (error: Error | null, client?: IAuthClient | false, info?: IAuthUser | false) => void,
     ): void;
   }
 
@@ -48,9 +40,7 @@ export namespace Oauth2ResourceOwnerPassword {
     ) {
       super();
       if (verify) {
-        this.passReqToCallback = (
-          options as StrategyOptionsWithRequestInterface
-        ).passReqToCallback;
+        this.passReqToCallback = (options as StrategyOptionsWithRequestInterface).passReqToCallback;
         this.verify = verify;
       } else {
         this.passReqToCallback = false;
@@ -80,11 +70,7 @@ export namespace Oauth2ResourceOwnerPassword {
       const username = req.body['username'];
       const password = req.body['password'];
 
-      const verified = (
-        err: Error | null,
-        client?: IAuthClient | false,
-        user?: IAuthUser | false,
-      ) => {
+      const verified = (err: Error | null, client?: IAuthClient | false, user?: IAuthUser | false) => {
         if (err) {
           this.error(err);
           return;
@@ -101,22 +87,9 @@ export namespace Oauth2ResourceOwnerPassword {
       };
 
       if (this.passReqToCallback) {
-        (this.verify as VerifyFunctionWithRequest)(
-          req,
-          clientId,
-          clientSecret,
-          username,
-          password,
-          verified,
-        );
+        (this.verify as VerifyFunctionWithRequest)(req, clientId, clientSecret, username, password, verified);
       } else {
-        (this.verify as VerifyFunction)(
-          clientId,
-          clientSecret,
-          username,
-          password,
-          verified,
-        );
+        (this.verify as VerifyFunction)(clientId, clientSecret, username, password, verified);
       }
     }
   }

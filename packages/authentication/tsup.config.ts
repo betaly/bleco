@@ -1,5 +1,5 @@
-import {defineConfig, Options} from 'tsup';
 import {spawnSync} from 'child_process';
+import {defineConfig, Options} from 'tsup';
 
 const baseConfig: Options = {
   entry: ['src/**/*.ts'],

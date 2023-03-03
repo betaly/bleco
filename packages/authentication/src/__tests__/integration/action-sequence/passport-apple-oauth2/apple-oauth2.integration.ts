@@ -1,16 +1,15 @@
-import {Client, createClientForHandler} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
-import {authenticate} from '../../../../decorators';
-import {STRATEGY} from '../../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
-import {MyAuthenticationSequence} from '../../../fixtures/sequences/authentication.sequence';
-import {Strategies} from '../../../../strategies/keys';
-import {VerifyFunction} from '../../../../strategies';
-import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
-import {Request} from '@loopback/rest';
+import {Request, RestServer} from '@loopback/rest';
+import {Client, createClientForHandler} from '@loopback/testlab';
 import AppleStrategy, {DecodedIdToken} from 'passport-apple';
+import {authenticate} from '../../../../decorators';
+import {VerifyFunction} from '../../../../strategies';
+import {Strategies} from '../../../../strategies/keys';
+import {STRATEGY} from '../../../../strategy-name.enum';
+import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
+import {MyAuthenticationSequence} from '../../../fixtures/sequences/authentication.sequence';
+import {getApp} from '../helpers/helpers';
 
 describe('getting apple oauth2 strategy with options', () => {
   let app: Application;
@@ -48,9 +47,7 @@ describe('getting apple oauth2 strategy with options', () => {
   }
 
   function getAuthVerifier() {
-    app
-      .bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER)
-      .toProvider(AppleAuthVerifyProvider);
+    app.bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER).toProvider(AppleAuthVerifyProvider);
   }
 
   function closeServer() {

@@ -1,9 +1,4 @@
-import {
-  BindingKey,
-  Constructor,
-  MetadataInspector,
-  MethodDecoratorFactory,
-} from '@loopback/context';
+import {BindingKey, Constructor, MetadataInspector, MethodDecoratorFactory} from '@loopback/context';
 import {Request} from '@loopback/rest';
 
 import {USER_AUTHENTICATION_METADATA_KEY} from '../keys';
@@ -31,15 +26,12 @@ export function authenticate(
   authOptions?: (req: Request) => Object,
   verifier?: BindingKey<VerifyFunction.GenericAuthFn>,
 ) {
-  return MethodDecoratorFactory.createDecorator<AuthenticationMetadata>(
-    USER_AUTHENTICATION_METADATA_KEY,
-    {
-      strategy: strategyName,
-      options: options ?? {},
-      authOptions: authOptions,
-      verifier,
-    },
-  );
+  return MethodDecoratorFactory.createDecorator<AuthenticationMetadata>(USER_AUTHENTICATION_METADATA_KEY, {
+    strategy: strategyName,
+    options: options ?? {},
+    authOptions: authOptions,
+    verifier,
+  });
 }
 
 export function getAuthenticateMetadata(

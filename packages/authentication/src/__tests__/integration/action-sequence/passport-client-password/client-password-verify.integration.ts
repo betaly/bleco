@@ -1,15 +1,15 @@
-import {IAuthClient} from '../../../../types';
-import {Client, createClientForHandler, expect} from '@loopback/testlab';
-import {RestServer} from '@loopback/rest';
 import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
+import {RestServer} from '@loopback/rest';
+import {Client, createClientForHandler, expect} from '@loopback/testlab';
 import {authenticateClient} from '../../../../decorators';
-import {STRATEGY} from '../../../../strategy-name.enum';
-import {getApp} from '../helpers/helpers';
-import {MyAuthenticationSequence} from '../../../fixtures/sequences/authentication.sequence';
-import {Strategies} from '../../../../strategies/keys';
 import {AuthenticationBindings} from '../../../../keys';
+import {Strategies} from '../../../../strategies/keys';
+import {STRATEGY} from '../../../../strategy-name.enum';
+import {IAuthClient} from '../../../../types';
 import {ClientPasswordVerifyProvider} from '../../../fixtures/providers/passport-client.provider';
+import {MyAuthenticationSequence} from '../../../fixtures/sequences/authentication.sequence';
+import {getApp} from '../helpers/helpers';
 
 describe('Client-password strategy', () => {
   let app: Application;

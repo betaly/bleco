@@ -1,18 +1,16 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import * as InstagramStrategy from 'passport-instagram';
 import {
-  InstagramAuthStrategyFactoryProvider,
   InstagramAuthStrategyFactory,
+  InstagramAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-insta-oauth2';
+import {IAuthUser} from '../../../types';
 
 describe('getting instagram-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
     const strategyVerifier: InstagramAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | InstagramStrategy.StrategyOption
-      | InstagramStrategy.StrategyOptionWithRequest = {
+    const options: InstagramStrategy.StrategyOption | InstagramStrategy.StrategyOptionWithRequest = {
       callbackURL: '',
       clientID: 'string',
       clientSecret: 'string',
@@ -22,17 +20,13 @@ describe('getting instagram-auth strategy with options', () => {
     const instagramAuthStrategyVerifier = strategyVerifier(options);
 
     expect(instagramAuthStrategyVerifier).to.have.property('name');
-    expect(instagramAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(instagramAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
     const strategyVerifier: InstagramAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | InstagramStrategy.StrategyOption
-      | InstagramStrategy.StrategyOptionWithRequest = {
+    const options: InstagramStrategy.StrategyOption | InstagramStrategy.StrategyOptionWithRequest = {
       callbackURL: '',
       clientID: 'string',
       clientSecret: 'string',
@@ -42,9 +36,7 @@ describe('getting instagram-auth strategy with options', () => {
     const instagramAuthStrategyVerifier = strategyVerifier(options);
 
     expect(instagramAuthStrategyVerifier).to.have.property('name');
-    expect(instagramAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(instagramAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 

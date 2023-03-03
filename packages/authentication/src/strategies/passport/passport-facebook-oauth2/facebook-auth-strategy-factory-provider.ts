@@ -1,12 +1,7 @@
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {
-  Profile,
-  Strategy,
-  StrategyOption,
-  StrategyOptionWithRequest,
-} from 'passport-facebook';
+import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-facebook';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
@@ -23,17 +18,14 @@ export interface FacebookAuthStrategyFactory {
   ): Strategy;
 }
 
-export class FacebookAuthStrategyFactoryProvider
-  implements Provider<FacebookAuthStrategyFactory>
-{
+export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER)
     private readonly verifierFacebookAuth: VerifyFunction.FacebookAuthFn,
   ) {}
 
   value(): FacebookAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getFacebookAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getFacebookAuthStrategyVerifier(options, verifier);
   }
 
   getFacebookAuthStrategyVerifier(
@@ -46,25 +38,11 @@ export class FacebookAuthStrategyFactoryProvider
       strategy = new Strategy(
         options,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          req: Request,
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (req: Request, accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              cb,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -76,18 +54,11 @@ export class FacebookAuthStrategyFactoryProvider
       strategy = new Strategy(
         options as ExtendedStrategyOption,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {

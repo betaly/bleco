@@ -14,17 +14,14 @@ export interface ClientPasswordStrategyFactory {
   ): ClientPasswordStrategy.Strategy;
 }
 
-export class ClientPasswordStrategyFactoryProvider
-  implements Provider<ClientPasswordStrategyFactory>
-{
+export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPasswordStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER)
     private readonly verifier: VerifyFunction.OauthClientPasswordFn,
   ) {}
 
   value(): ClientPasswordStrategyFactory {
-    return (options, verifier) =>
-      this.getClientPasswordVerifier(options, verifier);
+    return (options, verifier) => this.getClientPasswordVerifier(options, verifier);
   }
 
   getClientPasswordVerifier(
@@ -47,13 +44,8 @@ export class ClientPasswordStrategyFactoryProvider
             const client = await verifyFn(clientId, clientSecret, req);
             if (!client) {
               throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
-            } else if (
-              !client.clientSecret ||
-              client.clientSecret !== clientSecret
-            ) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.ClientVerificationFailed,
-              );
+            } else if (!client.clientSecret || client.clientSecret !== clientSecret) {
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
             }
             cb(null, client);
           } catch (err) {
@@ -73,13 +65,8 @@ export class ClientPasswordStrategyFactoryProvider
             const client = await verifyFn(clientId, clientSecret);
             if (!client) {
               throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
-            } else if (
-              !client.clientSecret ||
-              client.clientSecret !== clientSecret
-            ) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.ClientVerificationFailed,
-              );
+            } else if (!client.clientSecret || client.clientSecret !== clientSecret) {
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
             }
             cb(null, client);
           } catch (err) {

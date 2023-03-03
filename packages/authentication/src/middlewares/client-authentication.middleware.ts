@@ -1,10 +1,5 @@
 import {inject, injectable, Next, Provider} from '@loopback/core';
-import {
-  asMiddleware,
-  Middleware,
-  MiddlewareContext,
-  RestMiddlewareGroups,
-} from '@loopback/rest';
+import {asMiddleware, Middleware, MiddlewareContext, RestMiddlewareGroups} from '@loopback/rest';
 import {AuthenticationBindings} from '../keys';
 import {AuthenticateFn, IAuthClient} from '../types';
 import {AuthenticationMiddlewareGroups} from './middleware-groups.enum';
@@ -13,15 +8,10 @@ import {AuthenticationMiddlewareGroups} from './middleware-groups.enum';
   asMiddleware({
     group: AuthenticationMiddlewareGroups.CLIENT,
     upstreamGroups: RestMiddlewareGroups.PARSE_PARAMS,
-    downstreamGroups: [
-      AuthenticationMiddlewareGroups.USER,
-      RestMiddlewareGroups.INVOKE_METHOD,
-    ],
+    downstreamGroups: [AuthenticationMiddlewareGroups.USER, RestMiddlewareGroups.INVOKE_METHOD],
   }),
 )
-export class ClientAuthenticationMiddlewareProvider
-  implements Provider<Middleware>
-{
+export class ClientAuthenticationMiddlewareProvider implements Provider<Middleware> {
   constructor(
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
     private authenticateClient: AuthenticateFn<IAuthClient | undefined>,

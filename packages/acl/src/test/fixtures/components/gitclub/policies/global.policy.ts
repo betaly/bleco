@@ -6,14 +6,14 @@ export const GlobalRoles = {
   member: 'member',
 } as const;
 
-export type GlobalRole = typeof GlobalRoles[keyof typeof GlobalRoles];
+export type GlobalRole = (typeof GlobalRoles)[keyof typeof GlobalRoles];
 
 export const GlobalActions = {
   manage: 'manage',
   create_orgs: 'create_orgs',
 } as const;
 
-export type GlobalAction = typeof GlobalActions[keyof typeof GlobalActions];
+export type GlobalAction = (typeof GlobalActions)[keyof typeof GlobalActions];
 
 export const GlobalPolicy = defineResourcePolicy<GlobalRole, GlobalAction>({
   model: Global,

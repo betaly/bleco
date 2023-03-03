@@ -2,14 +2,12 @@ import {Getter, inject, Provider, Setter} from '@loopback/context';
 import {Request} from '@loopback/rest';
 import {Strategy} from 'passport';
 
+import {isEmpty, isObjectLike} from 'lodash';
 import {AuthenticationBindings} from '../keys';
 import {StrategyAdapter} from '../strategy-adapter';
-import {IAuthClient, AuthenticateFn} from '../types';
-import {isObjectLike, isEmpty} from 'lodash';
+import {AuthenticateFn, IAuthClient} from '../types';
 
-export class ClientAuthenticateActionProvider
-  implements Provider<AuthenticateFn<IAuthClient | undefined>>
-{
+export class ClientAuthenticateActionProvider implements Provider<AuthenticateFn<IAuthClient | undefined>> {
   constructor(
     @inject.getter(AuthenticationBindings.CLIENT_STRATEGY)
     readonly getStrategy: Getter<Strategy>,
@@ -18,7 +16,7 @@ export class ClientAuthenticateActionProvider
   ) {}
 
   value(): AuthenticateFn<IAuthClient | undefined> {
-    return (request) => this.action(request);
+    return request => this.action(request);
   }
 
   async action(request: Request): Promise<IAuthClient | undefined> {

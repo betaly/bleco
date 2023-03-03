@@ -6,9 +6,7 @@ import {DecodedIdToken} from 'passport-apple';
 
 import {VerifyFunction} from '../../types';
 
-export class AppleAuthVerifyProvider
-  implements Provider<VerifyFunction.AppleAuthFn>
-{
+export class AppleAuthVerifyProvider implements Provider<VerifyFunction.AppleAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.AppleAuthFn {
@@ -20,9 +18,7 @@ export class AppleAuthVerifyProvider
       cb: AppleStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.AppleAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.AppleAuthFn is not implemented`);
     };
   }
 }

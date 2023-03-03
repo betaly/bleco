@@ -8,16 +8,12 @@ import {VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class ClientPasswordVerifyProvider
-  implements Provider<VerifyFunction.OauthClientPasswordFn>
-{
+export class ClientPasswordVerifyProvider implements Provider<VerifyFunction.OauthClientPasswordFn> {
   constructor() {}
 
   value(): VerifyFunction.OauthClientPasswordFn {
     return async (clientId: string, clientSecret: string) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.OauthClientPasswordFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.OauthClientPasswordFn is not implemented`);
     };
   }
 }

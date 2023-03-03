@@ -7,9 +7,7 @@ import {Cognito, VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class CognitoAuthVerifyProvider
-  implements Provider<VerifyFunction.CognitoAuthFn>
-{
+export class CognitoAuthVerifyProvider implements Provider<VerifyFunction.CognitoAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.CognitoAuthFn {
@@ -20,9 +18,7 @@ export class CognitoAuthVerifyProvider
       cb: Cognito.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.CognitoAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.CognitoAuthFn is not implemented`);
     };
   }
 }

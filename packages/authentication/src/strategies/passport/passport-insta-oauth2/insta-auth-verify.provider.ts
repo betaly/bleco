@@ -7,9 +7,7 @@ import {VerifyCallback, VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class InstagramAuthVerifyProvider
-  implements Provider<VerifyFunction.InstagramAuthFn>
-{
+export class InstagramAuthVerifyProvider implements Provider<VerifyFunction.InstagramAuthFn> {
   constructor() {}
 
   value(): VerifyFunction.InstagramAuthFn {
@@ -20,9 +18,7 @@ export class InstagramAuthVerifyProvider
       cb: VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.InstagramAuthFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.InstagramAuthFn is not implemented`);
     };
   }
 }

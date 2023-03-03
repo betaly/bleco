@@ -1,18 +1,16 @@
-import {IAuthUser} from '../../../types';
 import {expect} from '@loopback/testlab';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import {
-  GoogleAuthStrategyFactoryProvider,
   GoogleAuthStrategyFactory,
+  GoogleAuthStrategyFactoryProvider,
 } from '../../../strategies/passport/passport-google-oauth2';
+import {IAuthUser} from '../../../types';
 
 describe('getting google-auth strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
     const strategyVerifier: GoogleAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | GoogleStrategy.StrategyOptions
-      | GoogleStrategy.StrategyOptionsWithRequest = {
+    const options: GoogleStrategy.StrategyOptions | GoogleStrategy.StrategyOptionsWithRequest = {
       scope: '',
       clientID: 'string',
       clientSecret: 'string',
@@ -22,17 +20,13 @@ describe('getting google-auth strategy with options', () => {
     const googleAuthStrategyVerifier = strategyVerifier(options);
 
     expect(googleAuthStrategyVerifier).to.have.property('name');
-    expect(googleAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(googleAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
     const strategyVerifier: GoogleAuthStrategyFactory = await getStrategy();
 
-    const options:
-      | GoogleStrategy.StrategyOptions
-      | GoogleStrategy.StrategyOptionsWithRequest = {
+    const options: GoogleStrategy.StrategyOptions | GoogleStrategy.StrategyOptionsWithRequest = {
       scope: '',
       clientID: 'string',
       clientSecret: 'string',
@@ -42,9 +36,7 @@ describe('getting google-auth strategy with options', () => {
     const googleAuthStrategyVerifier = strategyVerifier(options);
 
     expect(googleAuthStrategyVerifier).to.have.property('name');
-    expect(googleAuthStrategyVerifier)
-      .to.have.property('authenticate')
-      .which.is.a.Function();
+    expect(googleAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
   });
 });
 

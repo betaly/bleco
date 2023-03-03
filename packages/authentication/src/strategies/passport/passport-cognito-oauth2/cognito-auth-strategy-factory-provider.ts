@@ -8,23 +8,17 @@ import {Cognito, VerifyFunction} from '../../types';
 const CognitoStrategy = require('passport-cognito-oauth2');
 
 export interface CognitoAuthStrategyFactory {
-  (
-    options: Cognito.StrategyOptions,
-    verifierPassed?: VerifyFunction.CognitoAuthFn,
-  ): typeof CognitoStrategy;
+  (options: Cognito.StrategyOptions, verifierPassed?: VerifyFunction.CognitoAuthFn): typeof CognitoStrategy;
 }
 
-export class CognitoStrategyFactoryProvider
-  implements Provider<CognitoAuthStrategyFactory>
-{
+export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.COGNITO_OAUTH2_VERIFIER)
     private readonly verifierCognito: VerifyFunction.CognitoAuthFn,
   ) {}
 
   value(): CognitoAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getCognitoAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getCognitoAuthStrategyVerifier(options, verifier);
   }
 
   getCognitoAuthStrategyVerifier(
@@ -45,17 +39,9 @@ export class CognitoStrategyFactoryProvider
           cb: Cognito.VerifyCallback,
         ) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              cb,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -66,18 +52,11 @@ export class CognitoStrategyFactoryProvider
     } else {
       strategy = new CognitoStrategy(
         options,
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: Cognito.Profile,
-          cb: Cognito.VerifyCallback,
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: Cognito.Profile, cb: Cognito.VerifyCallback) => {
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {

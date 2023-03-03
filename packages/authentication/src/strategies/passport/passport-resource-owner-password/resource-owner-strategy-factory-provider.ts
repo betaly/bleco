@@ -1,12 +1,12 @@
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 
+import {isEmpty} from 'lodash';
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient, IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {Oauth2ResourceOwnerPassword} from './oauth2-resource-owner-password-grant';
-import {isEmpty} from 'lodash';
 
 export interface ResourceOwnerPasswordStrategyFactory {
   (
@@ -15,17 +15,14 @@ export interface ResourceOwnerPasswordStrategyFactory {
   ): Oauth2ResourceOwnerPassword.Strategy;
 }
 
-export class ResourceOwnerPasswordStrategyFactoryProvider
-  implements Provider<ResourceOwnerPasswordStrategyFactory>
-{
+export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<ResourceOwnerPasswordStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER)
     private readonly verifierResourceOwner: VerifyFunction.ResourceOwnerPasswordFn,
   ) {}
 
   value(): ResourceOwnerPasswordStrategyFactory {
-    return (options, verifier) =>
-      this.getResourceOwnerVerifier(options, verifier);
+    return (options, verifier) => this.getResourceOwnerVerifier(options, verifier);
   }
 
   getResourceOwnerVerifier(
@@ -43,24 +40,12 @@ export class ResourceOwnerPasswordStrategyFactoryProvider
           clientSecret: string,
           username: string,
           password: string,
-          cb: (
-            err: Error | null,
-            client?: IAuthClient | false,
-            user?: IAuthUser | false,
-          ) => void,
+          cb: (err: Error | null, client?: IAuthClient | false, user?: IAuthUser | false) => void,
         ) => {
           try {
-            const userInfo = await verifyFn(
-              clientId,
-              clientSecret,
-              username,
-              password,
-              req,
-            );
+            const userInfo = await verifyFn(clientId, clientSecret, username, password, req);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {
@@ -76,23 +61,12 @@ export class ResourceOwnerPasswordStrategyFactoryProvider
           clientSecret: string,
           username: string,
           password: string,
-          cb: (
-            err: Error | null,
-            client?: IAuthClient | false,
-            user?: IAuthUser | false,
-          ) => void,
+          cb: (err: Error | null, client?: IAuthClient | false, user?: IAuthUser | false) => void,
         ) => {
           try {
-            const userInfo = await verifyFn(
-              clientId,
-              clientSecret,
-              username,
-              password,
-            );
+            const userInfo = await verifyFn(clientId, clientSecret, username, password);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {

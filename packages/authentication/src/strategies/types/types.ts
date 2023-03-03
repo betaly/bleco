@@ -1,14 +1,14 @@
 import {Request} from '@loopback/rest';
-import * as GoogleStrategy from 'passport-google-oauth20';
-import * as AzureADStrategy from 'passport-azure-ad';
-import * as InstagramStrategy from 'passport-instagram';
-import * as FacebookStrategy from 'passport-facebook';
-import * as AppleStrategy from 'passport-apple';
 import * as SamlStrategy from '@node-saml/passport-saml';
+import * as AppleStrategy from 'passport-apple';
 import {DecodedIdToken} from 'passport-apple';
+import * as AzureADStrategy from 'passport-azure-ad';
+import * as FacebookStrategy from 'passport-facebook';
+import * as GoogleStrategy from 'passport-google-oauth20';
+import * as InstagramStrategy from 'passport-instagram';
 import {Cognito, IAuthClient, IAuthUser} from '../../types';
-import {Keycloak} from './keycloak.types';
 import {Otp} from '../passport';
+import {Keycloak} from './keycloak.types';
 
 export type VerifyCallback = (
   err?: string | Error | null,
@@ -18,8 +18,7 @@ export type VerifyCallback = (
 ) => void;
 
 export namespace VerifyFunction {
-  export interface OauthClientPasswordFn<T = IAuthClient>
-    extends GenericAuthFn<T> {
+  export interface OauthClientPasswordFn<T = IAuthClient> extends GenericAuthFn<T> {
     (clientId: string, clientSecret: string, req?: Request): Promise<T | null>;
   }
 
@@ -36,13 +35,10 @@ export namespace VerifyFunction {
   }
 
   export interface ResourceOwnerPasswordFn<T = IAuthClient, S = IAuthUser> {
-    (
-      clientId: string,
-      clientSecret: string,
-      username: string,
-      password: string,
-      req?: Request,
-    ): Promise<{client: T; user: S} | null>;
+    (clientId: string, clientSecret: string, username: string, password: string, req?: Request): Promise<{
+      client: T;
+      user: S;
+    } | null>;
   }
 
   export interface GoogleAuthFn<T = IAuthUser> extends GenericAuthFn<T> {
@@ -74,8 +70,7 @@ export namespace VerifyFunction {
     ): Promise<T | null>;
   }
 
-  export interface InstagramAuthFn<T = IAuthUser>
-    extends VerifyFunction.GenericAuthFn<T> {
+  export interface InstagramAuthFn<T = IAuthUser> extends VerifyFunction.GenericAuthFn<T> {
     (
       accessToken: string,
       refreshToken: string,
@@ -85,8 +80,7 @@ export namespace VerifyFunction {
     ): Promise<T | null>;
   }
 
-  export interface FacebookAuthFn<T = IAuthUser>
-    extends VerifyFunction.GenericAuthFn<T> {
+  export interface FacebookAuthFn<T = IAuthUser> extends VerifyFunction.GenericAuthFn<T> {
     (
       accessToken: string,
       refreshToken: string,
@@ -117,11 +111,7 @@ export namespace VerifyFunction {
     ): Promise<T | null>;
   }
   export interface SamlFn<T = IAuthUser> extends GenericAuthFn<T> {
-    (
-      profile: SamlStrategy.Profile,
-      cb: SamlStrategy.VerifiedCallback,
-      req?: Request,
-    ): Promise<T | null>;
+    (profile: SamlStrategy.Profile, cb: SamlStrategy.VerifiedCallback, req?: Request): Promise<T | null>;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   export interface GenericAuthFn<T = any> {

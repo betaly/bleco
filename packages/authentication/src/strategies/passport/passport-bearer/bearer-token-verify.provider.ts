@@ -8,16 +8,12 @@ import {VerifyFunction} from '../../types';
  *
  * It will just throw an error saying Not Implemented
  */
-export class BearerTokenVerifyProvider
-  implements Provider<VerifyFunction.BearerFn>
-{
+export class BearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
   constructor() {}
 
   value(): VerifyFunction.BearerFn {
     return async (token: string) => {
-      throw new HttpErrors.NotImplemented(
-        `VerifyFunction.BearerFn is not implemented`,
-      );
+      throw new HttpErrors.NotImplemented(`VerifyFunction.BearerFn is not implemented`);
     };
   }
 }

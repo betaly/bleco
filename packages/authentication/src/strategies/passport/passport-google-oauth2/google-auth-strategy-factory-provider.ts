@@ -1,13 +1,7 @@
 import {inject, Provider} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {
-  Profile,
-  Strategy,
-  StrategyOptions,
-  StrategyOptionsWithRequest,
-  VerifyCallback,
-} from 'passport-google-oauth20';
+import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCallback} from 'passport-google-oauth20';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
@@ -15,23 +9,17 @@ import {VerifyFunction} from '../../types';
 
 //import * as GoogleStrategy from 'passport-google-oauth20';
 export interface GoogleAuthStrategyFactory {
-  (
-    options: StrategyOptions | StrategyOptionsWithRequest,
-    verifierPassed?: VerifyFunction.GoogleAuthFn,
-  ): Strategy;
+  (options: StrategyOptions | StrategyOptionsWithRequest, verifierPassed?: VerifyFunction.GoogleAuthFn): Strategy;
 }
 
-export class GoogleAuthStrategyFactoryProvider
-  implements Provider<GoogleAuthStrategyFactory>
-{
+export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER)
     private readonly verifierGoogleAuth: VerifyFunction.GoogleAuthFn,
   ) {}
 
   value(): GoogleAuthStrategyFactory {
-    return (options, verifier) =>
-      this.getGoogleAuthStrategyVerifier(options, verifier);
+    return (options, verifier) => this.getGoogleAuthStrategyVerifier(options, verifier);
   }
 
   getGoogleAuthStrategyVerifier(
@@ -45,25 +33,11 @@ export class GoogleAuthStrategyFactoryProvider
         options,
 
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          req: Request,
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (req: Request, accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
-            const user = await verifyFn(
-              accessToken,
-              refreshToken,
-              profile,
-              cb,
-              req,
-            );
+            const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -75,18 +49,11 @@ export class GoogleAuthStrategyFactoryProvider
       strategy = new Strategy(
         options,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          accessToken: string,
-          refreshToken: string,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(
-                AuthErrorKeys.InvalidCredentials,
-              );
+              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
