@@ -9,8 +9,7 @@
   "author": "ty",
   "license": "MIT",
   "scripts": {
-    "link-workspaces": "nb-lnw",
-    "postinstall": "husky install && yarn run link-workspaces && yarn run build",
+    "postinstall": "husky install && yarn run build",
     "prerelease": "yarn run build:full && yarn run lint",
     "release": "yarn prerelease && cross-env CI=1 lerna version && lerna publish from-git --yes",
     "lint": "yarn run eslint",
