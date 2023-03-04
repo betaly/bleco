@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/bleco/compare/@bleco/boot@0.2.29...@bleco/boot@0.3.0) (2023-03-04)
+
+
+### Features
+
+* **@bleco/boot:** support both esm and commonjs ([ac42b6d](https://github.com/betaly/bleco/commit/ac42b6d82ccd0078fe334bb999812ce5f6004f1d))
+
+
+
+
+
 ## [0.2.29](https://gitr.net/betaly/bleco/compare/@bleco/boot@0.2.28...@bleco/boot@0.2.29) (2023-03-02)
 
 **Note:** Version bump only for package @bleco/boot
