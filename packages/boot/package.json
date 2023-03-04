@@ -2,9 +2,26 @@
   "name": "@bleco/boot",
   "description": "A loopback boot extension library to allow boot from '*.ts' files",
   "version": "0.2.29",
-  "keywords": [],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "keywords": [
+    "loopback",
+    "boot",
+    "extension",
+    "typescript",
+    "bleco"
+  ],
+  "type": "module",
+  "source": "./src/index.ts",
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.cjs"
+    }
+  },
   "engines": {
     "node": ">=14"
   },
@@ -14,7 +31,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "nb-tsc",
+    "build": "tsup",
     "clean": "nb-clean 'bleco-boot*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
@@ -27,7 +44,9 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.4.0",
-    "@types/node": "^18.14.4"
+    "@types/node": "^18.14.4",
+    "tsup": "^6.6.3",
+    "tsx": "^3.12.3"
   },
   "files": [
     "README.md",

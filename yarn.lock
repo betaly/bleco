@@ -1750,6 +1750,8 @@ __metadata:
     "@nutol/eslint-config": ^0.2.8
     "@types/jest": ^29.4.0
     "@types/node": ^18.14.4
+    tsup: ^6.6.3
+    tsx: ^3.12.3
   languageName: unknown
   linkType: soft
 
