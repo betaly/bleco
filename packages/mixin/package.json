@@ -1,7 +1,7 @@
 {
   "name": "@bleco/mixin",
   "description": "A more compatible mixin library",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
