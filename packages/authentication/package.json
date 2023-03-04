@@ -59,7 +59,7 @@
   "devDependencies": {
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/node": "^18.14.4",
+    "@types/node": "^18.14.6",
     "@types/passport": "^1.0.12",
     "@types/passport-apple": "^1.1.1",
     "@types/passport-azure-ad": "^4.3.1",
