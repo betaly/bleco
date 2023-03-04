@@ -14,6 +14,8 @@
 !.yarn/versions
 .pnp.*
 
+lerna-debug.log
+
 backups
 node_modules
 npm-debug.log
