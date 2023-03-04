@@ -25,7 +25,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup",
+    "build": "tsup-node",
     "clean": "nb-clean 'bleco-authorization*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn pretest && yarn jest",
