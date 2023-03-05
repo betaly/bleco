@@ -1,4 +1,4 @@
-export const enum AuthErrorKeys {
+export enum AuthErrorKeys {
   CodeExpired = 'Code Expired',
   TokenExpired = 'Token Expired',
   TokenInvalid = 'Token Invalid',

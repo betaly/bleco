@@ -1,4 +1,4 @@
-export const enum STRATEGY {
+export enum STRATEGY {
   CLIENT_PASSWORD = 'client-password',
   LOCAL = 'local',
   BEARER = 'bearer',
