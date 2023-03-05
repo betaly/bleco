@@ -1,3 +1,3 @@
-export const enum AuthorizeErrorKeys {
+export enum AuthorizeErrorKeys {
   NotAllowedAccess = 'NotAllowedAccess',
 }
