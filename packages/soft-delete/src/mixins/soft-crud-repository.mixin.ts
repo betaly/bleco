@@ -3,6 +3,7 @@ import {Getter, MixinTarget} from '@loopback/core';
 import {
   AndClause,
   Condition,
+  Count,
   DataObject,
   DefaultCrudRepository,
   Entity,
@@ -10,7 +11,6 @@ import {
   OrClause,
   Where,
 } from '@loopback/repository';
-import {Count} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
 import {Options} from 'loopback-datasource-juggler';
 import {AnyObj} from 'tily/typings/types';

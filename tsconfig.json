@@ -1,6 +1,9 @@
 {
   "extends": "@nutol/build/config/tsconfig.common.json",
   "compilerOptions": {
+    "lib": [
+      "es2022"
+    ],
     "composite": true,
   },
   "exclude": ["node_modules", "**/dist"]

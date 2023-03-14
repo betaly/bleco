@@ -32,12 +32,12 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@loopback/core": "^4.0.8",
-    "@loopback/testlab": "^5.0.8",
+    "@loopback/core": "^4.0.9",
+    "@loopback/testlab": "^5.0.9",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/jest": "^29.4.0",
-    "@types/node": "^18.14.6",
+    "@types/jest": "^29.4.1",
+    "@types/node": "^18.15.3",
     "cross-env": "^7.0.3"
   },
   "files": [
