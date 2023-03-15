@@ -41,7 +41,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/express-rate-limit": "^6.0.0",
-    "@types/jest": "^29.4.1",
+    "@types/jest": "^29.4.2",
     "@types/memcached": "^2.2.7",
     "@types/node": "^18.15.3",
     "@types/rate-limit-redis": "^1.7.4",

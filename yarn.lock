@@ -1597,11 +1597,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/acl@workspace:packages/acl"
   dependencies:
-    "@bleco/boot": ^0.3.3
-    "@bleco/oso-juggler": ^0.3.23
-    "@bleco/query": ^0.8.27
-    "@bleco/repo": ^0.3.18
-    "@bleco/soft-delete": ^0.3.30
+    "@bleco/boot": ^0.3.4
+    "@bleco/oso-juggler": ^0.3.24
+    "@bleco/query": ^0.8.28
+    "@bleco/repo": ^0.3.19
+    "@bleco/soft-delete": ^0.3.31
     "@loopback/authorization": ^0.12.9
     "@loopback/context": ^5.0.9
     "@loopback/core": ^4.0.9
@@ -1611,14 +1611,14 @@ __metadata:
     "@loopback/testlab": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     "@types/temp": ^0.9.1
     debug: ^4.3.4
     jest: ^29.5.0
     lodash: ^4.17.21
     loopback-connector-sqlite3s: ^3.5.0
-    sqlite3: ^5.1.5
+    sqlite3: ^5.1.6
     temp: ^0.9.4
     tily: ^2.20.1
     ts-essentials: ^9.3.1
@@ -1626,7 +1626,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/aliaser@^0.4.8, @bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.4.9, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
@@ -1634,7 +1634,7 @@ __metadata:
     "@loopback/core": ^4.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     jest: ^29.5.0
     tily: ^2.20.1
@@ -1723,19 +1723,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/boot@^0.3.3, @bleco/boot@workspace:packages/boot":
+"@bleco/boot@^0.3.4, @bleco/boot@workspace:packages/boot":
   version: 0.0.0-use.local
   resolution: "@bleco/boot@workspace:packages/boot"
   dependencies:
     "@loopback/boot": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
   languageName: unknown
   linkType: soft
 
-"@bleco/config@^0.3.30, @bleco/config@workspace:packages/config":
+"@bleco/config@^0.3.31, @bleco/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
@@ -1746,7 +1746,7 @@ __metadata:
     "@loopback/testlab": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     cross-env: ^7.0.3
     read-env: ^2.0.0
@@ -1761,13 +1761,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/ds-timestamp@workspace:packages/ds-timestamp"
   dependencies:
-    "@bleco/mixin": ^0.3.10
+    "@bleco/mixin": ^0.3.11
     "@loopback/core": ^4.0.9
     "@loopback/repository": ^5.1.4
     "@loopback/rest": ^12.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     debug: ^4.3.4
     delay: ^5.0.0
@@ -1778,13 +1778,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/ds-user-updatable@workspace:packages/ds-user-updatable"
   dependencies:
-    "@bleco/mixin": ^0.3.10
+    "@bleco/mixin": ^0.3.11
     "@loopback/core": ^4.0.9
     "@loopback/repository": ^5.1.4
     "@loopback/rest": ^12.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     debug: ^4.3.4
     tily: ^2.20.1
@@ -1795,9 +1795,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/example-oidp-server@workspace:examples/oidp-server"
   dependencies:
-    "@bleco/boot": ^0.3.3
-    "@bleco/config": ^0.3.30
-    "@bleco/oidp": ^0.3.12
+    "@bleco/boot": ^0.3.4
+    "@bleco/config": ^0.3.31
+    "@bleco/oidp": ^0.3.13
     "@loopback/build": ^9.0.9
     "@loopback/core": ^4.0.9
     "@loopback/eslint-config": ^13.0.9
@@ -1808,7 +1808,7 @@ __metadata:
     "@loopback/testlab": ^5.0.9
     "@types/bcryptjs": 2.4.2
     "@types/ejs": ^3.1.2
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     bcryptjs: ^2.4.3
     chalk: ^5.2.0
@@ -1836,13 +1836,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/mixin@^0.3.10, @bleco/mixin@workspace:packages/mixin":
+"@bleco/mixin@^0.3.11, @bleco/mixin@workspace:packages/mixin":
   version: 0.0.0-use.local
   resolution: "@bleco/mixin@workspace:packages/mixin"
   dependencies:
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
   languageName: unknown
   linkType: soft
@@ -1851,7 +1851,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
-    "@bleco/aliaser": ^0.4.8
+    "@bleco/aliaser": ^0.4.9
     "@loopback/boot": ^5.0.9
     "@loopback/context": ^5.0.9
     "@loopback/core": ^4.0.9
@@ -1859,13 +1859,13 @@ __metadata:
     "@loopback/testlab": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     "@types/nodemailer": ^6.4.7
     "@types/proxyquire": ^1.3.28
     "@types/pubnub": ^7.2.1
     "@types/socket.io-client": ^3.0.0
-    aws-sdk: ^2.1334.0
+    aws-sdk: ^2.1335.0
     firebase-admin: ^11.5.0
     nodemailer: ^6.9.1
     proxyquire: ^2.1.3
@@ -1882,12 +1882,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oidp@^0.3.12, @bleco/oidp@workspace:packages/oidp":
+"@bleco/oidp@^0.3.13, @bleco/oidp@workspace:packages/oidp":
   version: 0.0.0-use.local
   resolution: "@bleco/oidp@workspace:packages/oidp"
   dependencies:
-    "@bleco/aliaser": ^0.4.8
-    "@bleco/boot": ^0.3.3
+    "@bleco/aliaser": ^0.4.9
+    "@bleco/boot": ^0.3.4
     "@loopback/context": ^5.0.9
     "@loopback/core": ^4.0.9
     "@loopback/repository": ^5.1.4
@@ -1898,7 +1898,7 @@ __metadata:
     "@nutol/eslint-config": ^0.2.8
     "@stdlib/utils-copy": ^0.0.7
     "@stdlib/utils-merge": ^0.0.7
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     "@types/oidc-provider": ^8.1.1
     "@types/url-join": ^4.0.1
@@ -1916,17 +1916,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oso-juggler@^0.3.23, @bleco/oso-juggler@workspace:packages/oso-juggler":
+"@bleco/oso-juggler@^0.3.24, @bleco/oso-juggler@workspace:packages/oso-juggler":
   version: 0.0.0-use.local
   resolution: "@bleco/oso-juggler@workspace:packages/oso-juggler"
   dependencies:
-    "@bleco/boot": ^0.3.3
-    "@bleco/query": ^0.8.27
-    "@bleco/repo": ^0.3.18
+    "@bleco/boot": ^0.3.4
+    "@bleco/query": ^0.8.28
+    "@bleco/repo": ^0.3.19
     "@loopback/repository": ^5.1.4
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     debug: ^4.3.4
     loopback-connector-sqlite3s: ^3.5.0
@@ -1936,7 +1936,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/query@^0.8.27, @bleco/query@workspace:packages/query":
+"@bleco/query@^0.8.28, @bleco/query@workspace:packages/query":
   version: 0.0.0-use.local
   resolution: "@bleco/query@workspace:packages/query"
   dependencies:
@@ -1945,7 +1945,7 @@ __metadata:
     "@loopback/repository": ^5.1.4
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     "@types/temp": ^0.9.1
     debug: ^4.3.4
@@ -1973,7 +1973,7 @@ __metadata:
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
     "@types/express-rate-limit": ^6.0.0
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/memcached": ^2.2.7
     "@types/node": ^18.15.3
     "@types/rate-limit-redis": ^1.7.4
@@ -1991,17 +1991,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/repo@^0.3.18, @bleco/repo@workspace:packages/repo":
+"@bleco/repo@^0.3.19, @bleco/repo@workspace:packages/repo":
   version: 0.0.0-use.local
   resolution: "@bleco/repo@workspace:packages/repo"
   dependencies:
-    "@bleco/boot": ^0.3.3
+    "@bleco/boot": ^0.3.4
     "@loopback/context": ^5.0.9
     "@loopback/core": ^4.0.9
     "@loopback/repository": ^5.1.4
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     debug: ^4.3.4
   languageName: unknown
@@ -2022,7 +2022,7 @@ __metadata:
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
     "@types/dotenv": ^8.2.0
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/moment-timezone": ^0.5.30
     "@types/node": ^18.15.3
     dotenv: ^16.0.3
@@ -2031,11 +2031,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/soft-delete@^0.3.30, @bleco/soft-delete@workspace:packages/soft-delete":
+"@bleco/soft-delete@^0.3.31, @bleco/soft-delete@workspace:packages/soft-delete":
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
-    "@bleco/mixin": ^0.3.10
+    "@bleco/mixin": ^0.3.11
     "@loopback/boot": ^5.0.9
     "@loopback/build": ^9.0.9
     "@loopback/context": ^5.0.9
@@ -2045,7 +2045,7 @@ __metadata:
     "@loopback/testlab": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     fs-extra: ^11.1.0
     lodash: ^4.17.21
@@ -2065,14 +2065,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/vault@workspace:packages/vault"
   dependencies:
-    "@bleco/aliaser": ^0.4.8
+    "@bleco/aliaser": ^0.4.9
     "@loopback/boot": ^5.0.9
     "@loopback/core": ^4.0.9
     "@loopback/rest": ^12.0.9
     "@loopback/testlab": ^5.0.9
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     fs-extra: ^11.1.0
     node-vault: ^0.9.22
@@ -5891,13 +5891,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.4.1":
-  version: 29.4.1
-  resolution: "@types/jest@npm:29.4.1"
+"@types/jest@npm:^29.4.2":
+  version: 29.4.2
+  resolution: "@types/jest@npm:29.4.2"
   dependencies:
     expect: ^29.0.0
     pretty-format: ^29.0.0
-  checksum: 75cdd1804615b663b88844eef61cb7c8104d65baf718190a1cd88ce199412dbe2ee136df3698604cc258a9a62ba7cbd7bd7712a17d8cb748909263ef56d6aac3
+  checksum: 83ec002d289c49c9693c619363e6db036db95426fcfa5e8e18b8291b721702bb8b3f711499f15a1d75c8fd92dc4184a24dfcc16a7b4fcde88c3c4f898240b58a
   languageName: node
   linkType: hard
 
@@ -7102,7 +7102,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"aws-sdk@npm:^2.1334.0, aws-sdk@npm:^2.303.0":
+"aws-sdk@npm:^2.1335.0":
+  version: 2.1335.0
+  resolution: "aws-sdk@npm:2.1335.0"
+  dependencies:
+    buffer: 4.9.2
+    events: 1.1.1
+    ieee754: 1.1.13
+    jmespath: 0.16.0
+    querystring: 0.2.0
+    sax: 1.2.1
+    url: 0.10.3
+    util: ^0.12.4
+    uuid: 8.0.0
+    xml2js: 0.4.19
+  checksum: 4cb8c3d224d6970ef377d814ba4da06e4d7791f3d2103aa0a6ee8b9f33fc3abb3642ecae82e29857dfd0b1bbd9eb08855c1861d71568299a3a39b8ec11e78e58
+  languageName: node
+  linkType: hard
+
+"aws-sdk@npm:^2.303.0":
   version: 2.1334.0
   resolution: "aws-sdk@npm:2.1334.0"
   dependencies:
@@ -7352,7 +7370,7 @@ __metadata:
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
     "@nutol/monorepo": ^0.2.10
-    "@types/jest": ^29.4.1
+    "@types/jest": ^29.4.2
     "@types/node": ^18.15.3
     "@typescript-eslint/eslint-plugin": ^5.55.0
     "@typescript-eslint/parser": ^5.55.0
@@ -17572,7 +17590,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sqlite3@npm:^5.0.8, sqlite3@npm:^5.1.5":
+"sqlite3@npm:^5.0.8":
   version: 5.1.5
   resolution: "sqlite3@npm:5.1.5"
   dependencies:
@@ -17589,6 +17607,26 @@ __metadata:
     node-gyp:
       optional: true
   checksum: b7df68c8d4a16cd1d8d42e34035973c2e4cff33e0b917ff8830fa21c84e3bc0d16beaf51589a4a45df9c52e30bf0224122e6c67d0f17ff1d776be738d8706b02
+  languageName: node
+  linkType: hard
+
+"sqlite3@npm:^5.1.6":
+  version: 5.1.6
+  resolution: "sqlite3@npm:5.1.6"
+  dependencies:
+    "@mapbox/node-pre-gyp": ^1.0.0
+    node-addon-api: ^4.2.0
+    node-gyp: 8.x
+    tar: ^6.1.11
+  peerDependencies:
+    node-gyp: 8.x
+  dependenciesMeta:
+    node-gyp:
+      optional: true
+  peerDependenciesMeta:
+    node-gyp:
+      optional: true
+  checksum: ea640628843e37a63dfb4bd2c8429dbd7aab845c1a8204574dca3aac61486ab65bc0abfd99b48f1cead1f783171c6111c0cc4115335d5b95bb0b4eb44db162d5
   languageName: node
   linkType: hard
 

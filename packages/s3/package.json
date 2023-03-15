@@ -35,7 +35,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^29.4.1",
+    "@types/jest": "^29.4.2",
     "@types/moment-timezone": "^0.5.30",
     "@types/node": "^18.15.3",
     "dotenv": "^16.0.3",

@@ -36,7 +36,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@nutol/monorepo": "^0.2.10",
-    "@types/jest": "^29.4.1",
+    "@types/jest": "^29.4.2",
     "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
