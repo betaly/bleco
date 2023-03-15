@@ -5,10 +5,11 @@ import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {Cognito, VerifyFunction} from '../../types';
 
-const CognitoStrategy = require('passport-cognito-oauth2');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type CognitoStrategyType = any; // typeof CognitoStrategy;
 
 export interface CognitoAuthStrategyFactory {
-  (options: Cognito.StrategyOptions, verifierPassed?: VerifyFunction.CognitoAuthFn): typeof CognitoStrategy;
+  (options: Cognito.StrategyOptions, verifierPassed?: VerifyFunction.CognitoAuthFn): CognitoStrategyType;
 }
 
 export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrategyFactory> {
@@ -24,7 +25,8 @@ export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrat
   getCognitoAuthStrategyVerifier(
     options: Cognito.StrategyOptions,
     verifierPassed?: VerifyFunction.CognitoAuthFn,
-  ): typeof CognitoStrategy {
+  ): CognitoStrategyType {
+    const CognitoStrategy = require('passport-cognito-oauth2');
     const verifyFn = verifierPassed ?? this.verifierCognito;
     let strategy;
     if (options && options.passReqToCallback === true) {
@@ -70,7 +72,7 @@ export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrat
     return strategy;
   }
 
-  private _setupProxy(strategy: typeof CognitoStrategy) {
+  private _setupProxy(strategy: CognitoStrategyType) {
     // Setup proxy if any
     let httpsProxyAgent;
     if (process.env['https_proxy']) {
