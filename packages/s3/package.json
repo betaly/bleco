@@ -21,12 +21,12 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.290.0",
-    "@aws-sdk/s3-request-presigner": "^3.290.0",
+    "@aws-sdk/client-s3": "^3.301.0",
+    "@aws-sdk/s3-request-presigner": "^3.301.0",
     "@loopback/boot": "^5.0.9",
     "@loopback/context": "^5.0.9",
     "@loopback/core": "^4.0.9",
-    "moment-timezone": "^0.5.41"
+    "moment-timezone": "^0.5.42"
   },
   "devDependencies": {
     "@loopback/rest": "^12.0.9",
@@ -35,11 +35,11 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^29.4.2",
+    "@types/jest": "^29.5.0",
     "@types/moment-timezone": "^0.5.30",
-    "@types/node": "^18.15.3",
+    "@types/node": "^18.15.11",
     "dotenv": "^16.0.3",
-    "fs-extra": "^11.1.0"
+    "fs-extra": "^11.1.1"
   },
   "files": [
     "README.md",

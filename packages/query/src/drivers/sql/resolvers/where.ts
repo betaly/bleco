@@ -319,7 +319,7 @@ export class WhereResolver<TModel extends Entity> extends ClauseResolver<TModel>
   }
 }
 
-function parseCondition(key: string, expression: unknown): RawCondition | undefined {
+function parseCondition(key: string, expression: any): RawCondition | undefined {
   // skip relation where
   if (key === Directives.JOIN) {
     return;

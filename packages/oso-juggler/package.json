@@ -43,8 +43,8 @@
     "@bleco/boot": "^0.3.5",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/jest": "^29.4.2",
-    "@types/node": "^18.15.3",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^18.15.11",
     "loopback-connector-sqlite3s": "^3.5.0",
     "temp": "^0.9.4"
   },
