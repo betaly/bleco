@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.36](https://github.com/betaly/bleco/compare/@bleco/helmet@0.3.35...@bleco/helmet@0.3.36) (2023-03-30)
+
+**Note:** Version bump only for package @bleco/helmet
+
+
+
+
+
 ## [0.3.35](https://github.com/betaly/bleco/compare/@bleco/helmet@0.3.34...@bleco/helmet@0.3.35) (2023-03-14)
 
 **Note:** Version bump only for package @bleco/helmet
