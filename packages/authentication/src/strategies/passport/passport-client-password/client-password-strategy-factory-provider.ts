@@ -1,5 +1,5 @@
 import {inject, Provider} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
 import * as ClientPasswordStrategy from 'passport-oauth2-client-password';
 
 import {AuthErrorKeys} from '../../../error-keys';
@@ -38,18 +38,18 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
           req: Request,
           clientId: string,
           clientSecret: string,
-          cb: (err: Error | null, client?: IAuthClient | false) => void,
+          cb: (err: string | null, client?: IAuthClient | false) => void,
         ) => {
           try {
             const client = await verifyFn(clientId, clientSecret, req);
             if (!client) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
+              return cb(AuthErrorKeys.ClientInvalid);
             } else if (!client.clientSecret || client.clientSecret !== clientSecret) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
+              return cb(AuthErrorKeys.ClientVerificationFailed);
             }
             cb(null, client);
           } catch (err) {
-            cb(err);
+            cb(err?.message ?? err);
           }
         },
       );
@@ -59,18 +59,18 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
         async (
           clientId: string,
           clientSecret: string,
-          cb: (err: Error | null, client?: IAuthClient | false) => void,
+          cb: (err: string | null, client?: IAuthClient | false) => void,
         ) => {
           try {
             const client = await verifyFn(clientId, clientSecret);
             if (!client) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientInvalid);
+              return cb(AuthErrorKeys.ClientInvalid);
             } else if (!client.clientSecret || client.clientSecret !== clientSecret) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
+              return cb(AuthErrorKeys.ClientVerificationFailed);
             }
             cb(null, client);
           } catch (err) {
-            cb(err);
+            cb(err?.message ?? err);
           }
         },
       );
