@@ -48,7 +48,7 @@
     "loopback-connector-sqlite3s": "^3.5.0",
     "sqlite3": "^5.1.6",
     "temp": "^0.9.4",
-    "ts-jest": "^29.0.5"
+    "ts-jest": "^29.1.0"
   },
   "files": [
     "README.md",

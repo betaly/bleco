@@ -36,7 +36,7 @@
     "@bleco/repo": "^0.3.21",
     "@loopback/repository": "^5.1.4",
     "debug": "^4.3.4",
-    "oso": "^0.26.4",
+    "oso": "^0.27.0",
     "tily": "^2.20.1"
   },
   "devDependencies": {
