@@ -1,21 +1,30 @@
 import {Configuration} from '@boost/config';
 import popu from 'popu';
 import {Config} from './config';
-import {Env} from './env';
+import {Env, EnvLoadOptions} from './env';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
+
+export interface LoadOptions extends EnvLoadOptions {
+  fromDirs?: string | string[];
+}
 
 /**
  * Load config from dirs in overwriting order.
  *
- * @param name
- * @param fromDirs
+ * @param name - the app name of config.
+ * @param options - Options to load config.
  */
 
-export async function load<T extends object>(name: string | Configuration<T>, fromDirs?: string | string[]) {
+export async function load<T extends object>(
+  name: string | Configuration<T>,
+  options?: string | string[] | LoadOptions,
+) {
+  const opts = typeof options === 'string' || Array.isArray(options) ? {fromDirs: options} : options ?? {};
+  opts.mergeToProcessEnv = opts.mergeToProcessEnv ?? false;
   const c = name instanceof Configuration ? name : new Config<T>(name);
-  const dirs = toArray(fromDirs ?? process.cwd());
-  const {env} = Env.load(dirs, {mergeToProcessEnv: false});
+  const dirs = toArray(opts.fromDirs ?? process.cwd());
+  const {env} = Env.load(dirs, opts);
   const config = await loadConfigs(c, dirs);
   return popu(config, env);
 }

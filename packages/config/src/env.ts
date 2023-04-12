@@ -45,7 +45,7 @@ export class Env {
    * @param {boolean} [options.mergeToProcessEnv=true] - whether to merge the loaded env to `process.env`
    */
   private static loadFromFiles(filenames: string[], options: EnvLoadOptions = {}) {
-    const populate = options.mergeToProcessEnv ?? true;
+    const mergeToProcessEnv = options.mergeToProcessEnv ?? true;
     try {
       const parsed = dotenvFlow.parse(filenames, {
         encoding: options.encoding,
@@ -54,7 +54,7 @@ export class Env {
       const env: AnyObj = {...process.env};
       for (const key of Object.keys(parsed)) {
         env[key] = env[key] ?? parsed[key];
-        if (populate) {
+        if (mergeToProcessEnv) {
           if (!Object.hasOwn(process.env, key)) {
             process.env[key] = parsed[key];
           } else if (!options.silent) {

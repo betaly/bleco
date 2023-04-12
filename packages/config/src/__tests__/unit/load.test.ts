@@ -31,12 +31,27 @@ describe('load config', function () {
     expect(config).toEqual({});
   });
 
-  it('should throw error loading from none existing directory', async () => {
-    await expect(load('demo', '/none-exists')).rejects.toThrow(/no such file or directory/);
+  it('should not merge env variable to process.env with mergeToProcessEnv disabled', async () => {
+    const config = await load('demo', {
+      fromDirs: fixturePath('config-basic'),
+    });
+    expect(process.env.FOO_BAR_A).toBeUndefined();
+  });
+
+  it('should merge env variable to process.env with mergeToProcessEnv enabled', async () => {
+    const config = await load('demo', {
+      fromDirs: fixturePath('config-basic'),
+      mergeToProcessEnv: true,
+    });
+    expect(process.env.FOO_BAR_A).toEqual('foo_bar_3');
   });
 
   it('should load from multiple directories with overriding orders', async () => {
     const config = await load('demo', [fixturePath('config-default'), fixturePath('config-override')]);
     expect(config).toMatchSnapshot();
+  });
+
+  it('should throw error loading from none existing directory', async () => {
+    await expect(load('demo', '/none-exists')).rejects.toThrow(/no such file or directory/);
   });
 });
