@@ -25,7 +25,7 @@
     "@loopback/context": "^5.0.9",
     "@loopback/core": "^4.0.9",
     "@loopback/rest": "^12.0.9",
-    "helmet": "^6.1.1"
+    "helmet": "^6.1.5"
   },
   "devDependencies": {
     "@loopback/testlab": "^5.0.9",
