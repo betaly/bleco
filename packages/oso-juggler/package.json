@@ -1,7 +1,7 @@
 {
   "name": "@bleco/oso-juggler",
   "description": "An oso data filtering adapter for loopback juggler orm",
-  "version": "0.3.26",
+  "version": "0.3.27",
   "keywords": [
     "oso",
     "adapter",
