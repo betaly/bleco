@@ -7,7 +7,7 @@ import {AnyObj} from 'tily/typings/types';
 
 export interface LoadOptions<T extends object> extends EnvLoadOptions {
   fromDirs?: string | string[];
-  defaults?: T;
+  defaults?: Partial<T>;
 }
 
 /**
@@ -41,7 +41,7 @@ export async function load<T extends object>(
   return popu(config, env);
 }
 
-async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: T) {
+async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {
   const answer: AnyObj = defaults ?? {};
   for (const dir of fromDirs) {
     const {config} = await c.loadConfigFromRoot(dir);
