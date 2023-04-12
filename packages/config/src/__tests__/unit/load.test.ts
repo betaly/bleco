@@ -32,18 +32,25 @@ describe('load config', function () {
   });
 
   it('should not merge env variable to process.env with mergeToProcessEnv disabled', async () => {
-    const config = await load('demo', {
-      fromDirs: fixturePath('config-basic'),
-    });
+    const config = await load('demo', fixturePath('config-basic'));
     expect(process.env.FOO_BAR_A).toBeUndefined();
   });
 
   it('should merge env variable to process.env with mergeToProcessEnv enabled', async () => {
-    const config = await load('demo', {
-      fromDirs: fixturePath('config-basic'),
+    const config = await load('demo', fixturePath('config-basic'), {
       mergeToProcessEnv: true,
     });
     expect(process.env.FOO_BAR_A).toEqual('foo_bar_3');
+  });
+
+  it('should load with defaults config', async () => {
+    const config = await load('demo', fixturePath('config-basic'), {
+      defaults: {
+        foo: 'bar',
+        password: '123456',
+      },
+    });
+    expect(config).toMatchSnapshot();
   });
 
   it('should load from multiple directories with overriding orders', async () => {

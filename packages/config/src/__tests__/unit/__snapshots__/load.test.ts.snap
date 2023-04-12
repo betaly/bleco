@@ -44,3 +44,23 @@ exports[`load config should load from specific directory 1`] = `
   "name": "hello",
 }
 `;
+
+exports[`load config should load with defaults config 1`] = `
+{
+  "deep": {
+    "object": {
+      "property": "value",
+    },
+  },
+  "foo": {
+    "bar": {
+      "a": "foo_bar_3",
+      "b": "foo_bar_2",
+      "c": "foo_bar_4",
+      "d": "\${FOO_BAR_D}",
+    },
+  },
+  "name": "hello",
+  "password": "123456",
+}
+`;
