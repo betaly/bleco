@@ -20,9 +20,6 @@
     "test": "yarn pretest && yarn jest",
     "jest": "jest"
   },
-  "peerDependencies": {
-    "@loopback/core": "^4.0.4"
-  },
   "dependencies": {
     "@boost/common": "^4.0.0",
     "@boost/config": "^4.0.0",
@@ -32,7 +29,6 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@loopback/core": "^4.0.9",
     "@loopback/testlab": "^5.0.9",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
