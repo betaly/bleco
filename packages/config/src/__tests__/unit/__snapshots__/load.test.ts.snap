@@ -19,6 +19,13 @@ exports[`load config should load from current working directory 1`] = `
 }
 `;
 
+exports[`load config should load from multiple directories with overriding orders 1`] = `
+{
+  "foo": "bar",
+  "var1": "C",
+}
+`;
+
 exports[`load config should load from specific directory 1`] = `
 {
   "deep": {

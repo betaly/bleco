@@ -34,4 +34,9 @@ describe('load config', function () {
   it('should throw error loading from none existing directory', async () => {
     await expect(load('demo', '/none-exists')).rejects.toThrow(/no such file or directory/);
   });
+
+  it('should load from multiple directories with overriding orders', async () => {
+    const config = await load('demo', [fixturePath('config-default'), fixturePath('config-override')]);
+    expect(config).toMatchSnapshot();
+  });
 });
