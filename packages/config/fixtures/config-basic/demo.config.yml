@@ -1,0 +1,11 @@
+name: hello
+foo:
+  bar:
+    a: ${FOO_BAR_A}
+    b: ${FOO_BAR_B}
+    c: ${FOO_BAR_C}
+    d: ${FOO_BAR_D}
+deep:
+  object:
+    property: value
+

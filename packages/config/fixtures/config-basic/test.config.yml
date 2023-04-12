@@ -1,5 +1,0 @@
-name: hello
-foo: bar
-deep:
-  object:
-    property: value
