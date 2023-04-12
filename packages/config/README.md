@@ -131,6 +131,10 @@ app.yml
 app.development.yml
 ```
 
+## Roadmap
+
+* Implementing an enhanced [parameter expansion syntax](https://docs.docker.com/compose/environment-variables/env-file/#parameter-expansion)
+
 ## License
 
 [MIT](LICENSE)
