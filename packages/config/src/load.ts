@@ -1,11 +1,11 @@
 import {Configuration} from '@boost/config';
-import popu from 'popu';
+import popu, {RenderOptions} from 'popu';
 import {Config} from './config';
 import {Env, EnvLoadOptions} from './env';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
 
-export interface LoadOptions<T extends object> extends EnvLoadOptions {
+export interface LoadOptions<T extends object> extends EnvLoadOptions, RenderOptions {
   fromDirs?: string | string[];
   defaults?: Partial<T>;
 }
@@ -38,7 +38,7 @@ export async function load<T extends object>(
   const dirs = toArray(opts.fromDirs ?? process.cwd());
   const {env} = Env.load(dirs, opts);
   const config = await loadConfigs<T>(c, dirs, opts.defaults);
-  return popu(config, env ?? {});
+  return popu(config, env ?? {}, options);
 }
 
 async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {

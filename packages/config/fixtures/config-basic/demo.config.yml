@@ -5,6 +5,7 @@ foo:
     b: ${FOO_BAR_B}
     c: ${FOO_BAR_C}
     d: ${FOO_BAR_D}
+    e: ${FOO_BAR_E:-default-e}
 deep:
   object:
     property: value
