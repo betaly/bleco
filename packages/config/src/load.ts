@@ -38,7 +38,7 @@ export async function load<T extends object>(
   const dirs = toArray(opts.fromDirs ?? process.cwd());
   const {env} = Env.load(dirs, opts);
   const config = await loadConfigs<T>(c, dirs, opts.defaults);
-  return popu(config, env);
+  return popu(config, env ?? {});
 }
 
 async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {

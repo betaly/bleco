@@ -24,7 +24,7 @@
     "@boost/common": "^4.0.0",
     "@boost/config": "^4.0.0",
     "@codexsoft/dotenv-flow": "^3.3.5",
-    "popu": "^0.1.3",
+    "popu": "^0.2.2",
     "tily": "^2.20.1",
     "tslib": "^2.5.0"
   },
