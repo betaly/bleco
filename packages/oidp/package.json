@@ -1,7 +1,7 @@
 {
   "name": "@bleco/oidp",
   "description": "A loopback 4 extension for integrating an oidc id provider",
-  "version": "0.3.15",
+  "version": "0.3.16",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
