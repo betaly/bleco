@@ -1,11 +1,7 @@
-const path = require('path');
-
-const baseUrl = 'http://localhost:3000';
-
-module.exports = {
-  viewPath: path.resolve('views'),
+export default {
+  viewPath: './views',
   oidp: {
-    baseUrl,
+    baseUrl: '${BASE_URL:-http://localhost:3000}',
     path: '/oidc',
     jwtAlg: 'RS256',
     oidc: {
