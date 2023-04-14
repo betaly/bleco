@@ -21,14 +21,14 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.9",
-    "@loopback/context": "^5.0.9",
-    "@loopback/core": "^4.0.9",
-    "@loopback/rest": "^12.0.9",
+    "@loopback/boot": "^5.0.10",
+    "@loopback/context": "^5.0.10",
+    "@loopback/core": "^4.0.10",
+    "@loopback/rest": "^12.0.10",
     "helmet": "^6.1.5"
   },
   "devDependencies": {
-    "@loopback/testlab": "^5.0.9",
+    "@loopback/testlab": "^5.0.10",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/helmet": "4.0.0",

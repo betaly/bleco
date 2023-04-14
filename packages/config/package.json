@@ -29,7 +29,7 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "@loopback/testlab": "^5.0.9",
+    "@loopback/testlab": "^5.0.10",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.5.0",

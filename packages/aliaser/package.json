@@ -21,8 +21,8 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/context": "^5.0.9",
-    "@loopback/core": "^4.0.9",
+    "@loopback/context": "^5.0.10",
+    "@loopback/core": "^4.0.10",
     "tily": "^2.20.1"
   },
   "devDependencies": {

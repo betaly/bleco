@@ -29,23 +29,24 @@
   },
   "dependencies": {
     "@bleco/mixin": "^0.3.13",
-    "@loopback/core": "^4.0.9",
-    "@loopback/rest": "^12.0.9",
+    "@loopback/core": "^4.0.10",
+    "@loopback/rest": "^12.0.10",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@loopback/boot": "^5.0.9",
-    "@loopback/build": "^9.0.9",
-    "@loopback/context": "^5.0.9",
-    "@loopback/repository": "^5.1.4",
-    "@loopback/testlab": "^5.0.9",
+    "@loopback/boot": "^5.0.10",
+    "@loopback/build": "^9.0.10",
+    "@loopback/context": "^5.0.10",
+    "@loopback/repository": "^5.1.5",
+    "@loopback/testlab": "^5.0.10",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
     "fs-extra": "^11.1.1",
+    "jest": "^29.5.0",
     "loopback-connector-sqlite3s": "^3.5.0",
-    "loopback-datasource-juggler": "^4.28.3",
+    "loopback-datasource-juggler": "^4.28.4",
     "minimist": "^1.2.8"
   },
   "files": [

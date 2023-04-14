@@ -27,7 +27,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.9"
+    "@loopback/boot": "^5.0.10"
   },
   "devDependencies": {
     "@nutol/build": "^0.2.13",
