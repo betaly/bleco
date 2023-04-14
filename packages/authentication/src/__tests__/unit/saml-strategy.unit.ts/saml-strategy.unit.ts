@@ -1,6 +1,7 @@
 import {expect} from '@loopback/testlab';
 import * as SamlStrategy from '@node-saml/passport-saml';
 import {SamlConfig} from '@node-saml/passport-saml';
+
 import {SamlStrategyFactory, SamlStrategyFactoryProvider} from '../../../strategies/SAML';
 import {IAuthUser} from '../../../types';
 

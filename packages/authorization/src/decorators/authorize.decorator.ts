@@ -1,5 +1,6 @@
 import {MetadataInspector, MethodDecoratorFactory, Reflector} from '@loopback/core';
 import {OperationObject} from '@loopback/rest';
+
 import {AUTHORIZATION_METADATA_ACCESSOR} from '../keys';
 import {AuthorizationMetadata} from '../types';
 import {specPreprocessor} from './spec-preprocessor';

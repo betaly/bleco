@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import {SES} from 'aws-sdk';
+
 import {NotificationBindings} from '../../../keys';
 import {INotificationConfig} from '../../../types';
 import {SESBindings} from './keys';

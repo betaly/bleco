@@ -1,5 +1,6 @@
 import {LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+
 import {AuditDbSourceName} from '../../../../types';
 
 const config = {

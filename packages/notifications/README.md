@@ -511,8 +511,8 @@ interface provided by the component. For specific type, you can also implement s
 PushMessage, EmailMessage. See example below.
 
 ```ts
+import {Message, MessageOptions, MessageType, Receiver} from '@bleco/notifications';
 import {Entity, model, property} from '@loopback/repository';
-import {Message, Receiver, MessageType, MessageOptions} from '@bleco/notifications';
 
 @model({
   name: 'notifications',

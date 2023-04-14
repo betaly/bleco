@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {expect} from '@loopback/testlab';
 import Socket from 'socket.io-client';
+
 import {SocketIOProvider} from '../../providers';
 import {SocketMessage} from '../../providers/push/socketio/types';
 

@@ -4,6 +4,7 @@ import {Entity} from '@loopback/repository';
 import {Knex} from 'knex';
 import isEmpty from 'tily/is/empty';
 import isObject from 'tily/is/object';
+
 import {QueryFilter} from '../../../filter';
 import {ClauseResolver} from '../clause';
 

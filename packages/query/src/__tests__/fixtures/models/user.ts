@@ -1,4 +1,5 @@
 import {Entity, hasMany, hasOne, model, property} from '@loopback/repository';
+
 import {Org} from './org';
 import {OrgUser} from './org-user';
 import {UserInfo} from './user-info';

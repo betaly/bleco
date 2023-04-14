@@ -2,6 +2,7 @@ import {QueryEnhancedCrudRepository} from '@bleco/query';
 import {BindingScope, inject} from '@loopback/context';
 import {injectable} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+
 import {Org} from '../models/org.model';
 
 @injectable({scope: BindingScope.SINGLETON})

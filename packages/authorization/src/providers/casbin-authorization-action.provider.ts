@@ -1,4 +1,4 @@
-import {Getter, inject, Provider} from '@loopback/core';
+import {Getter, Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/express';
 import {HttpErrors} from '@loopback/rest';
 import * as casbin from 'casbin';

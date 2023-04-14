@@ -1,5 +1,6 @@
 import {Application} from '@loopback/core';
 import {RestComponent} from '@loopback/rest';
+
 import {AuthenticationComponent} from '../../../../component';
 
 /**

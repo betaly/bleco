@@ -1,7 +1,8 @@
-import {injectable, InvocationContext, Provider} from '@loopback/context';
+import {InvocationContext, Provider, injectable} from '@loopback/context';
 import {BindingScope} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
+import {SecurityBindings, UserProfile, securityId} from '@loopback/security';
+
 import {PrincipalResolver} from '../../../../../types';
 import {User} from '../models';
 import {UserRepository} from '../repositories';

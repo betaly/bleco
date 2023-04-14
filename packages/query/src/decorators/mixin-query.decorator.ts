@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {MixinTarget} from '@loopback/core';
 import {EntityCrudRepository} from '@loopback/repository';
+
 import {QueryMixinOptions, QueryRepositoryMixin} from '../mixins';
 
 /**

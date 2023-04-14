@@ -1,4 +1,5 @@
 import tk from 'timekeeper';
+
 import {DbAdapter} from '../../adapters';
 import {OidcRepository} from '../../repositories';
 import {genId, testdb} from '../support';

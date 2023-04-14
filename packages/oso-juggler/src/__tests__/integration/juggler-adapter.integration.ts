@@ -1,4 +1,5 @@
 import {Where} from '@loopback/repository';
+
 import {OsoApp} from '../fixtures/application';
 import {Enforcer} from '../fixtures/enforcer';
 import {Bar} from '../fixtures/models/bar.model';
@@ -7,7 +8,7 @@ import {Issue} from '../fixtures/models/issue.model';
 import {Log} from '../fixtures/models/log.model';
 import {Num} from '../fixtures/models/num.model';
 import {Repo} from '../fixtures/models/repo.model';
-import {seed, TestData} from '../fixtures/seed';
+import {TestData, seed} from '../fixtures/seed';
 import {checkAuthz, fixturesPath, givenAppAndEnforcer} from '../support';
 
 describe('JugglerAdapter', function () {

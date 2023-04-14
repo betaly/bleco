@@ -8,10 +8,10 @@
 Define a repository factory for `JugglerAdapter`. for example:
 
 ```ts
+import {RepositoryFactory} from '@bleco/oso-juggler';
+import {EntityClass, QueryEnhancedCrudRepository} from '@bleco/query';
 import {Context} from '@loopback/context';
 import {juggler} from '@loopback/repository';
-import {QueryEnhancedCrudRepository, EntityClass} from '@bleco/query';
-import {RepositoryFactory} from '@bleco/oso-juggler';
 
 function repositoryFactory<T extends Entity = Entity>(context: Context, dsName: string): RepositoryFactory<T> {
   return async modelName => {

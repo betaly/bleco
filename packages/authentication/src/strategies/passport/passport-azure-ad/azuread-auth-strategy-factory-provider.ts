@@ -1,13 +1,13 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
-
 import {
-  IOIDCStrategyOptionWithoutRequest,
   IOIDCStrategyOptionWithRequest,
+  IOIDCStrategyOptionWithoutRequest,
   IProfile,
   OIDCStrategy,
   VerifyCallback,
 } from 'passport-azure-ad';
+
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';

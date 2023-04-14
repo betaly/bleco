@@ -61,8 +61,8 @@ In order to use this extension in your LB4 application, please follow below step
 1. Extend models with SoftDeleteEntity class replacing Entity. For example,
 
 ```ts
-import {model, property} from '@loopback/repository';
 import {SoftDeleteEntity} from '@bleco/soft-delete';
+import {model, property} from '@loopback/repository';
 
 @model({
   name: 'users',
@@ -81,9 +81,9 @@ export class User extends SoftDeleteEntity {
 2. Extend repositories with DefaultSoftCrudRepository class replacing DefaultCrudRepository. For example,
 
 ```ts
-import {Getter, inject} from '@loopback/core';
-import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
+import {Getter, inject} from '@loopback/core';
 
 import {PgdbDataSource} from '../datasources';
 import {User, UserRelations} from '../models';
@@ -103,9 +103,9 @@ export class UserRepository extends DefaultSoftCrudRepository<User, typeof User.
    DefaultTransactionalRepository. For example,
 
 ```ts
-import {Getter, inject} from '@loopback/core';
-import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
+import {Getter, inject} from '@loopback/core';
 
 import {PgdbDataSource} from '../datasources';
 import {User, UserRelations} from '../models';

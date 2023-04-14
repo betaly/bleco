@@ -1,4 +1,5 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
+
 import {AclRolePermission} from '../models';
 import {DomainAware, ObjectProps, ResourceAware, ResourcePolymorphicOrEntity} from '../types';
 import {AclRoleMapping} from './acl-role-mapping.model';

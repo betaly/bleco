@@ -1,6 +1,7 @@
 import {Request} from '@loopback/rest';
 import {expect} from '@loopback/testlab';
 import * as PassportLocal from 'passport-local';
+
 import {LocalPasswordStrategyFactory, LocalPasswordStrategyFactoryProvider} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

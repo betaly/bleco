@@ -1,4 +1,5 @@
 import {expect} from '@loopback/testlab';
+
 import {ClientPasswordStrategyFactory, ClientPasswordStrategyFactoryProvider} from '../../../strategies';
 import {IAuthClient} from '../../../types';
 

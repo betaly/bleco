@@ -1,9 +1,10 @@
 import {Application, BindingScope, Context, invokeMethod} from '@loopback/core';
 import {SecurityBindings, securityId} from '@loopback/security';
+
 import {acls} from '../../decorators';
 import {DefaultEnforcerProvider} from '../../enforcers/default';
 import {AclBindings} from '../../keys';
-import {givenApp, GLOBAL, GlobalActions, Org, OrgActions, OrgRoles, TestData} from '../../test';
+import {GLOBAL, GlobalActions, Org, OrgActions, OrgRoles, TestData, givenApp} from '../../test';
 import {User} from '../../test/fixtures/components/account';
 
 describe('Authorization', function () {

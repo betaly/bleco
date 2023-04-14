@@ -1,6 +1,7 @@
 import {Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import * as InstagramStrategy from 'passport-instagram';
+
 import {VerifyCallback, VerifyFunction} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

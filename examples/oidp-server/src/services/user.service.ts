@@ -1,8 +1,9 @@
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
-import {securityId, UserProfile} from '@loopback/security';
+import {UserProfile, securityId} from '@loopback/security';
 import {compare} from 'bcryptjs';
+
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 

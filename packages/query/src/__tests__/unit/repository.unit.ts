@@ -1,4 +1,5 @@
 import {juggler} from '@loopback/repository';
+
 import {DefaultQuery} from '../../query';
 import {QueryEnhancedCrudRepository} from '../../repository';
 import {Foo} from '../fixtures/models/foo';

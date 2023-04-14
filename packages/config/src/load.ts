@@ -1,10 +1,11 @@
 import {Configuration} from '@boost/config';
+import merge from 'deepmerge';
 import popu, {RenderOptions} from 'popu';
-import {Config} from './config';
-import {Env, EnvLoadOptions} from './env';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
-import merge from 'deepmerge';
+
+import {Config} from './config';
+import {Env, EnvLoadOptions} from './env';
 
 export interface LoadOptions<T extends object> extends EnvLoadOptions, RenderOptions {
   fromDirs?: string | string[];

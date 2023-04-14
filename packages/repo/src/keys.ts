@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/context';
+
 import {RepositoryFactory} from './factories';
 
 export namespace RepoBindings {

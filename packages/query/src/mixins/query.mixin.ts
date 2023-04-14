@@ -2,6 +2,7 @@
 import {MixinTarget} from '@loopback/core';
 import {Filter, Where} from '@loopback/filter';
 import {Entity, EntityCrudRepository} from '@loopback/repository';
+
 import {QueryFilter, QueryWhere} from '../filter';
 import {DefaultQuery, Query} from '../query';
 

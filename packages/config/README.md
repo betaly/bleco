@@ -24,8 +24,8 @@ foo:
 deep:
   object:
     property: value
-
 ```
+
 `.env.default`
 
 ```dotenv
@@ -73,24 +73,23 @@ console.log(config);
 
 You can have the following `.env*` files in your project:
 
-* `.env.default` – for default (fallback) values, **tracked** by VCS
-* `.env` – for default production values, **tracked** by VCS
-* `.env.development` – for development environment, **tracked** by VCS
-* `.env.test` – for test environment, **tracked** by VCS
-* `.env.production` – for production environment, **tracked** by VCS
-* `.env.local` – for individual default values, **ignored** by VCS
-* `.env.development.local` – for individual development environment values, **ignored** by VCS
-* `.env.test.local` – for individual test environment values, **ignored** by VCS
-* `.env.production.local` – for production environment values (DB passwords, API keys, etc.), **ignored** by VCS
+- `.env.default` – for default (fallback) values, **tracked** by VCS
+- `.env` – for default production values, **tracked** by VCS
+- `.env.development` – for development environment, **tracked** by VCS
+- `.env.test` – for test environment, **tracked** by VCS
+- `.env.production` – for production environment, **tracked** by VCS
+- `.env.local` – for individual default values, **ignored** by VCS
+- `.env.development.local` – for individual development environment values, **ignored** by VCS
+- `.env.test.local` – for individual test environment values, **ignored** by VCS
+- `.env.production.local` – for production environment values (DB passwords, API keys, etc.), **ignored** by VCS
 
 ## [config files](https://boostlib.dev/docs/config#config-files)
 
 ### File patterns
 
-Config files are grouped into either the root or branch category. The root of a project is denoted
-by a root `*.config.*` file, or a folder with the name `.config`, which contains config files.
-Branch config files are located within folders (at any depth) below the root, and are prefixed with
-a leading dot (`.`).
+Config files are grouped into either the root or branch category. The root of a project is denoted by a root
+`*.config.*` file, or a folder with the name `.config`, which contains config files. Branch config files are located
+within folders (at any depth) below the root, and are prefixed with a leading dot (`.`).
 
 | Root                                                      | Branch                |
 | --------------------------------------------------------- | --------------------- |
@@ -103,13 +102,11 @@ a leading dot (`.`).
 
 #### Lookup resolution
 
-When the finder traverses through the file system and attempts to resolve config files within
-each/target folder, it does so using the lookup algorithm demonstrated below. Let's assume the
-following:
+When the finder traverses through the file system and attempts to resolve config files within each/target folder, it
+does so using the lookup algorithm demonstrated below. Let's assume the following:
 
 - The config file name is `app`.
-- All file formats are supported, in their default lookup order (js, json, cjs, mjs, ts, json5,
-  yaml, yml).
+- All file formats are supported, in their default lookup order (js, json, cjs, mjs, ts, json5, yaml, yml).
 - The current environment is `development` (the value of `NODE_ENV`).
 
 ```
@@ -133,7 +130,8 @@ app.development.yml
 
 ## Roadmap
 
-* Implementing an enhanced [parameter expansion syntax](https://docs.docker.com/compose/environment-variables/env-file/#parameter-expansion)
+- Implementing an enhanced
+  [parameter expansion syntax](https://docs.docker.com/compose/environment-variables/env-file/#parameter-expansion)
 
 ## License
 

@@ -8,8 +8,8 @@ For example, if you have a model called `Book`:
 
 ```ts
 // book.model.ts
-import {Entity, model, property} from '@loopback/repository';
 import {UserUpdatableModelMixin} from '';
+import {Entity, model, property} from '@loopback/repository';
 
 @model()
 @mixin(UserUpdatableModelMixin)
@@ -38,8 +38,8 @@ And then, you define a repository with `UserUpdatableRepositoryMixin`:
 
 ```ts
 // book.repository.ts
-import {mixin} from '@bleco/mixin';
 import {UserUpdatableRepositoryMixin} from '';
+import {mixin} from '@bleco/mixin';
 import {DefaultCrudRepository} from '@loopback/repository';
 
 @mixin(UserUpdatableRepositoryMixin({throwIfNoUser: true, userIdKey: ['userTenantId', 'id']}))

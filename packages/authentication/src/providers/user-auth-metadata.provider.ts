@@ -1,4 +1,4 @@
-import {Constructor, inject, Provider} from '@loopback/context';
+import {Constructor, Provider, inject} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
 
 import {getAuthenticateMetadata} from '../decorators';

@@ -4,6 +4,7 @@ import {randomBytes} from 'crypto';
 import {exportJWK, generateKeyPair} from 'jose';
 import {Bucket, Store} from 'kvs';
 import {JWK} from 'oidc-provider';
+
 import {AdapterFactory, FindAccount, LoadExistingGrant, OidcConfiguration, OidcProvider} from '../types';
 
 const debug = require('debug')('bleco:oidp:oidc-provider-factory');

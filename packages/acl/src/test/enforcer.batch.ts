@@ -1,8 +1,8 @@
 import {Enforcer} from '../enforcer';
 import {AclBindings} from '../keys';
 import {
-  GitClubApplication,
   GLOBAL,
+  GitClubApplication,
   GlobalActions,
   Org,
   OrgActions,

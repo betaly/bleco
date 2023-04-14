@@ -1,5 +1,6 @@
 import {Request} from '@loopback/rest';
 import * as passport from 'passport';
+
 import {IAuthClient, IAuthUser} from '../../../types';
 
 export namespace Oauth2ResourceOwnerPassword {

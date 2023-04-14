@@ -1,4 +1,4 @@
-import {inject, Provider, ValueOrPromise} from '@loopback/context';
+import {Provider, ValueOrPromise, inject} from '@loopback/context';
 import {Strategy} from 'passport';
 import {StrategyOptionsWithRequestInterface} from 'passport-oauth2-client-password';
 

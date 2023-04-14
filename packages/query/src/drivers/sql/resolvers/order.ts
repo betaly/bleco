@@ -4,6 +4,7 @@ import {Entity} from '@loopback/repository';
 import {Knex} from 'knex';
 import toArray from 'tily/array/toArray';
 import {assert} from 'tily/assert';
+
 import {QueryFilter} from '../../../filter';
 import {QuerySession} from '../../../session';
 import {ClauseResolver} from '../clause';

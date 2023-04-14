@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   BelongsToDefinition,
-  createBelongsToInclusionResolver,
-  createHasManyInclusionResolver,
   DefaultCrudRepository,
   Entity,
   Getter,
   HasManyDefinition,
   HasOneDefinition,
-  juggler,
   Options,
+  createBelongsToInclusionResolver,
+  createHasManyInclusionResolver,
+  juggler,
 } from '@loopback/repository';
 import {createHasManyThroughInclusionResolver} from '@loopback/repository/dist/relations/has-many/has-many-through.inclusion-resolver';
 import {createHasOneInclusionResolver} from '@loopback/repository/dist/relations/has-one/has-one.inclusion-resolver';
@@ -17,6 +17,7 @@ import PgMock2 from 'pgmock2';
 import temp from 'temp';
 import noop from 'tily/function/noop';
 import {ValueOf} from 'ts-essentials';
+
 import {ColumnsResolver, JoinResolver, OrderResolver, WhereResolver} from '../drivers';
 import {DefaultQuery, Query} from '../query';
 import {QueryEnhancedCrudRepository} from '../repository';

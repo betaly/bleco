@@ -3,6 +3,7 @@ import {Entity} from '@loopback/repository';
 import {givenHttpServerConfig} from '@loopback/testlab';
 import {Class} from 'oso/dist/src/types';
 import path from 'path';
+
 import {OsoApp} from './fixtures/application';
 import {Enforcer} from './fixtures/enforcer';
 

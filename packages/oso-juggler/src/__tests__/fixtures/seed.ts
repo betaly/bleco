@@ -1,5 +1,6 @@
 import {ApplicationWithRepositories} from '@loopback/repository';
 import {Awaited} from 'ts-essentials';
+
 import {Bar} from './models/bar.model';
 import {Foo} from './models/foo.model';
 import {Log} from './models/log.model';

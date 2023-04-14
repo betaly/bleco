@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
-import {IOIDCStrategyOptionWithoutRequest, IOIDCStrategyOptionWithRequest, IProfile} from 'passport-azure-ad';
+import {IOIDCStrategyOptionWithRequest, IOIDCStrategyOptionWithoutRequest, IProfile} from 'passport-azure-ad';
+
 import {
   AzureADAuthStrategyFactory,
   AzureADAuthStrategyFactoryProvider,

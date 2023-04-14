@@ -1,6 +1,7 @@
 /* eslint-disable */
 import {Knex} from 'knex';
-import {createKnex, WhereResolver} from '../../../../../drivers';
+
+import {WhereResolver, createKnex} from '../../../../../drivers';
 import AdvancedSpecs from '../../../../data/where-advanced';
 import BasicSpecs from '../../../../data/where-basic';
 import {DB, filterSpecs, givenDb, givenWhereResolvers, mockPg} from '../../../../support';

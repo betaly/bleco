@@ -134,6 +134,8 @@ const permissions = this.getUserPermissions(user.permissions, role.permissions);
 - Add a step in custom sequence to check for authorization whenever any end point is hit.
 
 ```ts
+import {AuthenticateFn, AuthenticationBindings} from '@bleco/authentication';
+import {AuthorizationBindings, AuthorizeErrorKeys, AuthorizeFn, UserPermissionsFn} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {
   FindRoute,
@@ -146,8 +148,6 @@ import {
   Send,
   SequenceHandler,
 } from '@loopback/rest';
-import {AuthenticateFn, AuthenticationBindings} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizeErrorKeys, AuthorizeFn, UserPermissionsFn} from '@bleco/authorization';
 
 import {AuthClient} from './models/auth-client.model';
 import {User} from './models/user.model';
@@ -292,9 +292,9 @@ this.bind(AuthorizationBindings.CASBIN_RESOURCE_MODIFIER_FN).toProvider(CasbinRe
   route arguments parameter in the provider.
 
 ```ts
-import {Getter, inject, Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
 import {AuthorizationBindings, AuthorizationMetadata, CasbinResourceModifierFn} from '@bleco/authorization';
+import {Getter, Provider, inject} from '@loopback/context';
+import {HttpErrors} from '@loopback/rest';
 
 export class CasbinResValModifierProvider implements Provider<CasbinResourceModifierFn> {
   constructor(
@@ -337,8 +337,8 @@ export class CasbinResValModifierProvider implements Provider<CasbinResourceModi
   string, then policy should be provided as [casbin adapter](https://casbin.org/docs/en/adapters) only.
 
 ```ts
-import {Provider} from '@loopback/context';
 import {CasbinConfig, CasbinEnforcerConfigGetterFn, IAuthUserWithPermissions} from '@bleco/authorization';
+import {Provider} from '@loopback/context';
 import * as path from 'path';
 
 export class CasbinEnforcerConfigProvider implements Provider<CasbinEnforcerConfigGetterFn> {
@@ -403,6 +403,8 @@ export class CasbinEnforcerConfigProvider implements Provider<CasbinEnforcerConf
 - Add a step in custom sequence to check for authorization whenever any end point is hit.
 
 ```ts
+import {AuthenticateFn, AuthenticationBindings} from '@bleco/authentication';
+import {AuthorizationBindings, AuthorizeErrorKeys, AuthorizeFn, UserPermissionsFn} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {
   FindRoute,
@@ -415,8 +417,6 @@ import {
   Send,
   SequenceHandler,
 } from '@loopback/rest';
-import {AuthenticateFn, AuthenticationBindings} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizeErrorKeys, AuthorizeFn, UserPermissionsFn} from '@bleco/authorization';
 
 import {AuthClient} from './models/auth-client.model';
 import {User} from './models/user.model';

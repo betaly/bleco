@@ -16,13 +16,14 @@ import {assert} from 'tily/assert';
 import isArray from 'tily/is/array';
 import isPlainObject from 'tily/is/plainObject';
 import {isString} from 'tily/is/string';
+
 import {ExprClause, JoinClause, QueryFilter, QueryWhere} from '../../../filter';
 import {
   QueryRelationMetadata,
   RelationConstraint,
   RelationJoin,
-  resolveRelation,
   SupportedRelationTypes,
+  resolveRelation,
 } from '../../../relation';
 import {QuerySession} from '../../../session';
 import {ClauseResolver} from '../clause';

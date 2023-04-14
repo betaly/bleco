@@ -1,5 +1,6 @@
-import {BindingScope, inject, injectable, Provider} from '@loopback/context';
+import {BindingScope, Provider, inject, injectable} from '@loopback/context';
 import {Application, CoreBindings} from '@loopback/core';
+
 import {DefaultRepositoryFactory, RepositoryFactory} from '../factories';
 
 @injectable({scope: BindingScope.SINGLETON})

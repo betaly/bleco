@@ -1,4 +1,5 @@
 import {Entity, EntityCrudRepository} from '@loopback/repository';
+
 import {EntityClass} from '../types';
 
 export interface RepositoryFactory {

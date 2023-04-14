@@ -1,6 +1,8 @@
 import {Entity, model, property} from '@loopback/repository';
+
 import {AclRole, AclRoleMapping} from '../../models';
-import {AclModelRelationKeys, definePrincipalPolicy, defineResourcePolicy, PolicyRegistry} from '../../policies';
+import {AclModelRelationKeys, PolicyRegistry, definePrincipalPolicy, defineResourcePolicy} from '../../policies';
+
 import PrincipalRoleMappings = AclModelRelationKeys.PrincipalRoleMappings;
 
 @model()

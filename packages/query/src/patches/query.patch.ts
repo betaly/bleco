@@ -2,6 +2,7 @@
 import {Constructor, Entity, EntityCrudRepository} from '@loopback/repository';
 import {isConstructor} from 'tily/is/constructor';
 import {isFunction} from 'tily/is/function';
+
 import {DefaultQuery, QueryMethods} from '../query';
 import {originalProp} from '../utils';
 

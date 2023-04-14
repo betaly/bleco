@@ -1,4 +1,5 @@
 import {Client} from '@loopback/testlab';
+
 import {OidpBindings} from '../../keys';
 import {OidcRepository} from '../../repositories';
 import {OidcProvider} from '../../types';

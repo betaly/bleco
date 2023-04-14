@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/context';
+import {Provider, inject} from '@loopback/context';
 import {Request, Response, RestBindings} from '@loopback/rest';
 import OidcProvider from 'oidc-provider';
+
 import {OidpBindings} from '../keys';
 import {Interaction} from '../oidc';
 

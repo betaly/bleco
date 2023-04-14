@@ -1,6 +1,7 @@
 import {QueryEnhancedCrudRepository} from '@bleco/query';
 import {inject} from '@loopback/context';
 import {juggler} from '@loopback/repository';
+
 import {GLOBAL, Global} from '../models';
 
 export class GlobalRepository extends QueryEnhancedCrudRepository<Global, typeof Global.prototype.id> {

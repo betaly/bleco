@@ -3,6 +3,7 @@ import {toArray} from 'tily/array/toArray';
 import uniq from 'tily/array/uniq';
 import isEmpty from 'tily/is/empty';
 import {Constructor} from 'tily/typings/types';
+
 import {CompositeRoles, Policy, ResolvedPolicy, resolveModelName} from '../../../policies';
 import {compile} from './compiler';
 import {link} from './linker';

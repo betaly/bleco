@@ -1,5 +1,5 @@
-import {fixturePath} from '../support';
 import {load} from '../../load';
+import {fixturePath} from '../support';
 
 describe('load config', function () {
   const oldEnv = process.env;

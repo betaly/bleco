@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {Entity} from '@loopback/repository';
+
 import {
   EntityLike,
   PrincipalPolymorphic,

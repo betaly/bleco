@@ -1,4 +1,5 @@
 import {Entity} from '@loopback/repository';
+
 import {UserLike} from './types';
 
 export function getUserId(user: UserLike): string {

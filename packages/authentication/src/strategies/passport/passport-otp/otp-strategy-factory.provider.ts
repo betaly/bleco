@@ -1,5 +1,6 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
+
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';

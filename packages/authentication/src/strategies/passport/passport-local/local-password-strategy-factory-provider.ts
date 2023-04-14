@@ -1,8 +1,8 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
+import {isEmpty} from 'lodash';
 import * as PassportLocal from 'passport-local';
 
-import {isEmpty} from 'lodash';
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';

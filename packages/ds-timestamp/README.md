@@ -34,9 +34,10 @@ interface Book extends TimestampModel {}
 
 ```ts
 // book.repository.ts
-import {mixin} from '@bleco/mixin';
 import {TimestampModelMixin} from '';
+import {mixin} from '@bleco/mixin';
 import {DefaultCrudRepository} from '@loopback/repository';
+
 import {Book} from '../models';
 
 @mixin(TimestampRepositoryMixin)

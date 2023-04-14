@@ -1,6 +1,7 @@
-import {BindingScope, injectable, Provider} from '@loopback/context';
+import {BindingScope, Provider, injectable} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {AdapterFactory} from 'oidc-provider';
+
 import {DbAdapter} from '../adapters';
 import {OidcRepository} from '../repositories';
 

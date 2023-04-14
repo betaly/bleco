@@ -1,6 +1,7 @@
 import {AnyObject, juggler} from '@loopback/repository';
 import {isObject} from 'tily/is/object';
 import {isString} from 'tily/is/string';
+
 import {Driver} from './driver';
 
 interface QueryDriverOptions extends AnyObject {

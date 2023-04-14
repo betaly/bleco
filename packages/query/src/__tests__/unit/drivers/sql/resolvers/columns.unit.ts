@@ -2,6 +2,7 @@
 import {Filter} from '@loopback/filter';
 import {Entity, model} from '@loopback/repository';
 import {Knex} from 'knex';
+
 import {createKnex} from '../../../../../drivers/sql/knex';
 import {ColumnsResolver} from '../../../../../drivers/sql/resolvers';
 import {User} from '../../../../fixtures/models/user';

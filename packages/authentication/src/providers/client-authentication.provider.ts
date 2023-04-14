@@ -1,8 +1,8 @@
-import {Getter, inject, Provider, Setter} from '@loopback/context';
+import {Getter, Provider, Setter, inject} from '@loopback/context';
 import {Request} from '@loopback/rest';
+import {isEmpty, isObjectLike} from 'lodash';
 import {Strategy} from 'passport';
 
-import {isEmpty, isObjectLike} from 'lodash';
 import {AuthenticationBindings} from '../keys';
 import {StrategyAdapter} from '../strategy-adapter';
 import {AuthenticateFn, IAuthClient} from '../types';

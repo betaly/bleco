@@ -1,7 +1,9 @@
-import {Context, inject, Injection} from '@loopback/core';
-import {Class, Entity, juggler, Model, Repository} from '@loopback/repository';
+import {Context, Injection, inject} from '@loopback/core';
+import {Class, Entity, Model, Repository, juggler} from '@loopback/repository';
 import {assert} from 'tily/assert';
+
 import {DefaultQuery, isQuery} from '../query';
+
 import DataSource = juggler.DataSource;
 
 /**

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Constructor} from '@loopback/core';
 import {Entity, EntityCrudRepository} from '@loopback/repository';
+
 import {QueryEnhancedRepository} from '../../mixins';
 import {DefaultQuery} from '../../query';
 import {Foo} from '../fixtures/models/foo';

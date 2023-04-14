@@ -1,10 +1,12 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import * as nodemailer from 'nodemailer';
+
 import {NotificationBindings} from '../../../keys';
 import {INotificationConfig} from '../../../types';
 import {NodemailerBindings} from './keys';
 import {NodemailerMessage, NodemailerNotification} from './types';
+
 import SMTPTransport = require('nodemailer/lib/smtp-transport');
 import Mail = require('nodemailer/lib/mailer');
 

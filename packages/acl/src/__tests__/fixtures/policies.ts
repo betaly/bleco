@@ -1,4 +1,4 @@
-import {defineResourcePolicy, Policy} from '../../policies';
+import {Policy, defineResourcePolicy} from '../../policies';
 import {Issue, Org, Repo} from '../../test';
 
 export const OrgPolicy = defineResourcePolicy({

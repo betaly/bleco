@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
 import {Request} from '@loopback/rest';
+
 import {Cognito, IAuthUser, VerifyFunction} from '../../../types';
 
 /**

@@ -1,8 +1,9 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+import {CoreBindings, Provider, inject} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {HttpErrors, Request, Response, RestApplication} from '@loopback/rest';
 import * as RateLimit from 'express-rate-limit';
 import {Writable} from 'ts-essentials';
+
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from '../types';
 

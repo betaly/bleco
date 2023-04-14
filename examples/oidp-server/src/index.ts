@@ -1,4 +1,5 @@
 import path from 'path';
+
 import {OidpApplication} from './application';
 import {loadConfig} from './config';
 

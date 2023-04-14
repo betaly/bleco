@@ -1,4 +1,5 @@
 import {OperationObject} from 'openapi3-ts';
+
 import {AuthorizationMetadata} from '../types';
 
 const defaultResponse = (ctor: {name: string}, op: string) => ({

@@ -3,6 +3,7 @@ import {AuthorizationComponent} from '@loopback/authorization';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+
 import {AclMixin} from '../../mixins';
 import {AclAuthDBName, AclResourceDBName} from '../../types';
 import {AccountComponent} from './components/account';

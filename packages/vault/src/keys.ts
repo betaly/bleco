@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/core';
+
 import {VaultConnector} from './services/vault-connector';
 import {VaultProviderOptions} from './types';
 

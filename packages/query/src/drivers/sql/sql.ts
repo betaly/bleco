@@ -2,6 +2,7 @@
 import {Filter} from '@loopback/filter';
 import {AnyObject, Entity, Options} from '@loopback/repository';
 import {Knex} from 'knex';
+
 import {Driver} from '../../driver';
 import {QueryFilter, QueryWhere} from '../../filter';
 import {QuerySession} from '../../session';

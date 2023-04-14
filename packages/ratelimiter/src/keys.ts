@@ -1,5 +1,6 @@
 import {BindingKey, MetadataAccessor} from '@loopback/core';
 import {Store} from 'express-rate-limit';
+
 import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from './types';
 
 export namespace RateLimitSecurityBindings {

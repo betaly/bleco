@@ -1,5 +1,6 @@
 import {Request} from '@loopback/rest';
 import {expect} from '@loopback/testlab';
+
 import {
   Oauth2ResourceOwnerPassword,
   ResourceOwnerPasswordStrategyFactory,

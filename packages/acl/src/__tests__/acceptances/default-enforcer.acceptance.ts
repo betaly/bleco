@@ -1,8 +1,9 @@
 import {Application, BindingScope} from '@loopback/core';
+
 import {Acl} from '../../acl';
 import {DefaultEnforcerProvider} from '../../enforcers/default';
 import {AclBindings} from '../../keys';
-import {givenApp, GLOBAL, GlobalActions, Org, OrgActions, TestData} from '../../test';
+import {GLOBAL, GlobalActions, Org, OrgActions, TestData, givenApp} from '../../test';
 
 describe('DefaultEnforcerStrategy', function () {
   let app: Application;

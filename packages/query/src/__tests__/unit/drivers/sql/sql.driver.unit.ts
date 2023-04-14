@@ -4,7 +4,7 @@ import {Org} from '../../../fixtures/models/org';
 import {Proj} from '../../../fixtures/models/proj';
 import {User} from '../../../fixtures/models/user';
 import {seed} from '../../../fixtures/seed';
-import {DB, givenDb, mockPg, Repos} from '../../../support';
+import {DB, Repos, givenDb, mockPg} from '../../../support';
 
 mockPg();
 

@@ -45,6 +45,7 @@ The key can be accessed by importing `ExtensionStarterBindings` as follows:
 
 ```ts
 import {ExtensionStarterBindings} from 'HelloExtensions';
+
 // Key can be accessed as follows now
 const key = ExtensionStarterBindings.LOG_ACTION;
 ```

@@ -1,4 +1,5 @@
-import {bind, BindingScope, inject, Provider} from '@loopback/core';
+import {BindingScope, Provider, bind, inject} from '@loopback/core';
+
 import {VaultSecurityBindings} from '../keys';
 import {VaultProviderOptions} from '../types';
 import {VaultConnector} from './vault-connector';

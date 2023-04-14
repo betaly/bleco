@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {expect} from '@loopback/testlab';
 import PubNub from 'pubnub';
-import {PubnubConfig, PubNubMessage, PubNubProvider} from '../../providers';
+
+import {PubNubMessage, PubNubProvider, PubnubConfig} from '../../providers';
 import {Config} from '../../types';
 
 jest.mock('pubnub');

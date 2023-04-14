@@ -1,5 +1,5 @@
 import {AclBindings, AclTags} from '../../keys';
-import {fixturesPath, GitClubApplication} from '../../test';
+import {GitClubApplication, fixturesPath} from '../../test';
 
 describe('Acl booter integration tests', () => {
   let app: GitClubApplication;

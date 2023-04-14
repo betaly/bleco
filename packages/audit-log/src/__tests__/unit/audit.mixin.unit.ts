@@ -1,6 +1,7 @@
 import {Constructor} from '@loopback/core';
 import {EntityCrudRepository} from '@loopback/repository';
 import {expect, sinon} from '@loopback/testlab';
+
 import {Action, AuditLog, AuditRepositoryMixin, IAuditMixinOptions} from '../..';
 import {consoleMessage} from '../acceptance/audit.mixin.acceptance';
 import {MockClass, mockClassMethodCall, resetMethodCalls} from './fixtures/mockClass';

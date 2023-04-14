@@ -1,5 +1,6 @@
 import {inject} from '@loopback/context';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
+
 import {Note} from '../models/note.model';
 
 export class NoteRepository extends DefaultCrudRepository<Note, typeof Note.prototype.id> {

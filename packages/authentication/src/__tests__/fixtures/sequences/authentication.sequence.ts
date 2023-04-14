@@ -9,8 +9,10 @@ import {
   Send,
   SequenceHandler,
 } from '@loopback/rest';
+
 import {AuthenticateFn, AuthenticationBindings} from '../../../';
 import {IAuthClient, IAuthUser} from '../../../types';
+
 const SequenceActions = RestBindings.SequenceActions;
 
 export class MyAuthenticationSequence implements SequenceHandler {

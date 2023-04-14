@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
 import * as nodemailer from 'nodemailer';
+
 import {NodemailerMessage, NodemailerProvider} from '../../providers/email/nodemailer';
 
 jest.mock('nodemailer');

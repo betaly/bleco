@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/context';
+
 import {Interaction} from './oidc';
 import {OidpComponent} from './oidp.component';
 import {AdapterFactory, FindAccount, LoadExistingGrant, OidcProvider, OidpConfig} from './types';

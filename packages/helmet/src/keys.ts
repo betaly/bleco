@@ -1,5 +1,6 @@
 import {BindingKey} from '@loopback/core';
 import * as helmet from 'helmet';
+
 import {HelmetAction} from './providers';
 
 export namespace HelmetSecurityBindings {

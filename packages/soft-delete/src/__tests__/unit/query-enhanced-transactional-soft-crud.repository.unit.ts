@@ -1,6 +1,7 @@
 import {Getter} from '@loopback/context';
 import {Entity, juggler} from '@loopback/repository';
 import {expect} from '@loopback/testlab';
+
 import {QueryEnhancedTransactionalSoftCrudRepository} from '../../repositories';
 import {UserLike} from '../../types';
 import {givenDsAndRepo} from '../support';

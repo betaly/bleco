@@ -25,8 +25,9 @@ yarn add @bleco/acl
 `Policy` 绑定到 `policies.${ModelName}` 并添加到 `Application.policyRegistry`. 例如：
 
 ```ts
-import {Application} from '@loopback/core';
 import {AclMixin} from '@bleco/acl';
+import {Application} from '@loopback/core';
+
 import {AccountPolicy, CategoryPolicy} from './policies';
 
 // Using the Mixin
@@ -45,8 +46,8 @@ app.policy(CategoryPolicy);
 
 ```ts
 // org.policy.ts
-
 import {Polic} from '@bleco/acl';
+
 import {Org} from '../models';
 
 // Define resource roles

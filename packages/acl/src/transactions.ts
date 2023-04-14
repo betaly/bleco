@@ -1,4 +1,5 @@
-import {juggler, Options, Transaction} from '@loopback/repository';
+import {Options, Transaction, juggler} from '@loopback/repository';
+
 import IsolationLevel = juggler.IsolationLevel;
 
 export class NoopTransaction implements Transaction {

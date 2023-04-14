@@ -6,6 +6,7 @@ import {Immediate, isProjection} from 'oso/dist/src/filter';
 import {PolarComparisonOperator, UserType} from 'oso/dist/src/types';
 import isEmpty from 'tily/is/empty';
 import {inspect} from 'util';
+
 import {AuthorizedFilter} from './types';
 
 const debug = debugFactory('bleco:oso:juggler');

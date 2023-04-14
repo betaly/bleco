@@ -1,5 +1,6 @@
 import * as oidc from 'oidc-provider';
 import {AdapterPayload} from 'oidc-provider';
+
 import {OidcRepository} from '../repositories';
 
 export class DbAdapter implements oidc.Adapter {

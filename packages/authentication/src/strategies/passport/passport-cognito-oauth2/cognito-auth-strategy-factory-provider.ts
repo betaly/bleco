@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
+
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {Cognito, VerifyFunction} from '../../types';

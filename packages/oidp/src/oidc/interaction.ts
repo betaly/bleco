@@ -1,5 +1,6 @@
 import {Request, Response} from '@loopback/rest';
 import OidcProvider, {InteractionResults} from 'oidc-provider';
+
 import {InteractionDetails} from '../types';
 
 export class Interaction {

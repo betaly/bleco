@@ -1,13 +1,13 @@
-import {Binding, Component, inject, ProviderMap} from '@loopback/core';
+import {Binding, Component, ProviderMap, inject} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/express';
 
 import {AuthenticationBindings} from './keys';
 import {ClientAuthenticationMiddlewareProvider, UserAuthenticationMiddlewareProvider} from './middlewares';
 import {
-  AuthenticateActionProvider,
   AuthMetadataProvider,
-  ClientAuthenticateActionProvider,
+  AuthenticateActionProvider,
   ClientAuthMetadataProvider,
+  ClientAuthenticateActionProvider,
 } from './providers';
 import {
   AppleAuthStrategyFactoryProvider,
@@ -35,9 +35,9 @@ import {
   ResourceOwnerPasswordStrategyFactoryProvider,
   ResourceOwnerVerifyProvider,
 } from './strategies';
+import {SamlStrategyFactoryProvider, SamlVerifyProvider} from './strategies/SAML';
 import {Strategies} from './strategies/keys';
 import {CognitoAuthVerifyProvider, CognitoStrategyFactoryProvider} from './strategies/passport/passport-cognito-oauth2';
-import {SamlStrategyFactoryProvider, SamlVerifyProvider} from './strategies/SAML';
 import {AuthenticationConfig} from './types';
 
 export class AuthenticationComponent implements Component {

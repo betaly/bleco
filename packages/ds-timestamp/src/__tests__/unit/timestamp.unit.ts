@@ -1,6 +1,7 @@
 import {mixin} from '@bleco/mixin';
 import {DefaultCrudRepository, Entity, juggler, model, property} from '@loopback/repository';
 import delay from 'delay';
+
 import {TimestampModel, TimestampModelMixin, TimestampRepositoryMixin} from '../../mixins';
 
 describe('TimestampMixin', function () {

@@ -1,5 +1,6 @@
-import {BindingScope, inject, injectable, Provider} from '@loopback/context';
+import {BindingScope, Provider, inject, injectable} from '@loopback/context';
 import {Store} from 'kvs';
+
 import {OidpBindings} from '../keys';
 import {OidcProviderFactory} from '../oidc/oidc-provider-factory';
 import {AdapterFactory, FindAccount, LoadExistingGrant, OidcDefaultPath, OidcProvider, OidpConfig} from '../types';

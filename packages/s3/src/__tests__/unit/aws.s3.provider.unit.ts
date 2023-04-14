@@ -1,4 +1,5 @@
 import {expect} from '@loopback/testlab';
+
 import {AwsS3Provider} from '../../providers/aws-s3.provider';
 
 describe('AWS S3 Unit Tests', () => {

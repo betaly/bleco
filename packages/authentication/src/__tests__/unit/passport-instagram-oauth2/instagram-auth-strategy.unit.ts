@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
 import * as InstagramStrategy from 'passport-instagram';
+
 import {
   InstagramAuthStrategyFactory,
   InstagramAuthStrategyFactoryProvider,

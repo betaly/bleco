@@ -1,4 +1,4 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import * as ClientPasswordStrategy from 'passport-oauth2-client-password';
 

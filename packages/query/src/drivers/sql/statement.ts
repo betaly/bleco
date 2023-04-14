@@ -1,5 +1,6 @@
 import {Entity} from '@loopback/repository';
 import {Knex} from 'knex';
+
 import {QueryFilter} from '../../filter';
 import {Orm} from '../../orm';
 import {QuerySession} from '../../session';

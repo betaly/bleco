@@ -1,4 +1,5 @@
 import {Entity, hasOne, model, property} from '@loopback/repository';
+
 import {Deliverable} from './deliverable';
 
 @model()

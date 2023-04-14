@@ -3,6 +3,7 @@ import {get} from '@loopback/openapi-v3';
 import {Request, RestServer} from '@loopback/rest';
 import {Client, createClientForHandler} from '@loopback/testlab';
 import * as GoogleStrategy from 'passport-google-oauth20';
+
 import {authenticate} from '../../../../decorators';
 import {VerifyFunction} from '../../../../strategies';
 import {Strategies} from '../../../../strategies/keys';

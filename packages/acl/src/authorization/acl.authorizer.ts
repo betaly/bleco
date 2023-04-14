@@ -5,8 +5,9 @@ import {
   AuthorizationTags,
   Authorizer,
 } from '@loopback/authorization';
-import {inject, injectable, Provider} from '@loopback/context';
+import {Provider, inject, injectable} from '@loopback/context';
 import debugFactory from 'debug';
+
 import {Acl} from '../acl';
 import {AclBindings} from '../keys';
 import {PrincipalResolver} from '../types';

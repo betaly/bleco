@@ -1,5 +1,6 @@
 import {Getter, inject} from '@loopback/core';
 import {DefaultCrudRepository, HasOneRepositoryFactory, repository} from '@loopback/repository';
+
 import {DbDataSource} from '../datasources';
 import {User, UserCredentials, UserRelations} from '../models';
 import {UserCredentialsRepository} from './user-credentials.repository';

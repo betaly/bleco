@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import * as admin from 'firebase-admin';
+
 import {GeneralMessage} from '.';
 import {FcmBindings} from './keys';
 import {FcmMessage, FcmNotification, FcmSubscriberType} from './types';

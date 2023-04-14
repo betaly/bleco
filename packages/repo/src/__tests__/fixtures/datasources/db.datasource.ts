@@ -2,8 +2,7 @@
 // Node module: @loopback/example-todo
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-
-import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
 const config = {

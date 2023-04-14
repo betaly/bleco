@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
 import {HttpErrors, Request} from '@loopback/rest';
+
 import {Cognito, VerifyFunction} from '../../types';
 
 /**

@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import Pubnub from 'pubnub';
+
 import {Aps, MessageConfig, PnApns, TargetsType} from '.';
 import {PayloadType} from '..';
 import {Config} from '../../../types';

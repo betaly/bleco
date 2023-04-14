@@ -1,4 +1,6 @@
 import {BindingKey} from '@loopback/core';
+
+import {SamlStrategyFactoryProvider} from './SAML';
 import {InstagramAuthStrategyFactoryProvider} from './passport';
 import {AppleAuthStrategyFactoryProvider} from './passport/passport-apple-oauth2';
 import {AzureADAuthStrategyFactoryProvider} from './passport/passport-azure-ad';
@@ -10,7 +12,6 @@ import {GoogleAuthStrategyFactoryProvider} from './passport/passport-google-oaut
 import {KeycloakStrategyFactoryProvider} from './passport/passport-keycloak';
 import {LocalPasswordStrategyFactory} from './passport/passport-local';
 import {ResourceOwnerPasswordStrategyFactory} from './passport/passport-resource-owner-password';
-import {SamlStrategyFactoryProvider} from './SAML';
 import {VerifyFunction} from './types';
 
 export namespace Strategies {

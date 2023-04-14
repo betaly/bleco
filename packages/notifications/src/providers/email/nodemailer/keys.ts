@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/core';
+
 import SMTPTransport = require('nodemailer/lib/smtp-transport');
 
 export namespace NodemailerBindings {

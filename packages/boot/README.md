@@ -8,5 +8,6 @@
 
 ```ts
 // import {/*...*/} from "@loopback/boot"; =>
-import /*...*/ '@bleco/boot';
+import /*...*/
+'@bleco/boot';
 ```

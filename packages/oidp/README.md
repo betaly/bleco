@@ -15,8 +15,8 @@
 [findAccount](https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#findaccount) function is required.
 
 ```ts
-import {Application} from '@loopback/core';
 import {OidcDataSourceName, OidpBindings, OidpComponent} from '@bleco/oidp';
+import {Application} from '@loopback/core';
 
 function setupOidp(app: Application) {
   // specify the custom FindAccount function to use in the oidc provider
@@ -33,8 +33,8 @@ for OIDC provider.
 #### Default Adapter Factory
 
 ```ts
-import {Application} from '@loopback/core';
 import {OidcDataSourceName, OidpComponent} from '@bleco/oidp';
+import {Application} from '@loopback/core';
 
 function setupOidp(app: Application) {
   // specify the datasource to use in the default oidc adapter
@@ -46,8 +46,8 @@ function setupOidp(app: Application) {
 #### Custom Adapter Factory
 
 ```ts
-import {Application} from '@loopback/core';
 import {OidpComponent} from '@bleco/oidp';
+import {Application} from '@loopback/core';
 
 function setupOidp(app: Application) {
   app.configure(OidpBindings.COMPONENT).to({

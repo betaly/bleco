@@ -1,4 +1,5 @@
-import {belongsTo, DefaultCrudRepository, Entity, EntityCrudRepository, juggler, property} from '@loopback/repository';
+import {DefaultCrudRepository, Entity, EntityCrudRepository, belongsTo, juggler, property} from '@loopback/repository';
+
 import {entity} from '../../decorators';
 
 describe('@entity decorator', function () {

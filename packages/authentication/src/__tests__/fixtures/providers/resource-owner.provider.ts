@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/core';
 import {Request} from 'express';
+
 import {VerifyFunction} from '../../../strategies';
 import {IAuthClient, IAuthUser} from '../../../types';
 

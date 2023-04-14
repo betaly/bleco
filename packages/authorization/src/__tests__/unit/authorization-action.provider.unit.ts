@@ -1,5 +1,6 @@
-import {expect, ShotRequestOptions, sinon, stubExpressContext} from '@loopback/testlab';
+import {ShotRequestOptions, expect, sinon, stubExpressContext} from '@loopback/testlab';
 import {Request} from 'express';
+
 import {AuthorizeActionProvider} from '../../providers';
 import {AuthorizationMetadata} from '../../types';
 import {mockUser} from './data/mock-user';

@@ -1,8 +1,8 @@
 import dotenvFlow, {DotenvReadFileOptions} from '@codexsoft/dotenv-flow';
-import {AnyObj} from 'tily/typings/types';
 import {existsSync} from 'fs';
-import {toArray} from 'tily/array/toArray';
 import flatten from 'tily/array/flatten';
+import {toArray} from 'tily/array/toArray';
+import {AnyObj} from 'tily/typings/types';
 
 export interface EnvLoadOptions extends DotenvReadFileOptions {
   /**

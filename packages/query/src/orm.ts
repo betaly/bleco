@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {Filter} from '@loopback/filter';
-import {Connector, ensurePromise, juggler, ModelDefinition, Options, PositionalParameters} from '@loopback/repository';
+import {Connector, ModelDefinition, Options, PositionalParameters, ensurePromise, juggler} from '@loopback/repository';
 import {assert} from 'tily/assert';
 
 export interface SqlConnector extends Connector {

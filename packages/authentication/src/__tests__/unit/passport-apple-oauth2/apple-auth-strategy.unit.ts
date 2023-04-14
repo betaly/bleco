@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
 import AppleStrategy, {AuthenticateOptions, AuthenticateOptionsWithRequest} from 'passport-apple';
+
 import {AppleAuthStrategyFactory, AppleAuthStrategyFactoryProvider} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

@@ -1,6 +1,7 @@
 import {HttpErrors} from '@loopback/rest';
 import * as vault from 'node-vault';
-import {client, Option} from 'node-vault';
+import {Option, client} from 'node-vault';
+
 import {VaultProviderOptions} from '../types';
 
 export class VaultConnector {

@@ -2,6 +2,7 @@ import {RepositoryFactory} from '@bleco/repo';
 import {Authorizer} from '@loopback/authorization';
 import {BindingKey} from '@loopback/context';
 import {Entity} from '@loopback/repository';
+
 import {Acl} from './acl';
 import {Enforcer} from './enforcer';
 import {DefaultEnforcerOptions} from './enforcers/default';

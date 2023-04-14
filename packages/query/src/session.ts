@@ -1,4 +1,5 @@
 import {DataObject} from '@loopback/repository';
+
 import {RelationConstraint, RelationJoin} from './relation';
 
 export class QuerySession {

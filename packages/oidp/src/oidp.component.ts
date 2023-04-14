@@ -2,6 +2,7 @@ import {config, inject} from '@loopback/context';
 import {Component, CoreBindings, ProviderMap} from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+
 import {ConfigAliaser} from './aliser';
 import {OidpBindings} from './keys';
 import {OidcItem} from './models';

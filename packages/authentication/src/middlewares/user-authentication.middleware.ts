@@ -1,5 +1,6 @@
-import {inject, injectable, Next, Provider} from '@loopback/core';
-import {asMiddleware, Middleware, MiddlewareContext, RestMiddlewareGroups} from '@loopback/rest';
+import {Next, Provider, inject, injectable} from '@loopback/core';
+import {Middleware, MiddlewareContext, RestMiddlewareGroups, asMiddleware} from '@loopback/rest';
+
 import {AuthenticationBindings} from '../keys';
 import {AuthenticateFn, IAuthUser} from '../types';
 import {AuthenticationMiddlewareGroups} from './middleware-groups.enum';

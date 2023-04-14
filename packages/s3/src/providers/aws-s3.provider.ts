@@ -1,4 +1,5 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
+
 import {S3WithSigner} from '..';
 import {AWSS3Bindings, AwsS3Config} from '../types';
 

@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/core';
+
 import {SocketConfig} from './types';
 
 export namespace SocketBindings {

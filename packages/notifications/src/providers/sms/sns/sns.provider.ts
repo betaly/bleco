@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import {SNS} from 'aws-sdk';
+
 import {SNSBindings} from './keys';
 import {SNSMessage, SNSNotification, SNSSubscriberType} from './types';
 

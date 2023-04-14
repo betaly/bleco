@@ -2,6 +2,7 @@ import {ApplicationConfig} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 import hyperid from 'hyperid';
+
 import {TestOidcApplication} from './fixtures';
 
 const cookie = require('superagent-cookie');

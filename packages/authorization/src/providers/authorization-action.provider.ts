@@ -1,10 +1,9 @@
-import {Getter, inject, Provider} from '@loopback/context';
+import {Getter, Provider, inject} from '@loopback/context';
+import {Request} from 'express';
+import {intersection} from 'lodash';
 
 import {AuthorizationBindings} from '../keys';
 import {AuthorizationMetadata, AuthorizeFn} from '../types';
-
-import {Request} from 'express';
-import {intersection} from 'lodash';
 
 export class AuthorizeActionProvider implements Provider<AuthorizeFn> {
   constructor(

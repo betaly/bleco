@@ -1,4 +1,5 @@
 import {expect} from '@loopback/testlab';
+
 import {Keycloak, KeycloakStrategyFactory, KeycloakStrategyFactoryProvider} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

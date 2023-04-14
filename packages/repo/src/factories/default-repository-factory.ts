@@ -1,6 +1,7 @@
 import {Application, Binding} from '@loopback/core';
 import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';
 import debugFactory from 'debug';
+
 import {EntityClass} from '../types';
 import {RepositoryFactory} from './repository-factory';
 

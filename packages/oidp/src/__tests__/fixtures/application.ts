@@ -3,6 +3,7 @@ import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings} from '@loopback/rest-explorer';
+
 import {OidpComponent} from '../../oidp.component';
 import {OidcDataSourceName} from '../../types';
 import {MySequence} from './sequence';

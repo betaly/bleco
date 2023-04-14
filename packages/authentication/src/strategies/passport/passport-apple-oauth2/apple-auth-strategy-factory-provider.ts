@@ -1,4 +1,4 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors, Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {
@@ -8,12 +8,12 @@ import {
   Profile,
   VerifyCallback,
 } from 'passport-apple';
+import Strategy from 'passport-apple';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
-import Strategy from 'passport-apple';
 export interface AppleAuthStrategyFactory {
   (
     options: AuthenticateOptions | AuthenticateOptionsWithRequest,

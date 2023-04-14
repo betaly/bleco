@@ -36,7 +36,8 @@ yarn add @bleco/query
 ## Getting Started
 
 ```ts
-import {Query, DefaultQuery} from '@bleco/query';
+import {DefaultQuery, Query} from '@bleco/query';
+
 import {typequery} from './decorators';
 
 class SomeClass {
@@ -171,10 +172,11 @@ Create a `query` instance in a `controller`, you can first define `model` and `d
 `controller`, and use `@query` to inject
 
 ```ts
-import {query, Query} from '@bleco/query';
+import {Query, query} from '@bleco/query';
 import {repository} from '@loopback/repository';
-import {Todo} from '../models';
+
 import {db} from '../datasources/db.datasource';
+import {Todo} from '../models';
 
 export class TodoController {
   @query(Todo, db)

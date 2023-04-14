@@ -3,7 +3,8 @@ import {Filter} from '@loopback/filter';
 import {Knex} from 'knex';
 import each from 'tily/object/each';
 import {DeepPartial} from 'ts-essentials';
-import {createKnex, JoinResolver} from '../../../../../drivers';
+
+import {JoinResolver, createKnex} from '../../../../../drivers';
 import {RelationConstraint} from '../../../../../relation';
 import {QuerySession} from '../../../../../session';
 import {Delivery} from '../../../../fixtures/models/delivery';

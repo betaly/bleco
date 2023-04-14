@@ -1,6 +1,7 @@
 import {BindingScope, inject, injectable} from '@loopback/context';
-import {DefaultCrudRepository, juggler, Where} from '@loopback/repository';
+import {DefaultCrudRepository, Where, juggler} from '@loopback/repository';
 import {AdapterPayload} from 'oidc-provider';
+
 import {OidcItem} from '../models';
 import {OidcDataSourceName} from '../types';
 

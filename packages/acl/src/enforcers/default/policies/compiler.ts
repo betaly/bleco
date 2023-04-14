@@ -1,6 +1,7 @@
 import flatten from 'tily/array/flatten';
 import uniq from 'tily/array/uniq';
 import isArray from 'tily/is/array';
+
 import {CompiledPolicy, CompositeRoles, Policy} from '../../../policies';
 
 export function compile(policy: Policy): CompiledPolicy;

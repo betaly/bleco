@@ -1,4 +1,5 @@
 import {DefaultCrudRepository, DefaultTransactionalRepository, Entity} from '@loopback/repository';
+
 import {mixinQuery} from './decorators';
 import {QueryEnhancedRepository} from './mixins';
 

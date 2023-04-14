@@ -34,7 +34,8 @@ yarn add @bleco/query
 ## 入门
 
 ```ts
-import {Query, DefaultQuery} from '@bleco/query';
+import {DefaultQuery, Query} from '@bleco/query';
+
 import {typequery} from './decorators';
 
 class SomeClass {
@@ -167,10 +168,11 @@ export interface FooRepositoryWithQueryDecorated extends QueryRepository<Foo> {}
 `@query` 注入
 
 ```ts
-import {query, Query} from '@bleco/query';
+import {Query, query} from '@bleco/query';
 import {repository} from '@loopback/repository';
-import {Todo} from '../models';
+
 import {db} from '../datasources/db.datasource';
+import {Todo} from '../models';
 
 export class TodoController {
   @query(Todo, db)

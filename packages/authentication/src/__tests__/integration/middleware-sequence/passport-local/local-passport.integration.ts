@@ -2,6 +2,7 @@ import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
 import {RestServer} from '@loopback/rest';
 import {Client, createClientForHandler, expect} from '@loopback/testlab';
+
 import {authenticate} from '../../../../decorators';
 import {AuthenticationBindings} from '../../../../keys';
 import {Strategies} from '../../../../strategies/keys';
@@ -11,6 +12,7 @@ import {LocalVerifyProvider} from '../../../fixtures/providers/local-password.pr
 import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
 import {UserCred} from '../../../fixtures/user-cred.model';
 import {getApp} from '../helpers/helpers';
+
 /**
  * Testing overall flow of authentication with bearer strategy
  */

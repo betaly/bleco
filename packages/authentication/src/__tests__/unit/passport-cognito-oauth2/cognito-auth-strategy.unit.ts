@@ -1,4 +1,5 @@
 import {expect} from '@loopback/testlab';
+
 import {
   CognitoAuthStrategyFactory,
   CognitoStrategyFactoryProvider,

@@ -6,3 +6,4 @@ examples/*/dist
 CHANGELOG.md
 *.yml
 .yarn
+*.d.ts

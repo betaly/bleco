@@ -1,5 +1,6 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
+
 import {NotificationError} from '../error-keys';
 import {NotificationBindings} from '../keys';
 import {INotification, Message, MessageType} from '../types';

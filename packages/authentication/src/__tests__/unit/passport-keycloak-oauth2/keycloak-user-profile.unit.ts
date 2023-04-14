@@ -1,5 +1,6 @@
 import {AnyObject} from '@loopback/repository';
 import {expect, sinon} from '@loopback/testlab';
+
 import {Keycloak, KeycloakStrategyFactory, KeycloakStrategyFactoryProvider} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

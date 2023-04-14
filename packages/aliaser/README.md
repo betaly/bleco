@@ -49,6 +49,7 @@ const ConfigAliser = Aliaser.create({
 
 ```typescript
 import {Application, CoreBindings} from '@loopback/core';
+
 import {ConfigAliser} from '../keys';
 
 class SomeComponent {

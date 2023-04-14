@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
 import * as GoogleStrategy from 'passport-google-oauth20';
+
 import {
   GoogleAuthStrategyFactory,
   GoogleAuthStrategyFactoryProvider,

@@ -1,5 +1,6 @@
 import {BindingKey, Context} from '@loopback/context';
 import {Application, CoreBindings} from '@loopback/core';
+
 import {Aliaser} from '../../aliaser';
 
 describe('Aliaser', () => {

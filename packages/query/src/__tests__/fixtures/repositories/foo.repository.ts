@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
+
 import {mixinQuery} from '../../../decorators';
 import {QueryEnhancedRepository, QueryRepositoryMixin} from '../../../mixins';
 import {Foo} from '../models/foo';

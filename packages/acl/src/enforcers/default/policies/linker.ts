@@ -3,6 +3,7 @@ import {cloneDeep} from 'lodash';
 import uniq from 'tily/array/uniq';
 import mergeWith from 'tily/object/mergeWith';
 import {Constructor} from 'tily/typings/types';
+
 import {CompiledPolicy, CompositeRoles, RelativeRoles, ResolvedPolicy, resolveModelName} from '../../../policies';
 
 export function link(policies: CompiledPolicy[]): ResolvedPolicy[] {

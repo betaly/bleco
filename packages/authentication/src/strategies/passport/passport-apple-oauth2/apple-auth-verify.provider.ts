@@ -1,7 +1,6 @@
 import {Provider} from '@loopback/context';
 import {HttpErrors, Request} from '@loopback/rest';
 import * as AppleStrategy from 'passport-apple';
-
 import {DecodedIdToken} from 'passport-apple';
 
 import {VerifyFunction} from '../../types';

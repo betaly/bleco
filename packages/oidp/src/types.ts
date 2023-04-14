@@ -1,5 +1,6 @@
 import {UserProfile} from '@loopback/security';
 import {StoreOptions} from 'kvs';
+
 import {OidcConfiguration} from './types/oidc.types';
 
 export * from './types/oidc.types';

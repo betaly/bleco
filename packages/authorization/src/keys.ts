@@ -1,5 +1,6 @@
 import {BindingKey} from '@loopback/context';
 import {MetadataAccessor} from '@loopback/metadata';
+
 import {
   AuthorizationConfig,
   AuthorizationMetadata,

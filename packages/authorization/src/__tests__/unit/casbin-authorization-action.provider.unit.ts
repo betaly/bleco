@@ -1,7 +1,8 @@
-import {expect, ShotRequestOptions, sinon, stubExpressContext} from '@loopback/testlab';
+import {ShotRequestOptions, expect, sinon, stubExpressContext} from '@loopback/testlab';
 import * as casbin from 'casbin';
 import {StringAdapter} from 'casbin';
 import {Request} from 'express';
+
 import {CasbinAuthorizationProvider} from '../../providers';
 import {PermissionKeys} from './data';
 import {model} from './data/mock-model';

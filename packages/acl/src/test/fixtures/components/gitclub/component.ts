@@ -1,4 +1,5 @@
 import {Component} from '@loopback/core';
+
 import {models} from './models';
 import {policies} from './policies';
 import {repositories} from './repositories';

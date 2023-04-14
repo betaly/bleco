@@ -2,6 +2,7 @@ import {Application, inject} from '@loopback/core';
 import {post, requestBody} from '@loopback/openapi-v3';
 import {RestServer} from '@loopback/rest';
 import {Client, createClientForHandler, expect} from '@loopback/testlab';
+
 import {authenticate} from '../../../../decorators';
 import {AuthenticationBindings} from '../../../../keys';
 import {Strategies} from '../../../../strategies/keys';

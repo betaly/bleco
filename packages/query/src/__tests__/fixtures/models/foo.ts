@@ -1,4 +1,5 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
+
 import {Bar} from './bar';
 import {Bird} from './bird';
 

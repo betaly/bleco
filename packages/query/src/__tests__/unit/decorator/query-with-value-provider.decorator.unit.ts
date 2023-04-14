@@ -1,5 +1,6 @@
-import {Context, inject, Provider, ValueOrPromise} from '@loopback/core';
-import {DefaultCrudRepository, Entity, juggler, ModelDefinition} from '@loopback/repository';
+import {Context, Provider, ValueOrPromise, inject} from '@loopback/core';
+import {DefaultCrudRepository, Entity, ModelDefinition, juggler} from '@loopback/repository';
+
 import {query} from '../../../decorators/query.decorator';
 import {DefaultQuery, Query} from '../../../query';
 

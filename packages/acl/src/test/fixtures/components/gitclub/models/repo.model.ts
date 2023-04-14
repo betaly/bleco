@@ -1,4 +1,5 @@
-import {belongsTo, Entity, hasMany, model, property} from '@loopback/repository';
+import {Entity, belongsTo, hasMany, model, property} from '@loopback/repository';
+
 import {Issue} from './issue.model';
 import {Org} from './org.model';
 

@@ -1,4 +1,4 @@
-import {Binding, Component, inject, ProviderMap} from '@loopback/core';
+import {Binding, Component, ProviderMap, inject} from '@loopback/core';
 
 import {AuthorizationBindings} from './keys';
 import {

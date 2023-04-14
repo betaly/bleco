@@ -2,10 +2,10 @@
 // Node module: @loopback/repository
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-
 import {Getter} from '@loopback/context';
 import {Entity, juggler} from '@loopback/repository';
 import {expect} from '@loopback/testlab';
+
 import {DefaultTransactionalSoftCrudRepository} from '../../repositories';
 import {UserLike} from '../../types';
 import {givenDsAndRepo} from '../support';

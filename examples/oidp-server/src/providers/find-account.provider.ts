@@ -1,6 +1,7 @@
 import {FindAccount} from '@bleco/oidp';
 import {Provider, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
+
 import {UserRepository} from '../repositories';
 import {UserService} from '../services/user.service';
 

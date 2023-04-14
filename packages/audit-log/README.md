@@ -18,8 +18,8 @@ In order to use this component into your LoopBack application, please follow bel
 - Add audit model class as Entity.
 
 ```ts
-import {Entity, model, property} from '@loopback/repository';
 import {Action} from '@bleco/audit-log';
+import {Entity, model, property} from '@loopback/repository';
 
 @model({
   name: 'audit_logs',
@@ -101,9 +101,9 @@ export class AuditLog extends Entity {
   change the data source name as per this in order to ensure connection work from extension.
 
 ```ts
-import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
-import {juggler} from '@loopback/repository';
 import {AuditDbSourceName} from '@bleco/audit-log';
+import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
+import {juggler} from '@loopback/repository';
 
 const config = {
   name: 'audit',
@@ -136,9 +136,9 @@ export class AuditDataSource extends juggler.DataSource implements LifeCycleObse
 One example below.
 
 ```ts
+import {AuditDbSourceName} from '@bleco/audit-log';
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {AuditDbSourceName} from '@bleco/audit-log';
 
 import {AuditDataSource} from '../datasources';
 import {AuditLog} from '../models';
@@ -155,12 +155,13 @@ export class AuditLogRepository extends DefaultCrudRepository<AuditLog, typeof A
   `Group`, here we are extending the `GroupRepository` with `AuditRepositoryMixin`.
 
 ```ts
-import {repository} from '@loopback/repository';
-import {Group, GroupRelations} from '../models';
-import {PgdbDataSource} from '../datasources';
-import {inject, Getter, Constructor} from '@loopback/core';
-import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
 import {AuditRepositoryMixin} from '@bleco/audit-log';
+import {AuthenticationBindings, IAuthUser} from '@bleco/authentication';
+import {Constructor, Getter, inject} from '@loopback/core';
+import {repository} from '@loopback/repository';
+
+import {PgdbDataSource} from '../datasources';
+import {Group, GroupRelations} from '../models';
 import {AuditLogRepository} from './audit-log.repository';
 
 const groupAuditOpts: IAuditMixinOptions = {

@@ -1,5 +1,6 @@
 import {expect} from '@loopback/testlab';
 import * as PassportBearer from 'passport-http-bearer';
+
 import {BearerStrategyFactory, BearerStrategyFactoryProvider} from '../../../strategies';
 import {IAuthUser} from '../../../types';
 

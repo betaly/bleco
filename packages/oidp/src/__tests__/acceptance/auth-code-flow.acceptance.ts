@@ -1,5 +1,6 @@
 import {Client} from '@loopback/testlab';
 import qs from 'qs';
+
 import {TestOidcApplication} from '../fixtures';
 import {createCookieStore, getUrlPath, setupApplication} from '../support';
 

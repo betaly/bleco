@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+
 @model()
 export class MockModel extends Entity {
   @property({

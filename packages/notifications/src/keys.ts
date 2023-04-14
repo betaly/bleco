@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/core';
+
 import {INotification, INotificationConfig} from './types';
 
 export namespace NotificationBindings {

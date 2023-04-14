@@ -1,6 +1,7 @@
 import {Application, ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
+
 import {OidpBindings} from '../../keys';
 import {OidpComponent} from '../../oidp.component';
 import {OidcDataSourceName} from '../../types';

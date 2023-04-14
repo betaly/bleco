@@ -1,6 +1,7 @@
 import {Request, Response} from '@loopback/rest';
 import {Options} from 'express-rate-limit';
 import {RedisClient} from 'redis';
+
 import IORedis = require('ioredis');
 
 export type RedisClientType = IORedis.Redis | RedisClient;

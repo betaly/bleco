@@ -1,4 +1,4 @@
-import {Entity, model, ModelDefinition, ModelDefinitionSyntax} from '@loopback/repository';
+import {Entity, ModelDefinition, ModelDefinitionSyntax, model} from '@loopback/repository';
 
 /**
  * A extended decorator for model definitions for supporting inheritance relation property.

@@ -1,4 +1,5 @@
 import {Entity} from '@loopback/repository';
+
 import {SoftDeleteModelMixin} from '../mixins';
 
 /**

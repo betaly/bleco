@@ -1,4 +1,5 @@
 import {Aliaser} from '@bleco/aliaser';
+
 import {NotificationBindings} from '../keys';
 import {EmailAliasMetadata} from './email';
 import {PushAliasMetadata} from './push';

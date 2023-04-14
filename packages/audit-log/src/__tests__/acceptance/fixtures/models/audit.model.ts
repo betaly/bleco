@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+
 import {Action} from '../../../..';
 
 @model({

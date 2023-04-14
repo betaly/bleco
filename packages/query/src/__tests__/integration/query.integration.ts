@@ -1,5 +1,6 @@
-import {belongsTo, Entity, hasMany, juggler, model, property} from '@loopback/repository';
+import {Entity, belongsTo, hasMany, juggler, model, property} from '@loopback/repository';
 import {AnyObj} from 'tily/typings/types';
+
 import {QueryEnhancedCrudRepository} from '../../repository';
 import {givenRepositories} from '../support';
 

@@ -6,6 +6,7 @@ import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import * as InstagramStrategy from 'passport-instagram';
+
 import {Cognito, IAuthClient, IAuthUser} from '../../types';
 import {Otp} from '../passport';
 import {Keycloak} from './keycloak.types';

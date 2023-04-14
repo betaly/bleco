@@ -1,4 +1,5 @@
-import {getMiddlewareContext, Request, RequestContext, Response, Router} from '@loopback/rest';
+import {Request, RequestContext, Response, Router, getMiddlewareContext} from '@loopback/rest';
+
 import {OidpBindings} from './keys';
 
 const debug = require('debug')('bleco:oidp:router');

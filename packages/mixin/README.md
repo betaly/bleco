@@ -70,8 +70,9 @@ export function FooMixin<T extends object, ID, R extends MixinTarget<Constructor
 ```ts
 // my-repository.ts
 import {mixin} from '@bleco/mixin';
-import {Repository} from './repository';
+
 import {FooMixin} from './foo.mixin';
+import {Repository} from './repository';
 
 @mixin(FooMixin)
 export class MyRepository<T extends object, ID> extends Repository<T, ID> {}

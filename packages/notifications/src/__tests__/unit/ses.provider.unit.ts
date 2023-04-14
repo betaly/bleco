@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {expect} from '@loopback/testlab';
 import aws from 'aws-sdk';
+
 import {SESMessage, SesProvider} from '../../providers';
 
 jest.mock('aws-sdk');

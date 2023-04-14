@@ -1,7 +1,8 @@
 import {Interaction, OidcProvider, OidpBindings} from '@bleco/oidp';
 import {inject, service} from '@loopback/core';
-import {api, get, post, requestBody, RequestContext, RestBindings, SchemaObject} from '@loopback/rest';
+import {RequestContext, RestBindings, SchemaObject, api, get, post, requestBody} from '@loopback/rest';
 import {assert} from 'tily/assert';
+
 import {TemplatesService} from '../services/templates.service';
 import {Credentials, UserService} from '../services/user.service';
 import {createInspect} from '../utils';

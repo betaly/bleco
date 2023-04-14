@@ -1,4 +1,5 @@
-import {Application, Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
+import {Application, Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+
 import {ConfigAliaser} from './alias';
 import {VaultSecurityBindings} from './keys';
 import {VaultConnectProvider} from './services';

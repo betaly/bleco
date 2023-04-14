@@ -2,6 +2,7 @@ import {PutObjectCommand} from '@aws-sdk/client-s3';
 import {expect} from '@loopback/testlab';
 import {randomBytes} from 'crypto';
 import * as dotenv from 'dotenv';
+
 import {S3WithSigner} from '../..';
 import {AwsS3Provider} from '../../providers';
 
