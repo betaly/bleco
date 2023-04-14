@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.22](https://github.com/betaly/bleco/compare/@bleco/repo@0.3.21...@bleco/repo@0.3.22) (2023-04-14)
+
+**Note:** Version bump only for package @bleco/repo
+
+
+
+
+
 ## [0.3.21](https://github.com/betaly/bleco/compare/@bleco/repo@0.3.20...@bleco/repo@0.3.21) (2023-03-30)
 
 **Note:** Version bump only for package @bleco/repo

@@ -1574,11 +1574,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/acl@workspace:packages/acl"
   dependencies:
-    "@bleco/boot": ^0.3.6
-    "@bleco/oso-juggler": ^0.3.27
-    "@bleco/query": ^0.8.30
-    "@bleco/repo": ^0.3.21
-    "@bleco/soft-delete": ^0.3.33
+    "@bleco/boot": ^0.3.7
+    "@bleco/oso-juggler": ^0.3.28
+    "@bleco/query": ^0.8.31
+    "@bleco/repo": ^0.3.22
+    "@bleco/soft-delete": ^0.3.34
     "@loopback/authorization": ^0.12.10
     "@loopback/context": ^5.0.10
     "@loopback/core": ^4.0.10
@@ -1603,7 +1603,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/aliaser@^0.4.11, @bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.4.12, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
@@ -1700,7 +1700,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/boot@^0.3.6, @bleco/boot@workspace:packages/boot":
+"@bleco/boot@^0.3.7, @bleco/boot@workspace:packages/boot":
   version: 0.0.0-use.local
   resolution: "@bleco/boot@workspace:packages/boot"
   dependencies:
@@ -1712,7 +1712,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/config@^0.4.6, @bleco/config@workspace:packages/config":
+"@bleco/config@^0.4.7, @bleco/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
@@ -1772,9 +1772,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/example-oidp-server@workspace:examples/oidp-server"
   dependencies:
-    "@bleco/boot": ^0.3.6
-    "@bleco/config": ^0.4.6
-    "@bleco/oidp": ^0.3.16
+    "@bleco/boot": ^0.3.7
+    "@bleco/config": ^0.4.7
+    "@bleco/oidp": ^0.3.17
     "@loopback/build": ^9.0.10
     "@loopback/core": ^4.0.10
     "@loopback/eslint-config": ^13.0.10
@@ -1828,7 +1828,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
-    "@bleco/aliaser": ^0.4.11
+    "@bleco/aliaser": ^0.4.12
     "@loopback/boot": ^5.0.10
     "@loopback/context": ^5.0.10
     "@loopback/core": ^4.0.10
@@ -1859,12 +1859,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oidp@^0.3.16, @bleco/oidp@workspace:packages/oidp":
+"@bleco/oidp@^0.3.17, @bleco/oidp@workspace:packages/oidp":
   version: 0.0.0-use.local
   resolution: "@bleco/oidp@workspace:packages/oidp"
   dependencies:
-    "@bleco/aliaser": ^0.4.11
-    "@bleco/boot": ^0.3.6
+    "@bleco/aliaser": ^0.4.12
+    "@bleco/boot": ^0.3.7
     "@loopback/context": ^5.0.10
     "@loopback/core": ^4.0.10
     "@loopback/repository": ^5.1.5
@@ -1893,13 +1893,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oso-juggler@^0.3.27, @bleco/oso-juggler@workspace:packages/oso-juggler":
+"@bleco/oso-juggler@^0.3.28, @bleco/oso-juggler@workspace:packages/oso-juggler":
   version: 0.0.0-use.local
   resolution: "@bleco/oso-juggler@workspace:packages/oso-juggler"
   dependencies:
-    "@bleco/boot": ^0.3.6
-    "@bleco/query": ^0.8.30
-    "@bleco/repo": ^0.3.21
+    "@bleco/boot": ^0.3.7
+    "@bleco/query": ^0.8.31
+    "@bleco/repo": ^0.3.22
     "@loopback/repository": ^5.1.5
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
@@ -1913,7 +1913,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/query@^0.8.30, @bleco/query@workspace:packages/query":
+"@bleco/query@^0.8.31, @bleco/query@workspace:packages/query":
   version: 0.0.0-use.local
   resolution: "@bleco/query@workspace:packages/query"
   dependencies:
@@ -1968,11 +1968,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/repo@^0.3.21, @bleco/repo@workspace:packages/repo":
+"@bleco/repo@^0.3.22, @bleco/repo@workspace:packages/repo":
   version: 0.0.0-use.local
   resolution: "@bleco/repo@workspace:packages/repo"
   dependencies:
-    "@bleco/boot": ^0.3.6
+    "@bleco/boot": ^0.3.7
     "@loopback/context": ^5.0.10
     "@loopback/core": ^4.0.10
     "@loopback/repository": ^5.1.5
@@ -2008,7 +2008,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/soft-delete@^0.3.33, @bleco/soft-delete@workspace:packages/soft-delete":
+"@bleco/soft-delete@^0.3.34, @bleco/soft-delete@workspace:packages/soft-delete":
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
@@ -2043,7 +2043,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/vault@workspace:packages/vault"
   dependencies:
-    "@bleco/aliaser": ^0.4.11
+    "@bleco/aliaser": ^0.4.12
     "@loopback/boot": ^5.0.10
     "@loopback/core": ^4.0.10
     "@loopback/rest": ^12.0.10

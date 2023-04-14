@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/betaly/bleco/compare/@bleco/boot@0.3.6...@bleco/boot@0.3.7) (2023-04-14)
+
+**Note:** Version bump only for package @bleco/boot
+
+
+
+
+
 ## [0.3.6](https://github.com/betaly/bleco/compare/@bleco/boot@0.3.5...@bleco/boot@0.3.6) (2023-03-30)
 
 **Note:** Version bump only for package @bleco/boot
