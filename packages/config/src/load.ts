@@ -4,6 +4,7 @@ import {Config} from './config';
 import {Env, EnvLoadOptions} from './env';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
+import merge from 'deepmerge';
 
 export interface LoadOptions<T extends object> extends EnvLoadOptions, RenderOptions {
   fromDirs?: string | string[];
@@ -42,10 +43,10 @@ export async function load<T extends object>(
 }
 
 async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {
-  const answer: AnyObj = defaults ?? {};
+  const answer: AnyObj = {};
   for (const dir of fromDirs) {
     const {config} = await c.loadConfigFromRoot(dir);
     Object.assign(answer, config);
   }
-  return answer;
+  return merge(defaults ?? {}, answer);
 }
