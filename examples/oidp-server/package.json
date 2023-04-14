@@ -1,7 +1,7 @@
 {
   "name": "@bleco/example-oidp-server",
   "description": "An example OIDP server for LoopBack 4",
-  "version": "0.2.28",
+  "version": "0.2.29",
   "private": true,
   "keywords": [],
   "main": "dist/index.js",
@@ -41,9 +41,9 @@
     "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false"
   },
   "dependencies": {
-    "@bleco/boot": "^0.3.7",
-    "@bleco/config": "^0.4.7",
-    "@bleco/oidp": "^0.3.17",
+    "@bleco/boot": "^0.3.8",
+    "@bleco/config": "^0.4.8",
+    "@bleco/oidp": "^0.3.18",
     "@loopback/core": "^4.0.10",
     "@loopback/repository": "^5.1.5",
     "@loopback/rest": "^12.0.10",
