@@ -1792,7 +1792,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/config@^0.4.8, @bleco/config@workspace:packages/config":
+"@bleco/config@^0.4.9, @bleco/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
@@ -1855,8 +1855,8 @@ __metadata:
   resolution: "@bleco/example-oidp-server@workspace:examples/oidp-server"
   dependencies:
     "@bleco/boot": ^0.3.8
-    "@bleco/config": ^0.4.8
-    "@bleco/oidp": ^0.3.18
+    "@bleco/config": ^0.4.9
+    "@bleco/oidp": ^0.3.19
     "@loopback/build": ^9.0.10
     "@loopback/core": ^4.0.10
     "@loopback/eslint-config": ^13.0.10
@@ -1941,7 +1941,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oidp@^0.3.18, @bleco/oidp@workspace:packages/oidp":
+"@bleco/oidp@^0.3.19, @bleco/oidp@workspace:packages/oidp":
   version: 0.0.0-use.local
   resolution: "@bleco/oidp@workspace:packages/oidp"
   dependencies:
