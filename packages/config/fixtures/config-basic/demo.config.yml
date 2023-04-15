@@ -6,6 +6,7 @@ foo:
     c: ${FOO_BAR_C}
     d: ${FOO_BAR_D}
     e: ${FOO_BAR_E:-default-e}
+    number: ${NUMBER}
 deep:
   object:
     property: value

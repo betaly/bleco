@@ -4,6 +4,8 @@ import flatten from 'tily/array/flatten';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
 
+const parseVariables = require('dotenv-parse-variables');
+
 export interface EnvLoadOptions extends DotenvReadFileOptions {
   /**
    * Whether to merge the loaded env to `process.env`.
@@ -47,9 +49,12 @@ export class Env {
   private static loadFromFiles(filenames: string[], options: EnvLoadOptions = {}) {
     const mergeToProcessEnv = options.mergeToProcessEnv ?? true;
     try {
-      const parsed = dotenvFlow.parse(filenames, {
-        encoding: options.encoding,
-      });
+      const parsed = parseVariables(
+        dotenvFlow.parse(filenames, {
+          encoding: options.encoding,
+        }),
+        {assignToProcessEnv: false},
+      );
 
       const env: AnyObj = {...process.env};
       for (const key of Object.keys(parsed)) {

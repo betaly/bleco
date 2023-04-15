@@ -25,7 +25,8 @@
     "@boost/config": "^4.0.0",
     "@codexsoft/dotenv-flow": "^3.3.5",
     "deepmerge": "^4.3.1",
-    "popu": "^0.2.2",
+    "dotenv-parse-variables": "^2.0.0",
+    "popu": "^0.3.0",
     "tily": "^2.20.1",
     "tslib": "^2.5.0"
   },
