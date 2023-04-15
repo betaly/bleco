@@ -1808,7 +1808,7 @@ __metadata:
     deepmerge: ^4.3.1
     dotenv-parse-variables: ^2.0.0
     jest: ^29.5.0
-    popu: ^0.3.0
+    popu: ^0.4.0
     tily: ^2.20.1
     tslib: ^2.5.0
   languageName: unknown
@@ -16967,10 +16967,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"popu@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "popu@npm:0.3.0"
-  checksum: 8a7856eb7deecdb908ae7c634719ddd35f241b7c88a22f4c9efbbc11a801eb214b8829f7d8f014ecf4639a436539d5a6e8fbdd23cbf1c8318443a76b0ac4e59d
+"popu@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "popu@npm:0.4.0"
+  dependencies:
+    debug: ^4.3.4
+    is-string-and-not-blank: ^0.0.2
+    tily: ^2.20.1
+  checksum: 32b762fe98bb19972a3174407b8bf74b1b0f9ec9404c5ec0b27fee62483c6a6955c85eda1d1408e16acec1d5df05c8e82f5e514f94a8ce9dfe4195ae44637f3b
   languageName: node
   linkType: hard
 
