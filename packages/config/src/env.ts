@@ -15,7 +15,7 @@ export interface EnvLoadOptions extends DotenvReadFileOptions {
 
 export class Env {
   static getEnvironmentName(): string {
-    return process.env.FOAL_ENV || process.env.NODE_ENV || 'development';
+    return process.env.NODE_ENV || 'development';
   }
 
   /**
