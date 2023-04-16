@@ -7,6 +7,8 @@ import {AnyObj} from 'tily/typings/types';
 import {Config} from './config';
 import {Env, EnvLoadOptions} from './env';
 
+const debug = require('debug')('bleco:config:load');
+
 export interface LoadOptions<T extends object> extends EnvLoadOptions, RenderOptions {
   fromDirs?: string | string[];
   defaults?: Partial<T>;
@@ -46,6 +48,7 @@ export async function load<T extends object>(
 async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {
   const answer: AnyObj = {};
   for (const dir of fromDirs) {
+    debug('load config from %s', dir);
     const {config} = await c.loadConfigFromRoot(dir);
     Object.assign(answer, config);
   }

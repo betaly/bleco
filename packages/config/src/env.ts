@@ -4,6 +4,8 @@ import flatten from 'tily/array/flatten';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
 
+const debug = require('debug')('bleco:config:env');
+
 const parseVariables = require('dotenv-parse-variables');
 
 export interface EnvLoadOptions extends DotenvReadFileOptions {
@@ -47,6 +49,7 @@ export class Env {
    * @param {boolean} [options.mergeToProcessEnv=true] - whether to merge the loaded env to `process.env`
    */
   private static loadFromFiles(filenames: string[], options: EnvLoadOptions = {}) {
+    debug('load env from %s', filenames.join(', '));
     const mergeToProcessEnv = options.mergeToProcessEnv ?? true;
     try {
       const parsed = parseVariables(
