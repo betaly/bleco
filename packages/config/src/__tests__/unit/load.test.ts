@@ -47,7 +47,19 @@ describe('load config', function () {
     const config = await load('demo', fixturePath('config-basic'), {
       defaults: {
         foo: 'bar',
-        password: '123456',
+        // The value ends with '*' will be treated as original value
+        password: '123456*',
+      },
+    });
+    expect(config).toMatchSnapshot();
+  });
+
+  it('should remove null and blank values default', async () => {
+    const config = await load('demo', fixturePath('config-basic'), {
+      defaults: {
+        blank: '',
+        null: null,
+        awesome: 'yes',
       },
     });
     expect(config).toMatchSnapshot();

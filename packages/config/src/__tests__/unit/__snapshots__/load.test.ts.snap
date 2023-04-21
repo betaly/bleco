@@ -70,3 +70,25 @@ exports[`load config should load with defaults config 1`] = `
   "password": "123456",
 }
 `;
+
+exports[`load config should remove null and blank values default 1`] = `
+{
+  "awesome": "yes",
+  "deep": {
+    "object": {
+      "property": "value",
+    },
+  },
+  "foo": {
+    "bar": {
+      "a": "foo_bar_3",
+      "b": "foo_bar_2",
+      "c": "foo_bar_4",
+      "d": "",
+      "e": "default-e",
+      "number": 9,
+    },
+  },
+  "name": "hello",
+}
+`;
