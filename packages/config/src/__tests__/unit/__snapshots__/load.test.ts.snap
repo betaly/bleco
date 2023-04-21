@@ -12,12 +12,12 @@ exports[`load config should load from current working directory 1`] = `
       "a": "foo_bar_3",
       "b": "foo_bar_2",
       "c": "foo_bar_4",
-      "d": "",
       "e": "default-e",
       "number": 9,
     },
   },
   "name": "hello",
+  "url": "https://example.com",
 }
 `;
 
@@ -40,12 +40,12 @@ exports[`load config should load from specific directory 1`] = `
       "a": "foo_bar_3",
       "b": "foo_bar_2",
       "c": "foo_bar_4",
-      "d": "",
       "e": "default-e",
       "number": 9,
     },
   },
   "name": "hello",
+  "url": "https://example.com",
 }
 `;
 
@@ -61,13 +61,13 @@ exports[`load config should load with defaults config 1`] = `
       "a": "foo_bar_3",
       "b": "foo_bar_2",
       "c": "foo_bar_4",
-      "d": "",
       "e": "default-e",
       "number": 9,
     },
   },
   "name": "hello",
   "password": "123456",
+  "url": "https://example.com",
 }
 `;
 
@@ -84,11 +84,11 @@ exports[`load config should remove null and blank values default 1`] = `
       "a": "foo_bar_3",
       "b": "foo_bar_2",
       "c": "foo_bar_4",
-      "d": "",
       "e": "default-e",
       "number": 9,
     },
   },
   "name": "hello",
+  "url": "https://example.com",
 }
 `;

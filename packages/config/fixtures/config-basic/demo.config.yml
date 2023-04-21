@@ -1,4 +1,5 @@
 name: hello
+url: ${FOO_URL:-https://example.com}
 foo:
   bar:
     a: ${FOO_BAR_A}
@@ -10,4 +11,3 @@ foo:
 deep:
   object:
     property: value
-

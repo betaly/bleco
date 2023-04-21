@@ -1810,7 +1810,7 @@ __metadata:
     dotenv-parse-variables: ^2.0.0
     jest: ^29.5.0
     object-traversal: ^1.0.1
-    popu: ^0.4.0
+    popu: ^0.5.0
     tily: ^2.20.1
     tslib: ^2.5.0
   languageName: unknown
@@ -17097,14 +17097,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"popu@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "popu@npm:0.4.0"
+"popu@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "popu@npm:0.5.0"
   dependencies:
     debug: ^4.3.4
     is-string-and-not-blank: ^0.0.2
     tily: ^2.20.1
-  checksum: 32b762fe98bb19972a3174407b8bf74b1b0f9ec9404c5ec0b27fee62483c6a6955c85eda1d1408e16acec1d5df05c8e82f5e514f94a8ce9dfe4195ae44637f3b
+  checksum: 2c4f45fb0fb9f75805b4df22fdc7b47dafaf2f8752b22824001114438e791346ab7330b5eb12d7a61d3a6bbc482c8b46826e0c6917df06620d63ee937081e1a4
   languageName: node
   linkType: hard
 
