@@ -21,8 +21,8 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.312.0",
-    "@aws-sdk/s3-request-presigner": "^3.312.0",
+    "@aws-sdk/client-s3": "^3.317.0",
+    "@aws-sdk/s3-request-presigner": "^3.317.0",
     "@loopback/boot": "^5.0.10",
     "@loopback/context": "^5.0.10",
     "@loopback/core": "^4.0.10",
@@ -35,9 +35,9 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/dotenv": "^8.2.0",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.1",
     "@types/moment-timezone": "^0.5.30",
-    "@types/node": "^18.15.11",
+    "@types/node": "^18.15.13",
     "dotenv": "^16.0.3",
     "fs-extra": "^11.1.1"
   },
