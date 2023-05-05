@@ -21,8 +21,8 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@boost/common": "^4.0.0",
-    "@boost/config": "^4.0.0",
+    "@boost/common": "^4.1.0",
+    "@boost/config": "^4.0.1",
     "@codexsoft/dotenv-flow": "^3.3.5",
     "debug": "^4.3.4",
     "deepmerge": "^4.3.1",
@@ -37,7 +37,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.5.1",
-    "@types/node": "^18.15.13",
+    "@types/node": "^20.1.0",
     "cross-env": "^7.0.3",
     "jest": "^29.5.0"
   },
