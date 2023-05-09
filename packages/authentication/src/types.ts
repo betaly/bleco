@@ -1,7 +1,3 @@
-// Copyright IBM Corp. 2018. All Rights Reserved.
-// Node module: @loopback/authentication
-// This file is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
 import {BindingKey} from '@loopback/core';
 import {Request, Response} from '@loopback/rest';
 
@@ -12,6 +8,13 @@ export * from './strategies/types';
 export interface IAuthClient {
   clientId: string;
   clientSecret: string;
+  redirectUrl?: string;
+}
+
+export interface IAuthSecureClient {
+  clientId: string;
+  clientSecret: string;
+  clientType: ClientType;
   redirectUrl?: string;
 }
 
@@ -50,4 +53,10 @@ export interface ClientAuthCode<T extends IAuthUser, ID = number> {
 export interface AuthenticationConfig {
   useClientAuthenticationMiddleware?: boolean;
   useUserAuthenticationMiddleware?: boolean;
+  secureClient?: boolean;
+}
+
+export enum ClientType {
+  public = 'public',
+  private = 'private',
 }

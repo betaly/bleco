@@ -37,6 +37,7 @@ import {
 } from './strategies';
 import {SamlStrategyFactoryProvider, SamlVerifyProvider} from './strategies/SAML';
 import {Strategies} from './strategies/keys';
+import {SecureClientPasswordStrategyFactoryProvider} from './strategies/passport/passport-client-password/secure-client-password-strategy-factory-provider';
 import {CognitoAuthVerifyProvider, CognitoStrategyFactoryProvider} from './strategies/passport/passport-cognito-oauth2';
 import {AuthenticationConfig} from './types';
 
@@ -83,6 +84,12 @@ export class AuthenticationComponent implements Component {
       [Strategies.Passport.AZURE_AD_VERIFIER.key]: AzureADAuthVerifyProvider,
       [Strategies.Passport.KEYCLOAK_VERIFIER.key]: KeycloakVerifyProvider,
     };
+    if (this.config?.secureClient) {
+      this.providers = {
+        ...this.providers,
+        [Strategies.Passport.CLIENT_PASSWORD_STRATEGY_FACTORY.key]: SecureClientPasswordStrategyFactoryProvider,
+      };
+    }
     this.bindings = [];
     if (this.config?.useClientAuthenticationMiddleware) {
       this.bindings.push(createMiddlewareBinding(ClientAuthenticationMiddlewareProvider));
