@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/bleco/compare/@bleco/ds-user-updatable@0.2.34...@bleco/ds-user-updatable@0.3.0) (2023-05-09)
+
+**Note:** Version bump only for package @bleco/ds-user-updatable
+
+
+
+
+
 ## [0.2.34](https://github.com/betaly/bleco/compare/@bleco/ds-user-updatable@0.2.33...@bleco/ds-user-updatable@0.2.34) (2023-05-06)
 
 **Note:** Version bump only for package @bleco/ds-user-updatable
