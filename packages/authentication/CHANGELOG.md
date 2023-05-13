@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.2](https://github.com/betaly/bleco/compare/@bleco/authentication@1.1.1...@bleco/authentication@1.1.2) (2023-05-13)
+
+
+### Bug Fixes
+
+* unauthorized error ([d4ae3c0](https://github.com/betaly/bleco/commit/d4ae3c0ace5bdac0d4c0d4526eb5f5db18a63afe))
+
+
+
+
+
 ## [1.1.1](https://github.com/betaly/bleco/compare/@bleco/authentication@1.1.0...@bleco/authentication@1.1.1) (2023-05-09)
 
 **Note:** Version bump only for package @bleco/authentication

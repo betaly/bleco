@@ -1,7 +1,7 @@
 {
   "name": "@bleco/notifications",
   "description": "An extension for setting up various notification mechanisms in loopback-next application, vis-a-vis, Push notification, SMS notification, Email notification",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -84,7 +84,7 @@
     "jest": "jest --runInBand"
   },
   "dependencies": {
-    "@bleco/aliaser": "^0.5.0",
+    "@bleco/aliaser": "^0.5.1",
     "@loopback/boot": "^5.0.10",
     "@loopback/context": "^5.0.10",
     "@loopback/core": "^4.0.10",

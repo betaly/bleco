@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.5.0...@bleco/notifications@0.6.0) (2023-05-13)
+
+
+### Features
+
+* add apns and twilio notification provider and refactor tests. ([b15e006](https://github.com/betaly/bleco/commit/b15e006631678c4e6483c3361bcfd20563cf71b0))
+
+
+
+
+
 # [0.5.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.4.20...@bleco/notifications@0.5.0) (2023-05-09)
 
 **Note:** Version bump only for package @bleco/notifications
