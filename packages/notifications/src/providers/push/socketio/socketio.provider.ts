@@ -1,7 +1,6 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import io, {Socket} from 'socket.io-client';
-
 import {SocketBindings} from './keys';
 import {SocketConfig, SocketMessage, SocketNotification} from './types';
 
@@ -33,7 +32,8 @@ export class SocketIOProvider implements Provider<SocketNotification> {
            * emitting a message to channel passed via config
            */
 
-          if (!this.socketConfig?.defaultPath) {
+          // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+          if (!this.socketConfig || !this.socketConfig.defaultPath) {
             throw new HttpErrors.PreconditionFailed('Channel info is missing !');
           }
           this.socketService.emit(message.options?.path || this.socketConfig.defaultPath, JSON.stringify(message));

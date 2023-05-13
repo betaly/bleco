@@ -1,9 +1,8 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import Pubnub from 'pubnub';
-
 import {Aps, MessageConfig, PnApns, TargetsType} from '.';
-import {PayloadType} from '..';
+import {PayloadType} from './types';
 import {Config} from '../../../types';
 import {PubnubBindings} from './keys';
 import {PubNubMessage, PubNubNotification, PubNubSubscriberType} from './types';
@@ -80,7 +79,9 @@ export class PubNubProvider implements Provider<PubNubNotification> {
     return {
       publish: async (message: PubNubMessage) => {
         if (message.receiver.to.length === 0) {
-          throw new HttpErrors.BadRequest('Message receiver not found in request');
+          throw new HttpErrors.BadRequest(
+            'Message receiver not found in request',
+          );
         }
         const publishConfig = this.getPublishConfig(message);
         const publishes = message.receiver.to.map(receiver => {
@@ -107,7 +108,9 @@ export class PubNubProvider implements Provider<PubNubNotification> {
             ttl: config.options.ttl,
           };
         }
-        throw new HttpErrors.BadRequest('Authorization token or ttl not found in request');
+        throw new HttpErrors.BadRequest(
+          'Authorization token or ttl not found in request',
+        );
       },
       revokeAccess: async (config: Config) => {
         if (config.options?.token) {
@@ -122,7 +125,9 @@ export class PubNubProvider implements Provider<PubNubNotification> {
             success: true,
           };
         }
-        throw new HttpErrors.BadRequest('Authorization token not found in request');
+        throw new HttpErrors.BadRequest(
+          'Authorization token not found in request',
+        );
       },
     };
   }

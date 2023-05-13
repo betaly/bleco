@@ -1,4 +1,9 @@
-import {SMSMessage, SMSNotification, SMSReceiver, SMSSubscriber} from '../types';
+import {
+  SMSMessage,
+  SMSNotification,
+  SMSReceiver,
+  SMSSubscriber,
+} from '../types';
 
 export interface SNSNotification extends SMSNotification {
   publish(message: SNSMessage): Promise<void>;

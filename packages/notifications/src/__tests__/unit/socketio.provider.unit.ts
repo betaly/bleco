@@ -1,44 +1,30 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
-import Socket from 'socket.io-client';
-
 import {SocketIOProvider} from '../../providers';
 import {SocketMessage} from '../../providers/push/socketio/types';
 
-jest.mock('socket.io-client');
-
-const SocketMock = Socket as unknown as jest.Mock<typeof Socket>;
-
-describe('SocketIO Service', () => {
-  const configration = {
+describe('Socketio Service', () => {
+  let SocketMockProvider: Constructor<SocketIOProvider>;
+  const configuration = {
     url: 'dummyurl',
     defaultPath: 'default',
     options: {
       path: 'custompath',
     },
   };
-  beforeAll(() => {
-    SocketMock.mockImplementation(
-      () =>
-        ({
-          emit: jest.fn().mockReturnValue({}),
-        } as any),
-    );
-  });
-  afterAll(() => {
-    SocketMock.mockReset();
-  });
-  describe('socketio configration addition', () => {
+  beforeEach(setupMockSocketIo);
+  describe('socketio configuration addition', () => {
     it('returns error message when no socketio config', async () => {
       try {
-        const socketioProvider = new SocketIOProvider();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const socketioProvider = new SocketMockProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('Socket Config missing !');
       }
     });
     it('returs error message when receiver not found', async () => {
-      const socketioProvider = new SocketIOProvider(configration).value();
+      const socketioProvider = new SocketMockProvider(configuration).value();
       const message: SocketMessage = {
         body: 'dummy',
         sentDate: new Date(),
@@ -65,20 +51,12 @@ describe('SocketIO Service', () => {
           ],
         },
       };
-      const socketioProvider = new SocketIOProvider(configration).value();
+      const socketioProvider = new SocketMockProvider(configuration).value();
       const result = socketioProvider.publish(message);
       await expect(result).to.be.fulfilled();
     });
   });
-  // function setupMockSocketIo() {
-  //   const mockSocket = sinon.stub().returns({
-  //     emit: sinon.stub().returns({}),
-  //   });
-  //   SocketIOProvider = proxyquire(
-  //     '../../providers/push/socketio/socketio.provider',
-  //     {
-  //       'socket.io-client': mockSocket,
-  //     },
-  //   ).SocketIOProvider;
-  // }
+  function setupMockSocketIo() {
+    SocketMockProvider = SocketIOProvider;
+  }
 });

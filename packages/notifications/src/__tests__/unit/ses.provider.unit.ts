@@ -1,21 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
-import aws from 'aws-sdk';
-
 import {SESMessage, SesProvider} from '../../providers';
 
-jest.mock('aws-sdk');
-const SES = aws.SES as unknown as jest.Mock<typeof aws.SES>;
-
 describe('Ses Service', () => {
-  beforeAll(() => {
-    SES.mockReturnValue({
-      sendEmail: () => ({promise: () => Promise.resolve()}),
-    } as any);
-  });
-  afterAll(() => {
-    SES.mockReset();
-  });
+  let SesMockProvider: Constructor<SesProvider>;
+  beforeEach(setUpMockSES);
   describe('ses configuration addition', () => {
     const sesConfig = {
       accessKeyId: '',
@@ -27,7 +16,7 @@ describe('Ses Service', () => {
       const Config = {
         sendToMultipleReceivers: false,
       };
-      const sesProvider = new SesProvider(Config, sesConfig).value();
+      const sesProvider = new SesMockProvider(Config, sesConfig).value();
 
       const message: SESMessage = {
         receiver: {
@@ -41,13 +30,13 @@ describe('Ses Service', () => {
       expect(result).which.eql('Message sender not found in request');
     });
 
-    it('returns error message on passing reciever length as zero', async () => {
+    it('returns error message on passing receiver length as zero', async () => {
       const Config = {
         sendToMultipleReceivers: false,
         senderEmail: 'test@test.com',
       };
 
-      const sesProvider = new SesProvider(Config, sesConfig).value();
+      const sesProvider = new SesMockProvider(Config, sesConfig).value();
       const message: SESMessage = {
         receiver: {
           to: [],
@@ -66,7 +55,7 @@ describe('Ses Service', () => {
         senderEmail: 'test@test.com',
       };
 
-      const sesProvider = new SesProvider(Config, sesConfig).value();
+      const sesProvider = new SesMockProvider(Config, sesConfig).value();
       const message: SESMessage = {
         receiver: {
           to: [
@@ -85,7 +74,8 @@ describe('Ses Service', () => {
 
     it('returns error message when no ses config', async () => {
       try {
-        new SesProvider();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const sesProvider = new SesMockProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('AWS SES Config missing !');
@@ -98,7 +88,7 @@ describe('Ses Service', () => {
         senderEmail: 'test@gmail.com',
       };
 
-      const sesProvider = new SesProvider(Config, sesConfig).value();
+      const sesProvider = new SesMockProvider(Config, sesConfig).value();
       const message: SESMessage = {
         receiver: {
           to: [
@@ -121,7 +111,7 @@ describe('Ses Service', () => {
         sendToMultipleReceivers: true,
         senderEmail: 'test@gmail.com',
       };
-      const sesProvider = new SesProvider(Config, sesConfig).value();
+      const sesProvider = new SesMockProvider(Config, sesConfig).value();
       const message: SESMessage = {
         receiver: {
           to: [
@@ -139,4 +129,8 @@ describe('Ses Service', () => {
       await expect(result).to.be.fulfilled();
     });
   });
+
+  function setUpMockSES() {
+    SesMockProvider = SesProvider;
+  }
 });

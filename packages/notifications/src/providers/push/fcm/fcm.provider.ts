@@ -1,7 +1,6 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import * as admin from 'firebase-admin';
-
 import {GeneralMessage} from '.';
 import {FcmBindings} from './keys';
 import {FcmMessage, FcmNotification, FcmSubscriberType} from './types';
@@ -59,7 +58,7 @@ export class FcmProvider implements Provider<FcmNotification> {
         ...generalMessageObj,
         data: {...message.options.data},
       };
-      promises.push(this.fcmService.messaging().sendMulticast(msgToTransfer, (message.options.dryRun = false)));
+      promises.push(this.fcmService.messaging().sendEachForMulticast(msgToTransfer, (message.options.dryRun = false)));
     }
     return promises;
   }

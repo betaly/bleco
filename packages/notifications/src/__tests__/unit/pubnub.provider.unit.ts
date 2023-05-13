@@ -1,36 +1,18 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
-import PubNub from 'pubnub';
-
-import {PubNubMessage, PubNubProvider, PubnubConfig} from '../../providers';
+import {PubnubConfig, PubNubMessage, PubNubProvider} from '../../providers';
 import {Config} from '../../types';
 
-jest.mock('pubnub');
-const PubNubMock = PubNub as unknown as jest.Mock<typeof PubNub>;
-
 describe('Pubnub Service', () => {
+  let PubnubProviderMock: Constructor<PubNubProvider>;
   const pubnubConfig: PubnubConfig = {
+    uuid: '1',
     subscribeKey: 'test',
-    uuid: 'test123',
   };
-
-  beforeAll(() => {
-    PubNubMock.mockImplementation(
-      () =>
-        ({
-          publish: () => Promise.resolve(),
-          grant: () => Promise.resolve(),
-        } as any),
-    );
-  });
-
-  afterAll(() => {
-    PubNubMock.mockReset();
-  });
-
+  beforeEach(setupMockPubnub);
   describe('pubnub configuration addition', () => {
     it('returns error message on passing receiver length as zero', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const message: PubNubMessage = {
         receiver: {
           to: [],
@@ -45,7 +27,7 @@ describe('Pubnub Service', () => {
     });
 
     it('returns a Promise to be fulfilled for publish', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const message: PubNubMessage = {
         receiver: {
           to: [
@@ -65,7 +47,8 @@ describe('Pubnub Service', () => {
 
     it('returns error message when no pubnub config', async () => {
       try {
-        new PubNubProvider();
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const pubnubProvider = new PubnubProviderMock();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('Pubnub Config missing !');
@@ -73,7 +56,7 @@ describe('Pubnub Service', () => {
     });
 
     it('returns error for grant access when token or ttl is not sent', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const config: Config = {
         receiver: {
           to: [
@@ -90,7 +73,7 @@ describe('Pubnub Service', () => {
     });
 
     it('returns error for revoke access when token is not sent', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const config: Config = {
         receiver: {
           to: [
@@ -107,7 +90,7 @@ describe('Pubnub Service', () => {
     });
 
     it('returns success for revoking the access', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const config: Config = {
         receiver: {
           to: [
@@ -127,7 +110,7 @@ describe('Pubnub Service', () => {
     });
 
     it('returns success for granting the access', async () => {
-      const pubnubProvider = new PubNubProvider(pubnubConfig).value();
+      const pubnubProvider = new PubnubProviderMock(pubnubConfig).value();
       const config: Config = {
         receiver: {
           to: [
@@ -147,4 +130,7 @@ describe('Pubnub Service', () => {
       expect(result).to.be.eql({ttl: 'dummy'});
     });
   });
+  function setupMockPubnub() {
+    PubnubProviderMock = PubNubProvider;
+  }
 });

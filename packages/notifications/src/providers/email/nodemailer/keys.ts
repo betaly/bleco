@@ -1,5 +1,4 @@
 import {BindingKey} from '@loopback/core';
-
 import SMTPTransport = require('nodemailer/lib/smtp-transport');
 
 export namespace NodemailerBindings {
@@ -20,5 +19,7 @@ export namespace NodemailerBindings {
    *    rejectUnauthorized: true
    *   }
    */
-  export const Config = BindingKey.create<SMTPTransport.Options | null>('bleco.notification.config.nodemailer');
+  export const Config = BindingKey.create<SMTPTransport.Options | null>(
+    'sf.notification.config.nodemailer',
+  );
 }

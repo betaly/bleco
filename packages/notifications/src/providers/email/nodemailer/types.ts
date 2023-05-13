@@ -1,5 +1,4 @@
 import {EmailMessage, EmailNotification, EmailSubscriber} from '../types';
-
 import Mail = require('nodemailer/lib/mailer');
 
 export interface NodemailerNotification extends EmailNotification {
@@ -27,7 +26,7 @@ export interface NodemailerMessage extends EmailMessage {
    * subject and to fields will be populated from main message,
    * but this will override those values if passed
    *
-   * reciever will be extracted from main message,
+   * receiver will be extracted from main message,
    * to column in options won't be considered
    *
    * 'from' will be a mandatory field without which this will be considered wrong

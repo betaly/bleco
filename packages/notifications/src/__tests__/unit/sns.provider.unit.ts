@@ -1,11 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
-import aws from 'aws-sdk';
-
 import {SNSMessage, SnsProvider} from '../../providers';
-
-jest.mock('aws-sdk');
-const SNS = aws.SNS as unknown as jest.Mock<typeof aws.SNS>;
 
 describe('Sns Service', () => {
   const message: SNSMessage = {
@@ -31,31 +26,26 @@ describe('Sns Service', () => {
     type: 0,
     subject: undefined,
   };
-  const configration = {
+  const configuration = {
     apiVersion: 'test',
     accessKeyId: '',
     secretAccessKey: '',
     region: 'us-east-1',
   };
 
-  beforeAll(() => {
-    SNS.mockReturnValue({
-      publish: () => ({promise: () => Promise.resolve()}),
-    } as any);
-  });
-  afterAll(() => {
-    SNS.mockReset();
-  });
-  describe('sns configration addition', () => {
-    it('returns error message on passing reciever length as zero', async () => {
-      const snsProvider = new SnsProvider(configration).value();
+  let SnsProviderMock: Constructor<SnsProvider>;
+  beforeEach(setupMockSNS);
+  describe('sns configuration addition', () => {
+    it('returns error message on passing receiver length as zero', async () => {
+      const snsProvider = new SnsProviderMock(configuration).value();
       const result = await snsProvider.publish(message).catch(err => err.message);
       expect(result).which.eql('Message receiver not found in request');
     });
 
     it('returns error message when no sns config', async () => {
       try {
-        new SnsProvider();
+        /* eslint-disable @typescript-eslint/no-unused-vars */
+        const snsProvider = new SnsProvider();
       } catch (err) {
         const result = err.message;
         expect(result).which.eql('AWS SNS Config missing !');
@@ -63,9 +53,13 @@ describe('Sns Service', () => {
     });
 
     it('returns the message', async () => {
-      const snsProvider = new SnsProvider(configration).value();
+      const snsProvider = new SnsProviderMock(configuration).value();
       const result = snsProvider.publish(message1);
       await expect(result).to.be.fulfilled();
     });
   });
+
+  function setupMockSNS() {
+    SnsProviderMock = SnsProvider;
+  }
 });

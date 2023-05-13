@@ -1,7 +1,6 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import {SES} from 'aws-sdk';
-
 import {NotificationBindings} from '../../../keys';
 import {INotificationConfig} from '../../../types';
 import {SESBindings} from './keys';
@@ -30,14 +29,19 @@ export class SesProvider implements Provider<SESNotification> {
   value() {
     return {
       publish: async (message: SESMessage) => {
-        const fromEmail = message.options?.fromEmail || this.config?.senderEmail;
+        const fromEmail =
+          message.options?.fromEmail || this.config?.senderEmail;
 
         if (!fromEmail) {
-          throw new HttpErrors.BadRequest('Message sender not found in request');
+          throw new HttpErrors.BadRequest(
+            'Message sender not found in request',
+          );
         }
 
         if (message.receiver.to.length === 0) {
-          throw new HttpErrors.BadRequest('Message receiver not found in request');
+          throw new HttpErrors.BadRequest(
+            'Message receiver not found in request',
+          );
         }
         if (!message.subject || !message.body) {
           throw new HttpErrors.BadRequest('Message data incomplete');

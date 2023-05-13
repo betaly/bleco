@@ -1,4 +1,9 @@
-import {PushMessage, PushNotification, PushReceiver, PushSubscriber} from '../types';
+import {
+  PushMessage,
+  PushNotification,
+  PushReceiver,
+  PushSubscriber,
+} from '../types';
 
 export interface SocketNotification extends PushNotification {
   publish(message: SocketMessage): Promise<void>;
