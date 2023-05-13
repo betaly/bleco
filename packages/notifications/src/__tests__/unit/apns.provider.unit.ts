@@ -9,7 +9,6 @@ describe('Apns Service', () => {
   describe('apns configuration addition', () => {
     it('returns error message when no apns config', async () => {
       try {
-        /*eslint-disable @typescript-eslint/no-unused-vars*/
         const apnsProvider = new ApnsProvider();
       } catch (err) {
         const result = err.message;

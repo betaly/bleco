@@ -74,7 +74,6 @@ describe('Ses Service', () => {
 
     it('returns error message when no ses config', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const sesProvider = new SesMockProvider();
       } catch (err) {
         const result = err.message;

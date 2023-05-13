@@ -90,7 +90,6 @@ describe('Twilio Service', () => {
     it('returns error message when no twilio config', async () => {
       try {
         // NOSONAR
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const twilioProvider = new TwilioProvider();
       } catch (err) {
         const result = err.message;

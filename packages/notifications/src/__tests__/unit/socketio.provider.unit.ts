@@ -16,7 +16,6 @@ describe('Socketio Service', () => {
   describe('socketio configuration addition', () => {
     it('returns error message when no socketio config', async () => {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const socketioProvider = new SocketMockProvider();
       } catch (err) {
         const result = err.message;

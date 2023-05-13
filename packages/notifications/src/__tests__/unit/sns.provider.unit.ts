@@ -44,7 +44,6 @@ describe('Sns Service', () => {
 
     it('returns error message when no sns config', async () => {
       try {
-        /* eslint-disable @typescript-eslint/no-unused-vars */
         const snsProvider = new SnsProvider();
       } catch (err) {
         const result = err.message;

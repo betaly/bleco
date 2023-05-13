@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import {expect} from '@loopback/testlab';
 import * as admin from 'firebase-admin';
 import {FcmMessage, FcmProvider} from '../../providers';
