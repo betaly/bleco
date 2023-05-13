@@ -47,14 +47,12 @@ export class StrategyAdapter<T> {
 
       // add failure state handler to strategy instance
       strategy.fail = (challenge: Error | string) => {
-        reject(
-          new HttpErrors.Unauthorized(typeof challenge === 'string' ? challenge : challenge.message ?? 'Unknown error'),
-        );
+        reject(toUnauthorizedError(challenge));
       };
 
       // add error state handler to strategy instance
       strategy.error = (error: Error | string) => {
-        reject(new HttpErrors.Unauthorized(typeof error === 'string' ? error : error.message ?? 'Unknown error'));
+        reject(toUnauthorizedError(error));
       };
 
       strategy.redirect = (url: string) => {
@@ -68,4 +66,8 @@ export class StrategyAdapter<T> {
       strategy.authenticate(request, options ?? {});
     });
   }
+}
+
+function toUnauthorizedError(err?: Error | string): Error {
+  return new HttpErrors.Unauthorized(typeof err === 'string' ? err : err?.message ?? 'Unknown error');
 }
