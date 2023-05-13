@@ -92,6 +92,7 @@
     "tslib": "^2.5.0"
   },
   "devDependencies": {
+    "@alicloud/dysmsapi20170525": "^2.0.23",
     "@loopback/testlab": "^5.0.10",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
