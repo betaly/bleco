@@ -93,6 +93,7 @@
   },
   "devDependencies": {
     "@alicloud/dysmsapi20170525": "^2.0.23",
+    "@alicloud/openapi-client": "^0.4.6",
     "@loopback/testlab": "^5.0.10",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
@@ -112,6 +113,7 @@
     "rewiremock": "^3.14.5",
     "socket.io-client": "^4.6.1",
     "source-map-support": "^0.5.21",
+    "ts-essentials": "^9.3.2",
     "ts-jest": "^29.1.0",
     "twilio": "^4.11.0"
   },

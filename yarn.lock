@@ -50,7 +50,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@alicloud/openapi-client@npm:^0.4.4":
+"@alicloud/openapi-client@npm:^0.4.4, @alicloud/openapi-client@npm:^0.4.6":
   version: 0.4.6
   resolution: "@alicloud/openapi-client@npm:0.4.6"
   dependencies:
@@ -2015,6 +2015,7 @@ __metadata:
   resolution: "@bleco/notifications@workspace:packages/notifications"
   dependencies:
     "@alicloud/dysmsapi20170525": ^2.0.23
+    "@alicloud/openapi-client": ^0.4.6
     "@bleco/aliaser": ^0.5.1
     "@loopback/boot": ^5.0.10
     "@loopback/context": ^5.0.10
@@ -2039,6 +2040,7 @@ __metadata:
     rewiremock: ^3.14.5
     socket.io-client: ^4.6.1
     source-map-support: ^0.5.21
+    ts-essentials: ^9.3.2
     ts-jest: ^29.1.0
     tslib: ^2.5.0
     twilio: ^4.11.0
