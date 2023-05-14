@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.6.0...@bleco/notifications@0.7.0) (2023-05-14)
+
+
+### Features
+
+* add ali sms notification provider ([8787333](https://github.com/betaly/bleco/commit/8787333fdeb6ef5124e9aee1142f33baa9484fdd))
+
+
+
+
+
 # [0.6.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.5.0...@bleco/notifications@0.6.0) (2023-05-13)
 
 
