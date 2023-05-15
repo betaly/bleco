@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.7.2...@bleco/notifications@0.8.0) (2023-05-15)
+
+
+### Features
+
+* change config key to `notifications` ([3f57e5d](https://github.com/betaly/bleco/commit/3f57e5d17e959cf1faa760181d15e3ac71684d5d))
+
+
+
+
+
 ## [0.7.2](https://github.com/betaly/bleco/compare/@bleco/notifications@0.7.1...@bleco/notifications@0.7.2) (2023-05-15)
 
 **Note:** Version bump only for package @bleco/notifications
