@@ -1,7 +1,7 @@
-import {ApnsBinding} from './apns';
-import {FcmBindings} from './fcm';
-import {PubnubBindings} from './pubnub';
-import {SocketBindings} from './socketio';
+import {ApnsBinding} from './apns/keys';
+import {FcmBindings} from './fcm/keys';
+import {PubnubBindings} from './pubnub/keys';
+import {SocketBindings} from './socketio/keys';
 
 export const PushAliasMetadata = {
   apns: ApnsBinding.Config,

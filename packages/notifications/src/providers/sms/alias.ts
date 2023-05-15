@@ -1,6 +1,6 @@
-import {AliSMSBindings} from './alisms';
-import {SNSBindings} from './sns';
-import {TwilioBindings} from './twilio';
+import {AliSMSBindings} from './alisms/keys';
+import {SNSBindings} from './sns/keys';
+import {TwilioBindings} from './twilio/keys';
 
 export const SmsAliasMetadata = {
   sns: SNSBindings.Config,
