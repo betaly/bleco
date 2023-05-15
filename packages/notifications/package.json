@@ -38,6 +38,10 @@
     "./twilio": {
       "type": "./dist/providers/sms/twilio/index.d.ts",
       "default": "./dist/providers/sms/twilio/index.js"
+    },
+    "./alisms": {
+      "type": "./dist/providers/sms/alisms/index.d.ts",
+      "default": "./dist/providers/sms/alisms/index.js"
     }
   },
   "typesVersions": {
@@ -65,6 +69,9 @@
       ],
       "twilio": [
         "./dist/providers/sms/twilio/index.d.ts"
+      ],
+      "alisms": [
+        "./dist/providers/sms/alisms/index.d.ts"
       ]
     }
   },
