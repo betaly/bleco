@@ -1,10 +1,6 @@
 import * as admin from 'firebase-admin';
-import {
-  PushMessage,
-  PushNotification,
-  PushReceiver,
-  PushSubscriber,
-} from '../types';
+
+import {PushMessage, PushNotification, PushReceiver, PushSubscriber} from '../types';
 
 export interface FcmNotification extends PushNotification {
   publish(message: FcmMessage): Promise<void>;

@@ -1,8 +1,9 @@
-import {inject, Provider} from '@loopback/core';
 import Dysmsapi20170525, {SendSmsRequest} from '@alicloud/dysmsapi20170525';
 import * as aliapi from '@alicloud/openapi-client';
-import {AliSMSAuthConfig, AliSMSMessage, AliSMSNotification} from './types';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
+
+import {AliSMSAuthConfig, AliSMSMessage, AliSMSNotification} from './types';
 
 const endpoint = 'dysmsapi.aliyuncs.com';
 

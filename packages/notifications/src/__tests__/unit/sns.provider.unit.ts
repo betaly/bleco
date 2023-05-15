@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
+
 import {SNSMessage, SnsProvider} from '../../providers';
 
 describe('Sns Service', () => {

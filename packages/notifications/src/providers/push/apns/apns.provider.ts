@@ -1,8 +1,10 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import apns from '@parse/node-apn';
+
 import {ApnsBinding} from './keys';
 import {ApnsConfigType, ApnsMessage, ApnsSubscriberType} from './types';
+
 // sonarignore:start
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class ApnsProvider implements Provider<any> {

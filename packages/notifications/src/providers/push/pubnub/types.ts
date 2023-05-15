@@ -1,11 +1,7 @@
 import Pubnub from 'pubnub';
+
 import {Config} from '../../../types';
-import {
-  PushMessage,
-  PushNotification,
-  PushReceiver,
-  PushSubscriber,
-} from '../types';
+import {PushMessage, PushNotification, PushReceiver, PushSubscriber} from '../types';
 
 export interface PubNubNotification extends PushNotification {
   publish(message: PubNubMessage): Promise<void>;

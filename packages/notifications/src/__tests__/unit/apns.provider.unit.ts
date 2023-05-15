@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/context';
 import {expect} from '@loopback/testlab';
+
 import {ApnsProvider} from '../../providers';
 import {ApnsMessage} from '../../providers/push/apns/types';
 

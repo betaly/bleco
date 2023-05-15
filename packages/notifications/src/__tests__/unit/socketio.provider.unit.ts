@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
+
 import {SocketIOProvider} from '../../providers';
 import {SocketMessage} from '../../providers/push/socketio/types';
 

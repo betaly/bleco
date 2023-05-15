@@ -1,6 +1,7 @@
 import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
-import {PubnubConfig, PubNubMessage, PubNubProvider} from '../../providers';
+
+import {PubNubMessage, PubNubProvider, PubnubConfig} from '../../providers';
 import {Config} from '../../types';
 
 describe('Pubnub Service', () => {

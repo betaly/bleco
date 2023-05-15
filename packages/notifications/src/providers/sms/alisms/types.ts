@@ -1,7 +1,7 @@
-import {SMSMessage, SMSNotification, SMSReceiver, SMSSubscriber} from '../types';
-
 import * as ali from '@alicloud/openapi-client';
 import {OmitProperties} from 'ts-essentials';
+
+import {SMSMessage, SMSNotification, SMSReceiver, SMSSubscriber} from '../types';
 
 export interface AliSMSAuthConfig extends OmitProperties<ali.Config, Function> {
   accessKeyId: string;

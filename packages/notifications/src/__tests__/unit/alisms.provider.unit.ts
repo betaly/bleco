@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
+
 import {AliSMSAuthConfig, AliSMSMessage, AliSMSProvider} from '../../providers';
 
 describe('AliSMS Service', () => {

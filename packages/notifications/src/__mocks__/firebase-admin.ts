@@ -1,6 +1,6 @@
-const admin = jest.createMockFromModule<typeof import('firebase-admin')>('firebase-admin');
-
 import {app} from 'firebase-admin';
+
+const admin = jest.createMockFromModule<typeof import('firebase-admin')>('firebase-admin');
 
 admin.initializeApp = () =>
   ({

@@ -1,10 +1,4 @@
-import {
-  INotification,
-  Message,
-  MessageOptions,
-  Receiver,
-  Subscriber,
-} from '../../types';
+import {INotification, Message, MessageOptions, Receiver, Subscriber} from '../../types';
 
 export interface SMSNotification extends INotification {
   publish(message: SMSMessage): Promise<void>;

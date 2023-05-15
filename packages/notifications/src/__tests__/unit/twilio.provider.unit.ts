@@ -1,5 +1,6 @@
 import {Constructor} from '@loopback/core';
 import {expect} from '@loopback/testlab';
+
 import {TwilioMessage, TwilioProvider} from '../../providers';
 
 describe('Twilio Service', () => {

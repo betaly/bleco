@@ -1,6 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {HttpErrors} from '@loopback/rest';
 import io, {Socket} from 'socket.io-client';
+
 import {SocketBindings} from './keys';
 import {SocketConfig, SocketMessage, SocketNotification} from './types';
 

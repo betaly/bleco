@@ -1,10 +1,6 @@
 import {ProviderOptions} from '@parse/node-apn';
-import {
-  PushMessage,
-  PushNotification,
-  PushReceiver,
-  PushSubscriber,
-} from '../types';
+
+import {PushMessage, PushNotification, PushReceiver, PushSubscriber} from '../types';
 
 export interface ApnsNotification extends PushNotification {
   publish(message: ApnsMessage): Promise<void>;

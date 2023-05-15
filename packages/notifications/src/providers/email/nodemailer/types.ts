@@ -1,4 +1,5 @@
 import {EmailMessage, EmailNotification, EmailSubscriber} from '../types';
+
 import Mail = require('nodemailer/lib/mailer');
 
 export interface NodemailerNotification extends EmailNotification {
