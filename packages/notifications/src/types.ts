@@ -42,7 +42,7 @@ export interface Receiver {
   to: Subscriber[];
 }
 
-export const enum MessageType {
+export enum MessageType {
   Push,
   Email,
   SMS,
