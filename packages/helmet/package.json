@@ -21,18 +21,18 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/boot": "^5.0.10",
-    "@loopback/context": "^5.0.10",
-    "@loopback/core": "^4.0.10",
-    "@loopback/rest": "^12.0.10",
+    "@loopback/boot": "^6.0.0",
+    "@loopback/context": "^6.0.0",
+    "@loopback/core": "^5.0.0",
+    "@loopback/rest": "^13.0.0",
     "helmet": "^7.0.0"
   },
   "devDependencies": {
-    "@loopback/testlab": "^5.0.10",
+    "@loopback/testlab": "^6.0.0",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/helmet": "4.0.0",
-    "@types/node": "^20.1.4"
+    "@types/node": "^20.1.5"
   },
   "files": [
     "README.md",
