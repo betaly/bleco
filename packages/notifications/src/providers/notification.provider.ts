@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {NotificationError} from '../error-keys';
 import {NotificationBindings} from '../keys';
@@ -23,7 +23,7 @@ export class NotificationProvider implements Provider<INotification> {
     } else if (data.type === MessageType.Push && this.pushProvider) {
       return this.pushProvider.publish(data);
     } else {
-      throw new HttpErrors.UnprocessableEntity(NotificationError.ProviderNotFound);
+      throw new BErrors.UnprocessableEntity(NotificationError.ProviderNotFound);
     }
   }
 

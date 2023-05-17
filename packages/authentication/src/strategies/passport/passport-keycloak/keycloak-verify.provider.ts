@@ -1,5 +1,5 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {Keycloak, VerifyFunction} from '../../types';
 
@@ -18,7 +18,7 @@ export class KeycloakVerifyProvider implements Provider<VerifyFunction.KeycloakA
       profile: Keycloak.Profile,
       cb: Keycloak.VerifyCallback,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.KeycloakAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.KeycloakAuthFn is not implemented`);
     };
   }
 }

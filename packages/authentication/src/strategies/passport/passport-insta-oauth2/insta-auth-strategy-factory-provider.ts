@@ -1,5 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-instagram';
 
@@ -35,7 +36,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {
@@ -51,7 +52,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(undefined, user);
           } catch (err) {

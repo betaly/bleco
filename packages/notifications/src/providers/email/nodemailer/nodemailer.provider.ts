@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as nodemailer from 'nodemailer';
 
 import {NotificationBindings} from '../../../keys';
@@ -26,7 +26,7 @@ export class NodemailerProvider implements Provider<NodemailerNotification> {
         ...this.nodemailerConfig,
       });
     } else {
-      throw new HttpErrors.PreconditionFailed('Nodemailer Config missing !');
+      throw new BErrors.PreconditionFailed('Nodemailer Config missing !');
     }
   }
 
@@ -38,14 +38,14 @@ export class NodemailerProvider implements Provider<NodemailerNotification> {
         const fromEmail = message.options?.from ?? this.config?.senderEmail;
 
         if (!fromEmail) {
-          throw new HttpErrors.BadRequest('Message sender not found in request');
+          throw new BErrors.BadRequest('Message sender not found in request');
         }
 
         if (message.receiver.to.length === 0) {
-          throw new HttpErrors.BadRequest('Message receiver not found in request');
+          throw new BErrors.BadRequest('Message receiver not found in request');
         }
         if (!message.subject || !message.body) {
-          throw new HttpErrors.BadRequest('Message data incomplete');
+          throw new BErrors.BadRequest('Message data incomplete');
         }
 
         if (this.config?.sendToMultipleReceivers) {

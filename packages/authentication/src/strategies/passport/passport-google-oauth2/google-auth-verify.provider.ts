@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as GoogleStrategy from 'passport-google-oauth20';
 
 import {VerifyFunction} from '../../types';
@@ -20,7 +21,7 @@ export class GoogleAuthVerifyProvider implements Provider<VerifyFunction.GoogleA
       cb: GoogleStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.GoogleAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.GoogleAuthFn is not implemented`);
     };
   }
 }

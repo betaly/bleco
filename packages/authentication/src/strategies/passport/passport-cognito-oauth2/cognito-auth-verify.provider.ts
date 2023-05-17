@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {Cognito, VerifyFunction} from '../../types';
 
@@ -19,7 +20,7 @@ export class CognitoAuthVerifyProvider implements Provider<VerifyFunction.Cognit
       cb: Cognito.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.CognitoAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.CognitoAuthFn is not implemented`);
     };
   }
 }

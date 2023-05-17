@@ -1,5 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient} from '../../../types';
@@ -26,7 +27,7 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
 
   clientPasswordVerifierHelper(client: IAuthClient | null, clientSecret: string | undefined) {
     if (!client?.clientSecret || client.clientSecret !== clientSecret) {
-      throw new HttpErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
+      throw new BErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
     } else {
       // do nothing
     }

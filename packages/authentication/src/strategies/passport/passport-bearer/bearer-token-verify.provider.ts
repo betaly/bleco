@@ -1,5 +1,5 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {VerifyFunction} from '../../types';
 
@@ -13,7 +13,7 @@ export class BearerTokenVerifyProvider implements Provider<VerifyFunction.Bearer
 
   value(): VerifyFunction.BearerFn {
     return async (token: string) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.BearerFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.BearerFn is not implemented`);
     };
   }
 }

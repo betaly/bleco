@@ -11,7 +11,7 @@ import {
   Options,
   Where,
 } from '@loopback/repository';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {toArray} from 'tily/array/toArray';
 import {AnyObj} from 'tily/typings/types';
 
@@ -56,7 +56,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
         let currentUser = await this.getCurrentUser?.();
         currentUser = currentUser ?? options?.currentUser;
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         const uid = getUserId(currentUser);
         entity.createdBy = uid;
@@ -69,7 +69,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
         let currentUser = await this.getCurrentUser?.();
         currentUser = currentUser ?? options?.currentUser;
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         const uid = getUserId(currentUser);
         entities.forEach(entity => {
@@ -83,7 +83,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
       async save(entity: T, options?: Options): Promise<T> {
         const currentUser = await this.getCurrentUser?.();
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         entity.updatedBy = getUserId(currentUser);
         return super.save(entity, options);
@@ -93,7 +93,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
       async update(entity: T, options?: Options): Promise<void> {
         const currentUser = await this.getCurrentUser?.();
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         entity.updatedBy = getUserId(currentUser);
         return super.update(entity, options);
@@ -104,7 +104,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
         let currentUser = await this.getCurrentUser?.();
         currentUser = currentUser ?? options?.currentUser;
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         data.updatedBy = getUserId(currentUser);
         return super.updateAll(data, where, options);
@@ -115,7 +115,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
         let currentUser = await this.getCurrentUser?.();
         currentUser = currentUser ?? options?.currentUser;
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         data.updatedBy = getUserId(currentUser);
         return super.updateById(id, data, options);
@@ -125,7 +125,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
       async replaceById(id: ID, data: DataObject<T>, options?: Options): Promise<void> {
         const currentUser = await this.getCurrentUser?.();
         if (!currentUser && throwIfNoUser) {
-          throw new HttpErrors.Forbidden(InvalidCredentials);
+          throw new BErrors.Forbidden(InvalidCredentials);
         }
         const model = await this.findById(id, {fields: ['id', 'createdBy']} as FilterExcludingWhere<T>, options);
         data.createdBy = model.createdBy;

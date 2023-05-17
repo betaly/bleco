@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import io, {Socket} from 'socket.io-client';
 
 import {SocketBindings} from './keys';
@@ -15,7 +15,7 @@ export class SocketIOProvider implements Provider<SocketNotification> {
     if (this.socketConfig?.url) {
       this.socketService = io(this.socketConfig.url, socketConfig?.options);
     } else {
-      throw new HttpErrors.PreconditionFailed('Socket Config missing !');
+      throw new BErrors.PreconditionFailed('Socket Config missing !');
     }
   }
 
@@ -35,11 +35,11 @@ export class SocketIOProvider implements Provider<SocketNotification> {
 
           // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
           if (!this.socketConfig || !this.socketConfig.defaultPath) {
-            throw new HttpErrors.PreconditionFailed('Channel info is missing !');
+            throw new BErrors.PreconditionFailed('Channel info is missing !');
           }
           this.socketService.emit(message.options?.path || this.socketConfig.defaultPath, JSON.stringify(message));
         } else {
-          throw new HttpErrors.BadRequest('Message receiver not found');
+          throw new BErrors.BadRequest('Message receiver not found');
         }
       },
     };

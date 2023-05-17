@@ -1,7 +1,7 @@
 import Dysmsapi20170525, {SendSmsRequest} from '@alicloud/dysmsapi20170525';
 import * as aliapi from '@alicloud/openapi-client';
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {AliSMSAuthConfig, AliSMSMessage, AliSMSNotification} from './types';
 
@@ -22,20 +22,20 @@ export class AliSMSProvider implements Provider<AliSMSNotification> {
         }),
       );
     } else {
-      throw new HttpErrors.PreconditionFailed('AliSMS Config missing !');
+      throw new BErrors.PreconditionFailed('AliSMS Config missing !');
     }
   }
 
   validateMessage(message: AliSMSMessage) {
     const {receiver, options} = message;
     if (receiver.to.length === 0) {
-      throw new HttpErrors.BadRequest('Message receiver not found in request');
+      throw new BErrors.BadRequest('Message receiver not found in request');
     }
     if (!options?.signName) {
-      throw new HttpErrors.BadRequest('Message signName not found in request');
+      throw new BErrors.BadRequest('Message signName not found in request');
     }
     if (!options?.templateCode) {
-      throw new HttpErrors.BadRequest('Message templateCode not found in request');
+      throw new BErrors.BadRequest('Message templateCode not found in request');
     }
   }
 

@@ -2,7 +2,8 @@
 // Node module: @loopback/authentication
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-import {HttpErrors, Request, Response} from '@loopback/rest';
+import {Request, Response} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {Strategy} from 'passport';
 
 const passportRequestMixin = require('passport/lib/http/request');
@@ -69,5 +70,5 @@ export class StrategyAdapter<T> {
 }
 
 function toUnauthorizedError(err?: Error | string): Error {
-  return new HttpErrors.Unauthorized(typeof err === 'string' ? err : err?.message ?? 'Unknown error');
+  return new BErrors.Unauthorized(typeof err === 'string' ? err : err?.message ?? 'Unknown error');
 }

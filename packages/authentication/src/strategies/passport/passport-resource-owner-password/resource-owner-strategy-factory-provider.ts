@@ -1,5 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 
 import {AuthErrorKeys} from '../../../error-keys';
@@ -45,7 +46,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
           try {
             const userInfo = await verifyFn(clientId, clientSecret, username, password, req);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {
@@ -66,7 +67,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
           try {
             const userInfo = await verifyFn(clientId, clientSecret, username, password);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {

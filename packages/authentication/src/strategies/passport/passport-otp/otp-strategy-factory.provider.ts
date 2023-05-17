@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {AuthErrorKeys} from '../../../error-keys';
 import {Strategies} from '../../keys';
@@ -32,7 +32,7 @@ export class PassportOtpStrategyFactoryProvider implements Provider<PassportOtpS
         try {
           const user = await verifyFn(key, otp);
           if (!user) {
-            throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+            throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
           }
           cb(null, user);
         } catch (err) {

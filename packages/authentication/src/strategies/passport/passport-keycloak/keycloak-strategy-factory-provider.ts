@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 
 import {AuthErrorKeys} from '../../../error-keys';
@@ -33,7 +33,7 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
         try {
           const user = await verifyFn(accessToken, refreshToken, profile, cb);
           if (!user) {
-            throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+            throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
           }
           cb(undefined, user);
         } catch (err) {

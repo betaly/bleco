@@ -1,6 +1,7 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
 import * as SamlStrategy from '@node-saml/passport-saml';
+import {BErrors} from 'berrors';
 
 import {VerifyFunction} from '../../types';
 
@@ -16,7 +17,7 @@ export class SamlVerifyProvider implements Provider<VerifyFunction.SamlFn> {
 
   value(): VerifyFunction.SamlFn {
     return async (profile: SamlStrategy.Profile, cb: SamlStrategy.VerifiedCallback, req?: Request) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.SamlFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.SamlFn is not implemented`);
     };
   }
 }

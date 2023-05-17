@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import twilio, {Twilio} from 'twilio';
 
 import {
@@ -22,7 +22,7 @@ export class TwilioProvider implements Provider<TwilioNotification> {
     if (this.twilioConfig) {
       this.twilioService = twilio(this.twilioConfig.accountSid, this.twilioConfig.authToken);
     } else {
-      throw new HttpErrors.PreconditionFailed('Twilio Config missing !');
+      throw new BErrors.PreconditionFailed('Twilio Config missing !');
     }
   }
 
@@ -30,7 +30,7 @@ export class TwilioProvider implements Provider<TwilioNotification> {
     return {
       publish: async (message: TwilioMessage) => {
         if (message.receiver.to.length === 0) {
-          throw new HttpErrors.BadRequest('Message receiver not found in request');
+          throw new BErrors.BadRequest('Message receiver not found in request');
         }
         const publishes = message.receiver.to.map(async receiver => {
           const msg: string = message.body;

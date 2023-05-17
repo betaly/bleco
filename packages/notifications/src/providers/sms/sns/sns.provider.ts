@@ -1,6 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
 import {SNS} from 'aws-sdk';
+import {BErrors} from 'berrors';
 
 import {SNSBindings} from './keys';
 import {SNSMessage, SNSNotification, SNSSubscriberType} from './types';
@@ -15,7 +15,7 @@ export class SnsProvider implements Provider<SNSNotification> {
     if (this.snsConfig) {
       this.snsService = new SNS(this.snsConfig);
     } else {
-      throw new HttpErrors.PreconditionFailed('AWS SNS Config missing !');
+      throw new BErrors.PreconditionFailed('AWS SNS Config missing !');
     }
   }
 
@@ -25,7 +25,7 @@ export class SnsProvider implements Provider<SNSNotification> {
     return {
       publish: async (message: SNSMessage) => {
         if (message.receiver.to.length === 0) {
-          throw new HttpErrors.BadRequest('Message receiver not found in request');
+          throw new BErrors.BadRequest('Message receiver not found in request');
         }
 
         const publishes = message.receiver.to.map(receiver => {

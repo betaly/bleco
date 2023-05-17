@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as InstagramStrategy from 'passport-instagram';
 
 import {VerifyCallback, VerifyFunction} from '../../types';
@@ -20,7 +21,7 @@ export class InstagramAuthVerifyProvider implements Provider<VerifyFunction.Inst
       cb: VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.InstagramAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.InstagramAuthFn is not implemented`);
     };
   }
 }

@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as AppleStrategy from 'passport-apple';
 import {DecodedIdToken} from 'passport-apple';
 
@@ -17,7 +18,7 @@ export class AppleAuthVerifyProvider implements Provider<VerifyFunction.AppleAut
       cb: AppleStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.AppleAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.AppleAuthFn is not implemented`);
     };
   }
 }

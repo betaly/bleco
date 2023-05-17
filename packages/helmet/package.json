@@ -32,7 +32,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/helmet": "4.0.0",
-    "@types/node": "^20.1.5"
+    "@types/node": "^20.1.7"
   },
   "files": [
     "README.md",

@@ -1,5 +1,5 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {VerifyFunction} from '../../types';
 
@@ -13,7 +13,7 @@ export class LocalPasswordVerifyProvider implements Provider<VerifyFunction.Loca
 
   value(): VerifyFunction.LocalPasswordFn {
     return async (username: string, password: string) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.LocalPasswordFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.LocalPasswordFn is not implemented`);
     };
   }
 }

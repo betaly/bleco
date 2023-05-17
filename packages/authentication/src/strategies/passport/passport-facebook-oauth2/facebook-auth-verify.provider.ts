@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as FacebookStrategy from 'passport-facebook';
 
 import {VerifyCallback, VerifyFunction} from '../../types';
@@ -20,7 +21,7 @@ export class FacebookAuthVerifyProvider implements Provider<VerifyFunction.Faceb
       cb: VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.FacebookAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.FacebookAuthFn is not implemented`);
     };
   }
 }

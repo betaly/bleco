@@ -1,5 +1,5 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {VerifyFunction} from '../../types';
 
@@ -14,7 +14,7 @@ export class ResourceOwnerVerifyProvider implements Provider<VerifyFunction.Reso
 
   value(): VerifyFunction.ResourceOwnerPasswordFn {
     return async (clientId, clientSecret, username, password) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.ResourceOwnerPasswordFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.ResourceOwnerPasswordFn is not implemented`);
     };
   }
 }

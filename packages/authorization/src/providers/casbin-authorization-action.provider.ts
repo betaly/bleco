@@ -1,6 +1,6 @@
 import {Getter, Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/express';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as casbin from 'casbin';
 
 import {AuthorizationBindings} from '../keys';
@@ -41,11 +41,11 @@ export class CasbinAuthorizationProvider implements Provider<CasbinAuthorizeFn> 
         // This is for publicly open routes only
         return true;
       } else if (!metadata.resource) {
-        throw new HttpErrors.Unauthorized(`Resource parameter is missing in the decorator.`);
+        throw new BErrors.Unauthorized(`Resource parameter is missing in the decorator.`);
       }
 
       if (!user.id) {
-        throw new HttpErrors.Unauthorized(`User not found.`);
+        throw new BErrors.Unauthorized(`User not found.`);
       }
 
       const subject = this.getUserName(`${user.id}`);
@@ -55,7 +55,7 @@ export class CasbinAuthorizationProvider implements Provider<CasbinAuthorizeFn> 
       if (metadata.permissions && metadata.permissions.length > 0) {
         desiredPermissions = metadata.permissions;
       } else {
-        throw new HttpErrors.Unauthorized(`Permissions are missing in the decorator.`);
+        throw new BErrors.Unauthorized(`Permissions are missing in the decorator.`);
       }
 
       // Fetch casbin config by invoking casbin-config-getter-provider
@@ -83,7 +83,7 @@ export class CasbinAuthorizationProvider implements Provider<CasbinAuthorizeFn> 
         authDecision = authDecision || decision;
       }
     } catch (err) {
-      throw new HttpErrors.Unauthorized(err.message);
+      throw new BErrors.Unauthorized(err.message);
     }
 
     return authDecision;

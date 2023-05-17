@@ -1,5 +1,6 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as AzureADStrategy from 'passport-azure-ad';
 
 import {VerifyFunction} from '../../types';
@@ -20,7 +21,7 @@ export class AzureADAuthVerifyProvider implements Provider<VerifyFunction.AzureA
       done: AzureADStrategy.VerifyCallback,
       req?: Request,
     ) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.AzureADAuthFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.AzureADAuthFn is not implemented`);
     };
   }
 }

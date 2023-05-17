@@ -1,4 +1,4 @@
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as vault from 'node-vault';
 import {Option, client} from 'node-vault';
 
@@ -11,7 +11,7 @@ export class VaultConnector {
 
   constructor(config?: VaultProviderOptions) {
     if (!config) {
-      throw new HttpErrors.UnprocessableEntity('Vault config not available !');
+      throw new BErrors.UnprocessableEntity('Vault config not available !');
     }
     this._config = config;
     this._connect();
@@ -24,7 +24,7 @@ export class VaultConnector {
 
   async initContainer() {
     if (!this._vaultClient) {
-      throw new HttpErrors.UnprocessableEntity('Vault client instance not available !');
+      throw new BErrors.UnprocessableEntity('Vault client instance not available !');
     }
     const config = this._config;
     const opts = {
@@ -63,10 +63,12 @@ export class VaultConnector {
     await this.initContainer();
     return this._vaultClient.help(path, requestOptions);
   }
+
   async write(path: string, data: unknown, requestOptions?: Option): Promise<unknown> {
     await this.initContainer();
     return this._vaultClient.write(path, data, requestOptions);
   }
+
   async read(path: string, requestOptions?: Option): Promise<unknown> {
     await this.initContainer();
     return this._vaultClient.read(path, requestOptions);
@@ -429,7 +431,7 @@ export class VaultConnector {
       });
     } catch (error) {
       console.error(`Vault connection failed ! Error :: ${error}`);
-      throw new HttpErrors.Forbidden('Vault connection failed !');
+      throw new BErrors.Forbidden('Vault connection failed !');
     }
   }
 }

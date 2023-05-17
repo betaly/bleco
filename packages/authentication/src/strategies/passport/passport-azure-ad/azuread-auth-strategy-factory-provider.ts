@@ -1,5 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors, Request} from '@loopback/rest';
+import {Request} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {
   IOIDCStrategyOptionWithRequest,
   IOIDCStrategyOptionWithoutRequest,
@@ -55,7 +56,7 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, done, req);
             if (!user) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             done(null, user);
           } catch (err) {
@@ -83,7 +84,7 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, done);
             if (!user) {
-              throw new HttpErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
             }
             done(null, user);
           } catch (err) {

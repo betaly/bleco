@@ -25,6 +25,7 @@
     "@loopback/boot": "^6.0.0",
     "@loopback/core": "^5.0.0",
     "@loopback/rest": "^13.0.0",
+    "berrors": "^0.1.2",
     "node-vault": "^0.9.22",
     "tslib": "^2.5.0"
   },
@@ -33,7 +34,7 @@
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
     "@types/jest": "^29.5.1",
-    "@types/node": "^20.1.5",
+    "@types/node": "^20.1.7",
     "fs-extra": "^11.1.1"
   },
   "files": [

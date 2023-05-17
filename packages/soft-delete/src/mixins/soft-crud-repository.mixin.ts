@@ -11,7 +11,7 @@ import {
   OrClause,
   Where,
 } from '@loopback/repository';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {Options} from 'loopback-datasource-juggler';
 import {AnyObj} from 'tily/typings/types';
 
@@ -131,7 +131,7 @@ export function SoftCrudRepositoryMixin<
         // Now call super
         return super.findById(id, filter, options);
       } else {
-        throw new HttpErrors.NotFound(ErrorKeys.EntityNotFound);
+        throw new BErrors.NotFound(ErrorKeys.EntityNotFound);
       }
     }
 

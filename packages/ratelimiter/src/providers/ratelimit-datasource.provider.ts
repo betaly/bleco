@@ -1,6 +1,7 @@
 import {CoreBindings, Provider, inject} from '@loopback/core';
 import {Getter, juggler} from '@loopback/repository';
-import {HttpErrors, RestApplication} from '@loopback/rest';
+import {RestApplication} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import {Store} from 'express-rate-limit';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
@@ -52,7 +53,7 @@ export class RatelimitDatasourceProvider implements Provider<Store | MemcachedSt
           sendCommand: (...args: string[]) => redisDS.connector?._client.call(...args),
         });
       } else {
-        throw new HttpErrors.InternalServerError('Invalid Datasource');
+        throw new BErrors.InternalServerError('Invalid Datasource');
       }
     }
   }

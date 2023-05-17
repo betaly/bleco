@@ -1,5 +1,5 @@
 import {Provider} from '@loopback/context';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 
 import {VerifyFunction} from '../../types';
 
@@ -13,7 +13,7 @@ export class ClientPasswordVerifyProvider implements Provider<VerifyFunction.Oau
 
   value(): VerifyFunction.OauthClientPasswordFn {
     return async (clientId: string, clientSecret: string) => {
-      throw new HttpErrors.NotImplemented(`VerifyFunction.OauthClientPasswordFn is not implemented`);
+      throw new BErrors.NotImplemented(`VerifyFunction.OauthClientPasswordFn is not implemented`);
     };
   }
 }

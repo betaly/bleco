@@ -1,8 +1,8 @@
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {HttpErrors} from '@loopback/rest';
 import {UserProfile, securityId} from '@loopback/security';
 import {compare} from 'bcryptjs';
+import {BErrors} from 'berrors';
 
 import {User} from '../models';
 import {UserRepository} from '../repositories';
@@ -27,18 +27,18 @@ export class UserService {
       where: {or: [{email: credentials.login}, {username: credentials.login}]},
     });
     if (!foundUser) {
-      throw new HttpErrors.Unauthorized(invalidCredentialsError);
+      throw new BErrors.Unauthorized(invalidCredentialsError);
     }
 
     const credentialsFound = await this.userRepository.findCredentials(foundUser.id);
     if (!credentialsFound) {
-      throw new HttpErrors.Unauthorized(invalidCredentialsError);
+      throw new BErrors.Unauthorized(invalidCredentialsError);
     }
 
     const passwordMatched = await compare(credentials.password, credentialsFound.password);
 
     if (!passwordMatched) {
-      throw new HttpErrors.Unauthorized(invalidCredentialsError);
+      throw new BErrors.Unauthorized(invalidCredentialsError);
     }
 
     return foundUser;

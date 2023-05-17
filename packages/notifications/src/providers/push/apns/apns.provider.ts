@@ -1,6 +1,6 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
 import apns from '@parse/node-apn';
+import {BErrors} from 'berrors';
 
 import {ApnsBinding} from './keys';
 import {ApnsConfigType, ApnsMessage, ApnsSubscriberType} from './types';
@@ -18,30 +18,30 @@ export class ApnsProvider implements Provider<any> {
     if (this.apnsConfig) {
       try {
         if (!this.apnsConfig.options.topic) {
-          throw new HttpErrors.PreconditionFailed('Topic missing !');
+          throw new BErrors.PreconditionFailed('Topic missing !');
         }
         this.apnsService = new apns.Provider(this.apnsConfig.providerOptions);
       } catch (err) {
-        throw new HttpErrors.PreconditionFailed(err);
+        throw new BErrors.PreconditionFailed(err);
       }
     } else {
-      throw new HttpErrors.PreconditionFailed('Apns Config missing !');
+      throw new BErrors.PreconditionFailed('Apns Config missing !');
     }
   }
   apnsService: apns.Provider;
   initialValidations(message: ApnsMessage) {
     if (message.options.messageFrom) {
-      throw new HttpErrors.BadRequest('Message From not found in request !');
+      throw new BErrors.BadRequest('Message From not found in request !');
     }
     if (!message.receiver.to.length) {
-      throw new HttpErrors.BadRequest('Message receiver not found in request !');
+      throw new BErrors.BadRequest('Message receiver not found in request !');
     }
 
     if (message.receiver.to.length > 500) {
-      throw new HttpErrors.BadRequest('Message receiver count cannot exceed 500 !');
+      throw new BErrors.BadRequest('Message receiver count cannot exceed 500 !');
     }
     if (!message.subject) {
-      throw new HttpErrors.BadRequest('Message title not found !');
+      throw new BErrors.BadRequest('Message title not found !');
     }
   }
   getMainNote(message: ApnsMessage) {

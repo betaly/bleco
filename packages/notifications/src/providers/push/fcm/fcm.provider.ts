@@ -1,5 +1,5 @@
 import {Provider, inject} from '@loopback/core';
-import {HttpErrors} from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as admin from 'firebase-admin';
 
 import {GeneralMessage} from '.';
@@ -16,7 +16,7 @@ export class FcmProvider implements Provider<FcmNotification> {
     if (this.fcmInstance) {
       this.fcmService = this.fcmInstance;
     } else {
-      throw new HttpErrors.PreconditionFailed('Firebase Config missing !');
+      throw new BErrors.PreconditionFailed('Firebase Config missing !');
     }
   }
 
@@ -24,15 +24,15 @@ export class FcmProvider implements Provider<FcmNotification> {
 
   initialValidations(message: FcmMessage) {
     if (message.receiver.to.length === 0 && !message.options.topic && !message.options.condition) {
-      throw new HttpErrors.BadRequest('Message receiver, topic or condition not found in request !');
+      throw new BErrors.BadRequest('Message receiver, topic or condition not found in request !');
     }
 
     if (message.receiver.to.length > 500) {
-      throw new HttpErrors.BadRequest('Message receiver count cannot exceed 500 !');
+      throw new BErrors.BadRequest('Message receiver count cannot exceed 500 !');
     }
 
     if (!message.subject) {
-      throw new HttpErrors.BadRequest('Message title not found !');
+      throw new BErrors.BadRequest('Message title not found !');
     }
   }
 
