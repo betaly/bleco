@@ -1,9 +1,9 @@
-import {Constructor, Getter, Provider, Setter, inject} from '@loopback/context';
+import {Constructor, Getter, inject, Provider, Setter} from '@loopback/context';
 import {Request, Response} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {Strategy} from 'passport';
 
-import {AuthErrorKeys} from '../error-keys';
+import {AuthenticationErrors} from '../errors';
 import {AuthenticationBindings} from '../keys';
 import {StrategyAdapter} from '../strategy-adapter';
 import {AuthenticateFn, AuthenticationMetadata, EntityWithIdentifier, IAuthUser} from '../types';
@@ -31,7 +31,7 @@ export class AuthenticateActionProvider implements Provider<AuthenticateFn<IAuth
       return undefined;
     }
     if (!strategy.authenticate) {
-      throw new BErrors.Unauthorized(AuthErrorKeys.UnknownError);
+      throw new AuthenticationErrors.UnknownError();
     }
 
     // Read decorator metadata to fetch options

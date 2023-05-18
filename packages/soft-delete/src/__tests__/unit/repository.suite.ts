@@ -219,7 +219,7 @@ export function testSoftCrudRepository(
           await repo.findById(3);
           fail();
         } catch (e) {
-          expect(e.message).to.be.equal('EntityNotFound');
+          expect(e.errorCode).to.be.equal('entity_not_found');
         }
       });
 
@@ -241,7 +241,7 @@ export function testSoftCrudRepository(
           });
           fail();
         } catch (e) {
-          expect(e.message).to.be.equal('EntityNotFound');
+          expect(e.errorCode).to.be.equal('entity_not_found');
         }
       });
 
@@ -263,7 +263,7 @@ export function testSoftCrudRepository(
           });
           fail();
         } catch (e) {
-          expect(e.message).to.be.equal('EntityNotFound');
+          expect(e.errorCode).to.be.equal('entity_not_found');
         }
       });
     });
@@ -485,7 +485,7 @@ export function testSoftCrudRepository(
           await repo.findById(1);
           fail();
         } catch (e) {
-          expect(e.message).to.be.equal('EntityNotFound');
+          expect(e.errorCode).to.be.equal('entity_not_found');
         }
         const afterDeleteIncludeSoftDeleted = await repo.findByIdIncludeSoftDelete(1);
         expect(afterDeleteIncludeSoftDeleted).to.have.property('email').equal('john@example.com');

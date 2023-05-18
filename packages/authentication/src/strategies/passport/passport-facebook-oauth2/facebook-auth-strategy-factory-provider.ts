@@ -1,10 +1,10 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-facebook';
 
-import {AuthErrorKeys} from '../../../error-keys';
+import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
 
@@ -43,7 +43,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb, req);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(undefined, user);
           } catch (err) {
@@ -59,7 +59,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
           try {
             const user = await verifyFn(accessToken, refreshToken, profile, cb);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(undefined, user);
           } catch (err) {

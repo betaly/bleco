@@ -11,13 +11,12 @@ import {
   OrClause,
   Where,
 } from '@loopback/repository';
-import {BErrors} from 'berrors';
 import {Options} from 'loopback-datasource-juggler';
 import {AnyObj} from 'tily/typings/types';
 
-import {ErrorKeys} from '../error-keys';
 import {getUserId} from '../helpers';
 import {SoftDeleteModel} from './soft-delete-model.mixin';
+import {SoftDeleteErrors} from '../errors';
 
 export function SoftCrudRepositoryMixin<
   T extends SoftDeleteModel & Entity,
@@ -131,7 +130,7 @@ export function SoftCrudRepositoryMixin<
         // Now call super
         return super.findById(id, filter, options);
       } else {
-        throw new BErrors.NotFound(ErrorKeys.EntityNotFound);
+        throw new SoftDeleteErrors.EntityNotFound();
       }
     }
 

@@ -1,5 +1,5 @@
 // SONAR-IGNORE-ALL
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {AnyObject} from '@loopback/repository';
 import {Request} from '@loopback/rest';
 import {
@@ -7,13 +7,13 @@ import {
   SamlConfig,
   Strategy,
   VerifiedCallback,
-  VerifyWithRequest,
   VerifyWithoutRequest,
+  VerifyWithRequest,
 } from '@node-saml/passport-saml';
 import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 
-import {AuthErrorKeys} from '../../error-keys';
+import {AuthenticationErrors} from '../../errors';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
@@ -38,7 +38,7 @@ export class SamlStrategyFactoryProvider implements Provider<SamlStrategyFactory
       try {
         const user = await verifyFn(profile, cb, req);
         if (!user) {
-          throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+          throw new AuthenticationErrors.InvalidCredentials();
         }
         cb(null, user as unknown as Record<string, unknown>);
       } catch (err) {
@@ -61,7 +61,7 @@ export class SamlStrategyFactoryProvider implements Provider<SamlStrategyFactory
           try {
             const user = await verifyFn(profile, cb);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, user as unknown as Record<string, unknown>);
           } catch (err) {

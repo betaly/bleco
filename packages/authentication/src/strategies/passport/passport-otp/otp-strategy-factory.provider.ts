@@ -1,10 +1,8 @@
-import {Provider, inject} from '@loopback/core';
-import {BErrors} from 'berrors';
-
-import {AuthErrorKeys} from '../../../error-keys';
+import {inject, Provider} from '@loopback/core';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import {Otp} from './otp-auth';
+import {AuthenticationErrors} from '../../../errors';
 
 export interface PassportOtpStrategyFactory {
   (options: Otp.StrategyOptions, verifierPassed?: VerifyFunction.OtpAuthFn): Otp.Strategy;
@@ -32,7 +30,7 @@ export class PassportOtpStrategyFactoryProvider implements Provider<PassportOtpS
         try {
           const user = await verifyFn(key, otp);
           if (!user) {
-            throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+            throw new AuthenticationErrors.InvalidCredentials();
           }
           cb(null, user);
         } catch (err) {

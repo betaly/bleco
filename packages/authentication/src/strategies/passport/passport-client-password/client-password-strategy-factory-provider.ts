@@ -1,12 +1,10 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
-
-import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthClient} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 import * as ClientPasswordStrategy from './client-password-strategy';
+import {AuthenticationErrors} from '../../../errors';
 
 export interface ClientPasswordStrategyFactory {
   (
@@ -27,7 +25,7 @@ export class ClientPasswordStrategyFactoryProvider implements Provider<ClientPas
 
   clientPasswordVerifierHelper(client: IAuthClient | null, clientSecret: string | undefined) {
     if (!client?.clientSecret || client.clientSecret !== clientSecret) {
-      throw new BErrors.Unauthorized(AuthErrorKeys.ClientVerificationFailed);
+      throw new AuthenticationErrors.ClientVerificationFailed();
     } else {
       // do nothing
     }

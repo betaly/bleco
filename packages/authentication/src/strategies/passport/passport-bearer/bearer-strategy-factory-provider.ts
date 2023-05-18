@@ -1,10 +1,10 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 import * as PassportBearer from 'passport-http-bearer';
 
-import {AuthErrorKeys} from '../../../error-keys';
+import {AuthenticationErrors} from '../../../errors';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
@@ -39,7 +39,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
           try {
             const user = await verifyFn(token, req);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.TokenInvalid);
+              throw new AuthenticationErrors.TokenInvalid();
             }
             cb(null, user);
           } catch (err) {
@@ -56,7 +56,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
           try {
             const user = await verifyFn(token);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.TokenInvalid);
+              throw new AuthenticationErrors.TokenInvalid();
             }
             cb(null, user);
           } catch (err) {
@@ -71,7 +71,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
           try {
             const user = await verifyFn(token);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, user);
           } catch (err) {

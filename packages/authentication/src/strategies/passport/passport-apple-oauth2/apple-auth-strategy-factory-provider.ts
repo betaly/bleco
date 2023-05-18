@@ -1,4 +1,4 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
@@ -10,7 +10,7 @@ import Strategy, {
   VerifyCallback,
 } from 'passport-apple';
 
-import {AuthErrorKeys} from '../../../error-keys';
+import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
@@ -53,7 +53,7 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
           try {
             const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb, req);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(undefined, user);
           } catch (err) {
@@ -75,7 +75,7 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
           try {
             const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(undefined, user);
           } catch (err) {

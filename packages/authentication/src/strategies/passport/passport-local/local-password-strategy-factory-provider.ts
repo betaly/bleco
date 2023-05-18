@@ -1,13 +1,11 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 import * as PassportLocal from 'passport-local';
-
-import {AuthErrorKeys} from '../../../error-keys';
 import {IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
+import {AuthenticationErrors} from '../../../errors';
 
 export interface LocalPasswordStrategyFactory {
   (
@@ -44,7 +42,7 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
           try {
             const user = await verifyFn(username, password, req);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, user);
           } catch (err) {
@@ -60,7 +58,7 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
           try {
             const user = await verifyFn(username, password);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, user);
           } catch (err) {
@@ -75,7 +73,7 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
           try {
             const user = await verifyFn(username, password, undefined);
             if (!user) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, user);
           } catch (err) {

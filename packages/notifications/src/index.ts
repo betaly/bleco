@@ -1,4 +1,4 @@
 export * from './component';
-export * from './error-keys';
+export * from './errors';
 export * from './keys';
 export * from './types';

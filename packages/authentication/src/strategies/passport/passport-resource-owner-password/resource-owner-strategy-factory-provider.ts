@@ -1,9 +1,9 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 
-import {AuthErrorKeys} from '../../../error-keys';
+import {AuthenticationErrors} from '../../../errors';
 import {IAuthClient, IAuthUser} from '../../../types';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
@@ -46,7 +46,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
           try {
             const userInfo = await verifyFn(clientId, clientSecret, username, password, req);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {
@@ -67,7 +67,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
           try {
             const userInfo = await verifyFn(clientId, clientSecret, username, password);
             if (!userInfo || isEmpty(userInfo)) {
-              throw new BErrors.Unauthorized(AuthErrorKeys.InvalidCredentials);
+              throw new AuthenticationErrors.InvalidCredentials();
             }
             cb(null, userInfo.client, userInfo.user);
           } catch (err) {
