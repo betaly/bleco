@@ -1,5 +1,5 @@
 // SONAR-IGNORE-ALL
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {AnyObject} from '@loopback/repository';
 import {Request} from '@loopback/rest';
 import {
@@ -7,8 +7,8 @@ import {
   SamlConfig,
   Strategy,
   VerifiedCallback,
-  VerifyWithoutRequest,
   VerifyWithRequest,
+  VerifyWithoutRequest,
 } from '@node-saml/passport-saml';
 import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';

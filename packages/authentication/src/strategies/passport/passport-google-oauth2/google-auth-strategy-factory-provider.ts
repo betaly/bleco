@@ -1,4 +1,4 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
@@ -6,7 +6,9 @@ import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCa
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
-import {VerifyFunction} from '../../types'; //import * as GoogleStrategy from 'passport-google-oauth20';
+import {VerifyFunction} from '../../types';
+
+//import * as GoogleStrategy from 'passport-google-oauth20';
 
 //import * as GoogleStrategy from 'passport-google-oauth20';
 export interface GoogleAuthStrategyFactory {

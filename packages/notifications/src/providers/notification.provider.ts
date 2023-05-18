@@ -1,7 +1,8 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
+
+import {NotificationErrors} from '../errors';
 import {NotificationBindings} from '../keys';
 import {INotification, Message, MessageType} from '../types';
-import {NotificationErrors} from '../errors';
 
 export class NotificationProvider implements Provider<INotification> {
   constructor(
