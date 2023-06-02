@@ -26,8 +26,8 @@
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn pretest && yarn jest && yarn posttest",
     "posttest": "yarn run lint",
-    "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false",
-    "jest": "jest"
+    "test:ci": "jest --runInBand --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false",
+    "jest": "jest --runInBand"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",

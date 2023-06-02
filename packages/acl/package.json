@@ -18,7 +18,7 @@
     "clean": "nb-clean 'bleco-acl*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
-    "jest": "jest"
+    "jest": "jest --runInBand --detectOpenHandles"
   },
   "dependencies": {
     "@bleco/query": "^0.9.5",
