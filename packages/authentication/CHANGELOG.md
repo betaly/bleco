@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.7](https://gitr.net/betaly/bleco/compare/@bleco/authentication@1.1.6...@bleco/authentication@1.1.7) (2023-06-02)
+
+**Note:** Version bump only for package @bleco/authentication
+
+
+
+
+
 ## [1.1.6](https://gitr.net/betaly/bleco/compare/@bleco/authentication@1.1.5...@bleco/authentication@1.1.6) (2023-05-18)
 
 **Note:** Version bump only for package @bleco/authentication
