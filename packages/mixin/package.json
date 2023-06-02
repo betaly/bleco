@@ -23,8 +23,8 @@
   "devDependencies": {
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/jest": "^29.5.1",
-    "@types/node": "^20.2.0"
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.2.5"
   },
   "files": [
     "README.md",

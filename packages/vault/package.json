@@ -27,14 +27,14 @@
     "@loopback/rest": "^13.0.0",
     "berrors": "^0.2.3",
     "node-vault": "^0.9.22",
-    "tslib": "^2.5.1"
+    "tslib": "^2.5.2"
   },
   "devDependencies": {
     "@loopback/testlab": "^6.0.0",
     "@nutol/build": "^0.2.13",
     "@nutol/eslint-config": "^0.2.8",
-    "@types/jest": "^29.5.1",
-    "@types/node": "^20.2.0",
+    "@types/jest": "^29.5.2",
+    "@types/node": "^20.2.5",
     "fs-extra": "^11.1.1"
   },
   "files": [
