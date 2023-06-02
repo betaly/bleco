@@ -1,4 +1,4 @@
-import {Entity} from '@loopback/repository';
+import {DataObject, Entity} from '@loopback/repository';
 
 import {SoftDeleteModelMixin} from '../mixins';
 
@@ -12,7 +12,7 @@ import {SoftDeleteModelMixin} from '../mixins';
  * Its an abstract class so no repository class should be based on this.
  */
 export abstract class SoftDeleteEntity extends SoftDeleteModelMixin(Entity) {
-  constructor(data?: Partial<SoftDeleteEntity>) {
+  constructor(data?: DataObject<SoftDeleteEntity>) {
     super(data);
   }
 }
