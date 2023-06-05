@@ -19,7 +19,7 @@ export interface IAuthSecureClient {
 }
 
 export interface IAuthUser {
-  id: number | string;
+  id?: number | string;
   username: string;
   // password?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
