@@ -1810,6 +1810,8 @@ __metadata:
   dependencies:
     "@loopback/boot": ^6.0.0
     "@loopback/core": ^5.0.0
+    "@loopback/repository": ^6.0.0
+    "@loopback/sequelize": ^0.3.0
     "@loopback/testlab": ^6.0.0
     "@nutol/build": ^0.2.13
     "@nutol/eslint-config": ^0.2.8
@@ -3737,6 +3739,20 @@ __metadata:
   peerDependencies:
     "@loopback/core": ^5.0.0
   checksum: dd1f1e2216a1b2db4262bde7caca10b330306362d723be71ec37056df4d62820cac8776e7a232ef1607251a79bc7b11d5bba8deb60562dfb4f23105be6a8d46b
+  languageName: node
+  linkType: hard
+
+"@loopback/sequelize@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@loopback/sequelize@npm:0.3.0"
+  dependencies:
+    debug: ^4.3.4
+    sequelize: ^6.31.1
+    tslib: ^2.5.0
+  peerDependencies:
+    "@loopback/core": ^5.0.0
+    "@loopback/repository": ^6.0.0
+  checksum: b06fb63d28dbda1b386647d8b051a6e03fedd4d937c519c5223b2247561800a72f82b93d573359d153ce6c3a015610e687cdc5edd72016ca9030e1a88d55bf88
   languageName: node
   linkType: hard
 
@@ -6931,6 +6947,13 @@ __metadata:
   version: 9.0.1
   resolution: "@types/uuid@npm:9.0.1"
   checksum: c472b8a77cbeded4bc529220b8611afa39bd64677f507838f8083d8aac8033b1f88cb9ddaa2f8589e0dcd2317291d0f6e1379f82d5ceebd6f74f3b4825288e00
+  languageName: node
+  linkType: hard
+
+"@types/validator@npm:^13.7.1":
+  version: 13.7.17
+  resolution: "@types/validator@npm:13.7.17"
+  checksum: a827e480c09b957fe1e773e15a18e79930c546c21044ca99d9fb832268d85536cd3577391b6a3c6ebdb38eee244439056ebeed0886123e248d6b8be318c8374e
   languageName: node
   linkType: hard
 
@@ -10231,6 +10254,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dottie@npm:^2.0.2":
+  version: 2.0.3
+  resolution: "dottie@npm:2.0.3"
+  checksum: 4f5300f7f349b6d5f0be1b39d244e5bbc94f97b480ba746a7d9626ca946bf8fc6a1db2eee7af71be0024d3d5f0b6b805e14a893b893c384c6b37831e8ed94ab1
+  languageName: node
+  linkType: hard
+
 "dtrace-provider@npm:~0.8":
   version: 0.8.8
   resolution: "dtrace-provider@npm:0.8.8"
@@ -12846,7 +12876,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"inflection@npm:^1.13.4":
+"inflection@npm:^1.13.2, inflection@npm:^1.13.4":
   version: 1.13.4
   resolution: "inflection@npm:1.13.4"
   checksum: 6744feede9998ad8abd2b1db4af79f494a166e656a0aa949d90c8f4a945c1d07038a3756bf7af78c8f6fce368ba213a7ebf35da3edeffd39f1da0ff465eed6eb
@@ -15957,7 +15987,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment-timezone@npm:^0.5.43":
+"moment-timezone@npm:^0.5.35, moment-timezone@npm:^0.5.43":
   version: 0.5.43
   resolution: "moment-timezone@npm:0.5.43"
   dependencies:
@@ -15966,7 +15996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"moment@npm:^2.19.3, moment@npm:^2.29.3, moment@npm:^2.29.4":
+"moment@npm:^2.19.3, moment@npm:^2.29.1, moment@npm:^2.29.3, moment@npm:^2.29.4":
   version: 2.29.4
   resolution: "moment@npm:2.29.4"
   checksum: 0ec3f9c2bcba38dc2451b1daed5daded747f17610b92427bebe1d08d48d8b7bdd8d9197500b072d14e326dd0ccf3e326b9e3d07c5895d3d49e39b6803b76e80e
@@ -19036,6 +19066,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"retry-as-promised@npm:^7.0.3":
+  version: 7.0.4
+  resolution: "retry-as-promised@npm:7.0.4"
+  checksum: 2b0dcddb06649d42b1384ec1f933c7cb4461939c28004460b0c4be0c8ae16cabaed2411aa5d46e734a320f33f4a1d480078a19b97c743c754bd32e896b3f8ea2
+  languageName: node
+  linkType: hard
+
 "retry-request@npm:^5.0.0":
   version: 5.0.2
   resolution: "retry-request@npm:5.0.2"
@@ -19336,6 +19373,56 @@ __metadata:
     tslib: ^2.0.3
     upper-case-first: ^2.0.2
   checksum: 3cfe6c0143e649132365695706702d7f729f484fa7b25f43435876efe7af2478243eefb052bacbcce10babf9319fd6b5b6bc59b94c80a1c819bcbb40651465d5
+  languageName: node
+  linkType: hard
+
+"sequelize-pool@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "sequelize-pool@npm:7.1.0"
+  checksum: b11d06d02de9e8fc428ba3020b86f05fe7adad764e57f23c5901f924e31867901a5e7a090180337dc3b90de3934b64f34ae552fde37b0f3d37b09c0c8ecbddc7
+  languageName: node
+  linkType: hard
+
+"sequelize@npm:^6.31.1":
+  version: 6.32.0
+  resolution: "sequelize@npm:6.32.0"
+  dependencies:
+    "@types/debug": ^4.1.7
+    "@types/validator": ^13.7.1
+    debug: ^4.3.3
+    dottie: ^2.0.2
+    inflection: ^1.13.2
+    lodash: ^4.17.21
+    moment: ^2.29.1
+    moment-timezone: ^0.5.35
+    pg-connection-string: ^2.5.0
+    retry-as-promised: ^7.0.3
+    semver: ^7.3.5
+    sequelize-pool: ^7.1.0
+    toposort-class: ^1.0.1
+    uuid: ^8.3.2
+    validator: ^13.7.0
+    wkx: ^0.5.0
+  peerDependenciesMeta:
+    ibm_db:
+      optional: true
+    mariadb:
+      optional: true
+    mysql2:
+      optional: true
+    oracledb:
+      optional: true
+    pg:
+      optional: true
+    pg-hstore:
+      optional: true
+    snowflake-sdk:
+      optional: true
+    sqlite3:
+      optional: true
+    tedious:
+      optional: true
+  checksum: eeb4385617248651c8cc4a4460b05974b3058187a37206b94544310984961e1e169d3faf77ac2beb6dad5b4d78da0e12aa0b7ff2eee6d82c2644e61e51250b8c
   languageName: node
   linkType: hard
 
@@ -20604,6 +20691,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"toposort-class@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "toposort-class@npm:1.0.1"
+  checksum: c5e3229d4899b23350b09ed26cfb7a28aadd0889550625f1bcadc0da266cdf2790fb0ccc3e92be93ba6ad64f57bc2fd1ab94446cb4ae83054dab263753157f5f
+  languageName: node
+  linkType: hard
+
 "toposort@npm:^2.0.2":
   version: 2.0.2
   resolution: "toposort@npm:2.0.2"
@@ -21403,7 +21497,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"validator@npm:^13.9.0":
+"validator@npm:^13.7.0, validator@npm:^13.9.0":
   version: 13.9.0
   resolution: "validator@npm:13.9.0"
   checksum: e2c936f041f61faa42bafd17c6faddf939498666cd82e88d733621c286893730b008959f4cb12ab3e236148a4f3805c30b85e3dcf5e0efd8b0cbcd36c02bfc0c
@@ -21594,6 +21688,15 @@ __metadata:
   dependencies:
     wipe-node-cache: ^2.1.0
   checksum: dd768c4940729c3b6f3137c1c1df3fb88dfabb647eb0e62244a4315541843e79439efd65627f2e39ce434cceedca7fade0ed780a546916a85294a91367b223fd
+  languageName: node
+  linkType: hard
+
+"wkx@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "wkx@npm:0.5.0"
+  dependencies:
+    "@types/node": "*"
+  checksum: 47b27387de81fbd077528c1c11be996bf5a6dbeb94858ea0e2fa6619c2af626aa2f127f6fee1b4b57057a7cbef8a810b39a67815f2eb54ed33b1790e29db86ee
   languageName: node
   linkType: hard
 

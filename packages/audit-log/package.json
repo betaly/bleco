@@ -5,6 +5,13 @@
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./sequelize": {
+      "types": "./dist/index.sequelize.d.ts",
+      "default": "./dist/index.sequelize.js"
+    }
+  },
   "engines": {
     "node": ">=16"
   },
@@ -23,6 +30,8 @@
   "dependencies": {
     "@loopback/boot": "^6.0.0",
     "@loopback/core": "^5.0.0",
+    "@loopback/repository": "^6.0.0",
+    "@loopback/sequelize": "^0.3.0",
     "lodash": "^4.17.21",
     "tslib": "^2.5.2"
   },
