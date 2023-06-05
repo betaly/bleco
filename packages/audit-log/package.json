@@ -33,7 +33,7 @@
     "@loopback/repository": "^6.0.0",
     "@loopback/sequelize": "^0.3.0",
     "lodash": "^4.17.21",
-    "tslib": "^2.5.2"
+    "tslib": "^2.5.3"
   },
   "devDependencies": {
     "@loopback/testlab": "^6.0.0",
