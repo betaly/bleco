@@ -17,7 +17,7 @@ describe('Client-password strategy', () => {
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return status 200 when options.passRequestToCallback is set true', async () => {
     class TestController {
@@ -132,7 +132,7 @@ describe('Client-password strategy', () => {
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER).toProvider(ClientPasswordVerifyProvider);
   }
 

@@ -20,7 +20,7 @@ describe('Bearer-token strategy using Middleware Sequence', () => {
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return 401 when token is not passed', async () => {
     class BearerNoTokenController {
@@ -230,7 +230,7 @@ describe('Bearer-token strategy using Middleware Sequence', () => {
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(BearerTokenVerifyProvider);
   }
 

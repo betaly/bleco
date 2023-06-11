@@ -21,7 +21,7 @@ describe('Local passport strategy', () => {
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return 400 bad request when no user data is passed', async () => {
     class TestController {
@@ -166,7 +166,7 @@ describe('Local passport strategy', () => {
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.LOCAL_PASSWORD_VERIFIER).toProvider(LocalVerifyProvider);
   }
 

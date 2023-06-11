@@ -1,13 +1,13 @@
-import {Binding, Component, ProviderMap, inject} from '@loopback/core';
+import {Binding, Component, inject, ProviderMap} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/express';
 
 import {AuthenticationBindings} from './keys';
 import {ClientAuthenticationMiddlewareProvider, UserAuthenticationMiddlewareProvider} from './middlewares';
 import {
-  AuthMetadataProvider,
   AuthenticateActionProvider,
-  ClientAuthMetadataProvider,
+  AuthMetadataProvider,
   ClientAuthenticateActionProvider,
+  ClientAuthMetadataProvider,
 } from './providers';
 import {
   AppleAuthStrategyFactoryProvider,
@@ -40,6 +40,7 @@ import {Strategies} from './strategies/keys';
 import {SecureClientPasswordStrategyFactoryProvider} from './strategies/passport/passport-client-password/secure-client-password-strategy-factory-provider';
 import {CognitoAuthVerifyProvider, CognitoStrategyFactoryProvider} from './strategies/passport/passport-cognito-oauth2';
 import {AuthenticationConfig} from './types';
+import {AuthaStrategyFactoryProvider, AuthaVerifyProvider} from './strategies/passport/passport-autha';
 
 export class AuthenticationComponent implements Component {
   constructor(
@@ -68,6 +69,7 @@ export class AuthenticationComponent implements Component {
       [Strategies.Passport.AZURE_AD_STRATEGY_FACTORY.key]: AzureADAuthStrategyFactoryProvider,
       [Strategies.Passport.KEYCLOAK_STRATEGY_FACTORY.key]: KeycloakStrategyFactoryProvider,
       [Strategies.Passport.COGNITO_OAUTH2_STRATEGY_FACTORY.key]: CognitoStrategyFactoryProvider,
+      [Strategies.Passport.AUTHA_STRATEGY_FACTORY.key]: AuthaStrategyFactoryProvider,
 
       // Verifier functions
       [Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER.key]: ClientPasswordVerifyProvider,
@@ -83,6 +85,7 @@ export class AuthenticationComponent implements Component {
       [Strategies.Passport.APPLE_OAUTH2_VERIFIER.key]: AppleAuthVerifyProvider,
       [Strategies.Passport.AZURE_AD_VERIFIER.key]: AzureADAuthVerifyProvider,
       [Strategies.Passport.KEYCLOAK_VERIFIER.key]: KeycloakVerifyProvider,
+      [Strategies.Passport.AUTHA_VERIFIER.key]: AuthaVerifyProvider,
     };
     if (this.config?.secureClient) {
       this.providers = {

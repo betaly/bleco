@@ -1,4 +1,4 @@
-import {Context, Provider, inject} from '@loopback/core';
+import {Context, inject, Provider} from '@loopback/core';
 import {SamlConfig} from '@node-saml/passport-saml';
 import {Strategy} from 'passport';
 import * as AppleStrategy from 'passport-apple';
@@ -8,6 +8,7 @@ import * as GoogleStrategy from 'passport-google-oauth20';
 import * as PassportBearer from 'passport-http-bearer';
 import * as InstagramStrategy from 'passport-instagram';
 import * as PassportLocal from 'passport-local';
+import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';
@@ -32,6 +33,7 @@ import {
   ResourceOwnerPasswordStrategyFactory,
 } from './passport/passport-resource-owner-password';
 import {Cognito, Keycloak, VerifyFunction} from './types';
+import {AuthaStrategyFactory} from './passport/passport-autha';
 
 interface ExtendedStrategyOption extends FacebookStrategy.StrategyOption {
   passReqToCallback?: false;
@@ -66,6 +68,8 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     private readonly getAppleAuthVerifier: AppleAuthStrategyFactory,
     @inject(Strategies.Passport.COGNITO_OAUTH2_STRATEGY_FACTORY)
     private readonly getCognitoAuthVerifier: CognitoAuthStrategyFactory,
+    @inject(Strategies.Passport.AUTHA_STRATEGY_FACTORY)
+    private readonly getAuthaVerifier: AuthaStrategyFactory,
   ) {}
 
   async value(): Promise<Strategy | undefined> {
@@ -136,6 +140,11 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       return this.getOtpVerifier(this.metadata.options as Otp.StrategyOptions, verifier as VerifyFunction.OtpAuthFn);
     } else if (name === STRATEGY.SAML) {
       return this.getSamlVerifier(this.metadata.options as SamlConfig, verifier as VerifyFunction.SamlFn);
+    } else if (name === STRATEGY.AUTHA) {
+      return this.getAuthaVerifier(
+        this.metadata.options as AuthaStrategy.StrategyOptions | AuthaStrategy.StrategyOptionsWithRequest,
+        verifier as VerifyFunction.AuthaFn,
+      );
     } else {
       return Promise.reject(`The strategy ${name} is not available.`);
     }

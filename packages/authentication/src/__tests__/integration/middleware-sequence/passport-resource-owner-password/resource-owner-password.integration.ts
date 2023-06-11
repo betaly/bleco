@@ -17,7 +17,7 @@ describe('Resource-owner-password strategy using Middleware Sequence', () => {
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return 422 bad request when no user data is sent', async () => {
     class TestController {
@@ -196,7 +196,7 @@ describe('Resource-owner-password strategy using Middleware Sequence', () => {
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER).toProvider(ResourceOwnerVerifyProvider);
   }
 

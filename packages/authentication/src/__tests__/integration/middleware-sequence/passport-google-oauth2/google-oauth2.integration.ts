@@ -17,7 +17,7 @@ describe('getting google oauth2 strategy with options using Middleware Sequence'
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return 302 when client id is passed and passReqToCallback is set true', async () => {
     class TestController {
@@ -46,7 +46,7 @@ describe('getting google oauth2 strategy with options using Middleware Sequence'
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER).toProvider(GoogleAuthVerifyProvider);
   }
 

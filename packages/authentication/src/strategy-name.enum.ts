@@ -12,4 +12,5 @@ export enum STRATEGY {
   KEYCLOAK = 'keycloak',
   OTP = 'otp',
   SAML = 'saml',
+  AUTHA = 'autha',
 }

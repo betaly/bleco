@@ -7,6 +7,7 @@ import {BErrors} from 'berrors';
 import {Strategy} from 'passport';
 
 const passportRequestMixin = require('passport/lib/http/request');
+const debug = require('debug')('bleco:authentication:strategy-adapter');
 
 /**
  * Adapter class to invoke passport-strategy
@@ -48,11 +49,13 @@ export class StrategyAdapter<T> {
 
       // add failure state handler to strategy instance
       strategy.fail = (challenge: Error | string) => {
+        debug('strategy.fail', challenge);
         reject(toUnauthorizedError(challenge));
       };
 
       // add error state handler to strategy instance
       strategy.error = (error: Error | string) => {
+        debug('strategy.error', error);
         reject(toUnauthorizedError(error));
       };
 
@@ -70,5 +73,6 @@ export class StrategyAdapter<T> {
 }
 
 function toUnauthorizedError(err?: Error | string): Error {
-  return new BErrors.Unauthorized(typeof err === 'string' ? err : err?.message ?? 'Unknown error');
+  if (err instanceof BErrors.Unauthorized) return err;
+  return new BErrors.Unauthorized(typeof err === 'string' ? err : err?.message ?? 'Unknown error', {cause: err});
 }

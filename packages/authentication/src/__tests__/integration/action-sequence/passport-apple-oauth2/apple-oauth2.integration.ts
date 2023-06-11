@@ -20,7 +20,7 @@ describe('getting apple oauth2 strategy with options', () => {
   afterEach(closeServer);
 
   it('should return 302 when client id is passed and passReqToCallback is set true', async () => {
-    getAuthVerifier();
+    givenAuthVerifier();
     class TestController {
       @get('/test')
       @authenticate(STRATEGY.APPLE_OAUTH2, {
@@ -47,7 +47,7 @@ describe('getting apple oauth2 strategy with options', () => {
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER).toProvider(AppleAuthVerifyProvider);
   }
 

@@ -17,7 +17,7 @@ describe('getting keycloak oauth2 strategy with options using Middleware Sequenc
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  beforeEach(getAuthVerifier);
+  beforeEach(givenAuthVerifier);
 
   it('should return 302 when host and client id is passed and passReqToCallback is set true', async () => {
     class TestController {
@@ -52,7 +52,7 @@ describe('getting keycloak oauth2 strategy with options using Middleware Sequenc
     server = await app.getServer(RestServer);
   }
 
-  function getAuthVerifier() {
+  function givenAuthVerifier() {
     app.bind(Strategies.Passport.KEYCLOAK_VERIFIER).toProvider(KeycloakAuthVerifyProvider);
   }
 

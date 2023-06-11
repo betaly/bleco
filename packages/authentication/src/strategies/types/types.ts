@@ -6,6 +6,7 @@ import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import * as InstagramStrategy from 'passport-instagram';
+import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {Cognito, IAuthClient, IAuthSecureClient, IAuthUser} from '../../types';
 import {Otp} from '../passport';
@@ -125,6 +126,16 @@ export namespace VerifyFunction {
 
   export interface SamlFn<T = IAuthUser> extends GenericAuthFn<T> {
     (profile: SamlStrategy.Profile, cb: SamlStrategy.VerifiedCallback, req?: Request): Promise<T | null>;
+  }
+
+  export interface AuthaFn<T = IAuthUser> extends GenericAuthFn<T> {
+    (
+      accessToken: string,
+      refreshToken: string,
+      profile: AuthaStrategy.Profile,
+      cb: GoogleStrategy.VerifyCallback,
+      req?: Request,
+    ): Promise<T | null>;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

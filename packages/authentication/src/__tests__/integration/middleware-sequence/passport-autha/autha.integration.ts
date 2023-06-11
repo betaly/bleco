@@ -1,8 +1,8 @@
 import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
-import {Request, RestServer} from '@loopback/rest';
+import {registerExpressMiddleware, Request, RestServer} from '@loopback/rest';
 import {Client, createClientForHandler} from '@loopback/testlab';
-import AppleStrategy, {DecodedIdToken} from 'passport-apple';
+import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {authenticate} from '../../../../decorators';
 import {VerifyFunction} from '../../../../strategies';
@@ -11,19 +11,23 @@ import {STRATEGY} from '../../../../strategy-name.enum';
 import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
 import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
 import {getApp} from '../helpers/helpers';
+import Sessions, {SessionOptions} from 'client-sessions';
+import {ExpressMiddlewareFactory} from '@loopback/express/src/types';
 
-describe('getting apple oauth2 strategy with options using Middleware Sequence', () => {
+describe('getting autha strategy with options using Middleware Sequence', () => {
   let app: Application;
   let server: RestServer;
   beforeEach(givenAServer);
   beforeEach(givenAuthenticatedSequence);
-  afterEach(closeServer);
+  beforeEach(givenAuthVerifier);
+  beforeEach(givenSessions);
 
   it('should return 302 when client id is passed and passReqToCallback is set true', async () => {
-    givenAuthVerifier();
     class TestController {
       @get('/test')
-      @authenticate(STRATEGY.APPLE_OAUTH2, {
+      @authenticate(STRATEGY.AUTHA, {
+        endpoint: 'string',
+        redirectURL: 'string',
         clientID: 'string',
         clientSecret: 'string',
         passReqToCallback: true,
@@ -48,11 +52,16 @@ describe('getting apple oauth2 strategy with options using Middleware Sequence',
   }
 
   function givenAuthVerifier() {
-    app.bind(Strategies.Passport.APPLE_OAUTH2_VERIFIER).toProvider(AppleAuthVerifyProvider);
+    app.bind(Strategies.Passport.AUTHA_VERIFIER).toProvider(AuthaVerifyProvider);
   }
 
-  function closeServer() {
-    app.close();
+  function givenSessions() {
+    registerExpressMiddleware<SessionOptions>(app, Sessions as ExpressMiddlewareFactory<SessionOptions>, {
+      cookieName: 'session',
+      secret: 'random_string_goes_here',
+      duration: 30 * 60 * 1000,
+      activeDuration: 5 * 60 * 1000,
+    });
   }
 
   function givenAuthenticatedSequence() {
@@ -61,16 +70,15 @@ describe('getting apple oauth2 strategy with options using Middleware Sequence',
   }
 });
 
-class AppleAuthVerifyProvider implements Provider<VerifyFunction.AppleAuthFn> {
+class AuthaVerifyProvider implements Provider<VerifyFunction.AuthaFn> {
   constructor() {}
 
-  value(): VerifyFunction.AppleAuthFn {
+  value(): VerifyFunction.AuthaFn {
     return async (
       accessToken: string,
       refreshToken: string,
-      decodedIdToken: DecodedIdToken,
-      profile: AppleStrategy.Profile,
-      cd: AppleStrategy.VerifyCallback,
+      profile: AuthaStrategy.Profile,
+      cd: AuthaStrategy.VerifyCallback,
       req?: Request,
     ) => {
       return userWithoutReqObj;

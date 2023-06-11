@@ -13,6 +13,7 @@ import {KeycloakStrategyFactoryProvider} from './passport/passport-keycloak';
 import {LocalPasswordStrategyFactory} from './passport/passport-local';
 import {ResourceOwnerPasswordStrategyFactory} from './passport/passport-resource-owner-password';
 import {VerifyFunction} from './types';
+import {AuthaStrategyFactoryProvider} from './passport/passport-autha';
 
 export namespace Strategies {
   export namespace Passport {
@@ -111,5 +112,9 @@ export namespace Strategies {
       'bleco.passport.strategyFactory.saml',
     );
     export const SAML_VERIFIER = BindingKey.create<VerifyFunction.SamlFn>('bleco.passport.verifier.saml');
+    export const AUTHA_STRATEGY_FACTORY = BindingKey.create<AuthaStrategyFactoryProvider>(
+      'bleco.passport.strategyFactory.autha',
+    );
+    export const AUTHA_VERIFIER = BindingKey.create<VerifyFunction.AuthaFn>('bleco.passport.verifier.autha');
   }
 }
