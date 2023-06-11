@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://gitr.net/betaly/bleco/compare/@bleco/authentication@1.2.2...@bleco/authentication@1.3.0) (2023-06-11)
+
+
+### Features
+
+* add Autha strategy ([2939736](https://gitr.net/betaly/bleco/commits/293973612c2fc1b34c481a5f9755ad215d72c59b))
+
+
+
+
+
 ## [1.2.2](https://gitr.net/betaly/bleco/compare/@bleco/authentication@1.2.1...@bleco/authentication@1.2.2) (2023-06-05)
 
 **Note:** Version bump only for package @bleco/authentication
