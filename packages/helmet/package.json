@@ -29,10 +29,10 @@
   },
   "devDependencies": {
     "@loopback/testlab": "^6.0.0",
-    "@nutol/build": "^0.2.13",
-    "@nutol/eslint-config": "^0.2.8",
+    "@nutol/build": "^0.2.14",
+    "@nutol/eslint-config": "^0.2.9",
     "@types/helmet": "4.0.0",
-    "@types/node": "^20.2.5"
+    "@types/node": "^20.3.0"
   },
   "files": [
     "README.md",
