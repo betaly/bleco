@@ -128,9 +128,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@authajs/passport-autha@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@authajs/passport-autha@npm:0.1.5"
+"@authajs/passport-autha@npm:^0.1.6":
+  version: 0.1.6
+  resolution: "@authajs/passport-autha@npm:0.1.6"
   dependencies:
     "@authajs/core": ^0.2.1
     berrors: ^0.2.3
@@ -140,7 +140,7 @@ __metadata:
     passport-strategy: ^1.0.0
     tily: ^2.20.1
     ts-essentials: ^9.3.2
-  checksum: f2b61fe855ff28bc6c52bd12411293fab440deda28ff3e07b3bc57b837d913f5a94ee3cd4c534d38d111928382266c1dc45960f8aaaaf15a59011e70df03e176
+  checksum: 11736dad33f5878f1ad96a5bf64fcc51a370b3482406ea32f1a856f2b97798fd888adec3d0539f1caa2bf676c8612f7a7a6829fdd5fb0e7fafd73fb43f772cc3
   languageName: node
   linkType: hard
 
@@ -1855,7 +1855,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
-    "@authajs/passport-autha": ^0.1.5
+    "@authajs/passport-autha": ^0.1.6
     "@exlinc/keycloak-passport": ^1.0.2
     "@loopback/context": ^6.0.0
     "@loopback/core": ^5.0.0
