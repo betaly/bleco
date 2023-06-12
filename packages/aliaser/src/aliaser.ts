@@ -9,6 +9,7 @@ export interface AliasMetadata {
 }
 
 export interface AliasOptions {
+  from?: BindingKey<object>;
   override?: boolean;
 }
 
@@ -55,12 +56,20 @@ export class Aliaser {
 
   /**
    * Apply to the given context with the given metadata.
-   * @param context
-   * @param options
    */
-  apply(context: Context, options?: AliasOptions) {
-    this.items.forEach(([from, metadata]) => {
-      this._apply(context, from ?? CoreBindings.APPLICATION_CONFIG, '', metadata, options ?? {});
+  apply(context: Context, from: BindingKey<object>, options?: AliasOptions): this;
+  apply(context: Context, options?: AliasOptions): this;
+  apply(context: Context, fromOrOptions?: BindingKey<object> | AliasOptions, options?: AliasOptions): this {
+    let from: BindingKey<object> | undefined;
+    if (isBindingAddress(fromOrOptions)) {
+      from = fromOrOptions;
+    } else {
+      options = fromOrOptions;
+    }
+    from = from ?? options?.from;
+
+    this.items.forEach(([_from, metadata]) => {
+      this._apply(context, from ?? _from ?? CoreBindings.APPLICATION_CONFIG, '', metadata, options ?? {});
     });
     return this;
   }
