@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2](https://gitr.net/betaly/bleco/compare/@bleco/notifications@0.9.1...@bleco/notifications@0.9.2) (2023-06-12)
+
+**Note:** Version bump only for package @bleco/notifications
+
+
+
+
+
 ## [0.9.1](https://gitr.net/betaly/bleco/compare/@bleco/notifications@0.9.0...@bleco/notifications@0.9.1) (2023-06-11)
 
 **Note:** Version bump only for package @bleco/notifications
