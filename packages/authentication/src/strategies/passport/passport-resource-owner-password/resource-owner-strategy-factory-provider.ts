@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 
 import {AuthenticationErrors} from '../../../errors';
@@ -20,6 +19,8 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
   constructor(
     @inject(Strategies.Passport.RESOURCE_OWNER_PASSWORD_VERIFIER)
     private readonly verifierResourceOwner: VerifyFunction.ResourceOwnerPasswordFn,
+    @inject(Strategies.Passport.RESOURCE_OWNER_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
   ) {}
 
   value(): ResourceOwnerPasswordStrategyFactory {
@@ -30,6 +31,7 @@ export class ResourceOwnerPasswordStrategyFactoryProvider implements Provider<Re
     options?: Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface,
     verifierPassed?: VerifyFunction.ResourceOwnerPasswordFn,
   ): Oauth2ResourceOwnerPassword.Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierResourceOwner;
     if (options?.passReqToCallback) {
       return new Oauth2ResourceOwnerPassword.Strategy(

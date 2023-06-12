@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-facebook';
 
@@ -23,6 +22,8 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
   constructor(
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER)
     private readonly verifierFacebookAuth: VerifyFunction.FacebookAuthFn,
+    @inject(Strategies.Passport.FACEBOOK_OAUTH2_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: ExtendedStrategyOption | StrategyOptionWithRequest,
   ) {}
 
   value(): FacebookAuthStrategyFactory {
@@ -33,6 +34,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
     options: ExtendedStrategyOption | StrategyOptionWithRequest,
     verifierPassed?: VerifyFunction.FacebookAuthFn,
   ): Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierFacebookAuth;
     let strategy;
     if (options && options.passReqToCallback === true) {

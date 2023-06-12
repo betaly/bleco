@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {isEmpty} from 'lodash';
 import * as PassportBearer from 'passport-http-bearer';
 
@@ -20,6 +19,8 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
   constructor(
     @inject(Strategies.Passport.BEARER_TOKEN_VERIFIER)
     private readonly verifierBearer: VerifyFunction.BearerFn,
+    @inject(Strategies.Passport.BEARER_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: PassportBearer.IStrategyOptions,
   ) {}
 
   value(): BearerStrategyFactory {
@@ -30,6 +31,7 @@ export class BearerStrategyFactoryProvider implements Provider<BearerStrategyFac
     options?: PassportBearer.IStrategyOptions,
     verifierPassed?: VerifyFunction.BearerFn,
   ): PassportBearer.Strategy<VerifyFunction.BearerFn> {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierBearer;
     if (options?.passReqToCallback) {
       return new PassportBearer.Strategy(

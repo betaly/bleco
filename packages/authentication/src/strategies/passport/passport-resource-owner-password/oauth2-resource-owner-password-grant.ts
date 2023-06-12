@@ -5,7 +5,7 @@ import {IAuthClient, IAuthUser} from '../../../types';
 
 export namespace Oauth2ResourceOwnerPassword {
   export interface StrategyOptionsWithRequestInterface {
-    passReqToCallback: boolean;
+    passReqToCallback?: boolean;
   }
 
   export interface VerifyFunctionWithRequest {
@@ -41,7 +41,7 @@ export namespace Oauth2ResourceOwnerPassword {
     ) {
       super();
       if (verify) {
-        this.passReqToCallback = (options as StrategyOptionsWithRequestInterface).passReqToCallback;
+        this.passReqToCallback = !!(options as StrategyOptionsWithRequestInterface).passReqToCallback;
         this.verify = verify;
       } else {
         this.passReqToCallback = false;

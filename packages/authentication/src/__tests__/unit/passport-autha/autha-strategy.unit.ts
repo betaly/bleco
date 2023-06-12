@@ -2,48 +2,58 @@ import {expect} from '@loopback/testlab';
 import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {AuthaStrategyFactory, AuthaStrategyFactoryProvider} from '../../../strategies/passport/passport-autha';
-import {IAuthUser} from '../../../types';
+import {AuthaStrategyOptions, IAuthUser} from '../../../types';
 
 describe('getting autha strategy with options', () => {
   it('should return strategy by passing options and passReqToCallback as true', async () => {
-    const strategyVerifier: AuthaStrategyFactory = await getStrategy();
-
     const options: AuthaStrategy.StrategyOptions | AuthaStrategy.StrategyOptionsWithRequest = {
       endpoint: 'string',
       redirectUri: 'string',
       scope: '',
       clientID: 'string',
       clientSecret: 'string',
-      passReqToCallback: true,
     };
 
-    const authaAuthStrategyVerifier = strategyVerifier(options);
+    const strategyVerifier: AuthaStrategyFactory = await getStrategy(options);
+
+    const authaAuthStrategyVerifier = strategyVerifier({
+      passReqToCallback: true,
+    });
 
     expect(authaAuthStrategyVerifier).to.have.property('name');
     expect(authaAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
+    expect(authaAuthStrategyVerifier.options).to.match({
+      ...options,
+      passReqToCallback: true,
+    });
   });
 
   it('should return strategy by passing options and passReqToCallback as false', async () => {
-    const strategyVerifier: AuthaStrategyFactory = await getStrategy();
-
     const options: AuthaStrategy.StrategyOptions | AuthaStrategy.StrategyOptionsWithRequest = {
       endpoint: 'string',
       redirectUri: 'string',
       scope: '',
       clientID: 'string',
       clientSecret: 'string',
-      passReqToCallback: false,
     };
 
-    const authaAuthStrategyVerifier = strategyVerifier(options);
+    const strategyVerifier: AuthaStrategyFactory = await getStrategy(options);
+
+    const authaAuthStrategyVerifier = strategyVerifier({
+      passReqToCallback: false,
+    });
 
     expect(authaAuthStrategyVerifier).to.have.property('name');
     expect(authaAuthStrategyVerifier).to.have.property('authenticate').which.is.a.Function();
+    expect(authaAuthStrategyVerifier.options).to.match({
+      ...options,
+      passReqToCallback: false,
+    });
   });
 });
 
-async function getStrategy() {
-  const provider = new AuthaStrategyFactoryProvider(verifier);
+async function getStrategy(options?: AuthaStrategyOptions) {
+  const provider = new AuthaStrategyFactoryProvider(verifier, options);
 
   //this function will return a function which will then accept options.
   return provider.value();

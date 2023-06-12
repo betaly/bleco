@@ -22,11 +22,7 @@ describe('getting instagram oauth2 strategy with options using Middleware Sequen
   it('should return 302 when client id is passed and passReqToCallback is set true', async () => {
     class TestController {
       @get('/test')
-      @authenticate(STRATEGY.INSTAGRAM_OAUTH2, {
-        clientID: 'string',
-        clientSecret: 'string',
-        passReqToCallback: true,
-      })
+      @authenticate(STRATEGY.INSTAGRAM_OAUTH2)
       test() {
         return 'test successful';
       }
@@ -42,7 +38,14 @@ describe('getting instagram oauth2 strategy with options using Middleware Sequen
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = getApp({
+      instagram: {
+        callbackURL: '',
+        clientID: 'string',
+        clientSecret: 'string',
+        passReqToCallback: true,
+      },
+    });
     server = await app.getServer(RestServer);
   }
 

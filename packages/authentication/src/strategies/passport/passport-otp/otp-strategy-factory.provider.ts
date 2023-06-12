@@ -1,4 +1,4 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
@@ -13,6 +13,8 @@ export class PassportOtpStrategyFactoryProvider implements Provider<PassportOtpS
   constructor(
     @inject(Strategies.Passport.OTP_VERIFIER)
     private readonly verifierOtp: VerifyFunction.OtpAuthFn,
+    @inject(Strategies.Passport.OTP_AUTH_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: Otp.StrategyOptions,
   ) {}
 
   value(): PassportOtpStrategyFactory {
@@ -23,6 +25,7 @@ export class PassportOtpStrategyFactoryProvider implements Provider<PassportOtpS
     options?: Otp.StrategyOptions,
     verifierPassed?: VerifyFunction.OtpAuthFn,
   ): Otp.Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierOtp;
     return new Otp.Strategy(
       options,

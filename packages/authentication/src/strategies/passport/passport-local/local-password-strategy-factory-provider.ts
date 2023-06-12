@@ -1,4 +1,4 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {isEmpty} from 'lodash';
 import * as PassportLocal from 'passport-local';
@@ -19,6 +19,8 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
   constructor(
     @inject(Strategies.Passport.LOCAL_PASSWORD_VERIFIER)
     private readonly verifierLocal: VerifyFunction.LocalPasswordFn,
+    @inject(Strategies.Passport.LOCAL_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
   ) {}
 
   value(): LocalPasswordStrategyFactory {
@@ -29,6 +31,7 @@ export class LocalPasswordStrategyFactoryProvider implements Provider<LocalPassw
     options?: PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.LocalPasswordFn,
   ): PassportLocal.Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierLocal;
     if (options?.passReqToCallback) {
       return new PassportLocal.Strategy(

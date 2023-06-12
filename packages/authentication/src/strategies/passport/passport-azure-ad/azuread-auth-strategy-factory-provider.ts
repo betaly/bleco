@@ -1,9 +1,8 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {
-  IOIDCStrategyOptionWithRequest,
   IOIDCStrategyOptionWithoutRequest,
+  IOIDCStrategyOptionWithRequest,
   IProfile,
   OIDCStrategy,
   VerifyCallback,
@@ -24,6 +23,8 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
   constructor(
     @inject(Strategies.Passport.AZURE_AD_VERIFIER)
     private readonly verifierAzureADAuth: VerifyFunction.AzureADAuthFn,
+    @inject(Strategies.Passport.AZURE_AD_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
   ) {}
 
   value(): AzureADAuthStrategyFactory {
@@ -34,6 +35,7 @@ export class AzureADAuthStrategyFactoryProvider implements Provider<AzureADAuthS
     options: IOIDCStrategyOptionWithoutRequest | IOIDCStrategyOptionWithRequest,
     verifierPassed?: VerifyFunction.AzureADAuthFn,
   ): OIDCStrategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierAzureADAuth;
     if (options && options.passReqToCallback === true) {
       return new OIDCStrategy(

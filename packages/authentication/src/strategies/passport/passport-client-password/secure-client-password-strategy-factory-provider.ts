@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 
 import {AuthenticationErrors} from '../../../errors';
 import {ClientType, IAuthSecureClient} from '../../../types';
@@ -19,6 +18,8 @@ export class SecureClientPasswordStrategyFactoryProvider implements Provider<Sec
   constructor(
     @inject(Strategies.Passport.OAUTH2_CLIENT_PASSWORD_VERIFIER)
     private readonly verifier: VerifyFunction.OauthSecureClientPasswordFn,
+    @inject(Strategies.Passport.CLIENT_PASSWORD_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
   ) {}
 
   value(): SecureClientPasswordStrategyFactory {
@@ -40,6 +41,7 @@ export class SecureClientPasswordStrategyFactoryProvider implements Provider<Sec
     options?: ClientPasswordStrategy.StrategyOptionsWithRequestInterface,
     verifierPassed?: VerifyFunction.OauthSecureClientPasswordFn,
   ): ClientPasswordStrategy.Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifier;
     if (options?.passReqToCallback) {
       return new ClientPasswordStrategy.Strategy(

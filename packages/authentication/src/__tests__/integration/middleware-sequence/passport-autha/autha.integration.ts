@@ -25,13 +25,7 @@ describe('getting autha strategy with options using Middleware Sequence', () => 
   it('should return 302 when client id is passed and passReqToCallback is set true', async () => {
     class TestController {
       @get('/test')
-      @authenticate(STRATEGY.AUTHA, {
-        endpoint: 'string',
-        redirectURL: 'string',
-        clientID: 'string',
-        clientSecret: 'string',
-        passReqToCallback: true,
-      })
+      @authenticate(STRATEGY.AUTHA)
       test() {
         return 'test successful';
       }
@@ -47,7 +41,15 @@ describe('getting autha strategy with options using Middleware Sequence', () => 
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = getApp({
+      autha: {
+        endpoint: 'string',
+        redirectUri: 'string',
+        clientID: 'string',
+        clientSecret: 'string',
+        passReqToCallback: true,
+      },
+    });
     server = await app.getServer(RestServer);
   }
 

@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@authajs/passport-autha": "^0.1.6",
+    "@bleco/aliaser": "workspace:^",
     "@exlinc/keycloak-passport": "^1.0.2",
     "@loopback/context": "^6.0.0",
     "@loopback/core": "^5.0.0",

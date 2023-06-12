@@ -8,13 +8,15 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
 export interface AuthaStrategyFactory {
-  (options: StrategyOptions | StrategyOptionsWithRequest, verifierPassed?: VerifyFunction.AuthaFn): Strategy;
+  (options: Partial<StrategyOptions | StrategyOptionsWithRequest>, verifierPassed?: VerifyFunction.AuthaFn): Strategy;
 }
 
 export class AuthaStrategyFactoryProvider implements Provider<AuthaStrategyFactory> {
   constructor(
     @inject(Strategies.Passport.AUTHA_VERIFIER)
     private readonly verifierAutha: VerifyFunction.AuthaFn,
+    @inject(Strategies.Passport.AUTHA_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: StrategyOptions | StrategyOptionsWithRequest,
   ) {}
 
   value(): AuthaStrategyFactory {
@@ -22,10 +24,10 @@ export class AuthaStrategyFactoryProvider implements Provider<AuthaStrategyFacto
   }
 
   getAuthaStrategyVerifier(
-    options: StrategyOptions | StrategyOptionsWithRequest,
+    options: Partial<StrategyOptions | StrategyOptionsWithRequest>,
     verifierPassed?: VerifyFunction.AuthaFn,
   ): Strategy {
-    options = options ?? {};
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierAutha;
     let strategy;
     if (options.passReqToCallback === true) {

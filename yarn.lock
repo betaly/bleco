@@ -1816,7 +1816,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/aliaser@^0.5.7, @bleco/aliaser@workspace:packages/aliaser":
+"@bleco/aliaser@^0.5.7, @bleco/aliaser@workspace:^, @bleco/aliaser@workspace:packages/aliaser":
   version: 0.0.0-use.local
   resolution: "@bleco/aliaser@workspace:packages/aliaser"
   dependencies:
@@ -1856,6 +1856,7 @@ __metadata:
   resolution: "@bleco/authentication@workspace:packages/authentication"
   dependencies:
     "@authajs/passport-autha": ^0.1.6
+    "@bleco/aliaser": "workspace:^"
     "@exlinc/keycloak-passport": ^1.0.2
     "@loopback/context": ^6.0.0
     "@loopback/core": ^5.0.0

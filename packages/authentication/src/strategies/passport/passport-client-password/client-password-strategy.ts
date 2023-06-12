@@ -9,7 +9,7 @@ import * as passport from 'passport';
 import {IAuthClient, IAuthSecureClient} from '../../../types';
 
 export interface StrategyOptionsWithRequestInterface {
-  passReqToCallback: boolean;
+  passReqToCallback?: boolean;
 }
 
 export interface VerifyFunctionWithRequest {
@@ -27,7 +27,7 @@ export class Strategy extends passport.Strategy {
     if (!verify) throw new Error('OAuth 2.0 client password strategy requires a verify function');
 
     this.verify = verify;
-    if (options) this.passReqToCallback = options.passReqToCallback;
+    if (options) this.passReqToCallback = !!options.passReqToCallback;
     this.name = 'oauth2-client-password';
   }
 

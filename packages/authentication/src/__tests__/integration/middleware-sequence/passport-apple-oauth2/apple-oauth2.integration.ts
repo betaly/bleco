@@ -23,11 +23,7 @@ describe('getting apple oauth2 strategy with options using Middleware Sequence',
     givenAuthVerifier();
     class TestController {
       @get('/test')
-      @authenticate(STRATEGY.APPLE_OAUTH2, {
-        clientID: 'string',
-        clientSecret: 'string',
-        passReqToCallback: true,
-      })
+      @authenticate(STRATEGY.APPLE_OAUTH2)
       test() {
         return 'test successful';
       }
@@ -43,7 +39,15 @@ describe('getting apple oauth2 strategy with options using Middleware Sequence',
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = getApp({
+      apple: {
+        keyID: '',
+        teamID: '',
+        clientID: 'string',
+        clientSecret: 'string',
+        passReqToCallback: true,
+      },
+    });
     server = await app.getServer(RestServer);
   }
 

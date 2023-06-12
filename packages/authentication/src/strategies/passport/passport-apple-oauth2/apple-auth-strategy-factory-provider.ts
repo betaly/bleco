@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import Strategy, {
   AuthenticateOptions,
@@ -25,6 +24,8 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
   constructor(
     @inject(Strategies.Passport.APPLE_OAUTH2_VERIFIER)
     private readonly verifierAppleAuth: VerifyFunction.AppleAuthFn,
+    @inject(Strategies.Passport.APPLE_OAUTH2_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: AuthenticateOptions | AuthenticateOptionsWithRequest,
   ) {}
 
   value(): AppleAuthStrategyFactory {
@@ -35,6 +36,7 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
     options: AuthenticateOptions | AuthenticateOptionsWithRequest,
     verifierPassed?: VerifyFunction.AppleAuthFn,
   ): Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierAppleAuth;
     let strategy;
     if (options && options.passReqToCallback === true) {

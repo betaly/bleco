@@ -22,17 +22,7 @@ describe('getting keycloak oauth2 strategy with options using Middleware Sequenc
   it('should return 302 when host and client id is passed and passReqToCallback is set true', async () => {
     class TestController {
       @get('/test')
-      @authenticate(STRATEGY.KEYCLOAK, {
-        host: 'localhost',
-        realm: 'localhost',
-        callbackURL: 'localhost',
-        authorizationURL: 'localhost',
-        tokenURL: 'localhost',
-        userInfoURL: 'localhost',
-        clientID: 'string',
-        clientSecret: 'string',
-        passReqToCallback: true,
-      })
+      @authenticate(STRATEGY.KEYCLOAK)
       test() {
         return 'test successful';
       }
@@ -48,7 +38,19 @@ describe('getting keycloak oauth2 strategy with options using Middleware Sequenc
   }
 
   async function givenAServer() {
-    app = getApp();
+    app = getApp({
+      keycloak: {
+        host: 'localhost',
+        realm: 'localhost',
+        callbackURL: 'localhost',
+        authorizationURL: 'localhost',
+        tokenURL: 'localhost',
+        userInfoURL: 'localhost',
+        clientID: 'string',
+        clientSecret: 'string',
+        passReqToCallback: true,
+      },
+    });
     server = await app.getServer(RestServer);
   }
 

@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCallback} from 'passport-google-oauth20';
 
@@ -8,9 +7,6 @@ import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
-//import * as GoogleStrategy from 'passport-google-oauth20';
-
-//import * as GoogleStrategy from 'passport-google-oauth20';
 export interface GoogleAuthStrategyFactory {
   (options: StrategyOptions | StrategyOptionsWithRequest, verifierPassed?: VerifyFunction.GoogleAuthFn): Strategy;
 }
@@ -19,6 +15,8 @@ export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStr
   constructor(
     @inject(Strategies.Passport.GOOGLE_OAUTH2_VERIFIER)
     private readonly verifierGoogleAuth: VerifyFunction.GoogleAuthFn,
+    @inject(Strategies.Passport.GOOGLE_OAUTH2_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: StrategyOptions | StrategyOptionsWithRequest,
   ) {}
 
   value(): GoogleAuthStrategyFactory {
@@ -29,6 +27,7 @@ export class GoogleAuthStrategyFactoryProvider implements Provider<GoogleAuthStr
     options: StrategyOptions | StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.GoogleAuthFn,
   ): Strategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierGoogleAuth;
     let strategy;
     if (options && options.passReqToCallback === true) {

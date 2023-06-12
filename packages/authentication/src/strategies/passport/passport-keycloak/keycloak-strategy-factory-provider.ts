@@ -1,5 +1,4 @@
-import {Provider, inject} from '@loopback/core';
-import {BErrors} from 'berrors';
+import {inject, Provider} from '@loopback/core';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 
 import {AuthenticationErrors} from '../../../errors';
@@ -16,6 +15,8 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
   constructor(
     @inject(Strategies.Passport.KEYCLOAK_VERIFIER)
     private readonly verifierKeycloak: VerifyFunction.KeycloakAuthFn,
+    @inject(Strategies.Passport.KEYCLOAK_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: Keycloak.StrategyOptions,
   ) {}
 
   value(): KeycloakStrategyFactory {
@@ -26,6 +27,7 @@ export class KeycloakStrategyFactoryProvider implements Provider<KeycloakStrateg
     options: Keycloak.StrategyOptions,
     verifierPassed?: VerifyFunction.KeycloakAuthFn,
   ): typeof KeycloakStrategy {
+    options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierKeycloak;
     const strategy = new KeycloakStrategy(
       options,

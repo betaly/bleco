@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 
 import {AuthenticationErrors} from '../../../errors';
@@ -18,6 +17,8 @@ export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrat
   constructor(
     @inject(Strategies.Passport.COGNITO_OAUTH2_VERIFIER)
     private readonly verifierCognito: VerifyFunction.CognitoAuthFn,
+    @inject(Strategies.Passport.COGNITO_OAUTH2_STRATEGY_OPTIONS, {optional: true})
+    private readonly options?: Cognito.StrategyOptions,
   ) {}
 
   value(): CognitoAuthStrategyFactory {
@@ -28,6 +29,7 @@ export class CognitoStrategyFactoryProvider implements Provider<CognitoAuthStrat
     options: Cognito.StrategyOptions,
     verifierPassed?: VerifyFunction.CognitoAuthFn,
   ): CognitoStrategyType {
+    options = {...this.options, ...options};
     const CognitoStrategy = require('passport-cognito-oauth2');
     const verifyFn = verifierPassed ?? this.verifierCognito;
     let strategy;
