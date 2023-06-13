@@ -64,7 +64,13 @@ export class StrategyAdapter<T> {
 
       strategy.redirect = (url: string) => {
         if (response) {
-          response.redirect(302, url);
+          if (typeof options?.redirect === 'function') {
+            options.redirect(url, response);
+          } else if (options?.redirectHeader) {
+            response.setHeader(options.redirectHeader, url);
+          } else {
+            response.redirect(302, url);
+          }
         }
         resolve();
       };
