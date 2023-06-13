@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.3](https://gitr.net/betaly/bleco/compare/@bleco/vault@0.5.2...@bleco/vault@0.5.3) (2023-06-13)
+
+**Note:** Version bump only for package @bleco/vault
+
+
+
+
+
 ## [0.5.2](https://gitr.net/betaly/bleco/compare/@bleco/vault@0.5.1...@bleco/vault@0.5.2) (2023-06-12)
 
 **Note:** Version bump only for package @bleco/vault

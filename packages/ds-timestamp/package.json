@@ -1,7 +1,7 @@
 {
   "name": "@bleco/ds-timestamp",
   "description": "A loopback next extension for automatically adding and managing createAt and updatedAt attributes to Model",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/mixin": "^0.4.7",
+    "@bleco/mixin": "^0.4.8",
     "@loopback/core": "^5.0.0",
     "@loopback/repository": "^6.0.0",
     "@loopback/rest": "^13.0.0",
