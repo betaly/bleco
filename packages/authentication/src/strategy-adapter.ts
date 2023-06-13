@@ -30,8 +30,11 @@ export class StrategyAdapter<T> {
    *     2. add success and failure state handlers
    *     3. authenticate using the strategy
    * @param request The incoming request.
+   * @param response The outgoing response.
+   * @param options Options for authentication.
    */
-  authenticate(request: Request, response?: Response, options?: Object): Promise<T | void> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  authenticate(request: Request, response?: Response, options?: any): Promise<T | void> {
     return new Promise<T | void>((resolve, reject) => {
       // mix-in passport additions like req.logIn and req.logOut
       for (const key in passportRequestMixin) {
