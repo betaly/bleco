@@ -1789,10 +1789,10 @@ __metadata:
   resolution: "@bleco/acl@workspace:packages/acl"
   dependencies:
     "@bleco/boot": ^0.4.8
-    "@bleco/oso-juggler": ^0.4.8
-    "@bleco/query": ^0.9.8
+    "@bleco/oso-juggler": ^0.4.9
+    "@bleco/query": ^0.9.9
     "@bleco/repo": ^0.4.8
-    "@bleco/soft-delete": ^0.4.8
+    "@bleco/soft-delete": ^0.4.9
     "@loopback/authorization": ^0.13.0
     "@loopback/context": ^6.0.0
     "@loopback/core": ^5.0.0
@@ -1933,7 +1933,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/config@^0.6.2, @bleco/config@workspace:packages/config":
+"@bleco/config@^0.6.3, @bleco/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
@@ -1999,7 +1999,7 @@ __metadata:
   resolution: "@bleco/example-oidp-server@workspace:examples/oidp-server"
   dependencies:
     "@bleco/boot": ^0.4.8
-    "@bleco/config": ^0.6.2
+    "@bleco/config": ^0.6.3
     "@bleco/oidp": ^0.4.9
     "@loopback/build": ^10.0.0
     "@loopback/core": ^5.0.0
@@ -2122,12 +2122,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/oso-juggler@^0.4.8, @bleco/oso-juggler@workspace:packages/oso-juggler":
+"@bleco/oso-juggler@^0.4.9, @bleco/oso-juggler@workspace:packages/oso-juggler":
   version: 0.0.0-use.local
   resolution: "@bleco/oso-juggler@workspace:packages/oso-juggler"
   dependencies:
     "@bleco/boot": ^0.4.8
-    "@bleco/query": ^0.9.8
+    "@bleco/query": ^0.9.9
     "@bleco/repo": ^0.4.8
     "@loopback/repository": ^6.0.0
     "@nutol/build": ^0.2.14
@@ -2142,7 +2142,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/query@^0.9.8, @bleco/query@workspace:packages/query":
+"@bleco/query@^0.9.9, @bleco/query@workspace:packages/query":
   version: 0.0.0-use.local
   resolution: "@bleco/query@workspace:packages/query"
   dependencies:
@@ -2238,7 +2238,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/soft-delete@^0.4.8, @bleco/soft-delete@workspace:packages/soft-delete":
+"@bleco/soft-delete@^0.4.9, @bleco/soft-delete@workspace:packages/soft-delete":
   version: 0.0.0-use.local
   resolution: "@bleco/soft-delete@workspace:packages/soft-delete"
   dependencies:
