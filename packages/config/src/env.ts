@@ -65,8 +65,14 @@ export class Env {
         if (mergeToProcessEnv) {
           if (!Object.hasOwn(process.env, key)) {
             process.env[key] = parsed[key];
-          } else if (!options.silent) {
-            console.warn('env: "%s" is already defined in `process.env` and will not be overwritten', key); // >>>
+          } else if (!options.silent && process.env[key] !== parsed[key]) {
+            console.warn(
+              'env: ignoring set process.env.%s(%s)=%s from %s',
+              key,
+              process.env[key],
+              parsed[key],
+              filenames.join(', '),
+            ); // >>>
           }
         }
       }
