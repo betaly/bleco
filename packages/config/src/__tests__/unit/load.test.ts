@@ -46,7 +46,11 @@ describe('load config', function () {
   it('should load with defaults config', async () => {
     const config = await load('demo', fixturePath('config-basic'), {
       defaults: {
-        foo: 'bar',
+        foo: {
+          bar: {
+            message: 'hello',
+          },
+        },
         // The value ends with '*' will be treated as original value
         password: '123456*',
       },

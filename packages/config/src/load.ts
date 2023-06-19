@@ -61,14 +61,18 @@ export async function load<T extends object>(
   opts.fromDirs = opts.fromDirs ?? fromDirs;
   opts.mergeToProcessEnv = opts.mergeToProcessEnv ?? false;
 
+  debug('load config begin');
+
   // create config
   const c = name instanceof Configuration ? name : new Config<T>(name);
 
   // get dirs
   const dirs = toArray(opts.fromDirs ?? process.cwd());
+  debug('  - loading config from dirs %o', dirs);
 
   // load envs from dirs
   const {env} = Env.load(dirs, opts);
+  debug('  - env: %o', env);
 
   // load configs from dirs
   const config = await loadConfigs<T>(c, dirs, opts.defaults);
@@ -89,15 +93,22 @@ export async function load<T extends object>(
       }
     });
   }
+  debug('   - result', result);
+  debug('load config end');
   return result;
 }
 
 async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: string[], defaults?: Partial<T>) {
   const answer: AnyObj = {};
   for (const dir of fromDirs) {
-    debug('load config from %s', dir);
+    debug('  - load config from %s', dir);
     const {config} = await c.loadConfigFromRoot(dir);
     Object.assign(answer, config);
   }
-  return deepmerge({...defaults}, answer);
+  debug('  - merging configs');
+  debug('    default configs %o', defaults ?? {});
+  debug('    loaded configs %o', answer);
+  const merged = deepmerge({...defaults}, answer);
+  debug('  - merged configs %o', merged);
+  return merged;
 }
