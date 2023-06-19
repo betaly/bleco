@@ -62,6 +62,7 @@ exports[`load config should load with defaults config 1`] = `
       "b": "foo_bar_2",
       "c": "foo_bar_4",
       "e": "default-e",
+      "message": "hello",
       "number": 9,
     },
   },
