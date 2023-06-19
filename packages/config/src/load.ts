@@ -1,5 +1,5 @@
 import {Configuration} from '@boost/config';
-import merge from 'deepmerge';
+import deepmerge from 'deepmerge';
 import {traverse} from 'object-traversal';
 import popu, {RenderOptions} from 'popu';
 import {toArray} from 'tily/array/toArray';
@@ -99,5 +99,5 @@ async function loadConfigs<T extends object>(c: Configuration<T>, fromDirs: stri
     const {config} = await c.loadConfigFromRoot(dir);
     Object.assign(answer, config);
   }
-  return merge(defaults ?? {}, answer);
+  return deepmerge({...defaults}, answer);
 }
