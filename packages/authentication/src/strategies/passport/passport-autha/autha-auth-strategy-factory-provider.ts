@@ -28,6 +28,7 @@ export class AuthaStrategyFactoryProvider implements Provider<AuthaStrategyFacto
     verifierPassed?: VerifyFunction.AuthaFn,
   ): Strategy {
     options = {...this.options, ...options};
+    options.clientID = options.clientID ?? (options as {clientId: string}).clientId;
     const verifyFn = verifierPassed ?? this.verifierAutha;
     let strategy;
     if (options.passReqToCallback === true) {
