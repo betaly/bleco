@@ -1933,7 +1933,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@bleco/config@^0.6.4, @bleco/config@workspace:packages/config":
+"@bleco/config@^0.6.6, @bleco/config@workspace:packages/config":
   version: 0.0.0-use.local
   resolution: "@bleco/config@workspace:packages/config"
   dependencies:
@@ -1999,7 +1999,7 @@ __metadata:
   resolution: "@bleco/example-oidp-server@workspace:examples/oidp-server"
   dependencies:
     "@bleco/boot": ^0.4.8
-    "@bleco/config": ^0.6.4
+    "@bleco/config": ^0.6.6
     "@bleco/oidp": ^0.4.9
     "@loopback/build": ^10.0.0
     "@loopback/core": ^5.0.0
