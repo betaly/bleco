@@ -1,4 +1,5 @@
 import {DefaultCrudRepository, Entity} from '@loopback/repository';
+
 import {AbstractConstructor, IAuditMixinOptions} from '../types';
 import {AuditRepositoryMixin} from './audit.mixin';
 

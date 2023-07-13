@@ -3,6 +3,7 @@ import {BindingKey} from '@loopback/core';
 import {SamlStrategyFactoryProvider} from './SAML';
 import {InstagramAuthStrategyFactoryProvider} from './passport';
 import {AppleAuthStrategyFactoryProvider} from './passport/passport-apple-oauth2';
+import {AuthaStrategyFactoryProvider} from './passport/passport-autha';
 import {AzureADAuthStrategyFactoryProvider} from './passport/passport-azure-ad';
 import {BearerStrategyFactory} from './passport/passport-bearer';
 import {ClientPasswordStrategyFactory} from './passport/passport-client-password/client-password-strategy-factory-provider';
@@ -29,7 +30,6 @@ import {
   SamlStrategyOptions,
   VerifyFunction,
 } from './types';
-import {AuthaStrategyFactoryProvider} from './passport/passport-autha';
 
 export namespace Strategies {
   export namespace Passport {

@@ -1,3 +1,4 @@
+import * as AuthaStrategy from '@authajs/passport-autha';
 import {Request} from '@loopback/rest';
 import * as SamlStrategy from '@node-saml/passport-saml';
 import * as AppleStrategy from 'passport-apple';
@@ -6,7 +7,6 @@ import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import * as InstagramStrategy from 'passport-instagram';
-import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {Cognito, IAuthClient, IAuthSecureClient, IAuthUser} from '../../types';
 import {Otp} from '../passport';

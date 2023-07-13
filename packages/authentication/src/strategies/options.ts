@@ -1,3 +1,5 @@
+import {BindingKey} from '@loopback/core';
+
 import {Strategies} from './keys';
 import {
   AppleStrategyOptions,
@@ -15,7 +17,6 @@ import {
   ResourceOwnerPasswordStrategyOptions,
   SamlStrategyOptions,
 } from './types';
-import {BindingKey} from '@loopback/core';
 
 export type StrategiesOptions = {
   apple?: AppleStrategyOptions;

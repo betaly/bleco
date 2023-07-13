@@ -1,4 +1,4 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';

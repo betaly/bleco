@@ -1,7 +1,7 @@
-import {inject, Provider} from '@loopback/core';
+import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCallback} from '@authajs/passport-autha';
+import {Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest, VerifyCallback} from '@authajs/passport-autha';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';

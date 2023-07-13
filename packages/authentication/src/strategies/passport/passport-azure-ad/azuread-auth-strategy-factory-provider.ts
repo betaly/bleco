@@ -1,8 +1,8 @@
-import {inject, Provider} from '@loopback/core';
+import {Provider, inject} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {
-  IOIDCStrategyOptionWithoutRequest,
   IOIDCStrategyOptionWithRequest,
+  IOIDCStrategyOptionWithoutRequest,
   IProfile,
   OIDCStrategy,
   VerifyCallback,

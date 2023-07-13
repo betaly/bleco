@@ -1,20 +1,21 @@
-import {Application, Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
+import {Application, Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/express';
 
+import {ConfigAliaser} from './aliaser';
 import {AuthenticationBindings} from './keys';
 import {ClientAuthenticationMiddlewareProvider, UserAuthenticationMiddlewareProvider} from './middlewares';
 import {
-  AuthenticateActionProvider,
   AuthMetadataProvider,
-  ClientAuthenticateActionProvider,
+  AuthenticateActionProvider,
   ClientAuthMetadataProvider,
+  ClientAuthenticateActionProvider,
 } from './providers';
 import {
   AppleAuthStrategyFactoryProvider,
   AppleAuthVerifyProvider,
+  AuthStrategyProvider,
   AuthaStrategyFactoryProvider,
   AuthaVerifyProvider,
-  AuthStrategyProvider,
   AzureADAuthStrategyFactoryProvider,
   AzureADAuthVerifyProvider,
   BearerStrategyFactoryProvider,
@@ -44,7 +45,6 @@ import {
 } from './strategies';
 import {Strategies} from './strategies/keys';
 import {AuthenticationConfig} from './types';
-import {ConfigAliaser} from './aliaser';
 
 export class AuthenticationComponent implements Component {
   constructor(

@@ -1,5 +1,5 @@
-import {expect} from '@loopback/testlab';
 import * as AuthaStrategy from '@authajs/passport-autha';
+import {expect} from '@loopback/testlab';
 
 import {AuthaStrategyFactory, AuthaStrategyFactoryProvider} from '../../../strategies/passport/passport-autha';
 import {AuthaStrategyOptions, IAuthUser} from '../../../types';

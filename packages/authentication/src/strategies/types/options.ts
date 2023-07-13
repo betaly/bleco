@@ -4,14 +4,15 @@ import * as AppleStrategy from 'passport-apple';
 import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
-import * as InstagramStrategy from 'passport-instagram';
-import * as ClientPassportStrategy from '../passport/passport-client-password/client-password-strategy';
-import * as PassportLocal from 'passport-local';
-import {Oauth2ResourceOwnerPassword} from '../passport/passport-resource-owner-password/oauth2-resource-owner-password-grant';
-import {Otp} from '../passport/passport-otp/otp-auth';
 import * as PassportBearer from 'passport-http-bearer';
-import {Keycloak} from './keycloak.types';
+import * as InstagramStrategy from 'passport-instagram';
+import * as PassportLocal from 'passport-local';
+
+import * as ClientPassportStrategy from '../passport/passport-client-password/client-password-strategy';
+import {Otp} from '../passport/passport-otp/otp-auth';
+import {Oauth2ResourceOwnerPassword} from '../passport/passport-resource-owner-password/oauth2-resource-owner-password-grant';
 import {Cognito} from './cognito.types';
+import {Keycloak} from './keycloak.types';
 
 export type BearerStrategyOptions = PassportBearer.IStrategyOptions;
 export type AuthaStrategyOptions = AuthaStrategy.StrategyOptions | AuthaStrategy.StrategyOptionsWithRequest;

@@ -1,4 +1,5 @@
-import {Context, inject, Provider} from '@loopback/core';
+import * as AuthaStrategy from '@authajs/passport-autha';
+import {Context, Provider, inject} from '@loopback/core';
 import {SamlConfig} from '@node-saml/passport-saml';
 import {Strategy} from 'passport';
 import * as AppleStrategy from 'passport-apple';
@@ -8,7 +9,6 @@ import * as GoogleStrategy from 'passport-google-oauth20';
 import * as PassportBearer from 'passport-http-bearer';
 import * as InstagramStrategy from 'passport-instagram';
 import * as PassportLocal from 'passport-local';
-import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {AuthenticationBindings} from '../keys';
 import {STRATEGY} from '../strategy-name.enum';
@@ -24,6 +24,7 @@ import {
   Otp,
   PassportOtpStrategyFactory,
 } from './passport';
+import {AuthaStrategyFactory} from './passport/passport-autha';
 import {AzureADAuthStrategyFactory} from './passport/passport-azure-ad';
 import {BearerStrategyFactory} from './passport/passport-bearer';
 import {GoogleAuthStrategyFactory} from './passport/passport-google-oauth2';
@@ -33,7 +34,6 @@ import {
   ResourceOwnerPasswordStrategyFactory,
 } from './passport/passport-resource-owner-password';
 import {Cognito, Keycloak, VerifyFunction} from './types';
-import {AuthaStrategyFactory} from './passport/passport-autha';
 
 interface ExtendedStrategyOption extends FacebookStrategy.StrategyOption {
   passReqToCallback?: false;

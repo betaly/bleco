@@ -1,6 +1,7 @@
+import {Count, DataObject, Entity, Filter, FilterExcludingWhere, Options, Where} from '@loopback/repository';
+
 import {AuditLogRepository} from './repositories';
 import {AuditLogRepository as SequelizeAuditLogRepository} from './repositories/sequelize';
-import {Count, DataObject, Entity, Filter, FilterExcludingWhere, Options, Where} from '@loopback/repository';
 
 export const AuditDbSourceName = 'AuditDB';
 export interface IAuditMixin<UserID> {

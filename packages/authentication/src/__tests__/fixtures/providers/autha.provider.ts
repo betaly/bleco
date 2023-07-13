@@ -1,6 +1,6 @@
+import * as AuthaStrategy from '@authajs/passport-autha';
 import {Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
-import * as AuthaStrategy from '@authajs/passport-autha';
 
 import {VerifyFunction} from '../../../strategies';
 import {IAuthUser} from '../../../types';

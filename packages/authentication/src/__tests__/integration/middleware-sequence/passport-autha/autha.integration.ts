@@ -1,8 +1,10 @@
-import {Application, Provider} from '@loopback/core';
-import {get} from '@loopback/openapi-v3';
-import {registerExpressMiddleware, Request, RestServer} from '@loopback/rest';
-import {Client, createClientForHandler} from '@loopback/testlab';
 import * as AuthaStrategy from '@authajs/passport-autha';
+import {Application, Provider} from '@loopback/core';
+import {ExpressMiddlewareFactory} from '@loopback/express/src/types';
+import {get} from '@loopback/openapi-v3';
+import {Request, RestServer, registerExpressMiddleware} from '@loopback/rest';
+import {Client, createClientForHandler} from '@loopback/testlab';
+import Sessions, {SessionOptions} from 'client-sessions';
 
 import {authenticate} from '../../../../decorators';
 import {VerifyFunction} from '../../../../strategies';
@@ -11,8 +13,6 @@ import {STRATEGY} from '../../../../strategy-name.enum';
 import {userWithoutReqObj} from '../../../fixtures/data/bearer-data';
 import {MyAuthenticationMiddlewareSequence} from '../../../fixtures/sequences/authentication-middleware.sequence';
 import {getApp} from '../helpers/helpers';
-import Sessions, {SessionOptions} from 'client-sessions';
-import {ExpressMiddlewareFactory} from '@loopback/express/src/types';
 
 describe('getting autha strategy with options using Middleware Sequence', () => {
   let app: Application;
