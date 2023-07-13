@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.5](https://gitr.net/betaly/bleco/compare/@bleco/s3@0.4.4...@bleco/s3@0.4.5) (2023-07-13)
+
+**Note:** Version bump only for package @bleco/s3
+
+
+
+
+
 ## [0.4.4](https://gitr.net/betaly/bleco/compare/@bleco/s3@0.4.3...@bleco/s3@0.4.4) (2023-06-19)
 
 **Note:** Version bump only for package @bleco/s3
