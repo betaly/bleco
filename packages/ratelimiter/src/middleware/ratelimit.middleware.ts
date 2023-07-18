@@ -2,19 +2,20 @@
 import {CoreBindings, inject, injectable, Next, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {
+  asMiddleware,
+  Middleware,
+  MiddlewareContext,
   Request,
   Response,
   RestApplication,
-  HttpErrors,
-  Middleware,
-  MiddlewareContext,
-  asMiddleware,
   RestMiddlewareGroups,
 } from '@loopback/rest';
 import * as RateLimit from 'express-rate-limit';
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitMetadata, RateLimitOptions} from '../types';
 import {RatelimitActionMiddlewareGroup} from './middleware.enum';
+import {BErrors} from 'berrors';
+
 @injectable(
   asMiddleware({
     group: RatelimitActionMiddlewareGroup.RATELIMIT,
@@ -64,9 +65,7 @@ export class RatelimitMiddlewareProvider implements Provider<Middleware> {
         opts.store = dataStore;
       }
 
-      opts.message = new HttpErrors.TooManyRequests(
-        opts.message?.toString() ?? 'Method rate limit reached !',
-      );
+      opts.message = new BErrors.TooManyRequests(opts.message?.toString() ?? 'Method rate limit reached !');
 
       const limiter = RateLimit.default(opts);
       limiter(request, response, (err: unknown) => {

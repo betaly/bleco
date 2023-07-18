@@ -5,12 +5,23 @@ import {RateLimitSecurityBindings} from '../keys';
 import RedisStore, {RedisReply} from 'rate-limit-redis';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
-import {HttpErrors, RestApplication} from '@loopback/rest';
+import {RestApplication} from '@loopback/rest';
 import {TextDecoder} from 'util';
 import {MemoryStore} from 'express-rate-limit';
+import {BErrors} from 'berrors';
 
 const decoder = new TextDecoder('utf-8');
+
 export class RatelimitDatasourceProvider implements Provider<Store> {
+  static _memoryStore: MemoryStore;
+
+  static get memoryStore(): MemoryStore {
+    if (!this._memoryStore) {
+      this._memoryStore = new MemoryStore();
+    }
+    return this._memoryStore;
+  }
+
   constructor(
     @inject.getter(RateLimitSecurityBindings.METADATA)
     protected readonly getMetadata: Getter<RateLimitMetadata>,
@@ -47,7 +58,7 @@ export class RatelimitDatasourceProvider implements Provider<Store> {
     } else if (this.config?.type === 'RedisStore') {
       const redisDS = (await this.application.get(`datasources.${this.config?.name}`)) as juggler.DataSource;
       if (!redisDS?.connector) {
-        throw new HttpErrors.InternalServerError('Invalid Datasource');
+        throw new BErrors.InternalServerError('Invalid Datasource');
       }
 
       return new RedisStore({
@@ -67,7 +78,7 @@ export class RatelimitDatasourceProvider implements Provider<Store> {
         },
       });
     } else {
-      return new MemoryStore();
+      return (this.constructor as typeof RatelimitDatasourceProvider).memoryStore;
     }
   }
 
