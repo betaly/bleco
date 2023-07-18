@@ -1,88 +1,48 @@
-import {RestApplication, Request, Response} from '@loopback/rest';
-import {RatelimitActionProvider} from '../../providers';
-import * as RateLimit from 'express-rate-limit';
-import {Constructor} from '@loopback/core';
-import sinon from 'sinon';
-import proxyquire from 'proxyquire';
-import {expect} from '@loopback/testlab';
-import {IncrementResponse} from 'express-rate-limit';
+jest.mock('express-rate-limit', () => {
+  return {
+    emit: jest.fn().mockReturnValue({}),
+  };
+});
+
+const {RatelimitActionProvider} = require('../../providers/ratelimit-action.provider');
+const {RestApplication} = require('@loopback/rest');
 
 describe('Rate Limit action Service', () => {
-  let RatelimitActionMockProvider: Constructor<RatelimitActionProvider>;
-  beforeEach(setupMockRatelimitAction);
-
-  const dataStore: RateLimit.Store = {
-    increment,
-    decrement,
-    resetKey,
-    resetAll,
+  const dataStore = {
+    increment: jest.fn(),
+    decrement: jest.fn(),
+    resetKey: jest.fn(),
+    resetAll: jest.fn(),
   };
 
-  const restApplication = new RestApplication();
+  const restApp = new RestApplication();
 
-  const rateLimitMetadataFalse = sinon.stub().resolves(
-    Promise.resolve({
-      enabled: false,
-    }),
-  );
+  const rateLimitMetadataFalse = jest.fn().mockResolvedValue({
+    enabled: false,
+  });
 
-  const rateLimitMetadataTrue = sinon.stub().resolves(
-    Promise.resolve({
-      enabled: true,
-    }),
-  );
+  const rateLimitMetadataTrue = jest.fn().mockResolvedValue({
+    enabled: true,
+  });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
 
   describe('Ratelimit action', () => {
-    it('verifies whether value function returns a funtions', async () => {
-      const result = new RatelimitActionMockProvider(
-        dataStore,
-        rateLimitMetadataFalse,
-        restApplication,
-      ).value();
-      expect(result).to.have.Function();
+    it('verifies whether value function returns a function', async () => {
+      const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataFalse, restApp);
+      expect(typeof provider.value()).toBe('function');
     });
 
     it('returns promise if metadata is not enabled', async () => {
-      const result = new RatelimitActionProvider(
-        () => {
-          return new Promise((resolve, reject) => {
-            resolve(dataStore);
-          });
-        },
-        rateLimitMetadataFalse,
-        restApplication,
-      ).action({} as Request, {} as Response);
-      await expect(result).to.be.fulfilled();
+      const provider = new RatelimitActionProvider(jest.fn(), rateLimitMetadataFalse, restApp);
+      await expect(provider.action({})).resolves.toBeUndefined();
     });
 
     it('returns promise if metadata is enabled', async () => {
-      const result = new RatelimitActionMockProvider(
-        dataStore,
-        rateLimitMetadataTrue,
-        restApplication,
-      )
-        .action({} as Request, {} as Response)
-        .catch((err) => err.message);
-      await expect(result).to.be.fulfilled();
-    }).timeout(5000);
+      const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataTrue, restApp);
+      await expect(provider.action({})).rejects.toBeDefined();
+    }, 5000);
   });
-
-  function increment(key: string): IncrementResponse {
-    return {totalHits: 0, resetTime: new Date()};
-  }
-  function decrement(key: string): void {}
-  function resetKey(key: string): void {}
-  function resetAll(): void {}
-
-  function setupMockRatelimitAction() {
-    const mockExpressRatelimit = sinon.stub().returns({
-      emit: sinon.stub().returns({}),
-    });
-    RatelimitActionMockProvider = proxyquire(
-      '../../providers/ratelimit-action.provider',
-      {
-        'express-rate-limit': mockExpressRatelimit,
-      },
-    ).RatelimitActionProvider;
-  }
 });
