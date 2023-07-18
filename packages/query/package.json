@@ -49,18 +49,18 @@
     "jest:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false"
   },
   "dependencies": {
-    "@loopback/core": "^5.1.0",
-    "@loopback/filter": "^4.1.0",
-    "@loopback/repository": "^6.1.0",
+    "@loopback/core": "^5.1.1",
+    "@loopback/filter": "^4.1.1",
+    "@loopback/repository": "^6.1.1",
     "debug": "^4.3.4",
     "knex": "^2.5.1",
     "tily": "^2.20.1",
     "ts-essentials": "^9.3.2"
   },
   "devDependencies": {
-    "@loopback/core": "^5.1.0",
-    "@loopback/filter": "^4.1.0",
-    "@loopback/repository": "^6.1.0",
+    "@loopback/core": "^5.1.1",
+    "@loopback/filter": "^4.1.1",
+    "@loopback/repository": "^6.1.1",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.3",

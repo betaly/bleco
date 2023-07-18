@@ -21,17 +21,17 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.369.0",
-    "@aws-sdk/s3-request-presigner": "^3.369.0",
-    "@loopback/boot": "^6.1.0",
-    "@loopback/context": "^6.1.0",
-    "@loopback/core": "^5.1.0",
+    "@aws-sdk/client-s3": "^3.370.0",
+    "@aws-sdk/s3-request-presigner": "^3.370.0",
+    "@loopback/boot": "^6.1.1",
+    "@loopback/context": "^6.1.1",
+    "@loopback/core": "^5.1.1",
     "moment-timezone": "^0.5.43"
   },
   "devDependencies": {
-    "@loopback/rest": "^13.1.0",
-    "@loopback/rest-explorer": "^6.1.0",
-    "@loopback/testlab": "^6.1.0",
+    "@loopback/rest": "^13.1.1",
+    "@loopback/rest-explorer": "^6.1.1",
+    "@loopback/testlab": "^6.1.1",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/dotenv": "^8.2.0",

@@ -25,11 +25,11 @@
     "memcached": "^2.2.2"
   },
   "dependencies": {
-    "@loopback/boot": "^6.1.0",
-    "@loopback/context": "^6.1.0",
-    "@loopback/core": "^5.1.0",
-    "@loopback/repository": "^6.1.0",
-    "@loopback/rest": "^13.1.0",
+    "@loopback/boot": "^6.1.1",
+    "@loopback/context": "^6.1.1",
+    "@loopback/core": "^5.1.1",
+    "@loopback/repository": "^6.1.1",
+    "@loopback/rest": "^13.1.1",
     "berrors": "^0.2.3",
     "express-rate-limit": "^6.7.1",
     "rate-limit-memcached": "^0.6.0",
@@ -38,7 +38,7 @@
     "ts-essentials": "^9.3.2"
   },
   "devDependencies": {
-    "@loopback/testlab": "^6.1.0",
+    "@loopback/testlab": "^6.1.1",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/express-rate-limit": "^6.0.0",
