@@ -1,6 +1,4 @@
 declare module 'rate-limit-mongo' {
-  import {Store, StoreIncrementCallback} from 'express-rate-limit';
-
   declare namespace MongoStore {
     interface Options {
       uri?: string;

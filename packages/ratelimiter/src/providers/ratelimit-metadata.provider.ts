@@ -1,10 +1,16 @@
-import {Constructor, MetadataInspector, Provider, inject} from '@loopback/context';
+import {
+  Constructor,
+  inject,
+  MetadataInspector,
+  Provider,
+} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
-
-import {RATELIMIT_METADATA_ACCESSOR} from '../keys';
 import {RateLimitMetadata} from '../types';
+import {RATELIMIT_METADATA_ACCESSOR} from '../keys';
 
-export class RateLimitMetadataProvider implements Provider<RateLimitMetadata | undefined> {
+export class RateLimitMetadataProvider
+  implements Provider<RateLimitMetadata | undefined>
+{
   constructor(
     @inject(CoreBindings.CONTROLLER_CLASS, {optional: true})
     private readonly controllerClass: Constructor<{}>,

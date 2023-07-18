@@ -1,11 +1,28 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+// @SONAR_STOP@
+import {CoreBindings, inject, injectable, Next, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
-import {Request, Response, RestApplication, HttpErrors} from '@loopback/rest';
+import {
+  Request,
+  Response,
+  RestApplication,
+  HttpErrors,
+  Middleware,
+  MiddlewareContext,
+  asMiddleware,
+  RestMiddlewareGroups,
+} from '@loopback/rest';
 import * as RateLimit from 'express-rate-limit';
 import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from '../types';
-
-export class RatelimitActionProvider implements Provider<RateLimitAction> {
+import {RateLimitMetadata, RateLimitOptions} from '../types';
+import {RatelimitActionMiddlewareGroup} from './middleware.enum';
+@injectable(
+  asMiddleware({
+    group: RatelimitActionMiddlewareGroup.RATELIMIT,
+    upstreamGroups: RestMiddlewareGroups.PARSE_PARAMS,
+    downstreamGroups: [RestMiddlewareGroups.INVOKE_METHOD],
+  }),
+)
+export class RatelimitMiddlewareProvider implements Provider<Middleware> {
   constructor(
     @inject.getter(RateLimitSecurityBindings.DATASOURCEPROVIDER)
     private readonly getDatastore: Getter<RateLimit.Store>,
@@ -19,8 +36,12 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
     private readonly config?: RateLimitOptions,
   ) {}
 
-  value(): RateLimitAction {
-    return (req, resp) => this.action(req, resp);
+  value() {
+    const middleware = async (ctx: MiddlewareContext, next: Next) => {
+      await this.action(ctx.request, ctx.response);
+      return next();
+    };
+    return middleware;
   }
 
   async action(request: Request, response: Response): Promise<void> {
@@ -64,3 +85,4 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
     }
   }
 }
+// @SONAR_START@

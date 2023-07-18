@@ -1,16 +1,15 @@
-import {CoreBindings, Provider, inject} from '@loopback/core';
+import {CoreBindings, inject, Provider} from '@loopback/core';
 import {Getter, juggler} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
-import {BErrors} from 'berrors';
-import {Store} from 'express-rate-limit';
+import {RateLimitMetadata, RateLimitOptions, Store} from '../types';
+import {RateLimitSecurityBindings} from '../keys';
+import RedisStore, {RedisReply} from 'rate-limit-redis';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
-import RedisStore from 'rate-limit-redis';
+import {HttpErrors, RestApplication} from '@loopback/rest';
+import {TextDecoder} from 'util';
 
-import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitMetadata, RateLimitOptions} from '../types';
-
-export class RatelimitDatasourceProvider implements Provider<Store | MemcachedStore | undefined> {
+const decoder = new TextDecoder('utf-8');
+export class RatelimitDatasourceProvider implements Provider<Store> {
   constructor(
     @inject.getter(RateLimitSecurityBindings.METADATA)
     private readonly getMetadata: Getter<RateLimitMetadata>,
@@ -20,41 +19,71 @@ export class RatelimitDatasourceProvider implements Provider<Store | MemcachedSt
     private readonly config?: RateLimitOptions,
   ) {}
 
-  value(): Promise<Store | MemcachedStore | undefined> {
+  value(): Promise<Store> {
     return this.action();
   }
 
-  async action(): Promise<Store | MemcachedStore | undefined> {
+  async action(): Promise<Store> {
     const metadata: RateLimitMetadata = await this.getMetadata();
 
-    // First check if rate limit options available at method level
-    const operationMetadata = metadata ? metadata.options : {};
-
+    // // First check if rate limit options available at method level
+    const operationMetadata = metadata?.options ?? {};
     // Create options based on global config and method level config
-    const opts = Object.assign({}, this.config, operationMetadata);
+    const opts = {...this.config, ...operationMetadata};
+    const var1 = 60;
+    const var2 = 1000;
 
     if (this.config?.type === 'MemcachedStore') {
-      return new MemcachedStore({
-        client: this.config?.client,
-        expiration: (opts.windowMs ?? 60 * 1000) / 1000,
-      });
+      const expiration = (opts.windowMs ?? var1 * var2) / var2;
+      return new MemcachedStore({client: this.config?.client, expiration});
     } else if (this.config?.type === 'MongoStore') {
+      const expireTimeMs = (opts.windowMs ?? var1 * var2) / var2;
       return new MongoStore({
         uri: this.config?.uri,
         collectionName: this.config?.collectionName,
-        expireTimeMs: (opts.windowMs ?? 60 * 1000) / 1000,
-      }) as unknown as Store;
+        expireTimeMs,
+      });
     } else {
       const redisDS = (await this.application.get(`datasources.${this.config?.name}`)) as juggler.DataSource;
-      if (redisDS?.connector) {
-        return new RedisStore({
-          // client: redisDS.connector._client,
-          // expiry: (opts.windowMs ?? 60 * 1000) / 1000,
-          sendCommand: (...args: string[]) => redisDS.connector?._client.call(...args),
-        });
-      } else {
-        throw new BErrors.InternalServerError('Invalid Datasource');
+      if (!redisDS?.connector) {
+        throw new HttpErrors.InternalServerError('Invalid Datasource');
       }
+
+      return new RedisStore({
+        sendCommand: async (...args: string[]) => {
+          const command = `${args[0]}`;
+          args.splice(0, 1);
+          let res;
+          try {
+            res = await this.executeRedisCommand(redisDS, command, args);
+            if (command.toLocaleLowerCase() === 'script') {
+              res = decoder.decode(res as ArrayBuffer);
+            }
+          } catch (err) {
+            throw new Error(`Could not execute redis command ${err}`);
+          }
+          return res as RedisReply;
+        },
+      });
     }
+  }
+
+  // returns promisified execute function
+  executeRedisCommand(dataSource: juggler.DataSource, command: string, args: (string | number)[]) {
+    return new Promise((resolve, reject) => {
+      if (dataSource.connector?.execute) {
+        // eslint-disable-next-line  @typescript-eslint/no-floating-promises
+        dataSource.connector.execute(command, args, (err: Error, res: Buffer) => {
+          if (err) {
+            reject(err);
+          }
+          if (res) {
+            resolve(res);
+          } else {
+            return resolve(undefined);
+          }
+        });
+      }
+    });
   }
 }
