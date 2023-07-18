@@ -14,7 +14,7 @@ describe('Rate Limit datasource Service', () => {
       };
       const ratelimitDatasourceProvider = new RatelimitDatasourceProvider(
         () => {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve({enabled: true});
           });
         },
@@ -22,7 +22,7 @@ describe('Rate Limit datasource Service', () => {
         config,
       ).value();
       let result;
-      await ratelimitDatasourceProvider.then((value) => {
+      await ratelimitDatasourceProvider.then(value => {
         result = value;
       });
       expect(result).to.have.properties(['expiration', 'prefix', 'client']);
@@ -37,7 +37,7 @@ describe('Rate Limit datasource Service', () => {
       };
       const ratelimitDatasourceProvider = new RatelimitDatasourceProvider(
         () => {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve({enabled: true});
           });
         },
@@ -45,7 +45,7 @@ describe('Rate Limit datasource Service', () => {
         config,
       ).value();
       let result;
-      await ratelimitDatasourceProvider.then((value) => {
+      await ratelimitDatasourceProvider.then(value => {
         result = value;
       });
       expect(result).to.have.properties(['dbOptions', 'expireTimeMs']);
@@ -54,10 +54,11 @@ describe('Rate Limit datasource Service', () => {
     it('returns undefined if there is no redisDS', async () => {
       const config: RateLimitOptions = {
         name: 'test_name',
+        type: 'RedisStore',
       };
       const ratelimitDatasourceProvider = await new RatelimitDatasourceProvider(
         () => {
-          return new Promise((resolve) => {
+          return new Promise(resolve => {
             resolve({enabled: true});
           });
         },
@@ -65,7 +66,7 @@ describe('Rate Limit datasource Service', () => {
         config,
       )
         .value()
-        .catch((err) => err.msg);
+        .catch(err => err.msg);
       expect(ratelimitDatasourceProvider).to.eql(undefined);
     });
   });

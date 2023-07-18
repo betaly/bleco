@@ -2,18 +2,19 @@ import {Client} from '@loopback/testlab';
 import {memoryStore} from '../store.provider';
 import {TestApplication} from './fixtures/application';
 import {setUpApplication} from './helper';
+
 describe('Acceptance Test Cases', () => {
   let app: TestApplication;
   let client: Client;
 
-  before('setupApplication', async () => {
+  beforeAll(async () => {
     ({app, client} = await setUpApplication());
   });
   afterEach(async () => {
     await clearStore();
   });
 
-  after(async () => app.stop());
+  afterAll(async () => app.stop());
 
   it('should hit end point when number of requests is less than max requests allowed', async () => {
     //Max request is set to 5 while binding
