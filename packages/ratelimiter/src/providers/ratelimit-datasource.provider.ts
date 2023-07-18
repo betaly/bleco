@@ -1,8 +1,7 @@
-import {CoreBindings, Provider, inject} from '@loopback/core';
+import {CoreBindings, inject, Provider} from '@loopback/core';
 import {Getter, juggler} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {BErrors} from 'berrors';
-import {MemoryStore} from 'express-rate-limit';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
 import RedisStore, {RedisReply} from 'rate-limit-redis';
@@ -14,15 +13,6 @@ import {RateLimitMetadata, RateLimitOptions, Store} from '../types';
 const decoder = new TextDecoder('utf-8');
 
 export class RatelimitDatasourceProvider implements Provider<Store> {
-  static _memoryStore: MemoryStore;
-
-  static get memoryStore(): MemoryStore {
-    if (!this._memoryStore) {
-      this._memoryStore = new MemoryStore();
-    }
-    return this._memoryStore;
-  }
-
   constructor(
     @inject.getter(RateLimitSecurityBindings.METADATA)
     protected readonly getMetadata: Getter<RateLimitMetadata>,
@@ -79,7 +69,7 @@ export class RatelimitDatasourceProvider implements Provider<Store> {
         },
       });
     } else {
-      return (this.constructor as typeof RatelimitDatasourceProvider).memoryStore;
+      throw new BErrors.InternalServerError('Invalid Store Type');
     }
   }
 
