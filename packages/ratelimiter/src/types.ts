@@ -1,5 +1,5 @@
 import {Request, Response} from '@loopback/rest';
-import {Options} from 'express-rate-limit';
+import {MemoryStore, Options} from 'express-rate-limit';
 import {RedisClient} from 'redis';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
@@ -32,7 +32,7 @@ export interface RateLimitMetadata {
   options?: Partial<Options>;
 }
 
-export type Store = MemcachedStore | MongoStore | RedisStore;
+export type Store = MemcachedStore | MongoStore | RedisStore | MemoryStore;
 export type Writable<T> = {-readonly [P in keyof T]: T[P]};
 export interface RateLimitMiddlewareConfig {
   RatelimitActionMiddleware?: boolean;
