@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import {expect} from '@loopback/testlab';
 import sinon from 'sinon';
 import {getRateLimitMetadata, RateLimitMetadataProvider} from '../../providers';
@@ -8,10 +7,7 @@ describe('Rate Limit metadata Service', () => {
     const methodName = 'test_method_name';
     it('returns undefined if there is no controller class or method name', () => {
       const controllerClass = class test {};
-      const rateLimitMetadata = new RateLimitMetadataProvider(
-        controllerClass,
-        '',
-      );
+      const rateLimitMetadata = new RateLimitMetadataProvider(controllerClass, '');
       const result = rateLimitMetadata.value();
       expect(result).to.eql(undefined);
     });
