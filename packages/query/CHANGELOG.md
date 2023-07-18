@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.11](https://gitr.net/betaly/bleco/compare/@bleco/query@0.9.10...@bleco/query@0.9.11) (2023-07-18)
+
+**Note:** Version bump only for package @bleco/query
+
+
+
+
+
 ## [0.9.10](https://gitr.net/betaly/bleco/compare/@bleco/query@0.9.9...@bleco/query@0.9.10) (2023-07-13)
 
 **Note:** Version bump only for package @bleco/query

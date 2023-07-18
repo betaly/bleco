@@ -1,7 +1,7 @@
 {
   "name": "@bleco/ds-timestamp",
   "description": "A loopback next extension for automatically adding and managing createAt and updatedAt attributes to Model",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
