@@ -4,15 +4,14 @@ import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
-import {RateLimiterComponent, RateLimitSecurityBindings} from '../../../..';
-import {TestController} from '../../test.controller';
 
-import {MySequence} from './middleware.sequence';
+import {RateLimitSecurityBindings, RateLimiterComponent} from '../../../..';
 import {StoreProvider} from '../../store.provider';
+import {TestController} from '../../test.controller';
+import {MySequence} from './middleware.sequence';
+
 export {ApplicationConfig};
-export class TestApplication extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
-) {
+export class TestApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
@@ -26,9 +25,7 @@ export class TestApplication extends BootMixin(
 
     this.projectRoot = __dirname;
     this.controller(TestController);
-    this.bind(RateLimitSecurityBindings.DATASOURCEPROVIDER).toProvider(
-      StoreProvider,
-    );
+    this.bind(RateLimitSecurityBindings.DATASOURCEPROVIDER).toProvider(StoreProvider);
 
     this.bind(RateLimitSecurityBindings.CONFIG).to({
       name: 'inMemory',

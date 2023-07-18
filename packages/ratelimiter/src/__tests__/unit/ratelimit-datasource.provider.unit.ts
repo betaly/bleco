@@ -1,5 +1,6 @@
 import {RestApplication} from '@loopback/rest';
 import {expect} from '@loopback/testlab';
+
 import {RatelimitDatasourceProvider} from '../../providers';
 import {RateLimitOptions} from '../../types';
 

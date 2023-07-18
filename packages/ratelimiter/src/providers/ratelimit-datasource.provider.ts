@@ -1,14 +1,15 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+import {CoreBindings, Provider, inject} from '@loopback/core';
 import {Getter, juggler} from '@loopback/repository';
-import {RateLimitMetadata, RateLimitOptions, Store} from '../types';
-import {RateLimitSecurityBindings} from '../keys';
-import RedisStore, {RedisReply} from 'rate-limit-redis';
+import {RestApplication} from '@loopback/rest';
+import {BErrors} from 'berrors';
+import {MemoryStore} from 'express-rate-limit';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
-import {RestApplication} from '@loopback/rest';
+import RedisStore, {RedisReply} from 'rate-limit-redis';
 import {TextDecoder} from 'util';
-import {MemoryStore} from 'express-rate-limit';
-import {BErrors} from 'berrors';
+
+import {RateLimitSecurityBindings} from '../keys';
+import {RateLimitMetadata, RateLimitOptions, Store} from '../types';
 
 const decoder = new TextDecoder('utf-8');
 

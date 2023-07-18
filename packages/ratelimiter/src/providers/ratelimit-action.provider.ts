@@ -1,15 +1,16 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+import {CoreBindings, Provider, inject} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {Request, Response, RestApplication} from '@loopback/rest';
-import * as RateLimit from 'express-rate-limit';
+import {BErrors} from 'berrors';
+import rateLimit, {Store} from 'express-rate-limit';
+
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from '../types';
-import {BErrors} from 'berrors';
 
 export class RatelimitActionProvider implements Provider<RateLimitAction> {
   constructor(
     @inject.getter(RateLimitSecurityBindings.DATASOURCEPROVIDER)
-    private readonly getDatastore: Getter<RateLimit.Store>,
+    private readonly getDatastore: Getter<Store>,
     @inject.getter(RateLimitSecurityBindings.METADATA)
     private readonly getMetadata: Getter<RateLimitMetadata>,
     @inject(CoreBindings.APPLICATION_INSTANCE)
@@ -27,13 +28,17 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
   async action(request: Request, response: Response): Promise<void> {
     const enabledByDefault = this.config?.enabledByDefault ?? true;
     const metadata: RateLimitMetadata = await this.getMetadata();
-    const dataStore = await this.getDatastore();
-    if (metadata && !metadata.enabled) {
-      return Promise.resolve();
-    }
 
+    if (enabledByDefault || metadata?.enabled) {
+      await this.doRateLimit(request, response);
+    }
+  }
+
+  async doRateLimit(request: Request, response: Response) {
+    const metadata: RateLimitMetadata = await this.getMetadata();
+    const dataStore = await this.getDatastore();
     // Perform rate limiting now
-    const promise = new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       // First check if rate limit options available at method level
       const operationMetadata = metadata ? metadata.options : {};
 
@@ -46,20 +51,8 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
 
       opts.message = new BErrors.TooManyRequests(opts.message?.toString() ?? 'Method rate limit reached !');
 
-      const limiter = RateLimit.default(opts);
-      limiter(request, response, (err: unknown) => {
-        if (err) {
-          reject(err);
-        }
-        resolve();
-      });
+      const limiter = rateLimit(opts);
+      limiter(request, response, (err: unknown) => (err ? reject(err) : resolve()));
     });
-    if (enabledByDefault === true) {
-      await promise;
-    } else if (enabledByDefault === false && metadata && metadata.enabled) {
-      await promise;
-    } else {
-      return Promise.resolve();
-    }
   }
 }

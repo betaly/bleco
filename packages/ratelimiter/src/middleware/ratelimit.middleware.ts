@@ -1,20 +1,21 @@
 // @SONAR_STOP@
-import {CoreBindings, inject, injectable, Next, Provider} from '@loopback/core';
+import {CoreBindings, Next, Provider, inject, injectable} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {
-  asMiddleware,
   Middleware,
   MiddlewareContext,
   Request,
   Response,
   RestApplication,
   RestMiddlewareGroups,
+  asMiddleware,
 } from '@loopback/rest';
+import {BErrors} from 'berrors';
 import * as RateLimit from 'express-rate-limit';
+
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitMetadata, RateLimitOptions} from '../types';
 import {RatelimitActionMiddlewareGroup} from './middleware.enum';
-import {BErrors} from 'berrors';
 
 @injectable(
   asMiddleware({

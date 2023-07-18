@@ -41,7 +41,6 @@
     "@loopback/testlab": "^6.1.1",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
-    "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^29.5.3",
     "@types/memcached": "^2.2.7",
     "@types/node": "^20.4.2",

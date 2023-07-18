@@ -1,9 +1,10 @@
 import {Request, Response} from '@loopback/rest';
 import {MemoryStore, Options} from 'express-rate-limit';
-import {RedisClient} from 'redis';
 import MemcachedStore from 'rate-limit-memcached';
 import MongoStore from 'rate-limit-mongo';
 import RedisStore from 'rate-limit-redis';
+import {RedisClient} from 'redis';
+
 import IORedis = require('ioredis');
 
 export type RedisClientType = IORedis.Redis | RedisClient;

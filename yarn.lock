@@ -1799,7 +1799,6 @@ __metadata:
     "@loopback/testlab": ^6.1.1
     "@nutol/build": ^0.2.14
     "@nutol/eslint-config": ^0.2.9
-    "@types/express-rate-limit": ^6.0.0
     "@types/jest": ^29.5.3
     "@types/memcached": ^2.2.7
     "@types/node": ^20.4.2
@@ -6222,15 +6221,6 @@ __metadata:
   dependencies:
     "@types/express": "*"
   checksum: 91f9a881ede6c74795705d1c9c2078bb29431a87f43540f77f46d7158aaf770c68e12ac3e2b987713f00817051aa4b6c65516aaf946309081c7c9d72148d00e8
-  languageName: node
-  linkType: hard
-
-"@types/express-rate-limit@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@types/express-rate-limit@npm:6.0.0"
-  dependencies:
-    express-rate-limit: "*"
-  checksum: fde7ba340887a0862cd8abc1ff1dcba18b8d5eeddddfde5a6c35d3a97cc80b8a3c1d6ce42bbc4085643f62b01a90e44533f764d388e44ee39f893b5207b17407
   languageName: node
   linkType: hard
 
@@ -11064,7 +11054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:*, express-rate-limit@npm:^6.7.1":
+"express-rate-limit@npm:^6.7.1":
   version: 6.7.1
   resolution: "express-rate-limit@npm:6.7.1"
   peerDependencies:

@@ -1,48 +1,71 @@
-jest.mock('express-rate-limit', () => {
-  return {
-    emit: jest.fn().mockReturnValue({}),
-  };
-});
+import {Request, Response, RestApplication} from '@loopback/rest';
+import {Store} from 'express-rate-limit';
 
-const {RatelimitActionProvider} = require('../../providers/ratelimit-action.provider');
-const {RestApplication} = require('@loopback/rest');
+import {RatelimitActionProvider} from '../../providers';
 
 describe('Rate Limit action Service', () => {
-  const dataStore = {
-    increment: jest.fn(),
-    decrement: jest.fn(),
-    resetKey: jest.fn(),
-    resetAll: jest.fn(),
-  };
+  const dataStore = async () =>
+    ({
+      increment: jest.fn(),
+      decrement: jest.fn(),
+      resetKey: jest.fn(),
+      resetAll: jest.fn(),
+    } as Store);
 
-  const restApp = new RestApplication();
+  const restApplication = new RestApplication();
 
-  const rateLimitMetadataFalse = jest.fn().mockResolvedValue({
+  const rateLimitMetadataFalse = async () => ({
     enabled: false,
   });
 
-  const rateLimitMetadataTrue = jest.fn().mockResolvedValue({
+  const rateLimitMetadataTrue = async () => ({
     enabled: true,
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
   });
 
   describe('Ratelimit action', () => {
     it('verifies whether value function returns a function', async () => {
-      const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataFalse, restApp);
-      expect(typeof provider.value()).toBe('function');
+      const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataFalse, restApplication);
+
+      const valueFn = provider.value();
+      expect(typeof valueFn).toBe('function');
     });
 
-    it('returns promise if metadata is not enabled', async () => {
-      const provider = new RatelimitActionProvider(jest.fn(), rateLimitMetadataFalse, restApp);
-      await expect(provider.action({})).resolves.toBeUndefined();
+    describe('with enabledByDefault as default', function () {
+      it('perform if metadata is not enabled', async () => {
+        const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataFalse, restApplication);
+        jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
+
+        await provider.action({} as Request, {} as Response);
+      });
+
+      it('perform if metadata is enabled', async () => {
+        const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataTrue, restApplication);
+        jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
+
+        await provider.action({} as Request, {} as Response);
+      });
     });
 
-    it('returns promise if metadata is enabled', async () => {
-      const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataTrue, restApp);
-      await expect(provider.action({})).rejects.toBeDefined();
-    }, 5000);
+    describe('without enabledByDefault', function () {
+      it('skip rate limit if metadata is not enabled', async () => {
+        const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataFalse, restApplication, {
+          name: 'test',
+          enabledByDefault: false,
+        });
+        jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.reject('Should not be called'));
+
+        await provider.action({} as Request, {} as Response);
+      });
+
+      it('perform if metadata is enabled', async () => {
+        const provider = new RatelimitActionProvider(dataStore, rateLimitMetadataTrue, restApplication, {
+          name: 'test',
+          enabledByDefault: false,
+        });
+        jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
+
+        await provider.action({} as Request, {} as Response);
+      });
+    });
   });
 });

@@ -1,6 +1,7 @@
 import {expect} from '@loopback/testlab';
 import sinon from 'sinon';
-import {getRateLimitMetadata, RateLimitMetadataProvider} from '../../providers';
+
+import {RateLimitMetadataProvider, getRateLimitMetadata} from '../../providers';
 
 describe('Rate Limit metadata Service', () => {
   describe('Ratelimit metadata class', () => {

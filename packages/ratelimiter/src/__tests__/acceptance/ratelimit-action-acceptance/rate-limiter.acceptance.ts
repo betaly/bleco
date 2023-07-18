@@ -1,4 +1,5 @@
 import {Client} from '@loopback/testlab';
+
 import {memoryStore} from '../store.provider';
 import {TestApplication} from './fixtures/application';
 import {setUpApplication} from './helper';
