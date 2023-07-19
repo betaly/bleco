@@ -1,6 +1,6 @@
 import {CoreBindings, inject, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
-import {Request, Response, RestApplication} from '@loopback/rest';
+import {HttpErrors, Request, Response, RestApplication} from '@loopback/rest';
 import rateLimit, {Store} from 'express-rate-limit';
 
 import {RateLimitSecurityBindings} from '../keys';
@@ -46,6 +46,14 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
 
       if (dataStore) {
         opts.store = dataStore;
+      }
+
+      if (!opts.handler) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        opts.handler = async (req: Request, res: Response, next: Function) => {
+          const message = typeof opts.message === 'function' ? await opts.message(req, res) : opts.message;
+          next(new HttpErrors.TooManyRequests(message ?? 'Too many requests, please try again later.'));
+        };
       }
 
       const limiter = rateLimit(opts);

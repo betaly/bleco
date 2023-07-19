@@ -1,17 +1,17 @@
 // @SONAR_STOP@
-import {CoreBindings, Next, Provider, inject, injectable} from '@loopback/core';
+import {CoreBindings, inject, injectable, Next, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {
+  asMiddleware,
+  HttpErrors,
   Middleware,
   MiddlewareContext,
   Request,
   Response,
   RestApplication,
   RestMiddlewareGroups,
-  asMiddleware,
 } from '@loopback/rest';
-import {BErrors} from 'berrors';
-import * as RateLimit from 'express-rate-limit';
+import rateLimit, {Store} from 'express-rate-limit';
 
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitMetadata, RateLimitOptions} from '../types';
@@ -27,7 +27,7 @@ import {RatelimitActionMiddlewareGroup} from './middleware.enum';
 export class RatelimitMiddlewareProvider implements Provider<Middleware> {
   constructor(
     @inject.getter(RateLimitSecurityBindings.DATASOURCEPROVIDER)
-    private readonly getDatastore: Getter<RateLimit.Store>,
+    private readonly getDatastore: Getter<Store>,
     @inject.getter(RateLimitSecurityBindings.METADATA)
     private readonly getMetadata: Getter<RateLimitMetadata>,
     @inject(CoreBindings.APPLICATION_INSTANCE)
@@ -49,13 +49,17 @@ export class RatelimitMiddlewareProvider implements Provider<Middleware> {
   async action(request: Request, response: Response): Promise<void> {
     const enabledByDefault = this.config?.enabledByDefault ?? true;
     const metadata: RateLimitMetadata = await this.getMetadata();
-    const dataStore = await this.getDatastore();
-    if (metadata && !metadata.enabled) {
-      return Promise.resolve();
-    }
 
+    if (enabledByDefault || metadata?.enabled) {
+      await this.doRateLimit(request, response);
+    }
+  }
+
+  async doRateLimit(request: Request, response: Response) {
+    const metadata: RateLimitMetadata = await this.getMetadata();
+    const dataStore = await this.getDatastore();
     // Perform rate limiting now
-    const promise = new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       // First check if rate limit options available at method level
       const operationMetadata = metadata ? metadata.options : {};
 
@@ -66,23 +70,17 @@ export class RatelimitMiddlewareProvider implements Provider<Middleware> {
         opts.store = dataStore;
       }
 
-      opts.message = new BErrors.TooManyRequests(opts.message?.toString() ?? 'Method rate limit reached !');
+      if (!opts.handler) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        opts.handler = async (req: Request, res: Response, next: Function) => {
+          const message = typeof opts.message === 'function' ? await opts.message(req, res) : opts.message;
+          next(new HttpErrors.TooManyRequests(message ?? 'Too many requests, please try again later.'));
+        };
+      }
 
-      const limiter = RateLimit.default(opts);
-      limiter(request, response, (err: unknown) => {
-        if (err) {
-          reject(err);
-        }
-        resolve();
-      });
+      const limiter = rateLimit(opts);
+      limiter(request, response, (err: unknown) => (err ? reject(err) : resolve()));
     });
-    if (enabledByDefault === true) {
-      await promise;
-    } else if (enabledByDefault === false && metadata && metadata.enabled) {
-      await promise;
-    } else {
-      return Promise.resolve();
-    }
   }
 }
 // @SONAR_START@

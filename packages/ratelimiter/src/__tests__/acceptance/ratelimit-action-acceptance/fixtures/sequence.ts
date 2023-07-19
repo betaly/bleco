@@ -24,11 +24,15 @@ export class MySequence implements SequenceHandler {
   ) {}
 
   async handle(context: RequestContext) {
-    const {request, response} = context;
-    const route = this.findRoute(request);
-    const args = await this.parseParams(request, route);
-    await this.rateLimitAction(request, response);
-    const result = await this.invoke(route, args);
-    this.send(response, result);
+    try {
+      const {request, response} = context;
+      const route = this.findRoute(request);
+      const args = await this.parseParams(request, route);
+      await this.rateLimitAction(request, response);
+      const result = await this.invoke(route, args);
+      this.send(response, result);
+    } catch (error) {
+      this.reject(context, error);
+    }
   }
 }

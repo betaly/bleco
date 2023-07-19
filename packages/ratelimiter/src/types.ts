@@ -1,9 +1,7 @@
 import {Request, Response} from '@loopback/rest';
-import {Options} from 'express-rate-limit';
-import MemcachedStore from 'rate-limit-memcached';
-import MongoStore from 'rate-limit-mongo';
-import RedisStore from 'rate-limit-redis';
+import {IncrementCallback, Options, Store as RateLimitStore} from 'express-rate-limit';
 import {RedisClient} from 'redis';
+
 import IORedis = require('ioredis');
 
 export type RedisClientType = IORedis.Redis | RedisClient;
@@ -32,7 +30,15 @@ export interface RateLimitMetadata {
   options?: Partial<Options>;
 }
 
-export type Store = MemcachedStore | MongoStore | RedisStore;
+export interface LegacyStore extends Omit<RateLimitStore, 'increment'> {
+  /**
+   * @deprecated use increment
+   */
+  incr(key: string, cb: IncrementCallback): void;
+}
+
+export type Store = RateLimitStore | LegacyStore;
+
 export type Writable<T> = {-readonly [P in keyof T]: T[P]};
 export interface RateLimitMiddlewareConfig {
   RatelimitActionMiddleware?: boolean;

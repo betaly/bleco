@@ -1,4 +1,4 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+import {CoreBindings, Provider, inject} from '@loopback/core';
 import {Getter, juggler} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {BErrors} from 'berrors';
