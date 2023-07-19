@@ -1,7 +1,7 @@
 import {Request, Response, RestApplication} from '@loopback/rest';
-import {Store} from 'express-rate-limit';
 
 import {RatelimitActionProvider} from '../../providers';
+import {Store} from '../../types';
 
 describe('Rate Limit action Service', () => {
   const dataStore = async () =>

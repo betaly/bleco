@@ -1,10 +1,10 @@
 import {CoreBindings, inject, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {HttpErrors, Request, Response, RestApplication} from '@loopback/rest';
-import rateLimit, {Store} from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 
 import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitAction, RateLimitMetadata, RateLimitOptions} from '../types';
+import {RateLimitAction, RateLimitMetadata, RateLimitOptions, Store} from '../types';
 
 export class RatelimitActionProvider implements Provider<RateLimitAction> {
   constructor(

@@ -11,10 +11,10 @@ import {
   RestApplication,
   RestMiddlewareGroups,
 } from '@loopback/rest';
-import rateLimit, {Store} from 'express-rate-limit';
+import rateLimit from 'express-rate-limit';
 
 import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitMetadata, RateLimitOptions} from '../types';
+import {RateLimitMetadata, RateLimitOptions, Store} from '../types';
 import {RatelimitActionMiddlewareGroup} from './middleware.enum';
 
 @injectable(
