@@ -1,7 +1,6 @@
-import {CoreBindings, Provider, inject} from '@loopback/core';
+import {CoreBindings, inject, Provider} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {Request, Response, RestApplication} from '@loopback/rest';
-import {BErrors} from 'berrors';
 import rateLimit, {Store} from 'express-rate-limit';
 
 import {RateLimitSecurityBindings} from '../keys';
@@ -48,8 +47,6 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
       if (dataStore) {
         opts.store = dataStore;
       }
-
-      opts.message = new BErrors.TooManyRequests(opts.message?.toString() ?? 'Method rate limit reached !');
 
       const limiter = rateLimit(opts);
       limiter(request, response, (err: unknown) => (err ? reject(err) : resolve()));
