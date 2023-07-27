@@ -1,5 +1,5 @@
 import * as AuthaStrategy from '@authajs/passport-autha';
-import {Context, Provider, inject} from '@loopback/core';
+import {Context, inject, Provider} from '@loopback/core';
 import {SamlConfig} from '@node-saml/passport-saml';
 import {Strategy} from 'passport';
 import * as AppleStrategy from 'passport-apple';
@@ -35,7 +35,7 @@ import {
 } from './passport/passport-resource-owner-password';
 import {Cognito, Keycloak, VerifyFunction} from './types';
 
-interface ExtendedStrategyOption extends FacebookStrategy.StrategyOption {
+interface ExtendedStrategyOptions extends FacebookStrategy.StrategyOptions {
   passReqToCallback?: false;
 }
 
@@ -128,7 +128,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
       );
     } else if (name === STRATEGY.FACEBOOK_OAUTH2) {
       return this.getFacebookAuthVerifier(
-        this.metadata.options as FacebookStrategy.StrategyOptionWithRequest | ExtendedStrategyOption,
+        this.metadata.options as FacebookStrategy.StrategyOptionsWithRequest | ExtendedStrategyOptions,
         verifier as VerifyFunction.FacebookAuthFn,
       );
     } else if (name === STRATEGY.COGNITO_OAUTH2) {

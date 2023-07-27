@@ -1,14 +1,19 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-instagram';
+import {
+  Profile,
+  Strategy,
+  StrategyOption as StrategyOptions,
+  StrategyOptionWithRequest as StrategyOptionsWithRequest,
+} from 'passport-instagram';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
 
 export interface InstagramAuthStrategyFactory {
-  (options: StrategyOption | StrategyOptionWithRequest, verifierPassed?: VerifyFunction.InstagramAuthFn): Strategy;
+  (options: StrategyOptions | StrategyOptionsWithRequest, verifierPassed?: VerifyFunction.InstagramAuthFn): Strategy;
 }
 
 export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramAuthStrategyFactory> {
@@ -16,7 +21,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
     @inject(Strategies.Passport.INSTAGRAM_OAUTH2_VERIFIER)
     private readonly verifierInstagramAuth: VerifyFunction.InstagramAuthFn,
     @inject(Strategies.Passport.INSTAGRAM_OAUTH2_STRATEGY_OPTIONS, {optional: true})
-    private readonly options?: StrategyOption | StrategyOptionWithRequest,
+    private readonly options?: StrategyOptions | StrategyOptionsWithRequest,
   ) {}
 
   value(): InstagramAuthStrategyFactory {
@@ -24,7 +29,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
   }
 
   getInstagramAuthStrategyVerifier(
-    options: StrategyOption | StrategyOptionWithRequest,
+    options: StrategyOptions | StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.InstagramAuthFn,
   ): Strategy {
     options = {...this.options, ...options};
@@ -48,7 +53,7 @@ export class InstagramAuthStrategyFactoryProvider implements Provider<InstagramA
       );
     } else {
       strategy = new Strategy(
-        options as StrategyOption,
+        options as StrategyOptions,
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async (accessToken: string, refreshToken: string, profile: Profile, cb: VerifyCallback) => {
           try {

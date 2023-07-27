@@ -1,19 +1,19 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import {Profile, Strategy, StrategyOption, StrategyOptionWithRequest} from 'passport-facebook';
+import {Profile, Strategy, StrategyOptions, StrategyOptionsWithRequest} from 'passport-facebook';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
 import {VerifyCallback, VerifyFunction} from '../../types';
 
-interface ExtendedStrategyOption extends StrategyOption {
+interface ExtendedStrategyOption extends StrategyOptions {
   passReqToCallback?: false;
 }
 
 export interface FacebookAuthStrategyFactory {
   (
-    options: ExtendedStrategyOption | StrategyOptionWithRequest,
+    options: ExtendedStrategyOption | StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.FacebookAuthFn,
   ): Strategy;
 }
@@ -23,7 +23,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_VERIFIER)
     private readonly verifierFacebookAuth: VerifyFunction.FacebookAuthFn,
     @inject(Strategies.Passport.FACEBOOK_OAUTH2_STRATEGY_OPTIONS, {optional: true})
-    private readonly options?: ExtendedStrategyOption | StrategyOptionWithRequest,
+    private readonly options?: ExtendedStrategyOption | StrategyOptionsWithRequest,
   ) {}
 
   value(): FacebookAuthStrategyFactory {
@@ -31,7 +31,7 @@ export class FacebookAuthStrategyFactoryProvider implements Provider<FacebookAut
   }
 
   getFacebookAuthStrategyVerifier(
-    options: ExtendedStrategyOption | StrategyOptionWithRequest,
+    options: ExtendedStrategyOption | StrategyOptionsWithRequest,
     verifierPassed?: VerifyFunction.FacebookAuthFn,
   ): Strategy {
     options = {...this.options, ...options};

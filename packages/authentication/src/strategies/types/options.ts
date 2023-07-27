@@ -21,8 +21,8 @@ export type AzureADStrategyOptions =
   | AzureADStrategy.IOIDCStrategyOptionWithoutRequest
   | AzureADStrategy.IOIDCStrategyOptionWithRequest;
 export type FacebookStrategyOptions =
-  | (FacebookStrategy.StrategyOption & {passReqToCallback?: false})
-  | FacebookStrategy.StrategyOptionWithRequest;
+  | (FacebookStrategy.StrategyOptions & {passReqToCallback?: false})
+  | FacebookStrategy.StrategyOptionsWithRequest;
 export type GoogleStrategyOptions = GoogleStrategy.StrategyOptions | GoogleStrategy.StrategyOptionsWithRequest;
 export type KeycloakStrategyOptions = Keycloak.StrategyOptions & {passReqToCallback?: boolean};
 export type InstagramStrategyOptions = InstagramStrategy.StrategyOption | InstagramStrategy.StrategyOptionWithRequest;

@@ -31,7 +31,7 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.4.2"
+    "@types/node": "^20.4.5"
   },
   "files": [
     "README.md",
