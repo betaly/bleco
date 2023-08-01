@@ -7,7 +7,9 @@
 `@bleco/boot` exports all from `@loopback/boot`, just:
 
 ```ts
-// import {/*...*/} from "@loopback/boot"; =>
-import /*...*/
-'@bleco/boot';
+// add this line to the top of your application entry file
+import '@bleco/boot';
+
+// or replace @loopback/boot with @bleco/boot
+import {BootMixin} from '@bleco/boot';
 ```
