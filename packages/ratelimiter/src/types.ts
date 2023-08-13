@@ -9,7 +9,7 @@ import {
   RateLimiterRes,
 } from 'rate-limiter-flexible';
 import {BindingAddress} from '@loopback/context';
-import {DataSource} from '@loopback/repository';
+import {Class, DataSource, juggler} from '@loopback/repository';
 
 /**
  * Method (in the form of middleware) to generate/retrieve a value based on the
@@ -37,7 +37,7 @@ export interface RateLimitOptions extends IRateLimiterOptions {
 }
 
 export interface RateLimitStoreOptions extends Optional<IRateLimiterStoreOptions>, RateLimitOptions {
-  ds?: BindingAddress<DataSource> | DataSource | ':memory:';
+  ds?: BindingAddress<DataSource> | Class<juggler.DataSource> | juggler.DataSource | ':memory:';
 }
 
 export type RateLimitPossibleStoreOptions =

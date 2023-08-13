@@ -1,5 +1,5 @@
 import {Application, CoreBindings, inject, Provider} from '@loopback/core';
-import {Getter} from '@loopback/repository';
+import {DataSource, Getter} from '@loopback/repository';
 
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitConfig, RateLimitMetadata, RateLimitStoreClientType, RateLimitStoreSource} from '../types';
@@ -26,8 +26,21 @@ export class RatelimitStoreSourceProvider implements Provider<RateLimitStoreSour
     let type: RateLimitStoreClientType | undefined;
     let storeClient = null;
     if (dsConfig && dsConfig !== ':memory:') {
-      const ds = isDataSource(dsConfig) ? dsConfig : await this.application.get(dsConfig);
-      if (!ds.connector) {
+      if (typeof dsConfig === 'function' && !dsConfig.dataSourceName) {
+        throw new Error(`Invalid datasource: ${dsConfig}`);
+      }
+
+      const ds: DataSource | undefined = await (async () => {
+        if (isDataSource(dsConfig)) {
+          return dsConfig;
+        }
+        if (typeof dsConfig === 'function' || typeof dsConfig === 'string') {
+          return this.application.get(
+            typeof dsConfig === 'function' ? `datasources.${dsConfig.dataSourceName}` : dsConfig,
+          );
+        }
+      })();
+      if (!ds?.connector) {
         throw new Error(`DataSource not connected or invalid datasource: ${dsConfig}`);
       }
       type = resolveStoreClientType(ds.connector.name);

@@ -58,7 +58,7 @@ async function testWithDataSource(
   assertFn?: (storeSource: RateLimitStoreSource) => ValueOrPromise<void>,
 ) {
   const storeSource = await new RatelimitStoreSourceProvider(() => Promise.resolve({enabled: true}), app, {
-    ds: `datasources.${ds.dataSourceName}`,
+    ds,
   }).value();
   expect(storeSource.type).toEqual(expectedClientType);
   await assertFn?.(storeSource);
