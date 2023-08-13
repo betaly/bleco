@@ -1,6 +1,6 @@
 import {get} from '@loopback/rest';
 
-import {ratelimit} from '../..';
+import {ratelimit} from '../../..';
 
 export class TestController {
   constructor() {}
@@ -31,7 +31,7 @@ export class TestController {
   }
 
   @ratelimit(true, {
-    max: 1,
+    points: 1,
   })
   @get('/testDecorator', {
     responses: {

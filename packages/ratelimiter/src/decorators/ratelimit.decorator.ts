@@ -1,12 +1,11 @@
 import {MethodDecoratorFactory} from '@loopback/core';
-import {Options} from 'express-rate-limit';
 
 import {RATELIMIT_METADATA_ACCESSOR} from '../keys';
-import {RateLimitMetadata} from '../types';
+import {RateLimitMetadata, RateLimitOptions} from '../types';
 
-export function ratelimit(enabled: boolean, options?: Partial<Options>) {
+export function ratelimit(enabled: boolean, options?: Partial<RateLimitOptions>) {
   return MethodDecoratorFactory.createDecorator<RateLimitMetadata>(RATELIMIT_METADATA_ACCESSOR, {
-    enabled: enabled,
+    enabled,
     options,
   });
 }

@@ -1,18 +1,43 @@
 import {Client} from '@loopback/testlab';
+import {TestApplication} from '../fixtures/application';
+import {setUpApplication} from '../fixtures/helpers';
+import {RateLimitConfig} from '../../types';
+import {SequenceHandler} from '@loopback/rest';
+import {Class} from '@loopback/repository';
+import {TestMiddlewareSequence, TestSequence} from '../fixtures/sequences';
+import {RateLimitSecurityBindings} from '../../keys';
 
-import {memoryStore} from '../store.provider';
-import {TestApplication} from './fixtures/application';
-import {setUpApplication} from './helper';
+describe('RateLimiter Acceptance Test Cases', () => {
+  describe(`RateLimiter Test Suites for action sequence`, () => {
+    testRateLimiter(TestSequence);
+  });
 
-describe('Acceptance Test Cases', () => {
+  describe(`RateLimiter Test Suites for middleware sequence`, () => {
+    testRateLimiter(TestMiddlewareSequence);
+  });
+});
+
+function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitConfig) {
+  const rateLimitConfig = {
+    ds: ':memory:',
+    points: 5,
+    duration: 2,
+    ...config,
+  };
+
   let app: TestApplication;
   let client: Client;
 
   beforeAll(async () => {
-    ({app, client} = await setUpApplication());
+    ({app, client} = await setUpApplication(sequence, rateLimitConfig));
   });
+
+  afterAll(async () => {
+    await app.stop();
+  });
+
   afterEach(async () => {
-    await clearStore();
+    app.getSync(RateLimitSecurityBindings.RATE_LIMIT_FACTORY_SERVICE).clear();
   });
 
   afterAll(async () => app.stop());
@@ -60,8 +85,4 @@ describe('Acceptance Test Cases', () => {
         );
     }, 2000);
   });
-
-  async function clearStore() {
-    memoryStore.resetAll();
-  }
-});
+}

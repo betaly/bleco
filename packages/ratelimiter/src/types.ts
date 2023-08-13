@@ -1,43 +1,62 @@
-import {Request, Response} from '@loopback/rest';
-import {IncrementCallback, Options, Store as RateLimitStore} from 'express-rate-limit';
-import {RedisClient} from 'redis';
+import {Optional, Request, Response} from '@loopback/rest';
+import {
+  IRateLimiterMongoOptions,
+  IRateLimiterOptions,
+  IRateLimiterRedisOptions,
+  IRateLimiterStoreOptions,
+  RateLimiterAbstract,
+} from 'rate-limiter-flexible';
+import {BindingAddress} from '@loopback/context';
+import {DataSource} from '@loopback/repository';
 
-import IORedis = require('ioredis');
+/**
+ * Method (in the form of middleware) to generate/retrieve a value based on the
+ * incoming request.
+ *
+ */
+export type ValueDeterminingMiddleware<T> = (request: Request, response: Response) => T | Promise<T>;
 
-export type RedisClientType = IORedis.Redis | RedisClient;
+export type RateLimiter = RateLimiterAbstract;
 
-export interface DataSourceConfig {
-  name: string;
-  client?: string | RedisClientType;
-  type?: string;
-  uri?: string;
-  collectionName?: string;
+export enum RateLimitStoreClientType {
+  Memory = 'memory',
+  Redis = 'redis',
+  MongoDB = 'mongo',
+  Postgres = 'postgres',
+  MySQL = 'mysql',
 }
-export interface RateLimitConfig {
+
+export interface RateLimitOptions extends IRateLimiterOptions {
+  message?: string;
+  key?: ValueDeterminingMiddleware<string>;
+}
+
+export interface BaseRateLimitStoreOptions extends Optional<IRateLimiterStoreOptions>, RateLimitOptions {
+  ds?: BindingAddress<DataSource> | DataSource | ':memory:';
+}
+
+export type RateLimitStoreOptions = BaseRateLimitStoreOptions &
+  (IRateLimiterMongoOptions | IRateLimiterRedisOptions | BaseRateLimitStoreOptions);
+
+export type RateLimitConfig = RateLimitStoreOptions & {
   enabledByDefault?: boolean;
-}
+};
+
 export interface RateLimitAction {
   (request: Request, response: Response): Promise<void>;
 }
-
-export type RateLimitOptions = Writable<Partial<Options>> & DataSourceConfig & RateLimitConfig;
-
 /**
  * Rate limit metadata interface for the method decorator
  */
 export interface RateLimitMetadata {
   enabled: boolean;
-  options?: Partial<Options>;
+  options?: Partial<RateLimitOptions>;
 }
 
-export interface LegacyStore extends Omit<RateLimitStore, 'increment'> {
-  /**
-   * @deprecated use increment
-   */
-  incr(key: string, cb: IncrementCallback): void;
+export interface RateLimitStoreSource extends Pick<RateLimitStoreOptions, 'storeClient'> {
+  type: RateLimitStoreClientType;
+  storeClient: unknown;
 }
-
-export type Store = RateLimitStore | LegacyStore;
 
 export type Writable<T> = {-readonly [P in keyof T]: T[P]};
 export interface RateLimitMiddlewareConfig {

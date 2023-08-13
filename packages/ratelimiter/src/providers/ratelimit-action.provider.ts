@@ -1,23 +1,25 @@
-import {CoreBindings, inject, Provider} from '@loopback/core';
+import {inject, Provider, service} from '@loopback/core';
 import {Getter} from '@loopback/repository';
-import {HttpErrors, Request, Response, RestApplication} from '@loopback/rest';
-import rateLimit from 'express-rate-limit';
+import {Request, Response} from '@loopback/rest';
 
 import {RateLimitSecurityBindings} from '../keys';
-import {RateLimitAction, RateLimitMetadata, RateLimitOptions, Store} from '../types';
+import {RateLimitAction, RateLimitConfig, RateLimitMetadata, RateLimitStoreSource} from '../types';
+import {defaultKey} from '../stores';
+import {BErrors} from 'berrors';
+import {RateLimitFactoryService} from '../services';
 
 export class RatelimitActionProvider implements Provider<RateLimitAction> {
   constructor(
-    @inject.getter(RateLimitSecurityBindings.DATASOURCEPROVIDER)
-    private readonly getDatastore: Getter<Store>,
+    @inject.getter(RateLimitSecurityBindings.STORESOURCE)
+    private readonly getStoreSource: Getter<RateLimitStoreSource>,
     @inject.getter(RateLimitSecurityBindings.METADATA)
     private readonly getMetadata: Getter<RateLimitMetadata>,
-    @inject(CoreBindings.APPLICATION_INSTANCE)
-    private readonly application: RestApplication,
+    @service(RateLimitFactoryService)
+    private readonly rateLimiterFactory: RateLimitFactoryService,
     @inject(RateLimitSecurityBindings.CONFIG, {
       optional: true,
     })
-    private readonly config?: RateLimitOptions,
+    private readonly config?: RateLimitConfig,
   ) {}
 
   value(): RateLimitAction {
@@ -35,29 +37,24 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
 
   async doRateLimit(request: Request, response: Response) {
     const metadata: RateLimitMetadata = await this.getMetadata();
-    const dataStore = await this.getDatastore();
+    const storeSource = await this.getStoreSource();
     // Perform rate limiting now
-    return new Promise<void>((resolve, reject) => {
-      // First check if rate limit options available at method level
-      const operationMetadata = metadata ? metadata.options : {};
+    // First check if rate limit options available at method level
+    const operationMetadata = metadata ? metadata.options : {};
 
-      // Create options based on global config and method level config
-      const opts = Object.assign({}, this.config, operationMetadata);
+    // Create options based on global config and method level config
+    const opts = Object.assign({}, this.config, operationMetadata);
 
-      if (dataStore) {
-        opts.store = dataStore;
-      }
+    const key = opts.key ?? defaultKey;
+    const message = opts.message;
 
-      if (!opts.handler) {
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        opts.handler = async (req: Request, res: Response, next: Function) => {
-          const message = typeof opts.message === 'function' ? await opts.message(req, res) : opts.message;
-          next(new HttpErrors.TooManyRequests(message ?? 'Too many requests, please try again later.'));
-        };
-      }
+    const k = metadata ?? this.config;
 
-      const limiter = rateLimit(opts);
-      limiter(request, response, (err: unknown) => (err ? reject(err) : resolve()));
-    });
+    const limiter = this.rateLimiterFactory.get({...storeSource, ...opts});
+    try {
+      await limiter.consume(await key(request, response));
+    } catch (err) {
+      throw new BErrors.TooManyRequests(message ?? 'Too many requests, please try again later.');
+    }
   }
 }
