@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-alpha.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@0.3.16...@bleco/ratelimiter@1.0.0-alpha.0) (2023-08-13)
+
+
+### Features
+
+* **ratelimiter:** bump version to 1.0.0-alpha (master) ([b953f8d](https://github.com/betaly/bleco/commit/b953f8d43672ebefe5e4c408dd265fc39ec2d524))
+* **ratelimiter:** implement union and burst limiter ([da891ad](https://github.com/betaly/bleco/commit/da891adb43ec9b42b1fbe4e268cb8432d567d643))
+* **ratelimiter:** re-implementation with node-rate-limiter-flexible ([f6e86a9](https://github.com/betaly/bleco/commit/f6e86a971bf0aeb57b3b9d10c1e2573edd273e24))
+
+
+
+
+
 ## [0.3.16](https://gitr.net/betaly/bleco/compare/@bleco/ratelimiter@0.3.15...@bleco/ratelimiter@0.3.16) (2023-07-27)
 
 **Note:** Version bump only for package @bleco/ratelimiter

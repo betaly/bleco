@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/betaly/bleco/compare/@bleco/query@0.9.12...@bleco/query@0.10.0) (2023-08-13)
+
+
+### Features
+
+* turn off @typescript-eslint/ban-ts-comment ([a40d5e3](https://github.com/betaly/bleco/commit/a40d5e336bf4368c1b03e493aedc4942632decde))
+
+
+
+
+
 ## [0.9.12](https://gitr.net/betaly/bleco/compare/@bleco/query@0.9.11...@bleco/query@0.9.12) (2023-07-27)
 
 **Note:** Version bump only for package @bleco/query

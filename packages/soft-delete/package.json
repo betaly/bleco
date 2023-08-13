@@ -1,7 +1,7 @@
 {
   "name": "@bleco/soft-delete",
   "description": "A loopback-next extension for soft delete feature",
-  "version": "0.4.12",
+  "version": "0.5.0",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,7 +28,7 @@
     "tily": "^2.16.1"
   },
   "dependencies": {
-    "@bleco/mixin": "^0.4.10",
+    "@bleco/mixin": "^0.4.11",
     "@loopback/core": "^5.1.1",
     "@loopback/rest": "^13.1.1",
     "berrors": "^0.2.3",
