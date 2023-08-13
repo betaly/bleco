@@ -18,8 +18,9 @@ describe('RateLimiter Acceptance Test Cases', () => {
 });
 
 function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitConfig) {
-  const rateLimitConfig = {
+  const rateLimitConfig: RateLimitConfig = {
     ds: ':memory:',
+    headers: true,
     points: 5,
     duration: 2,
     ...config,
@@ -64,12 +65,6 @@ function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitCon
     await client.get('/test').expect(429);
   });
 
-  it('should overwrite the default behaviour when rate limit decorator is applied', async () => {
-    //Max request is set to 1 in decorator
-    await client.get('/testDecorator').expect(200);
-    await client.get('/testDecorator').expect(429);
-  });
-
   it('should throw no error if requests more than max are sent after window resets', async () => {
     //Max request is set to 5 while binding
     for (let i = 0; i < 5; i++) {
@@ -84,5 +79,29 @@ function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitCon
           () => {},
         );
     }, 2000);
+  });
+
+  describe('decorator group none', () => {
+    it('should overwrite the default behaviour when rate limit decorator is applied', async () => {
+      //Max request is set to 1 in decorator
+      await client.get('/testLimit').expect(200);
+      await client.get('/testLimit').expect(429);
+    });
+  });
+
+  describe('decorator group union', () => {
+    it('should hit end point when number of requests is less than max requests allowed', async () => {
+      await client.get('/testUnion').expect('ratelimit-remaining', '1').expect('ratelimit-limit', '2').expect(200);
+      await client.get('/testUnion').expect('ratelimit-remaining', '1').expect('ratelimit-limit', '3').expect(200);
+      await client.get('/testUnion').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '3').expect(429);
+    });
+  });
+
+  describe('decorator group burst', () => {
+    it('should hit end point when number of requests is less than max requests allowed', async () => {
+      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '1').expect(200);
+      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '2').expect(200);
+      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '3').expect(200);
+    });
   });
 }

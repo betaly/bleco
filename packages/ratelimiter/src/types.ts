@@ -3,8 +3,10 @@ import {
   IRateLimiterMongoOptions,
   IRateLimiterOptions,
   IRateLimiterRedisOptions,
+  IRateLimiterStoreNoAutoExpiryOptions,
   IRateLimiterStoreOptions,
   RateLimiterAbstract,
+  RateLimiterRes,
 } from 'rate-limiter-flexible';
 import {BindingAddress} from '@loopback/context';
 import {DataSource} from '@loopback/repository';
@@ -17,6 +19,9 @@ import {DataSource} from '@loopback/repository';
 export type ValueDeterminingMiddleware<T> = (request: Request, response: Response) => T | Promise<T>;
 
 export type RateLimiter = RateLimiterAbstract;
+
+export type RateLimitResult = RateLimiterRes;
+export type RateLimitResults = Record<string, RateLimiterRes> | RateLimitResult;
 
 export enum RateLimitStoreClientType {
   Memory = 'memory',
@@ -31,29 +36,41 @@ export interface RateLimitOptions extends IRateLimiterOptions {
   key?: ValueDeterminingMiddleware<string>;
 }
 
-export interface BaseRateLimitStoreOptions extends Optional<IRateLimiterStoreOptions>, RateLimitOptions {
+export interface RateLimitStoreOptions extends Optional<IRateLimiterStoreOptions>, RateLimitOptions {
   ds?: BindingAddress<DataSource> | DataSource | ':memory:';
 }
 
-export type RateLimitStoreOptions = BaseRateLimitStoreOptions &
-  (IRateLimiterMongoOptions | IRateLimiterRedisOptions | BaseRateLimitStoreOptions);
+export type RateLimitPossibleStoreOptions =
+  | RateLimitStoreOptions
+  | (RateLimitStoreOptions &
+      (IRateLimiterMongoOptions | IRateLimiterRedisOptions | IRateLimiterStoreNoAutoExpiryOptions));
 
-export type RateLimitConfig = RateLimitStoreOptions & {
+export type RateLimitConfig = RateLimitPossibleStoreOptions & {
   enabledByDefault?: boolean;
+  headers?: boolean | 'legacy';
 };
 
 export interface RateLimitAction {
   (request: Request, response: Response): Promise<void>;
+}
+
+export type RateLimitGroup = 'none' | 'union' | 'burst' | 'bursty';
+
+export interface RateLimitMetadataOptions {
+  group?: RateLimitGroup;
+  key?: ValueDeterminingMiddleware<string>;
+  message?: string;
+  limiters: IRateLimiterOptions[];
 }
 /**
  * Rate limit metadata interface for the method decorator
  */
 export interface RateLimitMetadata {
   enabled: boolean;
-  options?: Partial<RateLimitOptions>;
+  options?: RateLimitMetadataOptions;
 }
 
-export interface RateLimitStoreSource extends Pick<RateLimitStoreOptions, 'storeClient'> {
+export interface RateLimitStoreSource {
   type: RateLimitStoreClientType;
   storeClient: unknown;
 }

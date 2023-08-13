@@ -5,6 +5,7 @@ import {
   RateLimitConfig,
   RateLimitMetadata,
   RateLimitMiddlewareConfig,
+  RateLimitResults,
   RateLimitStoreSource,
 } from './types';
 import {RateLimitFactoryService} from './services';
@@ -28,6 +29,8 @@ export namespace RateLimitSecurityBindings {
   export const RATE_LIMIT_CONFIG = BindingKey.create<RateLimitMiddlewareConfig | null>(
     'bleco.security.rateLimitMiddleware.config',
   );
+
+  export const RATE_LIMIT_RESULTS = BindingKey.create<RateLimitResults | undefined>('bleco.security.ratelimit.result');
 }
 
 export const RATELIMIT_METADATA_ACCESSOR = MetadataAccessor.create<RateLimitMetadata, MethodDecorator>(

@@ -3,6 +3,7 @@ import {Request, Response} from '@loopback/rest';
 import {RatelimitActionProvider} from '../../providers';
 import {RateLimitStoreClientType} from '../../types';
 import {RateLimitFactoryService} from '../../services';
+import {noop} from '../../utils';
 
 describe('Rate Limit action Service', () => {
   const factory = new RateLimitFactoryService();
@@ -25,6 +26,7 @@ describe('Rate Limit action Service', () => {
         () => Promise.resolve(memoryStoreSource),
         rateLimitMetadataFalse,
         factory,
+        noop,
       );
 
       const valueFn = provider.value();
@@ -37,6 +39,7 @@ describe('Rate Limit action Service', () => {
           () => Promise.resolve(memoryStoreSource),
           rateLimitMetadataFalse,
           factory,
+          noop,
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
 
@@ -48,6 +51,7 @@ describe('Rate Limit action Service', () => {
           () => Promise.resolve(memoryStoreSource),
           rateLimitMetadataTrue,
           factory,
+          noop,
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
 
@@ -61,6 +65,7 @@ describe('Rate Limit action Service', () => {
           () => Promise.resolve(memoryStoreSource),
           rateLimitMetadataFalse,
           factory,
+          noop,
           {
             enabledByDefault: false,
           },
@@ -75,6 +80,7 @@ describe('Rate Limit action Service', () => {
           () => Promise.resolve(memoryStoreSource),
           rateLimitMetadataTrue,
           factory,
+          noop,
           {
             enabledByDefault: false,
           },

@@ -4,3 +4,4 @@ export * from './component';
 export * from './providers';
 export * from './decorators';
 export * from './stores';
+export * from './utils';
