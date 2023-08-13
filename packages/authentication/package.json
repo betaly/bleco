@@ -53,7 +53,7 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/client-sessions": "^0.8.3",
-    "@types/node": "^20.4.5",
+    "@types/node": "^20.4.10",
     "@types/passport": "^1.0.12",
     "@types/passport-apple": "^1.1.1",
     "@types/passport-azure-ad": "^4.3.1",
