@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {MixinTarget} from '@loopback/core';
 import {Filter, Where} from '@loopback/filter';
 import {Entity, EntityCrudRepository} from '@loopback/repository';

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {MixinTarget} from '@bleco/mixin';
 import {Getter} from '@loopback/core';
 import {

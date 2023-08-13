@@ -22,7 +22,6 @@ export class QueryEnhancedSoftCrudRepository<
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export interface QueryEnhancedSoftCrudRepository<T extends SoftDeleteEntity, ID, Relations extends object = {}>
   extends SoftCrudRepository<T, ID, Relations> {}

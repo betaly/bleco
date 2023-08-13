@@ -66,7 +66,6 @@ export function AclMixin<T extends MixinTarget<Application>>(superClass: T) {
      */
     // Unfortunately, TypeScript does not allow overriding methods inherited
     // from mapped types. https://github.com/microsoft/TypeScript/issues/38496
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     public component<C extends Component = Component>(
       componentCtor: Constructor<C>,
