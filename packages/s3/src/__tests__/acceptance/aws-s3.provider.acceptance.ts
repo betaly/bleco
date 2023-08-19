@@ -64,6 +64,7 @@ maybe('AWS S3 Acceptance Tests', function () {
         Body,
       });
 
+      // @ts-ignore
       const signedUrl = await client.getSignedUrl(command, {
         expiresIn: 1000,
       });
