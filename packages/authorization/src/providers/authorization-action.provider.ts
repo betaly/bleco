@@ -1,4 +1,4 @@
-import {Getter, Provider, inject} from '@loopback/context';
+import {Getter, inject, Provider} from '@loopback/context';
 import {Request} from 'express';
 import {intersection} from 'lodash';
 
@@ -26,6 +26,9 @@ export class AuthorizeActionProvider implements Provider<AuthorizeFn> {
     } else if (metadata.permissions.indexOf('*') === 0) {
       // Return immediately with true, if allowed to all
       // This is for publicly open routes only
+      return true;
+    } else if (userPermissions.indexOf('*') >= 0) {
+      // Return immediately with true, if user has all permissions
       return true;
     }
     const permissionsToCheck = metadata.permissions;
