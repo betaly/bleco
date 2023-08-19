@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.12](https://github.com/betaly/bleco/compare/@bleco/mixin@0.4.11...@bleco/mixin@0.4.12) (2023-08-19)
+
+**Note:** Version bump only for package @bleco/mixin
+
+
+
+
+
 ## [0.4.11](https://github.com/betaly/bleco/compare/@bleco/mixin@0.4.10...@bleco/mixin@0.4.11) (2023-08-13)
 
 **Note:** Version bump only for package @bleco/mixin
