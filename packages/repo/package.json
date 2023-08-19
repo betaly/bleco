@@ -21,9 +21,9 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@loopback/context": "^6.1.1",
-    "@loopback/core": "^5.1.1",
-    "@loopback/repository": "^6.1.1",
+    "@loopback/context": "^6.1.2",
+    "@loopback/core": "^5.1.2",
+    "@loopback/repository": "^6.1.2",
     "debug": "^4.3.4"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.4.10"
+    "@types/node": "^20.5.1"
   },
   "files": [
     "README.md",

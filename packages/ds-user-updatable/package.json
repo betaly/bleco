@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@bleco/mixin": "^0.4.11",
-    "@loopback/core": "^5.1.1",
-    "@loopback/repository": "^6.1.1",
-    "@loopback/rest": "^13.1.1",
+    "@loopback/core": "^5.1.2",
+    "@loopback/repository": "^6.1.2",
+    "@loopback/rest": "^13.1.2",
     "berrors": "^0.2.3",
     "debug": "^4.3.4",
     "tily": "^2.20.1"
@@ -33,7 +33,7 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.4.10",
+    "@types/node": "^20.5.1",
     "jest": "^29.6.2"
   },
   "files": [
