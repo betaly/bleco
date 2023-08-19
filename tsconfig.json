@@ -1,5 +1,5 @@
 {
-  "extends": "@nutol/build/config/tsconfig.common.json",
+  "extends": "@nutol/ts-config/tsconfig.common.json",
   "compilerOptions": {
     "lib": [
       "es2022"
