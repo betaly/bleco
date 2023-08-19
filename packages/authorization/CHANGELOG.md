@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/betaly/bleco/compare/@bleco/authorization@0.5.15...@bleco/authorization@0.6.0) (2023-08-19)
+
+
+### Features
+
+* **authorization:** optimize authorization-action provider (master) ([6f4a40e](https://github.com/betaly/bleco/commit/6f4a40e67d5334ec66f487f2008a0ee38c7daee1))
+
+
+
+
+
 ## [0.5.15](https://github.com/betaly/bleco/compare/@bleco/authorization@0.5.14...@bleco/authorization@0.5.15) (2023-08-19)
 
 **Note:** Version bump only for package @bleco/authorization
