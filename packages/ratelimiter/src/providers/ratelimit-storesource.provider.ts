@@ -5,6 +5,7 @@ import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitConfig, RateLimitMetadata, RateLimitStoreClientType, RateLimitStoreSource} from '../types';
 import {isDataSource} from '../utils';
 import {resolveStoreClientType} from '../stores';
+import {BindingAddress} from '@loopback/context';
 
 export class RatelimitStoreSourceProvider implements Provider<RateLimitStoreSource> {
   constructor(
@@ -34,11 +35,11 @@ export class RatelimitStoreSourceProvider implements Provider<RateLimitStoreSour
         if (isDataSource(dsConfig)) {
           return dsConfig;
         }
-        if (typeof dsConfig === 'function' || typeof dsConfig === 'string') {
-          return this.application.get(
-            typeof dsConfig === 'function' ? `datasources.${dsConfig.dataSourceName}` : dsConfig,
-          );
-        }
+        return this.application.get(
+          typeof dsConfig === 'function'
+            ? `datasources.${dsConfig.dataSourceName}`
+            : (dsConfig as BindingAddress<DataSource>),
+        );
       })();
       if (!ds?.connector) {
         throw new Error(`DataSource not connected or invalid datasource: ${dsConfig}`);
