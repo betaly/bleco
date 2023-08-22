@@ -1,5 +1,5 @@
 import * as AuthaStrategy from '@authajs/passport-autha';
-import {Context, inject, Provider} from '@loopback/core';
+import {Context, Provider, inject} from '@loopback/core';
 import {SamlConfig} from '@node-saml/passport-saml';
 import {Strategy} from 'passport';
 import * as AppleStrategy from 'passport-apple';

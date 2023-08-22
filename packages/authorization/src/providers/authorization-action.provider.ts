@@ -1,4 +1,4 @@
-import {Getter, inject, Provider} from '@loopback/context';
+import {Getter, Provider, inject} from '@loopback/context';
 import {Request} from 'express';
 import {intersection} from 'lodash';
 
