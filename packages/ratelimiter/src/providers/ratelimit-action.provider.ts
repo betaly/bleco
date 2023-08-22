@@ -1,4 +1,4 @@
-import {Provider, inject, service} from '@loopback/core';
+import {inject, Provider, service} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {RequestContext, Response} from '@loopback/rest';
 import {BErrors} from 'berrors';
@@ -10,13 +10,13 @@ import {
   PossibleRateLimiter,
   RateLimitAction,
   RateLimitConfig,
-  RateLimitMetadata,
-  RateLimitMetadataOptions,
-  RateLimitResultWithPoints,
-  RateLimitResults,
-  RateLimitStoreSource,
   RateLimiterOptions,
   RateLimiterOptionsWithProvider,
+  RateLimitMetadata,
+  RateLimitMetadataOptions,
+  RateLimitResults,
+  RateLimitResultWithPoints,
+  RateLimitStoreSource,
   ValueFromMiddleware,
   ValueOrFromMiddleware,
 } from '../types';
@@ -111,7 +111,7 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
       result = {...results.toJSON(), points: getPoints(limiter)};
     } else {
       const entries = Object.entries(results);
-      const [key, res] = entries.find(([key, res]) => res.remainingPoints > 0) ?? entries[0];
+      const [key, res] = entries.find(([, r]) => r.remainingPoints > 0) ?? entries[0];
       result = {
         ...res.toJSON(),
         points: getPoints(limiter, key),
