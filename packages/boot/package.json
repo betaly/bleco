@@ -1,7 +1,7 @@
 {
   "name": "@bleco/boot",
   "description": "A loopback boot extension library to allow boot from '*.ts' files",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "keywords": [
     "loopback",
     "boot",

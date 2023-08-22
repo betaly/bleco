@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.1.1...@bleco/ratelimiter@1.2.0) (2023-08-22)
+
+
+### Features
+
+* **ratelimiter:** add provider for rate limit options ([e9a5666](https://github.com/betaly/bleco/commit/e9a5666bb2eeb9a0bfe02ab645b5c19099cd773c))
+
+
+
+
+
 ## [1.1.1](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.1.0...@bleco/ratelimiter@1.1.1) (2023-08-21)
 
 **Note:** Version bump only for package @bleco/ratelimiter
