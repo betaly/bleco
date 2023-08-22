@@ -45,7 +45,7 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^20.5.1",
     "fs-extra": "^11.1.1",
-    "jest": "^29.6.2",
+    "jest": "^29.6.3",
     "loopback-connector-sqlite3s": "^3.5.0",
     "loopback-datasource-juggler": "^4.28.9",
     "minimist": "^1.2.8"
