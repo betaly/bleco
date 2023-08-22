@@ -1,4 +1,4 @@
-import {BindingScope, injectable, LifeCycleObserver} from '@loopback/core';
+import {BindingScope, LifeCycleObserver, injectable} from '@loopback/core';
 import debugFactory from 'debug';
 import {
   BurstyRateLimiter,
