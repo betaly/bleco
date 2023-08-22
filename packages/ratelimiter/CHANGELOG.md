@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.2.0...@bleco/ratelimiter@1.3.0) (2023-08-22)
+
+
+### Features
+
+* **ratelimiter:** fix rate limit header points and return first limiter's result when all points have been consumed for union limiter ([38fd48e](https://github.com/betaly/bleco/commit/38fd48e9884e6db80c6d6bdd7863056ce2c55086))
+
+
+
+
+
 # [1.2.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.1.1...@bleco/ratelimiter@1.2.0) (2023-08-22)
 
 
