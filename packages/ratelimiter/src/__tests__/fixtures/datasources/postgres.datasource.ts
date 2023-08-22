@@ -1,5 +1,5 @@
-import {juggler} from '@loopback/repository';
 import {inject} from '@loopback/core';
+import {juggler} from '@loopback/repository';
 
 const config = {
   name: 'postgres',

@@ -1,5 +1,9 @@
+import {Application, ValueOrPromise} from '@loopback/core';
+import {Class, RepositoryMixin, juggler} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {Class, juggler, RepositoryMixin} from '@loopback/repository';
+
+import {RatelimitStoreSourceProvider} from '../../providers';
+import {RateLimitStoreClientType, RateLimitStoreSource} from '../../types';
 import {
   KvMemoryDataSource,
   KvRedisDataSource,
@@ -9,9 +13,6 @@ import {
   PostgresDataSource,
   RedisDataSource,
 } from '../fixtures/datasources';
-import {RateLimitStoreClientType, RateLimitStoreSource} from '../../types';
-import {RatelimitStoreSourceProvider} from '../../providers';
-import {Application, ValueOrPromise} from '@loopback/core';
 import {mockAllStoreClients} from '../fixtures/mocks';
 
 class TestApplication extends RepositoryMixin(RestApplication) {}

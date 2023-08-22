@@ -1,7 +1,10 @@
+import {isBindingAddress as _isBindingAddress} from '@loopback/context';
+import {BindingKey} from '@loopback/core';
 import {DataSource} from '@loopback/repository';
-import {RateLimitMetadataOptions, RateLimitResult} from './types';
-import {RateLimiterRes} from 'rate-limiter-flexible';
 import {Response} from '@loopback/rest';
+import {RateLimiterRes} from 'rate-limiter-flexible';
+
+import {RateLimitMetadataOptions, RateLimitResult} from './types';
 
 export const noop = () => {};
 
@@ -19,6 +22,11 @@ export function isEmpty(val: unknown): boolean {
 
 export function isDataSource(ds: unknown): ds is DataSource {
   return !!ds && typeof ds === 'object' && typeof (ds as DataSource).connect === 'function';
+}
+
+export function isBindingKey<T>(selector: unknown): selector is BindingKey<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return typeof selector !== 'string' && _isBindingAddress(selector as any);
 }
 
 export function isRateLimitMetadataOptions(val: unknown): val is RateLimitMetadataOptions {

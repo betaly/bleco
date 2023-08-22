@@ -1,10 +1,10 @@
 # @bleco/ratelimiter
 
-A simple loopback-next extension for rate limiting in loopback applications. 
+A simple loopback-next extension for rate limiting in loopback applications.
 
 ## Features
 
-`@bleco/ratelimiter` using [rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible) under the hood. 
+`@bleco/ratelimiter` using [rate-limiter-flexible](https://github.com/animir/node-rate-limiter-flexible) under the hood.
 It supports following datasources for rate limiting.
 
 - Memory
@@ -15,8 +15,10 @@ It supports following datasources for rate limiting.
 
 And it also supports following aggregating algorithms for rate limiting.
 
-- [Union](https://github.com/animir/node-rate-limiter-flexible/wiki/RateLimiterUnion) Combine 2 or more limiters to act as single
-- [Burst](https://github.com/animir/node-rate-limiter-flexible/wiki/BurstyRateLimiter) Allow traffic bursts with BurstyRateLimiter implementation easier than with TokenBucket.
+- [Union](https://github.com/animir/node-rate-limiter-flexible/wiki/RateLimiterUnion) Combine 2 or more limiters to act
+  as single
+- [Burst](https://github.com/animir/node-rate-limiter-flexible/wiki/BurstyRateLimiter) Allow traffic bursts with
+  BurstyRateLimiter implementation easier than with TokenBucket.
 
 ## Install
 
@@ -38,7 +40,6 @@ this.component(RateLimiterComponent);
 
 Configure the datasource to be used for rate limiting. You can use any of the three datasources mentioned above.
 
-
 ```ts
 this.bind(RateLimitSecurityBindings.CONFIG).to({
   ds: RedisDataSouece, // or data source binding key
@@ -52,16 +53,11 @@ this.bind(RateLimitSecurityBindings.CONFIG).to({
 
 ```ts
 const rateLimitKeyGen = (req: Request) => {
-  const token =
-    (req.headers &&
-      req.headers.authorization &&
-      req.headers.authorization.replace(/bearer /i, '')) ||
-    '';
+  const token = (req.headers && req.headers.authorization && req.headers.authorization.replace(/bearer /i, '')) || '';
   return token;
 };
 
 // ......
-
 
 this.bind(RateLimitSecurityBindings.CONFIG).to({
   ds: RedisDataSource,
@@ -113,11 +109,7 @@ export class MySequence implements SequenceHandler {
 
 ```ts
 const rateLimitKeyGen = (req: Request) => {
-  const token =
-    (req.headers &&
-      req.headers.authorization &&
-      req.headers.authorization.replace(/bearer /i, '')) ||
-    '';
+  const token = (req.headers && req.headers.authorization && req.headers.authorization.replace(/bearer /i, '')) || '';
   return token;
 };
 
@@ -183,21 +175,18 @@ class SomeController {
       ...ErrorCodes,
     },
   })
-  async userDetails(
-    @inject(RestBindings.Http.REQUEST) req: Request,
-  ): Promise<AuthUser> {
+  async userDetails(@inject(RestBindings.Http.REQUEST) req: Request): Promise<AuthUser> {
     return this.authService.getme(req.headers.authorization);
   }
 }
 ```
 
-- More examples can be found [here](src/__tests__/fixtures/controllers/test.controller.ts) and [here](src/__tests__/acceptance).
-
+- More examples can be found [here](src/__tests__/fixtures/controllers/test.controller.ts) and
+  [here](src/__tests__/acceptance).
 
 ## Credits
 
 - [SourceFuse](https://github.com/sourcefuse)
-
 
 ## License
 

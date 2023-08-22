@@ -1,6 +1,6 @@
-import * as pg from 'pg';
 import * as mongo from 'mongodb';
 import * as mysql from 'mysql2';
+import * as pg from 'pg';
 
 export function mockAllStoreClients() {
   return [mockMongo(), mockPostgres(), mockMySQL()];

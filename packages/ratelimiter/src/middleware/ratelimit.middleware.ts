@@ -1,6 +1,5 @@
-// @SONAR_STOP@
-import {inject, injectable, Next, Provider} from '@loopback/core';
-import {asMiddleware, Middleware, MiddlewareContext, Request, Response, RestMiddlewareGroups} from '@loopback/rest';
+import {Next, Provider, inject, injectable} from '@loopback/core';
+import {Middleware, MiddlewareContext, RequestContext, RestMiddlewareGroups, asMiddleware} from '@loopback/rest';
 
 import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitAction} from '../types';
@@ -21,12 +20,8 @@ export class RatelimitMiddlewareProvider implements Provider<Middleware> {
 
   value() {
     return async (ctx: MiddlewareContext, next: Next) => {
-      await this.action(ctx.request, ctx.response);
+      await this.rateLimitAction(ctx as RequestContext);
       return next();
     };
-  }
-
-  async action(request: Request, response: Response): Promise<void> {
-    return this.rateLimitAction(request, response);
   }
 }

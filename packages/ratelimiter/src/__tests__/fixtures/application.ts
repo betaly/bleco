@@ -6,8 +6,10 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 
-import {RateLimitSecurityBindings} from '../../keys';
 import {RateLimiterComponent} from '../../component';
+import {RateLimitSecurityBindings} from '../../keys';
+import {TestBindings} from './keys';
+import {TestLimiterProvider} from './providers/test-limiter.provider';
 
 export {ApplicationConfig};
 
@@ -20,10 +22,12 @@ export class TestApplication extends BootMixin(ServiceMixin(RepositoryMixin(Rest
     super(options);
 
     this.static('/', path.join(__dirname, '../public'));
-    this.bind(RateLimitSecurityBindings.RATE_LIMIT_CONFIG).to({
+    this.bind(RateLimitSecurityBindings.RATELIMIT_CONFIG).to({
       RatelimitActionMiddleware: options.RatelimitActionMiddleware,
     });
     this.component(RateLimiterComponent);
+
+    this.bind(TestBindings.TEST_RATE_LIMITER).toProvider(TestLimiterProvider);
 
     this.projectRoot = __dirname;
   }

@@ -1,4 +1,5 @@
-import {Request} from '@loopback/rest';
+import {RequestContext} from '@loopback/rest';
+
 import {RateLimitStoreClientType} from './types';
 
 export const SupportedStoreClientRegexps = [
@@ -19,7 +20,7 @@ export function resolveStoreClientType(name: string): RateLimitStoreClientType |
   }
 }
 
-export function defaultKey(request: Request): string {
+export function defaultKey(context: RequestContext): string {
   // By default, use the IP address to rate limit users.
-  return request.ip;
+  return context.request.ip;
 }

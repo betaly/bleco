@@ -1,14 +1,17 @@
 import {MethodDecoratorFactory} from '@loopback/core';
 
 import {RATELIMIT_METADATA_ACCESSOR} from '../keys';
-import {RateLimitMetadata, RateLimitMetadataOptions, RateLimitOptions} from '../types';
+import {RateLimitMetadata, RateLimitMetadataOptions, RateLimitOptionsWithKey} from '../types';
 import {isRateLimitMetadataOptions, toArray} from '../utils';
 
-export function ratelimit(enabled: boolean, options?: RateLimitMetadataOptions | RateLimitOptions): MethodDecorator;
-export function ratelimit(options: RateLimitMetadataOptions | RateLimitOptions): MethodDecorator;
 export function ratelimit(
-  enabledOrOptions: boolean | RateLimitMetadataOptions | RateLimitOptions,
-  opts?: RateLimitMetadataOptions | RateLimitOptions,
+  enabled: boolean,
+  options?: RateLimitMetadataOptions | RateLimitOptionsWithKey,
+): MethodDecorator;
+export function ratelimit(options: RateLimitMetadataOptions | RateLimitOptionsWithKey): MethodDecorator;
+export function ratelimit(
+  enabledOrOptions: boolean | RateLimitMetadataOptions | RateLimitOptionsWithKey,
+  opts?: RateLimitMetadataOptions | RateLimitOptionsWithKey,
 ): MethodDecorator {
   let enabled: boolean;
 

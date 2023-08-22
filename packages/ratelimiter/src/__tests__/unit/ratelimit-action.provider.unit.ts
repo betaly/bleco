@@ -1,8 +1,8 @@
-import {Request, Response} from '@loopback/rest';
+import {RequestContext} from '@loopback/rest';
 
 import {RatelimitActionProvider} from '../../providers';
-import {RateLimitStoreClientType} from '../../types';
 import {RateLimitFactoryService} from '../../services';
+import {RateLimitStoreClientType} from '../../types';
 import {noop} from '../../utils';
 
 describe('Rate Limit action Service', () => {
@@ -43,7 +43,7 @@ describe('Rate Limit action Service', () => {
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
 
-        await provider.action({} as Request, {} as Response);
+        await provider.action({} as RequestContext);
       });
 
       it('perform if metadata is enabled', async () => {
@@ -55,7 +55,7 @@ describe('Rate Limit action Service', () => {
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
 
-        await provider.action({} as Request, {} as Response);
+        await provider.action({} as RequestContext);
       });
     });
 
@@ -72,7 +72,7 @@ describe('Rate Limit action Service', () => {
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.reject('Should not be called'));
 
-        await provider.action({} as Request, {} as Response);
+        await provider.action({} as RequestContext);
       });
 
       it('perform if metadata is enabled', async () => {
@@ -87,7 +87,7 @@ describe('Rate Limit action Service', () => {
         );
         jest.spyOn(provider, 'doRateLimit').mockImplementation(() => Promise.resolve());
 
-        await provider.action({} as Request, {} as Response);
+        await provider.action({} as RequestContext);
       });
     });
   });

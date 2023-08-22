@@ -1,5 +1,6 @@
-import {getRateLimitMetadata, RateLimitMetadataProvider} from '../../providers';
 import sinon from 'sinon';
+
+import {RateLimitMetadataProvider, getRateLimitMetadata} from '../../providers';
 
 describe('Rate Limit metadata Service', () => {
   describe('Ratelimit metadata class', () => {

@@ -1,6 +1,7 @@
 import {get} from '@loopback/rest';
 
 import {ratelimit} from '../../..';
+import {TestBindings} from '../keys';
 
 function getSpec(method: string) {
   return {
@@ -41,6 +42,19 @@ export class TestController {
   testLimit() {
     return {
       message: 'You have successfully called test limit end point',
+      date: new Date(),
+    };
+  }
+
+  @ratelimit(true, {
+    provider: TestBindings.TEST_RATE_LIMITER,
+    points: 1,
+    duration: 1,
+  })
+  @get('/testWithProvider', getSpec('Test with Provider'))
+  testWithProvider() {
+    return {
+      message: 'You have successfully called test with provider',
       date: new Date(),
     };
   }

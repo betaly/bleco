@@ -1,5 +1,5 @@
-import {BindingScope, injectable, LifeCycleObserver} from '@loopback/core';
-import {RateLimiter, RateLimitGroup, RateLimitPossibleStoreOptions, RateLimitStoreClientType} from '../types';
+import {BindingScope, LifeCycleObserver, injectable} from '@loopback/core';
+import debugFactory from 'debug';
 import {
   BurstyRateLimiter,
   IRateLimiterMongoOptions,
@@ -11,7 +11,8 @@ import {
   RateLimiterRedis,
   RateLimiterUnion,
 } from 'rate-limiter-flexible';
-import debugFactory from 'debug';
+
+import {RateLimitGroup, RateLimitPossibleStoreOptions, RateLimitStoreClientType, RateLimiter} from '../types';
 
 const debug = debugFactory('bleco:ratelimiter:factory');
 

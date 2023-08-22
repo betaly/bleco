@@ -1,11 +1,12 @@
+import {Class} from '@loopback/repository';
+import {SequenceHandler} from '@loopback/rest';
 import {Client} from '@loopback/testlab';
+
+import {RateLimitSecurityBindings} from '../../keys';
+import {RateLimitConfig} from '../../types';
 import {TestApplication} from '../fixtures/application';
 import {setUpApplication} from '../fixtures/helpers';
-import {RateLimitConfig} from '../../types';
-import {SequenceHandler} from '@loopback/rest';
-import {Class} from '@loopback/repository';
 import {TestMiddlewareSequence, TestSequence} from '../fixtures/sequences';
-import {RateLimitSecurityBindings} from '../../keys';
 
 describe('RateLimiter Acceptance Test Cases', () => {
   describe(`RateLimiter Test Suites for action sequence`, () => {
@@ -38,7 +39,7 @@ function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitCon
   });
 
   afterEach(async () => {
-    app.getSync(RateLimitSecurityBindings.RATE_LIMIT_FACTORY_SERVICE).clear();
+    app.getSync(RateLimitSecurityBindings.RATELIMIT_FACTORY_SERVICE).clear();
   });
 
   afterAll(async () => app.stop());
@@ -79,6 +80,10 @@ function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitCon
           () => {},
         );
     }, 2000);
+  });
+
+  it('should using options from provider', async () => {
+    await client.get('/testWithProvider').expect('ratelimit-remaining', '4').expect('ratelimit-limit', '5').expect(200);
   });
 
   describe('decorator group none', () => {

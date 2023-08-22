@@ -1,4 +1,7 @@
-import {Optional, Request, Response} from '@loopback/rest';
+import {BindingAddress} from '@loopback/context';
+import {BindingKey} from '@loopback/core';
+import {Class, DataSource, juggler} from '@loopback/repository';
+import {Optional, RequestContext} from '@loopback/rest';
 import {
   IRateLimiterMongoOptions,
   IRateLimiterOptions,
@@ -8,17 +11,18 @@ import {
   RateLimiterAbstract,
   RateLimiterRes,
 } from 'rate-limiter-flexible';
-import {BindingAddress} from '@loopback/context';
-import {Class, DataSource, juggler} from '@loopback/repository';
 
+export type ValueFromMiddleware<T> = (context: RequestContext) => T | Promise<T>;
 /**
  * Method (in the form of middleware) to generate/retrieve a value based on the
  * incoming request.
  *
  */
-export type ValueDeterminingMiddleware<T> = (request: Request, response: Response) => T | Promise<T>;
+export type ValueOrFromMiddleware<T> = ValueFromMiddleware<T> | BindingKey<T> | T;
 
 export type RateLimiter = RateLimiterAbstract;
+export type RateLimiterOptions = IRateLimiterOptions;
+export type RateLimiterStoreOptions = IRateLimiterStoreOptions;
 
 export type RateLimitResult = RateLimiterRes;
 export type RateLimitResults = Record<string, RateLimiterRes> | RateLimitResult;
@@ -31,12 +35,19 @@ export enum RateLimitStoreClientType {
   MySQL = 'mysql',
 }
 
-export interface RateLimitOptions extends IRateLimiterOptions {
-  message?: string;
-  key?: ValueDeterminingMiddleware<string>;
+interface WithProvider {
+  provider?: ValueFromMiddleware<RateLimiterOptions> | BindingAddress<RateLimiterOptions>;
 }
 
-export interface RateLimitStoreOptions extends Optional<IRateLimiterStoreOptions>, RateLimitOptions {
+export type RateLimiterOptionsWithProvider = RateLimiterOptions & WithProvider;
+export type RateLimiterStoreOptionsWithProvider = RateLimiterStoreOptions & WithProvider;
+
+export interface RateLimitOptionsWithKey extends RateLimiterOptionsWithProvider {
+  message?: string;
+  key?: ValueOrFromMiddleware<string>;
+}
+
+export interface RateLimitStoreOptions extends Optional<RateLimiterStoreOptionsWithProvider>, RateLimitOptionsWithKey {
   ds?: BindingAddress<DataSource> | Class<juggler.DataSource> | juggler.DataSource | ':memory:';
 }
 
@@ -51,16 +62,16 @@ export type RateLimitConfig = RateLimitPossibleStoreOptions & {
 };
 
 export interface RateLimitAction {
-  (request: Request, response: Response): Promise<void>;
+  (context: RequestContext): Promise<void>;
 }
 
 export type RateLimitGroup = 'none' | 'union' | 'burst' | 'bursty';
 
 export interface RateLimitMetadataOptions {
   group?: RateLimitGroup;
-  key?: ValueDeterminingMiddleware<string>;
+  key?: ValueOrFromMiddleware<string>;
   message?: string;
-  limiters: IRateLimiterOptions[];
+  limiters: RateLimiterOptionsWithProvider[];
 }
 /**
  * Rate limit metadata interface for the method decorator

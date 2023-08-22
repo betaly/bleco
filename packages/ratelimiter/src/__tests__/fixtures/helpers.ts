@@ -1,9 +1,10 @@
-import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
-import {TestApplication} from './application';
-import {RateLimitConfig} from '../../types';
-import {RateLimitSecurityBindings} from '../../keys';
 import {Class} from '@loopback/repository';
 import {SequenceHandler} from '@loopback/rest';
+import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
+
+import {RateLimitSecurityBindings} from '../../keys';
+import {RateLimitConfig} from '../../types';
+import {TestApplication} from './application';
 import {TestMiddlewareSequence} from './sequences';
 
 export async function setUpApplication(

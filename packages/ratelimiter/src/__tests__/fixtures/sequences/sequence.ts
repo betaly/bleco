@@ -9,6 +9,7 @@ import {
   SequenceActions,
   SequenceHandler,
 } from '@loopback/rest';
+
 import {RateLimitSecurityBindings} from '../../../keys';
 import {RateLimitAction} from '../../../types';
 
@@ -28,7 +29,7 @@ export class TestSequence implements SequenceHandler {
       const {request, response} = context;
       const route = this.findRoute(request);
       const args = await this.parseParams(request, route);
-      await this.rateLimitAction(request, response);
+      await this.rateLimitAction(context);
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (error) {

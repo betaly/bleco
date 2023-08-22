@@ -1,15 +1,15 @@
-import {Binding, Component, inject, ProviderMap, ServiceOrProviderClass} from '@loopback/core';
+import {Binding, Component, ProviderMap, ServiceOrProviderClass, inject} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/rest';
 
 import {RateLimitSecurityBindings} from './keys';
 import {RatelimitMiddlewareProvider} from './middleware';
-import {RatelimitActionProvider, RateLimitMetadataProvider, RatelimitStoreSourceProvider} from './providers';
-import {RateLimitConfig, RateLimitMiddlewareConfig} from './types';
+import {RateLimitMetadataProvider, RatelimitActionProvider, RatelimitStoreSourceProvider} from './providers';
 import {RateLimitFactoryService} from './services';
+import {RateLimitConfig, RateLimitMiddlewareConfig} from './types';
 
 export class RateLimiterComponent implements Component {
   constructor(
-    @inject(RateLimitSecurityBindings.RATE_LIMIT_CONFIG, {optional: true})
+    @inject(RateLimitSecurityBindings.RATELIMIT_CONFIG, {optional: true})
     private readonly ratelimitConfig?: RateLimitMiddlewareConfig,
     @inject(RateLimitSecurityBindings.CONFIG, {optional: true})
     private readonly configOptions?: RateLimitConfig,

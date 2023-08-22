@@ -1,11 +1,11 @@
-import {Application, CoreBindings, inject, Provider} from '@loopback/core';
+import {BindingAddress} from '@loopback/context';
+import {Application, CoreBindings, Provider, inject} from '@loopback/core';
 import {DataSource, Getter} from '@loopback/repository';
 
 import {RateLimitSecurityBindings} from '../keys';
+import {resolveStoreClientType} from '../stores';
 import {RateLimitConfig, RateLimitMetadata, RateLimitStoreClientType, RateLimitStoreSource} from '../types';
 import {isDataSource} from '../utils';
-import {resolveStoreClientType} from '../stores';
-import {BindingAddress} from '@loopback/context';
 
 export class RatelimitStoreSourceProvider implements Provider<RateLimitStoreSource> {
   constructor(
