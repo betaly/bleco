@@ -2,9 +2,14 @@ import {isBindingAddress as _isBindingAddress} from '@loopback/context';
 import {BindingKey} from '@loopback/core';
 import {DataSource} from '@loopback/repository';
 import {Response} from '@loopback/rest';
-import {RateLimiterRes} from 'rate-limiter-flexible';
 
-import {RateLimitMetadataOptions, RateLimitResult} from './types';
+import {
+  BaseRateLimiter,
+  PossibleRateLimiter,
+  RateLimitMetadataOptions,
+  RateLimitResult,
+  RateLimitResultWithPoints,
+} from './types';
 
 export const noop = () => {};
 
@@ -37,10 +42,27 @@ export function isRateLimitResult(val: unknown): val is RateLimitResult {
   return !!val && typeof val === 'object' && (val as RateLimitResult).remainingPoints != null;
 }
 
-export function setLimitHeaders(response: Response, result: RateLimiterRes, legacy?: boolean) {
+export function setRateLimitHeaders(response: Response, result: RateLimitResultWithPoints, legacy?: boolean) {
   const prefix = legacy ? 'X-RateLimit' : 'RateLimit';
   response.setHeader(`Retry-After`, Math.ceil(result.msBeforeNext / 1000));
-  response.setHeader(`${prefix}-Limit`, result.remainingPoints + result.consumedPoints);
+  if (result.points != null) {
+    response.setHeader(`${prefix}-Limit`, result.points);
+  }
   response.setHeader(`${prefix}-Remaining`, result.remainingPoints);
   response.setHeader(`${prefix}-Reset`, Math.ceil(result.msBeforeNext / 1000));
+}
+
+export function getPoints(limiter: PossibleRateLimiter, keyPrefix?: string) {
+  if ('points' in limiter) {
+    // BaseRateLimiter
+    return limiter.points;
+  } else if ('_limiters' in limiter) {
+    // RateLimiterUnion
+    if (keyPrefix) {
+      return (limiter._limiters as BaseRateLimiter[]).find(l => l.keyPrefix === keyPrefix)?.points;
+    }
+  } else if ('_rateLimiter' in limiter) {
+    // BurstyRateLimiter
+    return (limiter._rateLimiter as BaseRateLimiter).points;
+  }
 }

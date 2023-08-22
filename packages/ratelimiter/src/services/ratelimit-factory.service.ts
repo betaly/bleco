@@ -1,4 +1,4 @@
-import {BindingScope, LifeCycleObserver, injectable} from '@loopback/core';
+import {BindingScope, injectable, LifeCycleObserver} from '@loopback/core';
 import debugFactory from 'debug';
 import {
   BurstyRateLimiter,
@@ -12,13 +12,13 @@ import {
   RateLimiterUnion,
 } from 'rate-limiter-flexible';
 
-import {RateLimitGroup, RateLimitPossibleStoreOptions, RateLimitStoreClientType, RateLimiter} from '../types';
+import {BaseRateLimiter, RateLimitGroup, RateLimitPossibleStoreOptions, RateLimitStoreClientType} from '../types';
 
 const debug = debugFactory('bleco:ratelimiter:factory');
 
 @injectable({scope: BindingScope.SINGLETON})
 export class RateLimitFactoryService implements LifeCycleObserver {
-  protected readonly stores: Map<string, RateLimiter> = new Map();
+  protected readonly stores: Map<string, BaseRateLimiter> = new Map();
 
   start() {
     debug('Starting rate limit factory service');
@@ -34,7 +34,7 @@ export class RateLimitFactoryService implements LifeCycleObserver {
     this.stores.clear();
   }
 
-  get(type: string, options: RateLimitPossibleStoreOptions): RateLimiter {
+  get(type: string, options: RateLimitPossibleStoreOptions): BaseRateLimiter {
     debug(`Getting rate limit store with ${type} - ${options}`);
     const key = buildRateLimiterStoreKey(type, options);
     if (!this.stores.has(key)) {
@@ -46,7 +46,7 @@ export class RateLimitFactoryService implements LifeCycleObserver {
     return this.stores.get(key)!;
   }
 
-  getGroupLimiter(group: RateLimitGroup | undefined, limiters: RateLimiter[]) {
+  getGroupLimiter(group: RateLimitGroup | undefined, limiters: BaseRateLimiter[]) {
     if (group === 'union') {
       return new RateLimiterUnion(...limiters);
     } else if (group === 'burst' || group === 'bursty') {
@@ -58,7 +58,7 @@ export class RateLimitFactoryService implements LifeCycleObserver {
     return limiters[0];
   }
 
-  protected createStore(type: string, opts: RateLimitPossibleStoreOptions): RateLimiter {
+  protected createStore(type: string, opts: RateLimitPossibleStoreOptions): BaseRateLimiter {
     if (type === RateLimitStoreClientType.Memory) {
       return new RateLimiterMemory(opts);
     } else if (type === RateLimitStoreClientType.Redis) {

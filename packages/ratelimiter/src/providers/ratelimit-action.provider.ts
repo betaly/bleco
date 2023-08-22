@@ -7,10 +7,12 @@ import {RateLimitSecurityBindings} from '../keys';
 import {RateLimitFactoryService} from '../services';
 import {defaultKey} from '../stores';
 import {
+  PossibleRateLimiter,
   RateLimitAction,
   RateLimitConfig,
   RateLimitMetadata,
   RateLimitMetadataOptions,
+  RateLimitResultWithPoints,
   RateLimitResults,
   RateLimitStoreSource,
   RateLimiterOptions,
@@ -18,7 +20,7 @@ import {
   ValueFromMiddleware,
   ValueOrFromMiddleware,
 } from '../types';
-import {isBindingKey, isEmpty, isRateLimitResult, setLimitHeaders} from '../utils';
+import {getPoints, isBindingKey, isEmpty, isRateLimitResult, setRateLimitHeaders} from '../utils';
 
 const DEFAULT_TOO_MANY_REQUEST_MESSAGE = 'Too many requests, please try again later.';
 
@@ -97,19 +99,27 @@ export class RatelimitActionProvider implements Provider<RateLimitAction> {
       if (results) {
         this.setRateLimitResults(results);
         if (this.config?.headers) {
-          await this.sendHeaders(response, results, this.config?.headers === 'legacy');
+          await this.sendHeaders(response, limiter, results, this.config?.headers === 'legacy');
         }
       }
     }
   }
 
-  async sendHeaders(response: Response, results: RateLimitResults, legacy: boolean) {
-    const result = isRateLimitResult(results)
-      ? results
-      : (items => items.find(item => item.remainingPoints > 0) ?? items[0])(Object.values(results));
+  async sendHeaders(response: Response, limiter: PossibleRateLimiter, results: RateLimitResults, legacy: boolean) {
+    let result: RateLimitResultWithPoints;
+    if (isRateLimitResult(results)) {
+      result = {...results.toJSON(), points: getPoints(limiter)};
+    } else {
+      const entries = Object.entries(results);
+      const [key, res] = entries.find(([key, res]) => res.remainingPoints > 0) ?? entries[0];
+      result = {
+        ...res.toJSON(),
+        points: getPoints(limiter, key),
+      };
+    }
 
     if (result) {
-      setLimitHeaders(response, result, legacy);
+      setRateLimitHeaders(response, result, legacy);
     }
   }
 }

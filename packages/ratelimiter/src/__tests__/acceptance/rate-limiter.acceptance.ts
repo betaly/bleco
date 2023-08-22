@@ -95,18 +95,18 @@ function testRateLimiter(sequence: Class<SequenceHandler>, config?: RateLimitCon
   });
 
   describe('decorator group union', () => {
-    it('should hit end point when number of requests is less than max requests allowed', async () => {
+    it("should return the first limiter's result when all points have been consumed", async () => {
       await client.get('/testUnion').expect('ratelimit-remaining', '1').expect('ratelimit-limit', '2').expect(200);
       await client.get('/testUnion').expect('ratelimit-remaining', '1').expect('ratelimit-limit', '3').expect(200);
-      await client.get('/testUnion').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '3').expect(429);
+      await client.get('/testUnion').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '2').expect(429);
     });
   });
 
   describe('decorator group burst', () => {
     it('should hit end point when number of requests is less than max requests allowed', async () => {
       await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '1').expect(200);
-      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '2').expect(200);
-      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '3').expect(200);
+      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '1').expect(200);
+      await client.get('/testBurst').expect('ratelimit-remaining', '0').expect('ratelimit-limit', '1').expect(200);
     });
   });
 }

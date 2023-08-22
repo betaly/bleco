@@ -3,6 +3,7 @@ import {BindingKey} from '@loopback/core';
 import {Class, DataSource, juggler} from '@loopback/repository';
 import {Optional, RequestContext} from '@loopback/rest';
 import {
+  BurstyRateLimiter,
   IRateLimiterMongoOptions,
   IRateLimiterOptions,
   IRateLimiterRedisOptions,
@@ -10,7 +11,9 @@ import {
   IRateLimiterStoreOptions,
   RateLimiterAbstract,
   RateLimiterRes,
+  RateLimiterUnion,
 } from 'rate-limiter-flexible';
+import {OmitProperties} from 'ts-essentials';
 
 export type ValueFromMiddleware<T> = (context: RequestContext) => T | Promise<T>;
 /**
@@ -20,12 +23,16 @@ export type ValueFromMiddleware<T> = (context: RequestContext) => T | Promise<T>
  */
 export type ValueOrFromMiddleware<T> = ValueFromMiddleware<T> | BindingKey<T> | T;
 
-export type RateLimiter = RateLimiterAbstract;
+export type BaseRateLimiter = RateLimiterAbstract;
+export type GroupedRateLimiter = BurstyRateLimiter | RateLimiterUnion;
+export type PossibleRateLimiter = BaseRateLimiter | GroupedRateLimiter;
+
 export type RateLimiterOptions = IRateLimiterOptions;
 export type RateLimiterStoreOptions = IRateLimiterStoreOptions;
 
 export type RateLimitResult = RateLimiterRes;
-export type RateLimitResults = Record<string, RateLimiterRes> | RateLimitResult;
+export type RateLimitResults = Record<string, RateLimitResult> | RateLimitResult;
+export type RateLimitResultWithPoints = OmitProperties<RateLimitResult, Function> & {points?: number};
 
 export enum RateLimitStoreClientType {
   Memory = 'memory',
