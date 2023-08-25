@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.3.0...@bleco/ratelimiter@1.4.0) (2023-08-25)
+
+
+### Features
+
+* deprecate @bleco/query and using loopback4-query ([b5f0e17](https://github.com/betaly/bleco/commit/b5f0e17bf7bcdf25de0ca6a22d0a99cb9a652454))
+
+
+
+
+
 # [1.3.0](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.2.0...@bleco/ratelimiter@1.3.0) (2023-08-22)
 
 

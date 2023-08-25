@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@0.5.16...@bleco/aliaser@0.6.0) (2023-08-25)
+
+
+### Features
+
+* deprecate @bleco/query and using loopback4-query ([b5f0e17](https://github.com/betaly/bleco/commit/b5f0e17bf7bcdf25de0ca6a22d0a99cb9a652454))
+
+
+
+
+
 ## [0.5.16](https://github.com/betaly/bleco/compare/@bleco/aliaser@0.5.15...@bleco/aliaser@0.5.16) (2023-08-22)
 
 **Note:** Version bump only for package @bleco/aliaser

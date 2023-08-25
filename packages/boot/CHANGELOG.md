@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/betaly/bleco/compare/@bleco/boot@0.4.15...@bleco/boot@0.5.0) (2023-08-25)
+
+
+### Features
+
+* deprecate @bleco/query and using loopback4-query ([b5f0e17](https://github.com/betaly/bleco/commit/b5f0e17bf7bcdf25de0ca6a22d0a99cb9a652454))
+
+
+
+
+
 ## [0.4.15](https://github.com/betaly/bleco/compare/@bleco/boot@0.4.14...@bleco/boot@0.4.15) (2023-08-22)
 
 **Note:** Version bump only for package @bleco/boot
