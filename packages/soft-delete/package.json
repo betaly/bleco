@@ -32,7 +32,8 @@
     "@loopback/core": "^5.1.2",
     "@loopback/rest": "^13.1.2",
     "berrors": "^0.2.3",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "loopback4-query": "^0.11.1"
   },
   "devDependencies": {
     "@loopback/boot": "^6.1.2",
@@ -42,10 +43,10 @@
     "@loopback/testlab": "^6.1.2",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
-    "@types/jest": "^29.5.3",
-    "@types/node": "^20.5.2",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.6",
     "fs-extra": "^11.1.1",
-    "jest": "^29.6.3",
+    "jest": "^29.6.4",
     "loopback-connector-sqlite3s": "^3.5.0",
     "loopback-datasource-juggler": "^4.28.9",
     "minimist": "^1.2.8"

@@ -36,10 +36,10 @@
     "@loopback/testlab": "^6.1.2",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
-    "@types/jest": "^29.5.3",
-    "@types/node": "^20.5.2",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.6",
     "cross-env": "^7.0.3",
-    "jest": "^29.6.3"
+    "jest": "^29.6.4"
   },
   "files": [
     "README.md",

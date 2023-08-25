@@ -30,8 +30,8 @@
     "@bleco/boot": "^0.4.15",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
-    "@types/jest": "^29.5.3",
-    "@types/node": "^20.5.2"
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.5.6"
   },
   "files": [
     "README.md",

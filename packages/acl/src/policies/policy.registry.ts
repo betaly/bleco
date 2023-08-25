@@ -1,4 +1,4 @@
-import {EntityClass} from '@bleco/query';
+import {EntityClass} from 'loopback4-query';
 import {Entity} from '@loopback/repository';
 import debugFactory from 'debug';
 import {Constructor} from 'tily/typings/types';

@@ -1,5 +1,5 @@
 import {mixin} from '@bleco/mixin';
-import {QueryEnhancedCrudRepository} from '@bleco/query';
+import {QueryEnhancedCrudRepository} from 'loopback4-query';
 import {Getter} from '@loopback/core';
 import {Entity, juggler} from '@loopback/repository';
 import {AnyObj} from 'tily/typings/types';

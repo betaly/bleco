@@ -1,4 +1,4 @@
-import {QueryEnhancedCrudRepository} from '@bleco/query';
+import {QueryEnhancedCrudRepository} from 'loopback4-query';
 import {BindingScope, inject} from '@loopback/context';
 import {injectable} from '@loopback/core';
 import {BelongsToAccessor, Getter, juggler, repository} from '@loopback/repository';

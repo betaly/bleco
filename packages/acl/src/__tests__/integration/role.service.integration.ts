@@ -1,4 +1,4 @@
-import {QueryWhere} from '@bleco/query';
+import {QueryWhere} from 'loopback4-query';
 import {Where} from '@loopback/repository';
 
 import {toResourcePolymorphic} from '../../helpers';

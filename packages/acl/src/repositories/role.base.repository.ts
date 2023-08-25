@@ -1,4 +1,4 @@
-import {EntityClass, QueryEnhancedTransactionalRepository} from '@bleco/query';
+import {EntityClass, QueryEnhancedTransactionalRepository} from 'loopback4-query';
 import {AnyObject, Entity, juggler} from '@loopback/repository';
 
 export class RoleBaseRepository<

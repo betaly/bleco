@@ -9,7 +9,7 @@ Define a repository factory for `JugglerAdapter`. for example:
 
 ```ts
 import {RepositoryFactory} from '@bleco/oso-juggler';
-import {EntityClass, QueryEnhancedCrudRepository} from '@bleco/query';
+import {EntityClass, QueryEnhancedCrudRepository} from 'loopback4-query';
 import {Context} from '@loopback/context';
 import {juggler} from '@loopback/repository';
 

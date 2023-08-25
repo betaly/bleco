@@ -1,4 +1,4 @@
-import {EntityClass} from '@bleco/query';
+import {EntityClass} from 'loopback4-query';
 import {RepositoryFactory} from '@bleco/repo';
 import {Context} from '@loopback/context';
 import {Binding} from '@loopback/core';

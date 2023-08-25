@@ -1,4 +1,4 @@
-import {QueryFilter} from '@bleco/query';
+import {QueryFilter} from 'loopback4-query';
 import {AnyObject, Entity, Filter, Options} from '@loopback/repository';
 
 import {PolicyRegistry} from '../policies';
