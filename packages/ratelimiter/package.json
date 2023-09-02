@@ -27,8 +27,8 @@
     "@loopback/repository": "^6.1.2",
     "@loopback/rest": "^13.1.2",
     "berrors": "^0.2.3",
-    "rate-limiter-flexible": "^2.4.2",
-    "ts-essentials": "^9.3.2"
+    "rate-limiter-flexible": "^3.0.0",
+    "ts-essentials": "^9.4.0"
   },
   "devDependencies": {
     "@bleco/boot": "workspace:^",
@@ -37,7 +37,7 @@
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.4",
     "@types/memcached": "^2.2.7",
-    "@types/node": "^20.5.6",
+    "@types/node": "^20.5.8",
     "@types/rate-limit-redis": "^1.7.4",
     "fs-extra": "^11.1.1",
     "ioredis-mock": "^8.8.3",
