@@ -1,21 +1,22 @@
-import {Application, Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+import {Application, Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/express';
+import {SecurityBindings} from '@loopback/security';
 
 import {ConfigAliaser} from './aliaser';
 import {AuthenticationBindings} from './keys';
 import {ClientAuthenticationMiddlewareProvider, UserAuthenticationMiddlewareProvider} from './middlewares';
 import {
-  AuthMetadataProvider,
   AuthenticateActionProvider,
-  ClientAuthMetadataProvider,
+  AuthMetadataProvider,
   ClientAuthenticateActionProvider,
+  ClientAuthMetadataProvider,
 } from './providers';
 import {
   AppleAuthStrategyFactoryProvider,
   AppleAuthVerifyProvider,
-  AuthStrategyProvider,
   AuthaStrategyFactoryProvider,
   AuthaVerifyProvider,
+  AuthStrategyProvider,
   AzureADAuthStrategyFactoryProvider,
   AzureADAuthVerifyProvider,
   BearerStrategyFactoryProvider,
@@ -47,6 +48,9 @@ import {Strategies} from './strategies/keys';
 import {AuthenticationConfig} from './types';
 
 export class AuthenticationComponent implements Component {
+  providers?: ProviderMap;
+  bindings?: Binding[];
+
   constructor(
     @inject(CoreBindings.APPLICATION_INSTANCE)
     private readonly app: Application,
@@ -54,6 +58,8 @@ export class AuthenticationComponent implements Component {
     private readonly config?: AuthenticationConfig,
   ) {
     ConfigAliaser.apply(this.app);
+    // Alias loopback security user to AuthenticationBindings.CURRENT_USER
+    app.bind(SecurityBindings.USER).toAlias(AuthenticationBindings.CURRENT_USER);
     this.providers = {
       [AuthenticationBindings.USER_AUTH_ACTION.key]: AuthenticateActionProvider,
       [AuthenticationBindings.CLIENT_AUTH_ACTION.key]: ClientAuthenticateActionProvider,
@@ -108,7 +114,4 @@ export class AuthenticationComponent implements Component {
       this.bindings.push(createMiddlewareBinding(UserAuthenticationMiddlewareProvider));
     }
   }
-
-  providers?: ProviderMap;
-  bindings?: Binding[];
 }
