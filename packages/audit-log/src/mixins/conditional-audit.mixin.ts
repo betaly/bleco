@@ -1,4 +1,5 @@
 import {Entity} from '@loopback/repository';
+
 import {AuditMixinBase, IAuditMixinOptions} from '../types';
 import {AuditRepositoryMixin} from './audit.mixin';
 

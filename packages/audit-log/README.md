@@ -11,7 +11,7 @@
 > By incorporating the Audit Logs package into your application, you gain valuable insights into the history of data
 > changes, user actions, and system events. Maintain a comprehensive audit trail for compliance, troubleshooting, and
 > analysis purposes.
-> 
+>
 > This package is a fork of [loopback4-audit-log](https://github.com/sourcefuse/loopback4-audit-log).
 
 ## Install
@@ -27,8 +27,8 @@ In order to use this component into your LoopBack application, please follow bel
 - Add audit model class as Entity.
 
 ```ts
-import { Entity, model, property } from '@loopback/repository';
-import { Action } from '@bleco/audit-log';
+import {Action} from '@bleco/audit-log';
+import {Entity, model, property} from '@loopback/repository';
 
 @model({
   name: 'audit_logs',
@@ -110,9 +110,9 @@ export class AuditLog extends Entity {
   change the data source name as per this in order to ensure connection work from extension.
 
 ```ts
-import { inject, lifeCycleObserver, LifeCycleObserver } from '@loopback/core';
-import { juggler } from '@loopback/repository';
-import { AuditDbSourceName } from '@bleco/audit-log';
+import {AuditDbSourceName} from '@bleco/audit-log';
+import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
+import {juggler} from '@loopback/repository';
 
 const config = {
   name: 'audit',
@@ -126,15 +126,13 @@ const config = {
 };
 
 @lifeCycleObserver('datasource')
-export class AuditDataSource
-  extends juggler.DataSource
-  implements LifeCycleObserver {
+export class AuditDataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = AuditDbSourceName;
   static readonly defaultConfig = config;
 
   constructor(
-    @inject('datasources.config.audit', { optional: true })
-      dsConfig: object = config,
+    @inject('datasources.config.audit', {optional: true})
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }
@@ -142,46 +140,41 @@ export class AuditDataSource
 ```
 
 - Using `lb4 repository` command, create a repository file. After that, change the inject paramater as below so as to
-  refer to correct data source name.
-  `@inject(`datasources.\${AuditDbSourceName}`) dataSource: AuditDataSource,`
+  refer to correct data source name. `@inject(`datasources.\${AuditDbSourceName}`) dataSource: AuditDataSource,`
 
 One example below.
 
 ```ts
-import { inject } from '@loopback/core';
-import { DefaultCrudRepository } from '@loopback/repository';
-import { AuditDbSourceName } from '@bleco/audit-log';
+import {AuditDbSourceName} from '@bleco/audit-log';
+import {inject} from '@loopback/core';
+import {DefaultCrudRepository} from '@loopback/repository';
 
-import { AuditDataSource } from '../datasources';
-import { AuditLog } from '../models';
+import {AuditDataSource} from '../datasources';
+import {AuditLog} from '../models';
 
-export class AuditLogRepository extends DefaultCrudRepository<
-  AuditLog,
-  typeof AuditLog.prototype.id
-> {
-  constructor(
-    @inject(`datasources.${AuditDbSourceName}`) dataSource: AuditDataSource,
-  ) {
+export class AuditLogRepository extends DefaultCrudRepository<AuditLog, typeof AuditLog.prototype.id> {
+  constructor(@inject(`datasources.${AuditDbSourceName}`) dataSource: AuditDataSource) {
     super(AuditLog, dataSource);
   }
 }
 ```
 
-- The component exposes a mixin for your repository classes. Just extend your repository class
-  with `AuditRepositoryMixin`, for all those repositories where you need audit data. See an example below. For a
-  model `Group`, here we are extending the `GroupRepository` with `AuditRepositoryMixin`.
+- The component exposes a mixin for your repository classes. Just extend your repository class with
+  `AuditRepositoryMixin`, for all those repositories where you need audit data. See an example below. For a model
+  `Group`, here we are extending the `GroupRepository` with `AuditRepositoryMixin`.
 
 ```ts
-import { repository } from "@loopback/repository";
-import { Group, GroupRelations } from "../models";
-import { PgdbDataSource } from "../datasources";
-import { Constructor, Getter, inject } from "@loopback/core";
-import { AuthenticationBindings, IAuthUser } from "loopback4-authentication";
-import { AuditRepositoryMixin } from "@bleco/audit-log";
-import { AuditLogRepository } from "./audit-log.repository";
+import {AuditRepositoryMixin} from '@bleco/audit-log';
+import {Constructor, Getter, inject} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {AuthenticationBindings, IAuthUser} from 'loopback4-authentication';
+
+import {PgdbDataSource} from '../datasources';
+import {Group, GroupRelations} from '../models';
+import {AuditLogRepository} from './audit-log.repository';
 
 const groupAuditOpts: IAuditMixinOptions = {
-  actionKey: "Group_Logs"
+  actionKey: 'Group_Logs',
 };
 
 export class GroupRepository extends AuditRepositoryMixin<
@@ -189,16 +182,14 @@ export class GroupRepository extends AuditRepositoryMixin<
   typeof Group.prototype.id,
   GroupRelations,
   string,
-  Constructor<
-    DefaultCrudRepository<Group, typeof Group.prototype.id, GroupRelations>
-  >
+  Constructor<DefaultCrudRepository<Group, typeof Group.prototype.id, GroupRelations>>
 >(DefaultCrudRepository, groupAuditOpts) {
   constructor(
-    @inject("datasources.pgdb") dataSource: PgdbDataSource,
+    @inject('datasources.pgdb') dataSource: PgdbDataSource,
     @inject.getter(AuthenticationBindings.CURRENT_USER)
     public getCurrentUser: Getter<IAuthUser>,
-    @repository.getter("AuditLogRepository")
-    public getAuditLogRepository: Getter<AuditLogRepository>
+    @repository.getter('AuditLogRepository')
+    public getAuditLogRepository: Getter<AuditLogRepository>,
   ) {
     super(Group, dataSource, getCurrentUser);
   }
@@ -214,12 +205,11 @@ This will create all insert, update, delete audits for this model.
 - Option to disable audit logging on specific functions by just passing `noAudit:true` flag with options
 
 ```ts
-create(data, { noAudit: true });
+create(data, {noAudit: true});
 ```
 
-- The Actor field is now configurable and can save any string type value in the field.
-  Though the default value will be userId a developer can save any string field from the current User that is being
-  passed.
+- The Actor field is now configurable and can save any string type value in the field. Though the default value will be
+  userId a developer can save any string field from the current User that is being passed.
 
 ```ts
 export interface User<ID = string, TID = string, UTID = string> {
@@ -254,36 +244,33 @@ this.bind(AuthServiceBindings.ActorIdKey).to('username');
 ```ts
 export class SomeClass {
   constructor(
-    @inject(AuditBindings.ActorIdKey, { optional: true })
+    @inject(AuditBindings.ActorIdKey, {optional: true})
     public actorIdKey?: ActorId,
   ) {}
 }
 ```
 
-- The package exposes a conditional mixin for your repository classes. Just extend your repository class
-  with `ConditionalAuditRepositoryMixin`, for all those repositories where you need audit data based on condition
-  whether `ADD_AUDIT_LOG_MIXIN` is set true. See an example below. For a model `Group`, here we are extending
-  the `GroupRepository` with `AuditRepositoryMixin`.
+- The package exposes a conditional mixin for your repository classes. Just extend your repository class with
+  `ConditionalAuditRepositoryMixin`, for all those repositories where you need audit data based on condition whether
+  `ADD_AUDIT_LOG_MIXIN` is set true. See an example below. For a model `Group`, here we are extending the
+  `GroupRepository` with `AuditRepositoryMixin`.
 
 ```ts
-import { repository } from '@loopback/repository';
-import { Group, GroupRelations } from '../models';
-import { PgdbDataSource } from '../datasources';
-import { inject, Getter, Constructor } from '@loopback/core';
-import { AuthenticationBindings, IAuthUser } from 'loopback4-authentication';
-import { ConditionalAuditRepositoryMixin } from '@bleco/audit-log';
-import { AuditLogRepository } from './audit-log.repository';
+import {ConditionalAuditRepositoryMixin} from '@bleco/audit-log';
+import {Constructor, Getter, inject} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {AuthenticationBindings, IAuthUser} from 'loopback4-authentication';
+
+import {PgdbDataSource} from '../datasources';
+import {Group, GroupRelations} from '../models';
+import {AuditLogRepository} from './audit-log.repository';
 
 const groupAuditOpts: IAuditMixinOptions = {
   actionKey: 'Group_Logs',
 };
 
 export class GroupRepository extends ConditionalAuditRepositoryMixin(
-  DefaultUserModifyCrudRepository<
-    Group,
-    typeof Group.prototype.id,
-    GroupRelations
-  >,
+  DefaultUserModifyCrudRepository<Group, typeof Group.prototype.id, GroupRelations>,
   groupAuditOpts,
 ) {
   constructor(
@@ -301,46 +288,40 @@ export class GroupRepository extends ConditionalAuditRepositoryMixin(
 ### Making current user not mandatory
 
 Incase you dont have current user binded in your application context and wish to log the activities within your
-application then in that case you can pass the actor id along with the
-options just like
+application then in that case you can pass the actor id along with the options just like
 
 ```ts
-await productRepo.create(product, { noAudit: false, actorId: 'userId' });
+await productRepo.create(product, {noAudit: false, actorId: 'userId'});
 ```
 
 ## Using with Sequelize ORM
 
 This extension provides support to both juggler (the default loopback ORM) and sequelize.
 
-If your loopback project is already using `SequelizeCrudRepository`
-from [@loopback/sequelize](https://www.npmjs.com/package/@loopback/sequelize) or equivalent add on repositories from
-sourceloop packages
-like [`SequelizeUserModifyCrudRepository`](https://sourcefuse.github.io/arc-docs/arc-api-docs/packages/core/#sequelizeusermodifycrudrepository).
+If your loopback project is already using `SequelizeCrudRepository` from
+[@loopback/sequelize](https://www.npmjs.com/package/@loopback/sequelize) or equivalent add on repositories from
+sourceloop packages like
+[`SequelizeUserModifyCrudRepository`](https://sourcefuse.github.io/arc-docs/arc-api-docs/packages/core/#sequelizeusermodifycrudrepository).
 You'll need to make just two changes:
 
 1. The import statements should have the suffix `/sequelize`, like below:
 
 ```ts
-import {
-  AuditRepositoryMixin,
-  AuditLogRepository,
-} from '@bleco/audit-log/sequelize';
+import {AuditLogRepository, AuditRepositoryMixin} from '@bleco/audit-log/sequelize';
 ```
 
 2. The Audit datasource's parent class should be `SequelizeDataSource`.
 
 ```ts
-import { SequelizeDataSource } from '@loopback/sequelize';
+import {SequelizeDataSource} from '@loopback/sequelize';
 
-export class AuditDataSource
-  extends SequelizeDataSource
-  implements LifeCycleObserver {
+export class AuditDataSource extends SequelizeDataSource implements LifeCycleObserver {
   static dataSourceName = AuditDbSourceName;
   static readonly defaultConfig = config;
 
   constructor(
-    @inject('datasources.config.audit', { optional: true })
-      dsConfig: object = config,
+    @inject('datasources.config.audit', {optional: true})
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }
@@ -350,4 +331,3 @@ export class AuditDataSource
 ## License
 
 [MIT](https://github.com/sourcefuse/loopback4-audit-log/blob/master/LICENSE)
-

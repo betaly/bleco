@@ -1,3 +1,4 @@
+import {Getter} from '@loopback/core';
 import {Count, DataObject, Entity, Where} from '@loopback/repository';
 import {cloneDeep, keyBy} from 'lodash';
 
@@ -11,7 +12,7 @@ import {
   AuditOptions,
   IAuditMixin,
   IAuditMixinOptions,
-  User,
+  IUser,
 } from '../types';
 
 //sonarignore:start
@@ -24,8 +25,8 @@ export function AuditRepositoryMixin<
   R extends AuditMixinBase<M, ID, Relations>,
 >(superClass: R, opts: IAuditMixinOptions): R & AbstractConstructor<IAuditMixin<UserID>> {
   abstract class MixedRepository extends superClass implements IAuditMixin<UserID> {
-    getAuditLogRepository: () => Promise<AuditLogRepository | SequelizeAuditLogRepository>;
-    getCurrentUser?: () => Promise<User>;
+    getAuditLogRepository: Getter<AuditLogRepository | SequelizeAuditLogRepository>;
+    getCurrentUser?: Getter<IUser>;
     actorIdKey?: ActorId;
 
     async create(dataObject: DataObject<M>, options?: AuditOptions): Promise<M> {
@@ -345,7 +346,7 @@ export function AuditRepositoryMixin<
         });
       }
     }
-    getActor(user: User, optionsActorId?: string): string {
+    getActor(user: IUser, optionsActorId?: string): string {
       return (
         optionsActorId ??
         // eslint-disable-next-line @typescript-eslint/no-explicit-any

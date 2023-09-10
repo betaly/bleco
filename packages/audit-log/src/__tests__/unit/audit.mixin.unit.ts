@@ -1,13 +1,8 @@
 import {Constructor, Getter} from '@loopback/core';
 import {DefaultCrudRepository, Entity, juggler} from '@loopback/repository';
 import {expect, sinon} from '@loopback/testlab';
-import {
-  Action,
-  AuditLog,
-  AuditRepositoryMixin,
-  IAuditMixinOptions,
-  User,
-} from '../..';
+
+import {Action, AuditLog, AuditRepositoryMixin, IAuditMixinOptions, IUser} from '../..';
 import {consoleMessage} from '../acceptance/audit.mixin.acceptance';
 import {
   MockClass,
@@ -50,7 +45,7 @@ class MockAuditRepoError {
 const mockOpts: IAuditMixinOptions = {
   actionKey: 'Test_Logs',
 };
-const mockUser: User = {
+const mockUser: IUser = {
   id: 'testCurrentUserId',
   username: 'testCurrentUserName',
   authClientId: 123,
@@ -68,9 +63,7 @@ describe('Audit Mixin', () => {
     typeof MockModel.prototype.id,
     {},
     string,
-    Constructor<
-      DefaultCrudRepository<MockModel, typeof MockModel.prototype.id, {}>
-    >
+    Constructor<DefaultCrudRepository<MockModel, typeof MockModel.prototype.id, {}>>
   >(MockClass, mockOpts) {
     constructor(
       entityClass: typeof Entity & {
@@ -87,25 +80,13 @@ describe('Audit Mixin', () => {
     name: 'db',
     connector: 'memory',
   });
-  const returnedMixedClassInstance = new ReturnedMixedClass(
-    MockModel,
-    ds,
-    sinon.stub().resolves(mockUser),
-  );
-  returnedMixedClassInstance.getAuditLogRepository = sinon
-    .stub()
-    .resolves(new MockAuditRepo());
+  const returnedMixedClassInstance = new ReturnedMixedClass(MockModel, ds, sinon.stub().resolves(mockUser));
+  returnedMixedClassInstance.getAuditLogRepository = sinon.stub().resolves(new MockAuditRepo());
 
   // for checking message in case Audit can't be made due to any reason
 
-  const returnedMixedClassErrorInstance = new ReturnedMixedClass(
-    MockModel,
-    ds,
-    sinon.stub().resolves(mockUser),
-  );
-  returnedMixedClassErrorInstance.getAuditLogRepository = sinon
-    .stub()
-    .resolves(new MockAuditRepoError());
+  const returnedMixedClassErrorInstance = new ReturnedMixedClass(MockModel, ds, sinon.stub().resolves(mockUser));
+  returnedMixedClassErrorInstance.getAuditLogRepository = sinon.stub().resolves(new MockAuditRepoError());
 
   beforeEach(() => {
     auditCreateCalled = false;
@@ -209,10 +190,7 @@ describe('Audit Mixin', () => {
     expect(auditData.actedAt).to.be.Date();
   });
   it('should delete records on calling deleteAll method with noAudit option set', async () => {
-    const result = await returnedMixedClassInstance.deleteAll(
-      {},
-      {noAudit: true},
-    );
+    const result = await returnedMixedClassInstance.deleteAll({}, {noAudit: true});
     expect(result.count).to.be.equal(mockDataArray.length);
     expect(auditCreateAllCalled).to.be.false();
 

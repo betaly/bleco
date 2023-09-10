@@ -1,12 +1,13 @@
-import {AuditLogRepository} from './repositories';
-import {AuditLogRepository as SequelizeAuditLogRepository} from './repositories/sequelize';
+import {Getter} from '@loopback/core';
 import {Count, DataObject, Entity, Filter, FilterExcludingWhere, Options, Where} from '@loopback/repository';
 
+import {AuditLogRepository} from './repositories';
+import {AuditLogRepository as SequelizeAuditLogRepository} from './repositories/sequelize';
+
 export const AuditDbSourceName = 'AuditDB';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export interface IAuditMixin<UserID> {
-  getAuditLogRepository: () => Promise<AuditLogRepository | SequelizeAuditLogRepository>;
-  getCurrentUser?: () => Promise<User>;
+  getAuditLogRepository: Getter<AuditLogRepository | SequelizeAuditLogRepository>;
+  getCurrentUser?: Getter<IUser>;
   actorIdKey?: ActorId;
 }
 
@@ -47,22 +48,9 @@ export type AuditMixinBase<T extends Entity, ID, Relations> = MixinBaseClass<{
   deleteByIdHard?(id: ID, options?: Options): Promise<void>;
 }>;
 
-export interface User<ID = string, TID = string, UTID = string> {
+export interface IUser {
   id?: string;
-  username: string;
-  password?: string;
-  identifier?: ID;
-  permissions: string[];
-  authClientId: number;
-  email?: string;
-  role: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
-  tenantId?: TID;
-  userTenantId?: UTID;
-  passwordExpiryTime?: Date;
-  allowedResources?: string[];
+  [key: string]: unknown;
 }
 
-export type ActorId = Extract<keyof User, string>;
+export type ActorId<T extends IUser = IUser> = Extract<keyof T, string>;

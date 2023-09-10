@@ -5,10 +5,7 @@ const config = {
   name: 'test',
   connector: 'memory',
 };
-export class TestDataSource
-  extends juggler.DataSource
-  implements LifeCycleObserver
-{
+export class TestDataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = 'test';
   static readonly defaultConfig = config;
 

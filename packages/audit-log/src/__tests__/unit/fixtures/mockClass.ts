@@ -1,22 +1,19 @@
 import {
-  DataObject,
   AnyObject,
   Count,
+  DataObject,
+  DefaultCrudRepository,
   Entity,
   Filter,
   FilterExcludingWhere,
   InclusionResolver,
   Where,
-  DefaultCrudRepository,
 } from '@loopback/repository';
+
 import {mockData, mockDataArray} from './mockData';
 import {MockModel} from './mockModel';
 
-export class MockClass extends DefaultCrudRepository<
-  MockModel,
-  string | undefined,
-  {}
-> {
+export class MockClass extends DefaultCrudRepository<MockModel, string | undefined, {}> {
   entityClass: typeof Entity & {prototype: MockModel} = MockModel;
   inclusionResolvers: Map<string, InclusionResolver<MockModel, Entity>>;
 
@@ -29,22 +26,14 @@ export class MockClass extends DefaultCrudRepository<
   delete(entity: DataObject<MockModel>, options?: AnyObject): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  findById(
-    id: string | undefined,
-    filter?: FilterExcludingWhere<MockModel>,
-    options?: AnyObject,
-  ): Promise<MockModel> {
+  findById(id: string | undefined, filter?: FilterExcludingWhere<MockModel>, options?: AnyObject): Promise<MockModel> {
     optionsReceivedByParentRepository.findById = options;
     return new Promise(resolve => {
       const mockDataToReturn = Object.assign({}, mockData);
       resolve(mockDataToReturn);
     });
   }
-  updateById(
-    id: string | undefined,
-    data: DataObject<MockModel>,
-    options?: AnyObject,
-  ): Promise<void> {
+  updateById(id: string | undefined, data: DataObject<MockModel>, options?: AnyObject): Promise<void> {
     mockClassMethodCall.updateById = true;
 
     if (data.id) {
@@ -61,11 +50,7 @@ export class MockClass extends DefaultCrudRepository<
       resolve();
     });
   }
-  replaceById(
-    id: string | undefined,
-    data: DataObject<MockModel>,
-    options?: AnyObject,
-  ): Promise<void> {
+  replaceById(id: string | undefined, data: DataObject<MockModel>, options?: AnyObject): Promise<void> {
     mockClassMethodCall.replaceById = true;
 
     if (data.id) {
@@ -91,19 +76,13 @@ export class MockClass extends DefaultCrudRepository<
   exists(id: string | undefined, options?: AnyObject): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  create(
-    dataObject: DataObject<MockModel>,
-    options?: AnyObject,
-  ): Promise<MockModel> {
+  create(dataObject: DataObject<MockModel>, options?: AnyObject): Promise<MockModel> {
     mockClassMethodCall.create = true;
     return new Promise(resolve => {
       resolve(mockData);
     });
   }
-  createAll(
-    dataObjects: DataObject<MockModel>[],
-    options?: AnyObject,
-  ): Promise<MockModel[]> {
+  createAll(dataObjects: DataObject<MockModel>[], options?: AnyObject): Promise<MockModel[]> {
     mockClassMethodCall.createAll = true;
     return new Promise(resolve => {
       resolve(mockDataArray);
@@ -119,11 +98,7 @@ export class MockClass extends DefaultCrudRepository<
       resolve(mockDataArrayToReturn);
     });
   }
-  updateAll(
-    dataObject: DataObject<MockModel>,
-    where?: Where<MockModel>,
-    options?: AnyObject,
-  ): Promise<Count> {
+  updateAll(dataObject: DataObject<MockModel>, where?: Where<MockModel>, options?: AnyObject): Promise<Count> {
     mockClassMethodCall.updateAll = true;
 
     mockDataArray.forEach(data => {

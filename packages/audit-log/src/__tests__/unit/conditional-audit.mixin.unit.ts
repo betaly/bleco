@@ -1,5 +1,6 @@
-import {expect} from '@loopback/testlab';
 import {DefaultCrudRepository, Entity} from '@loopback/repository';
+import {expect} from '@loopback/testlab';
+
 import {ConditionalAuditRepositoryMixin} from '../../mixins/conditional-audit.mixin';
 import {IAuditMixinOptions} from '../../types';
 
@@ -12,10 +13,7 @@ describe('ConditionalAuditRepositoryMixin', () => {
     name: string;
   }
 
-  class MyRepository extends DefaultCrudRepository<
-    MyEntity,
-    typeof MyEntity.prototype.id
-  > {}
+  class MyRepository extends DefaultCrudRepository<MyEntity, typeof MyEntity.prototype.id> {}
 
   beforeEach(() => {
     delete process.env.ADD_AUDIT_LOG_MIXIN;
