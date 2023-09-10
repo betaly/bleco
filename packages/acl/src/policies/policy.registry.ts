@@ -1,6 +1,6 @@
-import {EntityClass} from 'loopback4-query';
 import {Entity} from '@loopback/repository';
 import debugFactory from 'debug';
+import {EntityClass} from 'loopback4-query';
 import {Constructor} from 'tily/typings/types';
 
 import {AclRole, AclRoleMapping} from '../models';

@@ -1,5 +1,5 @@
-import {QueryFilter} from 'loopback4-query';
 import {AnyObject, Entity, Filter, Options} from '@loopback/repository';
+import {QueryFilter} from 'loopback4-query';
 
 import {PolicyRegistry} from '../policies';
 import {RoleBaseRepository} from '../repositories/role.base.repository';

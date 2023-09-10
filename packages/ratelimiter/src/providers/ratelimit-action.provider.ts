@@ -1,4 +1,4 @@
-import {inject, Provider, service} from '@loopback/core';
+import {Provider, inject, service} from '@loopback/core';
 import {Getter} from '@loopback/repository';
 import {RequestContext, Response} from '@loopback/rest';
 import {BErrors} from 'berrors';
@@ -10,13 +10,13 @@ import {
   PossibleRateLimiter,
   RateLimitAction,
   RateLimitConfig,
-  RateLimiterOptions,
-  RateLimiterOptionsWithProvider,
   RateLimitMetadata,
   RateLimitMetadataOptions,
-  RateLimitResults,
   RateLimitResultWithPoints,
+  RateLimitResults,
   RateLimitStoreSource,
+  RateLimiterOptions,
+  RateLimiterOptionsWithProvider,
   ValueFromMiddleware,
   ValueOrFromMiddleware,
 } from '../types';

@@ -1,9 +1,9 @@
-import {EntityClass} from 'loopback4-query';
 import {RepositoryFactory} from '@bleco/repo';
 import {Context} from '@loopback/context';
 import {Binding} from '@loopback/core';
 import {Entity, EntityCrudRepository, RepositoryTags} from '@loopback/repository';
 import debugFactory from 'debug';
+import {EntityClass} from 'loopback4-query';
 import {Oso} from 'oso';
 
 import {OsoJugglerHelper} from '../../helper';

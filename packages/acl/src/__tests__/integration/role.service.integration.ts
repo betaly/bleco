@@ -1,5 +1,5 @@
-import {QueryWhere} from 'loopback4-query';
 import {Where} from '@loopback/repository';
+import {QueryWhere} from 'loopback4-query';
 
 import {toResourcePolymorphic} from '../../helpers';
 import {AclBindings} from '../../keys';

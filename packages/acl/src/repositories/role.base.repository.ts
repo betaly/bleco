@@ -1,5 +1,5 @@
-import {EntityClass, QueryEnhancedTransactionalRepository} from 'loopback4-query';
 import {AnyObject, Entity, juggler} from '@loopback/repository';
+import {EntityClass, QueryEnhancedTransactionalRepository} from 'loopback4-query';
 
 export class RoleBaseRepository<
   T extends Entity,

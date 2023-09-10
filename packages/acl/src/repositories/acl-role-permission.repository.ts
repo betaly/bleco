@@ -1,6 +1,6 @@
-import {QueryEnhancedCrudRepository} from 'loopback4-query';
 import {inject} from '@loopback/context';
 import {juggler} from '@loopback/repository';
+import {QueryEnhancedCrudRepository} from 'loopback4-query';
 
 import {resolveRoleId, toResourcePolymorphic} from '../helpers';
 import {

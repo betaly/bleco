@@ -1,7 +1,7 @@
-import {QueryEnhancedCrudRepository} from 'loopback4-query';
 import {BindingScope, Getter, inject} from '@loopback/context';
 import {injectable} from '@loopback/core';
 import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
+import {QueryEnhancedCrudRepository} from 'loopback4-query';
 
 import {Org, Repo, RepoRelations} from '../models';
 import {OrgRepository} from './org.repository';
