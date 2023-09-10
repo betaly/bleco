@@ -1,7 +1,12 @@
 import {Constructor, Getter} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
 
-import {AuditRepositoryMixin, IAuditMixinOptions} from '../../../..';
+import {
+  ActorId,
+  AuditRepositoryMixin,
+  IAuditMixinOptions,
+  User,
+} from '../../../..';
 import {TestDataSource} from '../datasources/test.datasource';
 import {TestModel, TestModelRelations} from '../models/test.model';
 import {TestAuditLogRepository} from './audit.repository';
@@ -15,12 +20,19 @@ export class TestRepository extends AuditRepositoryMixin<
   typeof TestModel.prototype.id,
   TestModelRelations,
   number | string,
-  Constructor<DefaultCrudRepository<TestModel, typeof TestModel.prototype.id, TestModelRelations>>
+  Constructor<
+    DefaultCrudRepository<
+      TestModel,
+      typeof TestModel.prototype.id,
+      TestModelRelations
+    >
+  >
 >(DefaultCrudRepository, testAuditOpts) {
   constructor(
     dataSource: TestDataSource,
-    public getCurrentUser: Getter<{name: string; id: string}>,
+    public getCurrentUser: Getter<User>,
     public getAuditLogRepository: Getter<TestAuditLogRepository>,
+    public actorIdKey?: ActorId,
   ) {
     super(TestModel, dataSource);
   }

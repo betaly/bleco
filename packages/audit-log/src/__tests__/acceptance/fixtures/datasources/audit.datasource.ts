@@ -1,6 +1,5 @@
 import {LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-
 import {AuditDbSourceName} from '../../../../types';
 
 const config = {
@@ -8,7 +7,10 @@ const config = {
   connector: 'memory',
 };
 
-export class TestAuditDataSource extends juggler.DataSource implements LifeCycleObserver {
+export class TestAuditDataSource
+  extends juggler.DataSource
+  implements LifeCycleObserver
+{
   static dataSourceName = AuditDbSourceName;
   static readonly defaultConfig = config;
 

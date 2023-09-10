@@ -1,10 +1,20 @@
-import {Constructor} from '@loopback/core';
-import {EntityCrudRepository} from '@loopback/repository';
+import {Constructor, Getter} from '@loopback/core';
+import {DefaultCrudRepository, Entity, juggler} from '@loopback/repository';
 import {expect, sinon} from '@loopback/testlab';
-
-import {Action, AuditLog, AuditRepositoryMixin, IAuditMixinOptions} from '../..';
+import {
+  Action,
+  AuditLog,
+  AuditRepositoryMixin,
+  IAuditMixinOptions,
+  User,
+} from '../..';
 import {consoleMessage} from '../acceptance/audit.mixin.acceptance';
-import {MockClass, mockClassMethodCall, resetMethodCalls} from './fixtures/mockClass';
+import {
+  MockClass,
+  mockClassMethodCall,
+  optionsReceivedByParentRepository,
+  resetMethodCalls,
+} from './fixtures/mockClass';
 import {mockData, mockDataArray, resetMockData} from './fixtures/mockData';
 import {MockModel} from './fixtures/mockModel';
 
@@ -40,29 +50,62 @@ class MockAuditRepoError {
 const mockOpts: IAuditMixinOptions = {
   actionKey: 'Test_Logs',
 };
-const mockUser = {
+const mockUser: User = {
   id: 'testCurrentUserId',
-  name: 'testCurrentUserName',
+  username: 'testCurrentUserName',
+  authClientId: 123,
+  permissions: ['1', '2', '3'],
+  role: 'admin',
+  firstName: 'test',
+  lastName: 'lastname',
+  tenantId: 'tenantId',
+  userTenantId: 'userTenantId',
 };
 
 describe('Audit Mixin', () => {
-  const returnedMixedClass = AuditRepositoryMixin<
+  class ReturnedMixedClass extends AuditRepositoryMixin<
     MockModel,
     typeof MockModel.prototype.id,
     {},
     string,
-    Constructor<EntityCrudRepository<MockModel, typeof MockModel.prototype.id, {}>>
-  >(MockClass, mockOpts);
+    Constructor<
+      DefaultCrudRepository<MockModel, typeof MockModel.prototype.id, {}>
+    >
+  >(MockClass, mockOpts) {
+    constructor(
+      entityClass: typeof Entity & {
+        prototype: MockModel;
+      },
+      dataSource: juggler.DataSource,
+      readonly getCurrentUser?: Getter<typeof mockUser>,
+    ) {
+      super(entityClass, dataSource);
+    }
+  }
 
-  const returnedMixedClassInstance = new returnedMixedClass();
-  returnedMixedClassInstance.getCurrentUser = sinon.stub().resolves(mockUser);
-  returnedMixedClassInstance.getAuditLogRepository = sinon.stub().resolves(new MockAuditRepo());
+  const ds: juggler.DataSource = new juggler.DataSource({
+    name: 'db',
+    connector: 'memory',
+  });
+  const returnedMixedClassInstance = new ReturnedMixedClass(
+    MockModel,
+    ds,
+    sinon.stub().resolves(mockUser),
+  );
+  returnedMixedClassInstance.getAuditLogRepository = sinon
+    .stub()
+    .resolves(new MockAuditRepo());
 
-  //for checking message in case Audit can't be made due to any reason
+  // for checking message in case Audit can't be made due to any reason
 
-  const returnedMixedClassErrorInstance = new returnedMixedClass();
-  returnedMixedClassErrorInstance.getCurrentUser = sinon.stub().resolves(mockUser);
-  returnedMixedClassErrorInstance.getAuditLogRepository = sinon.stub().resolves(new MockAuditRepoError());
+  const returnedMixedClassErrorInstance = new ReturnedMixedClass(
+    MockModel,
+    ds,
+    sinon.stub().resolves(mockUser),
+  );
+  returnedMixedClassErrorInstance.getAuditLogRepository = sinon
+    .stub()
+    .resolves(new MockAuditRepoError());
 
   beforeEach(() => {
     auditCreateCalled = false;
@@ -166,7 +209,10 @@ describe('Audit Mixin', () => {
     expect(auditData.actedAt).to.be.Date();
   });
   it('should delete records on calling deleteAll method with noAudit option set', async () => {
-    const result = await returnedMixedClassInstance.deleteAll({}, {noAudit: true});
+    const result = await returnedMixedClassInstance.deleteAll(
+      {},
+      {noAudit: true},
+    );
     expect(result.count).to.be.equal(mockDataArray.length);
     expect(auditCreateAllCalled).to.be.false();
 
@@ -211,6 +257,21 @@ describe('Audit Mixin', () => {
 
     //check if super class method called
     expect(mockClassMethodCall.updateById).to.be.true();
+  });
+
+  it("should forward the options param to base repository's findById method", async () => {
+    const options = {someTestKey: 'someTestValue'};
+    await returnedMixedClassInstance.updateById(
+      mockData.id,
+      {
+        itemName: 'replacedTestItemName',
+        description: 'replacedTestItemDescription',
+      },
+      options,
+    );
+
+    // check if findById received the options originally passed to mixined class
+    expect(optionsReceivedByParentRepository.findById).to.be.eql(options);
   });
   it('should update record and create appropriate Audit Log on calling updateById method', async () => {
     const beforeMockData = Object.assign({}, mockData);
@@ -300,6 +361,21 @@ describe('Audit Mixin', () => {
 
     //check if super class method called
     expect(mockClassMethodCall.updateAll).to.be.true();
+  });
+
+  it("should forward the options param to base repository's find method", async () => {
+    const options = {someKey: 'someValue'};
+    await returnedMixedClassInstance.updateAll(
+      {
+        itemName: 'replacedTestItemName',
+        description: 'replacedTestItemDescription',
+      },
+      undefined,
+      options,
+    );
+
+    // check if find method received the options originally passed to mixined class
+    expect(optionsReceivedByParentRepository.find).to.be.eql(options);
   });
 
   it('should update records and create appropriate Audit Logs on calling updateAll method', async () => {

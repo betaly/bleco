@@ -1,30 +1,49 @@
 import {expect, sinon} from '@loopback/testlab';
 import {v4 as uuidv4} from 'uuid';
-
-import {Action} from '../..';
+import {Action, User} from '../..';
 import {TestAuditDataSource} from './fixtures/datasources/audit.datasource';
 import {TestDataSource} from './fixtures/datasources/test.datasource';
 import {TestModel} from './fixtures/models/test.model';
 import {TestAuditLogErrorRepository} from './fixtures/repositories/audit-error.repository';
 import {TestAuditLogRepository} from './fixtures/repositories/audit.repository';
-import {TestRepository, testAuditOpts} from './fixtures/repositories/test.repository';
+import {
+  testAuditOpts,
+  TestRepository,
+} from './fixtures/repositories/test.repository';
 
 export let consoleMessage: string;
 console.error = (message: string) => {
   consoleMessage = message;
 };
 
-const mockUser = {
-  id: 'testId',
-  name: 'testName',
+const mockUser: User = {
+  id: 'testCurrentUserId',
+  username: 'testCurrentUserName',
+  authClientId: 123,
+  permissions: ['1', '2', '3'],
+  role: 'admin',
+  firstName: 'test',
+  lastName: 'lastname',
+  tenantId: 'tenantId',
+  userTenantId: 'userTenantId',
 };
 
 describe('Audit Mixin', () => {
   const testDataSourceInstance = new TestDataSource();
   const getCurrentUser = sinon.stub().resolves(mockUser);
-  const auditLogRepositoryInstance = new TestAuditLogRepository(new TestAuditDataSource());
-  const getAuditLogRepository = sinon.stub().resolves(auditLogRepositoryInstance);
-  const testRepositoryInstance = new TestRepository(testDataSourceInstance, getCurrentUser, getAuditLogRepository);
+  const auditLogRepositoryInstance = new TestAuditLogRepository(
+    new TestAuditDataSource(),
+  );
+  const actorIdKey = 'id';
+  const getAuditLogRepository = sinon
+    .stub()
+    .resolves(auditLogRepositoryInstance);
+  const testRepositoryInstance = new TestRepository(
+    testDataSourceInstance,
+    getCurrentUser,
+    getAuditLogRepository,
+    actorIdKey,
+  );
 
   beforeEach(async () => {
     await auditLogRepositoryInstance.deleteAll();
@@ -86,13 +105,19 @@ describe('Audit Mixin', () => {
 
   it('should create audit log when new items are created on calling createAll', async () => {
     const mockItemArray = getMockItemArray();
-    const createMethodResponse = await testRepositoryInstance.createAll(mockItemArray);
+    const createMethodResponse = await testRepositoryInstance.createAll(
+      mockItemArray,
+    );
     expect(createMethodResponse).to.match(mockItemArray);
 
     //check if stored in db
     const storedRecords = await testRepositoryInstance.find({
       where: {
-        or: [{id: mockItemArray[0].id}, {id: mockItemArray[1].id}, {id: mockItemArray[2].id}],
+        or: [
+          {id: mockItemArray[0].id},
+          {id: mockItemArray[1].id},
+          {id: mockItemArray[2].id},
+        ],
       },
     });
     expect(storedRecords.length).to.equal(3);
@@ -119,13 +144,20 @@ describe('Audit Mixin', () => {
 
   it('should not create audit log when options.noAudit is set to true on creating new items on calling createAll', async () => {
     const mockItemArray = getMockItemArray();
-    const createMethodResponse = await testRepositoryInstance.createAll(mockItemArray, {noAudit: true});
+    const createMethodResponse = await testRepositoryInstance.createAll(
+      mockItemArray,
+      {noAudit: true},
+    );
     expect(createMethodResponse).to.match(mockItemArray);
 
     //check if stored in db
     const storedRecords = await testRepositoryInstance.find({
       where: {
-        or: [{id: mockItemArray[0].id}, {id: mockItemArray[1].id}, {id: mockItemArray[2].id}],
+        or: [
+          {id: mockItemArray[0].id},
+          {id: mockItemArray[1].id},
+          {id: mockItemArray[2].id},
+        ],
       },
     });
     expect(storedRecords.length).to.equal(3);
@@ -464,7 +496,9 @@ describe('Audit Mixin', () => {
   });
 
   const auditLogErrorRepositoryInstance = new TestAuditLogErrorRepository();
-  const auditLogErrorRepository = sinon.stub().resolves(auditLogErrorRepositoryInstance); //repository which will cause catch statements to execute
+  const auditLogErrorRepository = sinon
+    .stub()
+    .resolves(auditLogErrorRepositoryInstance); //repository which will cause catch statements to execute
   const testRepositoryAuditLogErrorInstance = new TestRepository(
     testDataSourceInstance,
     getCurrentUser,
@@ -657,19 +691,31 @@ describe('Audit Mixin', () => {
     });
   });
 
-  async function createDummyDataFromArrayFalse(mockItemArray: {id: string; itemName: string; description: string}[]) {
+  async function createDummyDataFromArrayFalse(
+    mockItemArray: {id: string; itemName: string; description: string}[],
+  ) {
     await testRepositoryAuditLogErrorInstance.createAll(mockItemArray, {
       noAudit: true,
     });
   }
-  async function createDummyDataFalse(mockItem: {id: string; itemName: string; description: string}) {
+  async function createDummyDataFalse(mockItem: {
+    id: string;
+    itemName: string;
+    description: string;
+  }) {
     await testRepositoryAuditLogErrorInstance.create(mockItem, {noAudit: true});
   }
 
-  async function createDummyDataFromArray(mockItemArray: {id: string; itemName: string; description: string}[]) {
+  async function createDummyDataFromArray(
+    mockItemArray: {id: string; itemName: string; description: string}[],
+  ) {
     await testRepositoryInstance.createAll(mockItemArray, {noAudit: true});
   }
-  async function createDummyData(mockItem: {id: string; itemName: string; description: string}) {
+  async function createDummyData(mockItem: {
+    id: string;
+    itemName: string;
+    description: string;
+  }) {
     await testRepositoryInstance.create(mockItem, {noAudit: true});
   }
   function getMockItem() {

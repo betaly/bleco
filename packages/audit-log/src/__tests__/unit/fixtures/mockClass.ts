@@ -1,21 +1,22 @@
 import {
-  AnyObject,
-  Command,
-  Count,
   DataObject,
+  AnyObject,
+  Count,
   Entity,
-  EntityCrudRepository,
   Filter,
   FilterExcludingWhere,
   InclusionResolver,
-  PositionalParameters,
   Where,
+  DefaultCrudRepository,
 } from '@loopback/repository';
-
 import {mockData, mockDataArray} from './mockData';
 import {MockModel} from './mockModel';
 
-export class MockClass implements EntityCrudRepository<MockModel, string | undefined, {}> {
+export class MockClass extends DefaultCrudRepository<
+  MockModel,
+  string | undefined,
+  {}
+> {
   entityClass: typeof Entity & {prototype: MockModel} = MockModel;
   inclusionResolvers: Map<string, InclusionResolver<MockModel, Entity>>;
 
@@ -28,13 +29,22 @@ export class MockClass implements EntityCrudRepository<MockModel, string | undef
   delete(entity: DataObject<MockModel>, options?: AnyObject): Promise<void> {
     throw new Error('Method not implemented.');
   }
-  findById(id: string | undefined, filter?: FilterExcludingWhere<MockModel>, options?: AnyObject): Promise<MockModel> {
+  findById(
+    id: string | undefined,
+    filter?: FilterExcludingWhere<MockModel>,
+    options?: AnyObject,
+  ): Promise<MockModel> {
+    optionsReceivedByParentRepository.findById = options;
     return new Promise(resolve => {
       const mockDataToReturn = Object.assign({}, mockData);
       resolve(mockDataToReturn);
     });
   }
-  updateById(id: string | undefined, data: DataObject<MockModel>, options?: AnyObject): Promise<void> {
+  updateById(
+    id: string | undefined,
+    data: DataObject<MockModel>,
+    options?: AnyObject,
+  ): Promise<void> {
     mockClassMethodCall.updateById = true;
 
     if (data.id) {
@@ -51,7 +61,11 @@ export class MockClass implements EntityCrudRepository<MockModel, string | undef
       resolve();
     });
   }
-  replaceById(id: string | undefined, data: DataObject<MockModel>, options?: AnyObject): Promise<void> {
+  replaceById(
+    id: string | undefined,
+    data: DataObject<MockModel>,
+    options?: AnyObject,
+  ): Promise<void> {
     mockClassMethodCall.replaceById = true;
 
     if (data.id) {
@@ -77,22 +91,26 @@ export class MockClass implements EntityCrudRepository<MockModel, string | undef
   exists(id: string | undefined, options?: AnyObject): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  execute(command: Command, parameters: AnyObject | PositionalParameters, options?: AnyObject): Promise<AnyObject> {
-    throw new Error('Method not implemented.');
-  }
-  create(dataObject: DataObject<MockModel>, options?: AnyObject): Promise<MockModel> {
+  create(
+    dataObject: DataObject<MockModel>,
+    options?: AnyObject,
+  ): Promise<MockModel> {
     mockClassMethodCall.create = true;
     return new Promise(resolve => {
       resolve(mockData);
     });
   }
-  createAll(dataObjects: DataObject<MockModel>[], options?: AnyObject): Promise<MockModel[]> {
+  createAll(
+    dataObjects: DataObject<MockModel>[],
+    options?: AnyObject,
+  ): Promise<MockModel[]> {
     mockClassMethodCall.createAll = true;
     return new Promise(resolve => {
       resolve(mockDataArray);
     });
   }
   find(filter?: Filter<MockModel>, options?: AnyObject): Promise<MockModel[]> {
+    optionsReceivedByParentRepository.find = options;
     return new Promise(resolve => {
       const mockDataArrayToReturn: MockModel[] = [];
       mockDataArray.forEach(data => {
@@ -101,7 +119,11 @@ export class MockClass implements EntityCrudRepository<MockModel, string | undef
       resolve(mockDataArrayToReturn);
     });
   }
-  updateAll(dataObject: DataObject<MockModel>, where?: Where<MockModel>, options?: AnyObject): Promise<Count> {
+  updateAll(
+    dataObject: DataObject<MockModel>,
+    where?: Where<MockModel>,
+    options?: AnyObject,
+  ): Promise<Count> {
     mockClassMethodCall.updateAll = true;
 
     mockDataArray.forEach(data => {
@@ -138,6 +160,10 @@ export const mockClassMethodCall = {
   replaceById: false,
   updateAll: false,
 };
+export const optionsReceivedByParentRepository: {
+  findById?: AnyObject;
+  find?: AnyObject;
+} = {};
 export function resetMethodCalls() {
   mockClassMethodCall.create = false;
   mockClassMethodCall.createAll = false;
