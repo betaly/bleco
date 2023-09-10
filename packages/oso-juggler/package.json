@@ -35,16 +35,16 @@
     "@bleco/repo": "^0.5.1",
     "@loopback/repository": "^6.1.2",
     "debug": "^4.3.4",
-    "loopback4-query": "^0.11.4",
+    "loopback4-query": "^0.11.5",
     "oso": "^0.27.0",
-    "tily": "^2.20.1"
+    "tily": "^2.21.1"
   },
   "devDependencies": {
     "@bleco/boot": "^0.5.1",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.4",
-    "@types/node": "^20.5.8",
+    "@types/node": "^20.6.0",
     "loopback-connector-sqlite3s": "^3.5.0",
     "temp": "^0.9.4"
   },

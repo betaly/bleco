@@ -37,7 +37,7 @@
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.4",
     "@types/memcached": "^2.2.7",
-    "@types/node": "^20.5.8",
+    "@types/node": "^20.6.0",
     "@types/rate-limit-redis": "^1.7.4",
     "fs-extra": "^11.1.1",
     "ioredis-mock": "^8.8.3",
@@ -48,7 +48,7 @@
     "loopback-connector-postgresql": "^6.0.7",
     "loopback-connector-redis": "^3.0.0",
     "memcached": "^2.2.2",
-    "mysql2": "^3.6.0",
+    "mysql2": "^3.6.1",
     "redis-mock": "^0.56.3"
   },
   "files": [

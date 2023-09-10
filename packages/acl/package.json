@@ -30,8 +30,8 @@
     "@loopback/security": "^0.10.2",
     "debug": "^4.3.4",
     "lodash": "^4.17.21",
-    "loopback4-query": "^0.11.4",
-    "tily": "^2.20.1",
+    "loopback4-query": "^0.11.5",
+    "tily": "^2.21.1",
     "ts-essentials": "^9.4.0"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.4",
-    "@types/node": "^20.5.8",
+    "@types/node": "^20.6.0",
     "@types/temp": "^0.9.1",
     "jest": "^29.6.4",
     "loopback-connector-sqlite3s": "^3.5.0",
