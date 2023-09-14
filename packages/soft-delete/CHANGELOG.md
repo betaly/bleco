@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.1](https://github.com/betaly/bleco/compare/@bleco/soft-delete@0.7.0...@bleco/soft-delete@0.7.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* **soft-delete:** Rename SoftCrudWithQueryRepository to SoftCrudRepositoryWithQuery in transactional-soft-crud-with-query.repository.ts and soft-crud-with-query.repository.ts (#master) ([c0ad213](https://github.com/betaly/bleco/commit/c0ad2137c1ce6fc9f7ae9458615f55de0bbae827))
+
+
+
+
+
 # [0.7.0](https://github.com/betaly/bleco/compare/@bleco/soft-delete@0.6.2...@bleco/soft-delete@0.7.0) (2023-09-14)
 
 
