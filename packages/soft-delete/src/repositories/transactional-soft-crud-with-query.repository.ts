@@ -8,7 +8,7 @@ import {SoftDeleteEntity} from '../models';
 import {TransactionalCrudRepositoryWithQuery} from 'loopback4-query';
 
 @mixin(SoftCrudRepositoryMixin)
-export class TransactionalSoftCrudWithQueryRepository<
+export class TransactionalSoftCrudRepositoryWithQuery<
   T extends SoftDeleteEntity,
   ID,
   Relations extends object = {},
@@ -23,5 +23,5 @@ export class TransactionalSoftCrudWithQueryRepository<
 }
 
 // @ts-ignore
-export interface TransactionalSoftCrudWithQueryRepository<T extends SoftDeleteEntity, ID, Relations extends object = {}>
+export interface TransactionalSoftCrudRepositoryWithQuery<T extends SoftDeleteEntity, ID, Relations extends object = {}>
   extends TransactionalCrudRepositoryWithQuery<T, ID, Relations> {}

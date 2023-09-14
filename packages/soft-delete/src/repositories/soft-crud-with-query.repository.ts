@@ -8,7 +8,7 @@ import {SoftCrudRepositoryMixin} from '../mixins';
 import {SoftDeleteEntity} from '../models';
 
 @mixin(SoftCrudRepositoryMixin)
-export class SoftCrudWithQueryRepository<
+export class SoftCrudRepositoryWithQuery<
   T extends SoftDeleteEntity,
   ID,
   Relations extends object = {},
@@ -23,5 +23,5 @@ export class SoftCrudWithQueryRepository<
 }
 
 // @ts-ignore
-export interface SoftCrudWithQueryRepository<T extends SoftDeleteEntity, ID, Relations extends object = {}>
+export interface SoftCrudRepositoryWithQuery<T extends SoftDeleteEntity, ID, Relations extends object = {}>
   extends CrudRepositoryWithQuery<T, ID, Relations> {}
