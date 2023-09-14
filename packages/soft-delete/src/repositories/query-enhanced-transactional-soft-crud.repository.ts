@@ -1,7 +1,7 @@
 import {mixin} from '@bleco/mixin';
 import {Getter} from '@loopback/core';
 import {Entity, juggler} from '@loopback/repository';
-import {QueryEnhancedTransactionalRepository} from 'loopback4-query';
+import {QueryEnhancedTransactionalCrudRepository} from 'loopback4-query';
 import {AnyObj} from 'tily/typings/types';
 
 import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
@@ -12,7 +12,7 @@ export class QueryEnhancedTransactionalSoftCrudRepository<
   T extends SoftDeleteEntity,
   ID,
   Relations extends object = {},
-> extends QueryEnhancedTransactionalRepository<T, ID, Relations> {
+> extends QueryEnhancedTransactionalCrudRepository<T, ID, Relations> {
   constructor(
     entityClass: typeof Entity & {prototype: T},
     dataSource: juggler.DataSource,

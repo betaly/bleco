@@ -1,4 +1,4 @@
-import {Request, RequestContext, Response, Router, getMiddlewareContext} from '@loopback/rest';
+import {getMiddlewareContext, Request, RequestContext, Response, Router} from '@loopback/rest';
 
 import {OidpBindings} from './keys';
 
@@ -40,6 +40,7 @@ class OidpHandler {
     if (!this.callback) {
       const reqCtx = getMiddlewareContext<RequestContext>(request)!;
       const provider = await reqCtx.get(OidpBindings.OIDC_PROVIDER);
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       this.callback = provider.callback();
     }
 
