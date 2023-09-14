@@ -3,7 +3,7 @@ import {Getter} from '@loopback/core';
 import {Entity, juggler} from '@loopback/repository';
 import {AnyObj} from 'tily/typings/types';
 
-import {SoftCrudRepositoryMixin} from '../mixins';
+import {SoftCrudRepository, SoftCrudRepositoryMixin} from '../mixins';
 import {SoftDeleteEntity} from '../models';
 import {TransactionalCrudRepositoryWithQuery} from 'loopback4-query';
 
@@ -24,4 +24,4 @@ export class TransactionalSoftCrudRepositoryWithQuery<
 
 // @ts-ignore
 export interface TransactionalSoftCrudRepositoryWithQuery<T extends SoftDeleteEntity, ID, Relations extends object = {}>
-  extends TransactionalCrudRepositoryWithQuery<T, ID, Relations> {}
+  extends SoftCrudRepository<T, ID, Relations> {}
