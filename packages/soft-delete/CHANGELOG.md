@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/betaly/bleco/compare/@bleco/soft-delete@0.6.2...@bleco/soft-delete@0.7.0) (2023-09-14)
+
+
+### Features
+
+* **repository:** Add SoftCrudWithQueryRepository and TransactionalSoftCrudWithQueryRepository (master) ([8f10a8d](https://github.com/betaly/bleco/commit/8f10a8d1bb225ded97ba44835dab01cc43e154c3))
+
+
+
+
+
 ## [0.6.2](https://github.com/betaly/bleco/compare/@bleco/soft-delete@0.6.1...@bleco/soft-delete@0.6.2) (2023-09-10)
 
 **Note:** Version bump only for package @bleco/soft-delete
