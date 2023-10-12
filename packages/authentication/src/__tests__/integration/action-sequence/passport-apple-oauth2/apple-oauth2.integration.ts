@@ -2,7 +2,7 @@ import {Application, Provider} from '@loopback/core';
 import {get} from '@loopback/openapi-v3';
 import {Request, RestServer} from '@loopback/rest';
 import {Client, createClientForHandler} from '@loopback/testlab';
-import AppleStrategy, {DecodedIdToken} from 'passport-apple';
+import AppleStrategy from 'passport-apple';
 
 import {authenticate} from '../../../../decorators';
 import {VerifyFunction} from '../../../../strategies';
@@ -68,7 +68,7 @@ class AppleAuthVerifyProvider implements Provider<VerifyFunction.AppleAuthFn> {
     return async (
       accessToken: string,
       refreshToken: string,
-      decodedIdToken: DecodedIdToken,
+      idToken: string,
       profile: AppleStrategy.Profile,
       cd: AppleStrategy.VerifyCallback,
       req?: Request,

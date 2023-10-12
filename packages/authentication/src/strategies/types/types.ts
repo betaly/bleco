@@ -2,7 +2,6 @@ import * as AuthaStrategy from '@authajs/passport-autha';
 import {Request} from '@loopback/rest';
 import * as SamlStrategy from '@node-saml/passport-saml';
 import * as AppleStrategy from 'passport-apple';
-import {DecodedIdToken} from 'passport-apple';
 import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
@@ -117,7 +116,7 @@ export namespace VerifyFunction {
     (
       accessToken: string,
       refreshToken: string,
-      decodedIdToken: DecodedIdToken,
+      idToken: string,
       profile: AppleStrategy.Profile,
       cb: AppleStrategy.VerifyCallback,
       req?: Request,

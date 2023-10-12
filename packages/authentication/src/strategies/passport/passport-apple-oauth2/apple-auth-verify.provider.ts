@@ -2,7 +2,6 @@ import {Provider} from '@loopback/context';
 import {Request} from '@loopback/rest';
 import {BErrors} from 'berrors';
 import * as AppleStrategy from 'passport-apple';
-import {DecodedIdToken} from 'passport-apple';
 
 import {VerifyFunction} from '../../types';
 
@@ -13,7 +12,7 @@ export class AppleAuthVerifyProvider implements Provider<VerifyFunction.AppleAut
     return async (
       accessToken: string,
       refreshToken: string,
-      decodedIdToken: DecodedIdToken,
+      idToken: string,
       profile: AppleStrategy.Profile,
       cb: AppleStrategy.VerifyCallback,
       req?: Request,

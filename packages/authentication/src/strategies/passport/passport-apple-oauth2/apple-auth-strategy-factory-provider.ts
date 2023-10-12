@@ -1,13 +1,7 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import {Request} from '@loopback/rest';
 import {HttpsProxyAgent} from 'https-proxy-agent';
-import Strategy, {
-  AuthenticateOptions,
-  AuthenticateOptionsWithRequest,
-  DecodedIdToken,
-  Profile,
-  VerifyCallback,
-} from 'passport-apple';
+import Strategy, {AuthenticateOptions, AuthenticateOptionsWithRequest, Profile, VerifyCallback} from 'passport-apple';
 
 import {AuthenticationErrors} from '../../../errors';
 import {Strategies} from '../../keys';
@@ -39,21 +33,13 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
     options = {...this.options, ...options};
     const verifyFn = verifierPassed ?? this.verifierAppleAuth;
     let strategy;
-    if (options && options.passReqToCallback === true) {
+    if (options.passReqToCallback === false) {
       strategy = new Strategy(
         options,
-
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        async (
-          req: Request,
-          accessToken: string,
-          refreshToken: string,
-          decodedIdToken: DecodedIdToken,
-          profile: Profile,
-          cb: VerifyCallback,
-        ) => {
+        async (accessToken: string, refreshToken: string, idToken: string, profile: Profile, cb: VerifyCallback) => {
           try {
-            const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb, req);
+            const user = await verifyFn(accessToken, refreshToken, idToken, profile, cb);
             if (!user) {
               throw new AuthenticationErrors.InvalidCredentials();
             }
@@ -66,16 +52,18 @@ export class AppleAuthStrategyFactoryProvider implements Provider<AppleAuthStrat
     } else {
       strategy = new Strategy(
         options,
+
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         async (
+          req: Request,
           accessToken: string,
           refreshToken: string,
-          decodedIdToken: DecodedIdToken,
+          idToken: string,
           profile: Profile,
           cb: VerifyCallback,
         ) => {
           try {
-            const user = await verifyFn(accessToken, refreshToken, decodedIdToken, profile, cb);
+            const user = await verifyFn(accessToken, refreshToken, idToken, profile, cb, req);
             if (!user) {
               throw new AuthenticationErrors.InvalidCredentials();
             }

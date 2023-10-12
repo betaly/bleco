@@ -37,14 +37,14 @@
     "debug": "^4.3.4",
     "loopback4-query": "^0.12.2",
     "oso": "^0.27.0",
-    "tily": "^2.21.1"
+    "tily": "^2.22.2"
   },
   "devDependencies": {
     "@bleco/boot": "^0.5.4",
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@types/jest": "^29.5.5",
-    "@types/node": "^20.6.3",
+    "@types/node": "^20.8.4",
     "loopback-connector-sqlite3s": "^3.5.0",
     "temp": "^0.9.4"
   },

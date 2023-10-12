@@ -53,6 +53,7 @@ async function getStrategy() {
 function verifierBearer(
   accessToken: string,
   refreshToken: string,
+  idToken: string,
   profile: AppleStrategy.Profile,
 ): Promise<IAuthUser | null> {
   const userToPass: IAuthUser = {
