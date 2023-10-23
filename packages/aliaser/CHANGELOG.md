@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@0.6.6...@bleco/aliaser@1.1.0) (2023-10-23)
+
+
+### Features
+
+* **aliaser:** refactor api and support validating ([a26827d](https://github.com/betaly/bleco/commit/a26827d6ca6c22ca66466e9e1d22f01524ce8e07))
+
+
+
+
+
 ## [0.6.6](https://github.com/betaly/bleco/compare/@bleco/aliaser@0.6.5...@bleco/aliaser@0.6.6) (2023-10-23)
 
 **Note:** Version bump only for package @bleco/aliaser
