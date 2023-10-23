@@ -1,9 +1,11 @@
-import {BindingAddress, BindingKey, BindingScope, Context, isPromiseLike} from '@loopback/context';
+import {BindingAddress, BindingKey, BindingScope, Context, isPromiseLike, ValueFactory} from '@loopback/context';
 import {CoreBindings} from '@loopback/core';
 import {assert} from 'tily/assert';
 import {isPlainObject} from 'tily/is/plainObject';
 
-export type ValidateFn<I = any, O = any> = (value: I) => Promise<O> | O;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ValidateFn<I = any, O = any> = (value?: I) => Promise<O> | O;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Validation<I = any, O = any> =
   | {
       parse: ValidateFn<I, O>;
@@ -127,14 +129,7 @@ export class Aliaser {
       const key = from.deepProperty(prop);
 
       if (options?.override || !context.isBound(address)) {
-        const applyValidation = (value: unknown) => {
-          return validation ? this._applyValidation(value, validation) : value;
-        };
-
-        const binding = context.bind(address).toDynamicValue(({context, options}) => {
-          const valueOrPromise = context.getValueOrPromise<object>(key, options);
-          return isPromiseLike(valueOrPromise) ? valueOrPromise.then(applyValidation) : applyValidation(valueOrPromise);
-        });
+        const binding = context.bind(address).toDynamicValue(this._resolveValue(key, validation));
 
         if (options.singleton || options.singleton == null) {
           binding.inScope(BindingScope.SINGLETON);
@@ -147,7 +142,19 @@ export class Aliaser {
     }
   }
 
-  private _applyValidation<I = unknown, O = unknown>(value: I, validation: Validation<I, O>): O | Promise<O> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private _resolveValue<I = any>(key: BindingKey<unknown>, validation?: Validation<I>): ValueFactory {
+    const applyValidation = (value?: I) => (validation ? this._applyValidation(value, validation) : value);
+    return ({context, options}) => {
+      const valueOrPromise = context.getValueOrPromise<I>(key, options);
+      return isPromiseLike(valueOrPromise) ? valueOrPromise.then(applyValidation) : applyValidation(valueOrPromise);
+    };
+  }
+
+  private _applyValidation<I = unknown, O = unknown>(
+    value: I | undefined,
+    validation: Validation<I, O>,
+  ): O | Promise<O> {
     const applyFn = (fn: ValidateFn<I, O>) => {
       const result = fn(value);
       if (isPromiseLike(result)) {

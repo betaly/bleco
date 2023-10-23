@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {BindingKey, Context} from '@loopback/context';
 import {Aliaser} from '../../aliaser';
 
