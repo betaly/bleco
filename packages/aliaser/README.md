@@ -1,84 +1,88 @@
 # @bleco/aliaser
 
-> A loopback next bindings alias helper
+The `@bleco/aliaser` package provides a flexible and powerful utility for managing binding aliases within a LoopBack
+application. This package enables you to define and apply aliases to bindings, allowing for more modular and
+maintainable code. It is particularly useful when you want to redirect or transform values from one binding to another.
 
-## Motive
+## Features
 
-Loopback has a great configuration management mechanism. But it is not responsible for external loading. A typical
-loading method is to load from environment variables. However, it caused some troubles in the default settings and
-annoying empty checking during the development period.
-
-`@bleco/aliaser` allow you using loopback [toAlias](https://loopback.io/doc/en/lb4/apidocs.context.binding.toalias.html)
-to alias config bindings from `app.options` - `CoreBindings.APPLICATION_CONFIG`.
+- **Simple API**: Easy to use functions for defining and applying aliases.
+- **Validation and Transformation**: Built-in support for validation and transformation of aliased values.
+- **Promise Support**: Asynchronous operations are fully supported, allowing for promise-based validation and
+  transformation.
+- **High Test Coverage**: The package is fully tested to ensure reliability and stability.
 
 ## Installation
 
-npm
+Install the package using npm or yarn:
 
-```shell
-npm i @bleco/aliaser
-```
-
-yarn
-
-```shell
+```bash
+npm install @bleco/aliaser
+# OR
 yarn add @bleco/aliaser
 ```
 
 ## Usage
 
-Steps:
-
-- Define an aliaser
+Below is a basic example of how to use `@bleco/aliaser`:
 
 ```typescript
-// keys.ts
-import {Aliaser} from '@bleco/aliser';
+import { Aliaser, Context, BindingKey } from '@bleco/aliaser';
 
-namespace SomeBinding {
-  export const Config = BindingKey.create('some.key');
-}
+// Create a new LoopBack context
+const context = new Context();
 
-// Define an aliser
-const ConfigAliser = Aliaser.create({
-  auth: SomeBinding.Config,
-});
+// Define some bindings
+context.bind('config').to({ prop: 'value' });
+
+// Create an aliaser instance
+const aliaser = Aliaser.create({ prop: 'config#prop' });
+
+// Apply the aliases to the context
+aliaser.bind(context);
+
+// Retrieve the aliased value
+const value = context.getSync('prop');  // Output: 'value'
 ```
 
-- Alias in component constructor
+In this example, we have a LoopBack context with a binding named `config` that holds an object with a property `prop`.
+We create an `Aliaser` instance and define an alias from `prop` to `config#prop`. Finally, we apply the aliases to the
+context and retrieve the aliased value.
 
-```typescript
-import {Application, CoreBindings} from '@loopback/core';
+## API
 
-import {ConfigAliser} from '../keys';
+### `Aliaser`
 
-class SomeComponent {
-  constructor(
-    @inject(CoreBindings.APPLICATION_INSTANCE)
-    app: Application,
-  ) {
-    // it will alias `SomeBinding.Config` from `app.options.auth`
-    ConfigAliser.alias(app);
-  }
-}
-```
+The main class for defining and applying aliases.
 
-- Use `@inject(SomeBinding.Config)` or `app.get(SomeBinding.Config)` to get config object in loopback way
-  - `@inject(SomeBinding.Config)`
+#### `constructor()`
 
-```typescript
-class SomeClass {
-  someMethod(
-    @inject(SomeBinding.Config)
-    config: SomeConfig,
-  ) {
-    //...
-  }
-}
-```
+Creates a new `Aliaser` instance.
 
-- `app.get(SomeBinding.Config)`
+#### `static create(definition: AliasingDefinition): Aliaser`
 
-```typescript
-const config = await app.get(SomeBinding.Config);
-```
+Creates a new `Aliaser` instance with the given aliasing definition.
+
+#### `add(definition: AliasingDefinition): Aliaser`
+
+Adds an aliasing definition.
+
+#### `bind(context: Context, options?: AliasingBindOptions): this`
+
+Applies the defined aliases to the given LoopBack context.
+
+### `AliasingDefinition`
+
+An object representing the aliasing definition.
+
+### `AliasingBindOptions`
+
+An optional configuration object for binding options.
+
+## Contributing
+
+Contributions are welcome! Please submit an issue or pull request with any improvements or bug fixes.
+
+## License
+
+This package is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

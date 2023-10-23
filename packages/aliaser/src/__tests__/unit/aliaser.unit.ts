@@ -1,172 +1,83 @@
 import {BindingKey, Context} from '@loopback/context';
-import {Application, CoreBindings} from '@loopback/core';
-
 import {Aliaser} from '../../aliaser';
 
 describe('Aliaser', () => {
-  const options = {
-    foo: {
-      subFoo: 'this is subFoo',
-    },
-    bar: 'this is bar',
-    other: 'this is other',
-  };
+  let context: Context;
+  let aliaser: Aliaser;
 
-  describe('Single Alias', function () {
-    it('should alias with context', function () {
-      const context = new Context();
-      const OPTIONS = BindingKey.create('options');
-      context.bind(OPTIONS).to(options);
-
-      const aliaser = Aliaser.alias(OPTIONS, {
-        foo: 'test.foo',
-        bar: 'test.bar',
-      });
-
-      aliaser.apply(context);
-
-      expect(context.getSync('test.foo')).toEqual(options.foo);
-      expect(context.getSync('test.bar')).toEqual(options.bar);
-    });
-
-    it('should alias with string binding address', function () {
-      const app = new Application(options);
-      const aliaser = Aliaser.alias(CoreBindings.APPLICATION_CONFIG, {
-        foo: 'test.foo',
-        bar: 'test.bar',
-      });
-
-      aliaser.apply(app);
-
-      expect(app.getSync('test.foo')).toEqual(options.foo);
-      expect(app.getSync('test.bar')).toEqual(options.bar);
-    });
-
-    it('should alias with binding key', function () {
-      const app = new Application(options);
-
-      const FOO = BindingKey.create('test.foo');
-      const BAR = BindingKey.create('test.bar');
-      const aliaser = Aliaser.alias(CoreBindings.APPLICATION_CONFIG, {
-        foo: FOO,
-        bar: BAR,
-      });
-
-      aliaser.apply(app);
-
-      expect(app.getSync(FOO)).toEqual(options.foo);
-      expect(app.getSync(BAR)).toEqual(options.bar);
-    });
-
-    it('should alias with deep alias metadata', function () {
-      const app = new Application(options);
-
-      const SUB_FOO = BindingKey.create('test.subFoo');
-      const BAR = BindingKey.create('test.bar');
-      const aliaser = Aliaser.alias(CoreBindings.APPLICATION_CONFIG, {
-        foo: {
-          subFoo: SUB_FOO,
-        },
-        bar: BAR,
-      });
-
-      aliaser.apply(app);
-
-      expect(app.getSync(SUB_FOO)).toEqual(options.foo.subFoo);
-      expect(app.getSync(BAR)).toEqual(options.bar);
-    });
-
-    it('should alias with default CoreBindings.APPLICATION_CONFIG binding key', function () {
-      const app = new Application(options);
-      const aliaser = Aliaser.alias({
-        foo: 'test.foo',
-        bar: 'test.bar',
-      });
-
-      aliaser.apply(app);
-
-      expect(app.getSync('test.foo')).toEqual(options.foo);
-      expect(app.getSync('test.bar')).toEqual(options.bar);
-    });
-
-    it('should not override existing bindings default', function () {
-      const app = new Application(options);
-
-      const FOO = BindingKey.create('test.foo');
-      const BAR = BindingKey.create('test.bar');
-
-      app.bind(FOO).to('foo!!!');
-
-      const aliaser = Aliaser.alias(CoreBindings.APPLICATION_CONFIG, {
-        foo: FOO,
-        bar: BAR,
-      });
-
-      aliaser.apply(app);
-
-      expect(app.getSync(FOO)).toEqual('foo!!!');
-      expect(app.getSync(BAR)).toEqual(options.bar);
-    });
-
-    it('should override existing bindings with override=ture options', function () {
-      const app = new Application(options);
-
-      const FOO = BindingKey.create('test.foo');
-      const BAR = BindingKey.create('test.bar');
-
-      app.bind(FOO).to('foo!!!');
-
-      const aliaser = Aliaser.alias(CoreBindings.APPLICATION_CONFIG, {
-        foo: FOO,
-        bar: BAR,
-      });
-
-      aliaser.apply(app, {override: true});
-
-      expect(app.getSync(FOO)).toEqual(options.foo);
-      expect(app.getSync(BAR)).toEqual(options.bar);
-    });
+  beforeEach(() => {
+    context = new Context();
+    aliaser = new Aliaser();
   });
 
-  describe('Multiple Alias', function () {
-    it('should alias success with in order', function () {
-      const app = new Application(options);
-
-      const FOO = BindingKey.create('test.foo');
-      const SUB_FOO = BindingKey.create('test.foo.subFoo');
-
-      Aliaser.alias({foo: FOO}).apply(app);
-      Aliaser.alias(FOO, {subFoo: SUB_FOO}).apply(app);
-
-      expect(app.getSync(FOO)).toEqual(options.foo);
-      expect(app.getSync(SUB_FOO)).toEqual(options.foo.subFoo);
-    });
-
-    it('should alias success with in disorder', function () {
-      const app = new Application(options);
-
-      const FOO = BindingKey.create('test.foo');
-      const SUB_FOO = BindingKey.create('test.foo.subFoo');
-
-      Aliaser.alias(FOO, {subFoo: SUB_FOO}).apply(app);
-      Aliaser.alias({foo: FOO}).apply(app);
-
-      expect(app.getSync(FOO)).toEqual(options.foo);
-      expect(app.getSync(SUB_FOO)).toEqual(options.foo.subFoo);
-    });
+  test('create a new aliaser instance with static method', () => {
+    const from = BindingKey.create('config');
+    const definition = {prop: 'prop'};
+    const instance = Aliaser.create(from, definition);
+    expect(instance).toBeInstanceOf(Aliaser);
   });
 
-  describe('Alias multiple times', function () {
-    it('should alias multiple times before applying', function () {
-      const app = new Application(options);
+  test('add an aliasing definition', () => {
+    const from = BindingKey.create('config');
+    const definition = {prop: 'prop'};
+    aliaser.add(from, definition);
+    expect(aliaser.definitions).toEqual([[from, definition]]);
+  });
 
-      const FOO = BindingKey.create('test.foo');
-      const SUB_FOO = BindingKey.create('test.foo.subFoo');
+  test('add an aliasing definition without from key', () => {
+    const definition = {prop: 'prop'};
+    aliaser.add(definition);
+    expect(aliaser.definitions).toEqual([[null, definition]]);
+  });
 
-      Aliaser.alias(FOO, {subFoo: SUB_FOO}).alias({foo: FOO}).apply(app).apply(app);
+  test('throw error for invalid definition format', () => {
+    expect(() => {
+      aliaser.add({prop: 123 as any});
+    }).toThrow('Invalid value for property "prop".');
 
-      expect(app.getSync(FOO)).toEqual(options.foo);
-      expect(app.getSync(SUB_FOO)).toEqual(options.foo.subFoo);
-    });
+    expect(() => {
+      aliaser.add({prop: ['config', 123 as any]});
+    }).toThrow('Invalid validation format for property "prop".');
+
+    const from = BindingKey.create('config');
+    expect(() => {
+      aliaser.add(from, {prop: 123 as any});
+    }).toThrow('Invalid value for property "prop".');
+  });
+
+  test('bind aliasing definition', () => {
+    context.bind('config').to({prop: 'value'});
+    const from = BindingKey.create('config');
+    aliaser.add(from, {prop: 'prop'});
+    aliaser.bind(context);
+    expect(context.getSync('prop')).toEqual('value');
+  });
+
+  test('override existing bindings', () => {
+    context.bind('prop').to('existing');
+    context.bind('config').to({prop: 'value'});
+    const from = BindingKey.create('config');
+    aliaser.add(from, {prop: 'prop'});
+    aliaser.bind(context, {override: true});
+    expect(context.getSync('prop')).toEqual('value');
+  });
+
+  test('bind as singleton', () => {
+    context.bind('config').toDynamicValue(() => ({prop: Math.random()}));
+    const from = BindingKey.create('config');
+    aliaser.add(from, {prop: 'prop'});
+    aliaser.bind(context);
+    const value1 = context.getSync('prop');
+    const value2 = context.getSync('prop');
+    expect(value1).toEqual(value2);
+  });
+
+  test('apply validation', async () => {
+    context.bind('config').to({prop: '5'});
+    const from = BindingKey.create('config');
+    const validate = (value: string) => parseInt(value);
+    aliaser.add(from, {prop: ['prop', {parse: validate}]});
+    aliaser.bind(context);
+    expect(await context.get('prop')).toEqual(5);
   });
 });
