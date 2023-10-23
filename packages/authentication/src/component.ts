@@ -1,4 +1,4 @@
-import {Application, Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+import {Application, Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 import {createMiddlewareBinding} from '@loopback/express';
 import {SecurityBindings} from '@loopback/security';
 
@@ -6,17 +6,17 @@ import {ConfigAliaser} from './aliaser';
 import {AuthenticationBindings} from './keys';
 import {ClientAuthenticationMiddlewareProvider, UserAuthenticationMiddlewareProvider} from './middlewares';
 import {
-  AuthMetadataProvider,
   AuthenticateActionProvider,
-  ClientAuthMetadataProvider,
+  AuthMetadataProvider,
   ClientAuthenticateActionProvider,
+  ClientAuthMetadataProvider,
 } from './providers';
 import {
   AppleAuthStrategyFactoryProvider,
   AppleAuthVerifyProvider,
-  AuthStrategyProvider,
   AuthaStrategyFactoryProvider,
   AuthaVerifyProvider,
+  AuthStrategyProvider,
   AzureADAuthStrategyFactoryProvider,
   AzureADAuthVerifyProvider,
   BearerStrategyFactoryProvider,
@@ -57,7 +57,7 @@ export class AuthenticationComponent implements Component {
     @inject(AuthenticationBindings.CONFIG, {optional: true})
     private readonly config?: AuthenticationConfig,
   ) {
-    ConfigAliaser.apply(this.app);
+    ConfigAliaser.bind(this.app);
     // Alias loopback security user to AuthenticationBindings.CURRENT_USER
     app.bind(SecurityBindings.USER).toAlias(AuthenticationBindings.CURRENT_USER);
     this.providers = {

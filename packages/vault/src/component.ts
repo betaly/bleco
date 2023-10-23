@@ -1,4 +1,4 @@
-import {Application, Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+import {Application, Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 
 import {ConfigAliaser} from './alias';
 import {VaultSecurityBindings} from './keys';
@@ -9,7 +9,7 @@ export class VaultComponent implements Component {
     @inject(CoreBindings.APPLICATION_INSTANCE)
     private app: Application,
   ) {
-    ConfigAliaser.apply(app);
+    ConfigAliaser.bind(app);
 
     this.providers = {
       [VaultSecurityBindings.VAULT_CONNECTOR.key]: VaultConnectProvider,

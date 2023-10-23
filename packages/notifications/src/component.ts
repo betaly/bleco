@@ -1,4 +1,4 @@
-import {Application, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+import {Application, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 
 import {NotificationAliaser} from './alias';
 import {NotificationBindings} from './keys';
@@ -15,8 +15,8 @@ export class NotificationsComponent implements Component {
     app: Application,
   ) {
     // alias notification config
-    NotificationAliaser.apply(app);
+    NotificationAliaser.bind(app);
     // alias notification providers config
-    NotificationProvidersAliaser.apply(app);
+    NotificationProvidersAliaser.bind(app);
   }
 }
