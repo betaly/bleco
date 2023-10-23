@@ -37,7 +37,7 @@
     "@nutol/eslint-config": "^0.2.9",
     "@nutol/monorepo": "^0.2.11",
     "@nutol/ts-config": "^0.2.1",
-    "@trivago/prettier-plugin-sort-imports": "^4.2.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/jest": "^29.5.6",
     "@types/node": "^20.8.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
