@@ -21,7 +21,7 @@ export interface AliasDefinition {
 }
 
 export type InferAliasDefinition<T extends AliasDefinition> = {
-  [K in keyof T]: T[K] extends [infer B, infer V]
+  [K in keyof T]?: T[K] extends [infer B, infer V]
     ? B extends BindingAddress<infer U>
       ? U
       : never
