@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@1.2.0...@bleco/aliaser@1.3.0) (2023-10-24)
+
+
+### Features
+
+* **aliaser:** add types for aliaser definition ([eaf06eb](https://github.com/betaly/bleco/commit/eaf06eb2695f4e4b7154fb31cdd3d65c7f14cb14))
+
+
+
+
+
 # [1.2.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@1.1.0...@bleco/aliaser@1.2.0) (2023-10-24)
 
 
