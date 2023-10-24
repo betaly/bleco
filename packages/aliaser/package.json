@@ -1,7 +1,7 @@
 {
   "name": "@bleco/aliaser",
   "description": "A loopback next bindings alias helper",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

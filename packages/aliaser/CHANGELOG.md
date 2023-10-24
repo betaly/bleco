@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@1.1.0...@bleco/aliaser@1.2.0) (2023-10-24)
+
+
+### Features
+
+* **aliaser:** clarify validation error to include binding key info ([80a6566](https://github.com/betaly/bleco/commit/80a6566bea2ff94818eabe2206edb4148bb83a9a))
+
+
+
+
+
 # [1.1.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@0.6.6...@bleco/aliaser@1.1.0) (2023-10-23)
 
 
