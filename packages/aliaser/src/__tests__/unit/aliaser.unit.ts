@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {BindingKey, Context} from '@loopback/context';
 import {Aliaser} from '../../aliaser';
+import {z} from 'zod';
 
 describe('Aliaser', () => {
   let context: Context;
@@ -80,5 +81,23 @@ describe('Aliaser', () => {
     aliaser.add(from, {prop: ['prop', {parse: validate}]});
     aliaser.bind(context);
     expect(await context.get('prop')).toEqual(5);
+  });
+
+  test('apply validation with async function', async () => {
+    context.bind('config').to({prop: '5'});
+    const from = BindingKey.create('config');
+    const validate = (value: string) => Promise.resolve(parseInt(value));
+    aliaser.add(from, {prop: ['prop', {parse: validate}]});
+    aliaser.bind(context);
+    expect(await context.get('prop')).toEqual(5);
+  });
+
+  test('apply validation with zod schema that throws error', async () => {
+    context.bind('config').to({prop: '5'});
+    const from = BindingKey.create('config');
+    const PropSchema = z.number();
+    aliaser.add(from, {prop: ['prop', PropSchema]});
+    aliaser.bind(context);
+    await expect(context.get('prop')).rejects.toThrow(`Invalid value for "config#prop"`);
   });
 });

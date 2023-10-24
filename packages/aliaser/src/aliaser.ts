@@ -144,7 +144,16 @@ export class Aliaser {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _resolveValue<I = any>(key: BindingKey<unknown>, validation?: Validation<I>): ValueFactory {
-    const applyValidation = (value?: I) => (validation ? this._applyValidation(value, validation) : value);
+    const applyValidation = (value?: I) => {
+      if (validation) {
+        try {
+          return this._applyValidation(value, validation);
+        } catch (e) {
+          throw new Error(`Invalid value for "${key.toString()}": ${e.message}`);
+        }
+      }
+      return value;
+    };
     return ({context, options}) => {
       const valueOrPromise = context.getValueOrPromise<I>(key, options);
       return isPromiseLike(valueOrPromise) ? valueOrPromise.then(applyValidation) : applyValidation(valueOrPromise);
