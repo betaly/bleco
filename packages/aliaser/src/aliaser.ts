@@ -2,24 +2,9 @@ import {BindingAddress, BindingKey, BindingScope, Context, isPromiseLike, ValueF
 import {CoreBindings} from '@loopback/core';
 import {assert} from 'tily/assert';
 import {isPlainObject} from 'tily/is/plainObject';
+import {AliasDefinition, ValidateFn, Validation} from './types';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ValidateFn<I = any, O = any> = (value?: I) => Promise<O> | O;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Validation<I = any, O = any> =
-  | {
-      parse: ValidateFn<I, O>;
-    }
-  | {
-      validate: ValidateFn<I, O>;
-    }
-  | ValidateFn<I, O>;
-
-export interface AliasingDefinition {
-  [prop: string]: BindingAddress | [BindingAddress, Validation] | AliasingDefinition;
-}
-
-export interface AliasingBindOptions {
+export interface AliasBindOptions {
   /**
    * The binding key to resolve the aliasing definition.
    */
@@ -37,7 +22,7 @@ export interface AliasingBindOptions {
 }
 
 export class Aliaser {
-  readonly definitions: [BindingKey<unknown> | null, AliasingDefinition][] = [];
+  readonly definitions: [BindingKey<unknown> | null, AliasDefinition][] = [];
 
   /**
    * Create a new aliaser with the given aliasing definition.
@@ -45,9 +30,9 @@ export class Aliaser {
    * @param from
    * @param definition
    */
-  static create(from: BindingKey<unknown>, definition: AliasingDefinition): Aliaser;
-  static create(definition: AliasingDefinition): Aliaser;
-  static create(fromOrMetadata: BindingKey<unknown> | AliasingDefinition, definition?: AliasingDefinition): Aliaser {
+  static create(from: BindingKey<unknown>, definition: AliasDefinition): Aliaser;
+  static create(definition: AliasDefinition): Aliaser;
+  static create(fromOrMetadata: BindingKey<unknown> | AliasDefinition, definition?: AliasDefinition): Aliaser {
     return new Aliaser().add(fromOrMetadata as BindingKey<unknown>, definition!);
   }
 
@@ -59,9 +44,9 @@ export class Aliaser {
    * @param from
    * @param definition
    */
-  add(from: BindingKey<unknown>, definition: AliasingDefinition): Aliaser;
-  add(definition: AliasingDefinition): Aliaser;
-  add(fromOrDefinition: BindingKey<unknown> | AliasingDefinition, definition?: AliasingDefinition): Aliaser {
+  add(from: BindingKey<unknown>, definition: AliasDefinition): Aliaser;
+  add(definition: AliasDefinition): Aliaser;
+  add(fromOrDefinition: BindingKey<unknown> | AliasDefinition, definition?: AliasDefinition): Aliaser {
     let from: BindingKey<unknown> | null;
     if (isBindingKey(fromOrDefinition)) {
       assert(definition, '`definition` is required');
@@ -75,7 +60,7 @@ export class Aliaser {
     return this;
   }
 
-  private _validateDefinition(definition: AliasingDefinition): void {
+  private _validateDefinition(definition: AliasDefinition): void {
     for (const key in definition) {
       const value = definition[key];
       if (isBindingAddress(value)) {
@@ -85,7 +70,7 @@ export class Aliaser {
           throw new Error(`Invalid validation format for property "${key}".`);
         }
       } else if (isPlainObject(value)) {
-        this._validateDefinition(value);
+        this._validateDefinition(value as AliasDefinition);
       } else {
         throw new Error(`Invalid value for property "${key}".`);
       }
@@ -96,13 +81,9 @@ export class Aliaser {
    * Apply to the given context with the given definition.
    *
    */
-  bind(context: Context, from: BindingKey<unknown>, options?: AliasingBindOptions): this;
-  bind(context: Context, options?: AliasingBindOptions): this;
-  bind(
-    context: Context,
-    fromOrOptions?: BindingKey<unknown> | AliasingBindOptions,
-    options?: AliasingBindOptions,
-  ): this {
+  bind(context: Context, from: BindingKey<unknown>, options?: AliasBindOptions): this;
+  bind(context: Context, options?: AliasBindOptions): this;
+  bind(context: Context, fromOrOptions?: BindingKey<unknown> | AliasBindOptions, options?: AliasBindOptions): this {
     let from: BindingKey<unknown>;
     if (isBindingAddress(fromOrOptions)) {
       from = fromOrOptions;
@@ -121,8 +102,8 @@ export class Aliaser {
     context: Context,
     from: BindingKey<unknown>,
     prop: string,
-    target: BindingAddress | [BindingAddress, Validation] | AliasingDefinition,
-    options: AliasingBindOptions,
+    target: AliasDefinition,
+    options: AliasBindOptions,
   ) {
     if (isBindingAddress(target) || Array.isArray(target)) {
       const [address, validation] = Array.isArray(target) ? target : [target, undefined];
@@ -137,7 +118,7 @@ export class Aliaser {
       }
     } else if (isPlainObject(target)) {
       Object.entries(target).forEach(([key, value]) => {
-        this._bind(context, from, [prop, key].filter(Boolean).join('.'), value, options);
+        this._bind(context, from, [prop, key].filter(Boolean).join('.'), value as AliasDefinition, options);
       });
     }
   }
