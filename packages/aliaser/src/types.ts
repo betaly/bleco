@@ -1,23 +1,16 @@
 import {BindingAddress} from '@loopback/context';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ValidateFn<I = any, O = any> = (value?: I) => Promise<O> | O;
+export type ParseFn<I = any, O = any> = (value?: I) => Promise<O> | O;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Validation<I = any, O = any> =
+export type Parser<I = any, O = any> =
   | {
-      parse: ValidateFn<I, O>;
+      parse: ParseFn<I, O>;
     }
-  | {
-      validate: ValidateFn<I, O>;
-    }
-  | ValidateFn<I, O>;
+  | ParseFn<I, O>;
 
 export interface AliasDefinition {
-  [prop: string]:
-    | BindingAddress
-    | [BindingAddress, Validation]
-    | readonly [BindingAddress, Validation]
-    | AliasDefinition;
+  [prop: string]: BindingAddress | [BindingAddress, Parser] | readonly [BindingAddress, Parser] | AliasDefinition;
 }
 
 export type InferAliasDefinition<T extends AliasDefinition> = {

@@ -35,16 +35,16 @@ describe('Aliaser', () => {
   test('throw error for invalid definition format', () => {
     expect(() => {
       aliaser.add({prop: 123 as any});
-    }).toThrow('Invalid value for property "prop".');
+    }).toThrow('Invalid definition for property "prop".');
 
     expect(() => {
       aliaser.add({prop: ['config', 123 as any]});
-    }).toThrow('Invalid validation format for property "prop".');
+    }).toThrow('Invalid definition for property "prop".');
 
     const from = BindingKey.create('config');
     expect(() => {
       aliaser.add(from, {prop: 123 as any});
-    }).toThrow('Invalid value for property "prop".');
+    }).toThrow('Invalid definition for property "prop".');
   });
 
   test('bind aliasing definition', () => {
@@ -74,7 +74,7 @@ describe('Aliaser', () => {
     expect(value1).toEqual(value2);
   });
 
-  test('apply validation', async () => {
+  test('apply parser', async () => {
     context.bind('config').to({prop: '5'});
     const from = BindingKey.create('config');
     const validate = (value: string) => parseInt(value);
@@ -83,7 +83,7 @@ describe('Aliaser', () => {
     expect(await context.get('prop')).toEqual(5);
   });
 
-  test('apply validation with async function', async () => {
+  test('apply parser with async function', async () => {
     context.bind('config').to({prop: '5'});
     const from = BindingKey.create('config');
     const validate = (value: string) => Promise.resolve(parseInt(value));
@@ -92,7 +92,7 @@ describe('Aliaser', () => {
     expect(await context.get('prop')).toEqual(5);
   });
 
-  test('apply validation with zod schema that throws error', async () => {
+  test('apply parser with zod schema that throws error', async () => {
     context.bind('config').to({prop: '5'});
     const from = BindingKey.create('config');
     const PropSchema = z.number();
