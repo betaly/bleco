@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/betaly/bleco/compare/@bleco/aliaser@1.3.1...@bleco/aliaser@1.4.0) (2023-10-28)
+
+
+### Features
+
+* **aliaser:** refactor parser and add composeParsers util function ([0b238f6](https://github.com/betaly/bleco/commit/0b238f6da3e8f899fa1cec201b73d5f53c6fecdf))
+
+
+
+
+
 ## [1.3.1](https://github.com/betaly/bleco/compare/@bleco/aliaser@1.3.0...@bleco/aliaser@1.3.1) (2023-10-24)
 
 **Note:** Version bump only for package @bleco/aliaser
