@@ -15,7 +15,3 @@ export function parseValue<T>(parser: Parser, value?: unknown): T {
 
   return parser.parse(value);
 }
-
-export function composeParsers(...parsers: Parser[]): Parser {
-  return value => parsers.reduce((acc, parser) => parseValue(parser, acc), value);
-}
