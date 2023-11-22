@@ -7,6 +7,7 @@ import {
   DefaultCrudRepository,
   Entity,
   FilterExcludingWhere,
+  juggler,
   Options,
   Where,
 } from '@loopback/repository';
@@ -48,6 +49,9 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
     const getUserId = userIdGetter(userIdKeys as string[]);
 
     class MixedRepository extends superClass implements UserUpdatableRepository<T, ID, Relations> {
+      // avoid TS2742 error
+      modelClass: juggler.PersistedModelClass;
+
       getCurrentUser?: Getter<AnyObj | undefined>;
 
       // @ts-ignore

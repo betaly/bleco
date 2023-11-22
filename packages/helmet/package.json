@@ -25,14 +25,14 @@
     "@loopback/context": "^6.1.3",
     "@loopback/core": "^5.1.3",
     "@loopback/rest": "^13.1.3",
-    "helmet": "^7.0.0"
+    "helmet": "^7.1.0"
   },
   "devDependencies": {
     "@loopback/testlab": "^6.1.3",
-    "@nutol/build": "^0.2.14",
-    "@nutol/eslint-config": "^0.2.9",
+    "@nutol/build": "^0.2.15",
+    "@nutol/eslint-config": "^0.2.10",
     "@types/helmet": "4.0.0",
-    "@types/node": "^20.8.7"
+    "@types/node": "^20.9.4"
   },
   "files": [
     "README.md",

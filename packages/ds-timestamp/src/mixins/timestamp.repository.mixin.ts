@@ -1,15 +1,16 @@
-import {MixinTarget} from '@bleco/mixin';
+import { MixinTarget } from "@bleco/mixin";
 import {
   Count,
   DataObject,
   DefaultCrudRepository,
   Entity,
   FilterExcludingWhere,
+  juggler,
   Options,
-  Where,
-} from '@loopback/repository';
+  Where
+} from "@loopback/repository";
 
-import {TimestampModel} from './timestamp.model.mixin';
+import { TimestampModel } from "./timestamp.model.mixin";
 
 export interface TimestampRepositoryOperationOptions extends Options {
   skipUpdatedAt?: boolean;
@@ -22,6 +23,9 @@ export function TimestampRepositoryMixin<
   R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
 >(superClass: R) {
   class MixedRepository extends superClass {
+    // avoid TS2742 error
+    modelClass: juggler.PersistedModelClass;
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);

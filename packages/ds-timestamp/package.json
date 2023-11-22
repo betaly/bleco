@@ -28,10 +28,10 @@
     "debug": "^4.3.4"
   },
   "devDependencies": {
-    "@nutol/build": "^0.2.14",
-    "@nutol/eslint-config": "^0.2.9",
-    "@types/jest": "^29.5.6",
-    "@types/node": "^20.8.7",
+    "@nutol/build": "^0.2.15",
+    "@nutol/eslint-config": "^0.2.10",
+    "@types/jest": "^29.5.10",
+    "@types/node": "^20.9.4",
     "delay": "^5.0.0",
     "jest": "^29.7.0"
   },

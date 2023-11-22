@@ -7,6 +7,7 @@ import {
   DefaultCrudRepository,
   Entity,
   Filter,
+  juggler,
   OrClause,
   Where,
 } from '@loopback/repository';
@@ -24,6 +25,9 @@ export function SoftCrudRepositoryMixin<
   R extends MixinTarget<DefaultCrudRepository<T, ID, Relations>>,
 >(superClass: R) {
   return class extends superClass {
+    // avoid TS2742 error
+    modelClass: juggler.PersistedModelClass;
+
     // implements Partial<SoftCrudRepository<T, ID, Relations>> {
     getCurrentUser?: Getter<AnyObj | undefined>;
 
