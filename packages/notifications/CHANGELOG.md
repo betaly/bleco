@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/betaly/bleco/compare/@bleco/notifications@0.10.12...@bleco/notifications@0.11.0) (2023-11-23)
+
+
+### Features
+
+* add sanitization component for response sanitization ([f2d78eb](https://github.com/betaly/bleco/commit/f2d78eb358cbd6700547c8fbe4fc1018ebc7e3d1))
+
+
+
+
+
 ## [0.10.12](https://github.com/betaly/bleco/compare/@bleco/notifications@0.10.11...@bleco/notifications@0.10.12) (2023-10-28)
 
 **Note:** Version bump only for package @bleco/notifications
