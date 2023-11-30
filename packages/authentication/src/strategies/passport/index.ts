@@ -11,3 +11,4 @@ export * from './passport-local';
 export * from './passport-otp';
 export * from './passport-resource-owner-password';
 export * from './passport-autha';
+export * from './passport-auth0';

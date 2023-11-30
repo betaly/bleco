@@ -7,6 +7,7 @@ import * as GoogleStrategy from 'passport-google-oauth20';
 import * as PassportBearer from 'passport-http-bearer';
 import * as InstagramStrategy from 'passport-instagram';
 import * as PassportLocal from 'passport-local';
+import * as Auth0Strategy from 'passport-auth0';
 
 import * as ClientPassportStrategy from '../passport/passport-client-password/client-password-strategy';
 import {Otp} from '../passport/passport-otp/otp-auth';
@@ -32,3 +33,4 @@ export type ResourceOwnerPasswordStrategyOptions = Oauth2ResourceOwnerPassword.S
 export type OtpStrategyOptions = Otp.StrategyOptions;
 export type SamlStrategyOptions = SamlStrategy.SamlConfig;
 export type CognitoStrategyOptions = Cognito.StrategyOptions;
+export type Auth0StrategyOptions = Auth0Strategy.StrategyOption;

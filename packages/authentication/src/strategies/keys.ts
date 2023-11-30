@@ -15,6 +15,7 @@ import {LocalPasswordStrategyFactory} from './passport/passport-local';
 import {ResourceOwnerPasswordStrategyFactory} from './passport/passport-resource-owner-password';
 import {
   AppleStrategyOptions,
+  Auth0StrategyOptions,
   AuthaStrategyOptions,
   AzureADStrategyOptions,
   BearerStrategyOptions,
@@ -30,6 +31,7 @@ import {
   SamlStrategyOptions,
   VerifyFunction,
 } from './types';
+import {Auth0StrategyFactoryProvider} from './passport/passport-auth0/auth0-strategy-factory-provider';
 
 export namespace Strategies {
   export namespace Passport {
@@ -166,6 +168,8 @@ export namespace Strategies {
     );
     export const SAML_STRATEGY_OPTIONS = BindingKey.create<SamlStrategyOptions>('bleco.passport.strategyOptions.saml');
     export const SAML_VERIFIER = BindingKey.create<VerifyFunction.SamlFn>('bleco.passport.verifier.saml');
+
+    // Passport-autha strategy
     export const AUTHA_STRATEGY_FACTORY = BindingKey.create<AuthaStrategyFactoryProvider>(
       'bleco.passport.strategyFactory.autha',
     );
@@ -173,5 +177,14 @@ export namespace Strategies {
       'bleco.passport.strategyOptions.autha',
     );
     export const AUTHA_VERIFIER = BindingKey.create<VerifyFunction.AuthaFn>('bleco.passport.verifier.autha');
+
+    // Passport-auth0 strategy
+    export const AUTH0_STRATEGY_FACTORY = BindingKey.create<Auth0StrategyFactoryProvider>(
+      'bleco.passport.strategyFactory.auth0',
+    );
+    export const AUTH0_STRATEGY_OPTIONS = BindingKey.create<Auth0StrategyOptions>(
+      'bleco.passport.strategyOptions.auth0',
+    );
+    export const AUTH0_VERIFIER = BindingKey.create<VerifyFunction.Auth0AuthFn>('bleco.passport.verifier.auth0');
   }
 }

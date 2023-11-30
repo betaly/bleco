@@ -3,6 +3,7 @@ import {BindingKey} from '@loopback/core';
 import {Strategies} from './keys';
 import {
   AppleStrategyOptions,
+  Auth0StrategyOptions,
   AuthaStrategyOptions,
   AzureADStrategyOptions,
   BearerStrategyOptions,
@@ -33,6 +34,7 @@ export type StrategiesOptions = {
   otp?: OtpStrategyOptions;
   resource_owner_password?: ResourceOwnerPasswordStrategyOptions;
   saml?: SamlStrategyOptions;
+  auth0?: Auth0StrategyOptions;
 };
 
 export type StrategiesNames = keyof StrategiesOptions;
@@ -52,4 +54,5 @@ export const StrategiesOptionsMetadata: Record<StrategiesNames, BindingKey<Strat
   otp: Strategies.Passport.OTP_AUTH_STRATEGY_OPTIONS,
   resource_owner_password: Strategies.Passport.RESOURCE_OWNER_STRATEGY_OPTIONS,
   saml: Strategies.Passport.SAML_STRATEGY_OPTIONS,
+  auth0: Strategies.Passport.AUTH0_STRATEGY_OPTIONS,
 };

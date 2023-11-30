@@ -13,4 +13,5 @@ export enum STRATEGY {
   OTP = 'otp',
   SAML = 'saml',
   AUTHA = 'autha',
+  AUTH0 = 'auth0',
 }

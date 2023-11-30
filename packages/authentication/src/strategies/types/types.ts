@@ -6,6 +6,7 @@ import * as AzureADStrategy from 'passport-azure-ad';
 import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import * as InstagramStrategy from 'passport-instagram';
+import * as Auth0Strategy from 'passport-auth0';
 
 import {Cognito, IAuthClient, IAuthSecureClient, IAuthUser} from '../../types';
 import {Otp} from '../passport';
@@ -132,7 +133,17 @@ export namespace VerifyFunction {
       accessToken: string,
       refreshToken: string,
       profile: AuthaStrategy.Profile,
-      cb: GoogleStrategy.VerifyCallback,
+      cb: AuthaStrategy.VerifyCallback,
+      req?: Request,
+    ): Promise<T | null>;
+  }
+
+  export interface Auth0AuthFn<T = IAuthUser> extends GenericAuthFn<T> {
+    (
+      accessToken: string,
+      refreshToken: string,
+      profile: Auth0Strategy.Profile,
+      cb: VerifyCallback,
       req?: Request,
     ): Promise<T | null>;
   }
