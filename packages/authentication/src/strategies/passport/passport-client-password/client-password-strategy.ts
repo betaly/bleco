@@ -35,12 +35,12 @@ export class Strategy extends passport.Strategy {
   private readonly passReqToCallback: boolean;
   name: string;
   authenticate(req: express.Request, options?: {}): void {
-    if (!req?.body?.client_id) {
+    if (!req?.body?.client_id && !req?.headers?.client_id) {
       return this.fail();
     }
 
-    const clientId = req.body['client_id'];
-    const clientSecret = req.body['client_secret'];
+    const clientId = req.body['client_id'] ?? req.headers['client_id'];
+    const clientSecret = req.body['client_secret'] ?? req.headers['client_secret'];
 
     const verified = (
       err: Error | null,

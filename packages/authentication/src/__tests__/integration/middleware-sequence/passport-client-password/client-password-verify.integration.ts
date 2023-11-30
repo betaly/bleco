@@ -123,6 +123,34 @@ describe('Client-password strategy using Middleware Sequence', () => {
     await whenIMakeRequestTo(server).post('/test').send({client_id: '', client_secret: 'some secret'}).expect(401);
   });
 
+  it('should return status 200 when pass client_id and client_secret in headers', async () => {
+    class TestController {
+      constructor(
+        @inject(AuthenticationBindings.CURRENT_CLIENT) // tslint:disable-next-line: no-shadowed-variable
+        private readonly client: IAuthClient | undefined,
+      ) {}
+
+      @post('/test')
+      @authenticateClient(STRATEGY.CLIENT_PASSWORD, {passReqToCallback: false})
+      test(@requestBody() body: {client_id: string; client_secret: string}) {
+        return this.client;
+      }
+    }
+
+    app.controller(TestController);
+
+    const client = await whenIMakeRequestTo(server)
+      .post('/test')
+      .set({client_id: 'some id', client_secret: 'some secret'})
+      .send({})
+      .expect(200);
+
+    expect(client.body).to.have.property('clientId');
+    expect(client.body).to.have.property('clientSecret');
+    expect(client.body.clientId).to.equal('some id');
+    expect(client.body.clientSecret).to.equal('some secret');
+  });
+
   function whenIMakeRequestTo(restServer: RestServer): Client {
     return createClientForHandler(restServer.requestHandler);
   }
