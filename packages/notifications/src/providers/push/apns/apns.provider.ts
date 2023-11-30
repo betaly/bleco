@@ -1,4 +1,4 @@
-import {Provider, inject} from '@loopback/core';
+import {inject, Provider} from '@loopback/core';
 import apns from '@parse/node-apn';
 import {BErrors} from 'berrors';
 
@@ -22,7 +22,7 @@ export class ApnsProvider implements Provider<any> {
         }
         this.apnsService = new apns.Provider(this.apnsConfig.providerOptions);
       } catch (err) {
-        throw new BErrors.PreconditionFailed(err);
+        throw new BErrors.PreconditionFailed(err, {cause: err});
       }
     } else {
       throw new BErrors.PreconditionFailed('Apns Config missing !');

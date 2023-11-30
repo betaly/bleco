@@ -36,7 +36,7 @@
     "start": "yarn prestart && node -r source-map-support/register .",
     "clean": "lb-clean 'dist' '*.tsbuildinfo' '.eslintcache'",
     "rebuild": "yarn clean && yarn build",
-    "test": "yarn pretest &&  yarn jest && yarn posttest",
+    "test": "yarn pretest &&  yarn jest",
     "jest": "jest",
     "test:ci": "jest --collectCoverage --coverageDirectory=\"./coverage\" --reporters=default --reporters=jest-junit --watchAll=false"
   },
@@ -63,7 +63,7 @@
     "@types/bcryptjs": "2.4.6",
     "@types/ejs": "^3.1.5",
     "@types/jest": "^29.5.10",
-    "@types/node": "^20.9.4",
+    "@types/node": "^20.10.1",
     "jest": "^29.7.0"
   },
   "files": [
