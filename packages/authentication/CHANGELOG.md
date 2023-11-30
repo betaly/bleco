@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/betaly/bleco/compare/@bleco/authentication@1.4.13...@bleco/authentication@1.5.0) (2023-11-30)
+
+
+### Features
+
+* **authentication:** add auth0 authentication ([89001de](https://github.com/betaly/bleco/commit/89001de2adfdc8c7ba1191852b3a62057428e810))
+
+
+
+
+
 ## [1.4.13](https://github.com/betaly/bleco/compare/@bleco/authentication@1.4.12...@bleco/authentication@1.4.13) (2023-11-23)
 
 **Note:** Version bump only for package @bleco/authentication
