@@ -1,7 +1,7 @@
 {
   "name": "@bleco/sanitization",
   "description": "A LoopBack 4 project for securely filtering sensitive fields from API responses, featuring custom decorators and global interceptors to enhance data privacy and security in RESTful services.",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

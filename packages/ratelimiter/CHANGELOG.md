@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.9](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.4.8...@bleco/ratelimiter@1.4.9) (2023-12-02)
+
+**Note:** Version bump only for package @bleco/ratelimiter
+
+
+
+
+
 ## [1.4.8](https://github.com/betaly/bleco/compare/@bleco/ratelimiter@1.4.7...@bleco/ratelimiter@1.4.8) (2023-11-30)
 
 **Note:** Version bump only for package @bleco/ratelimiter
