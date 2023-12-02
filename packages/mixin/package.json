@@ -21,10 +21,10 @@
     "jest": "jest"
   },
   "devDependencies": {
-    "@nutol/build": "^0.2.16",
-    "@nutol/eslint-config": "^0.2.11",
+    "@nutol/build": "^0.2.17",
+    "@nutol/eslint-config": "^0.2.12",
     "@types/jest": "^29.5.10",
-    "@types/node": "^20.10.1"
+    "@types/node": "^20.10.2"
   },
   "files": [
     "README.md",

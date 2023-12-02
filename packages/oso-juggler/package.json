@@ -41,10 +41,10 @@
   },
   "devDependencies": {
     "@bleco/boot": "^0.5.8",
-    "@nutol/build": "^0.2.16",
-    "@nutol/eslint-config": "^0.2.11",
+    "@nutol/build": "^0.2.17",
+    "@nutol/eslint-config": "^0.2.12",
     "@types/jest": "^29.5.10",
-    "@types/node": "^20.10.1",
+    "@types/node": "^20.10.2",
     "loopback-connector-sqlite3s": "^3.5.0",
     "temp": "^0.9.4"
   },
