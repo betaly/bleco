@@ -28,5 +28,5 @@ describe('DefaultSoftCrudRepository', () => {
     ({repo} = await givenDsAndRepo(CustomerCrudRepo));
   });
 
-  testSoftCrudRepository('DefaultSoftCrudRepository', CustomerCrudRepo, () => repo);
+  testSoftCrudRepository('DefaultSoftCrudRepository', () => repo);
 });

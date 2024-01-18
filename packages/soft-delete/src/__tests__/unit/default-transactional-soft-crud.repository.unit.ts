@@ -35,5 +35,5 @@ describe('DefaultTransactionalSoftCrudRepository', () => {
     });
   });
 
-  testSoftCrudRepository('DefaultTransactionalSoftCrudRepository', CustomerCrudRepo, () => repo);
+  testSoftCrudRepository('DefaultTransactionalSoftCrudRepository', () => repo);
 });

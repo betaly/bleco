@@ -275,7 +275,7 @@ export function SoftCrudRepositoryMixin<
 }
 
 export interface SoftCrudRepository<T extends SoftDeleteModel & Entity, ID, Relations extends object = {}>
-  extends DefaultCrudRepository<T, ID, Relations> {
+  extends Omit<DefaultCrudRepository<T, ID, Relations>, 'ensurePersistedModel'> {
   find(filter?: Filter<T>, options?: Options): Promise<(T & Relations)[]>;
 
   findOne(filter?: Filter<T>, options?: Options): Promise<(T & Relations) | null>;

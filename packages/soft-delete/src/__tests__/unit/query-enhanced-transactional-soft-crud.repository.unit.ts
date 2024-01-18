@@ -37,5 +37,5 @@ describe('QueryEnhancedTransactionalSoftCrudRepository', function () {
     });
   });
 
-  testSoftCrudRepository('QueryEnhancedTransactionalSoftCrudRepository', CustomerCrudRepo, () => repo);
+  testSoftCrudRepository('QueryEnhancedTransactionalSoftCrudRepository', () => repo);
 });

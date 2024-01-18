@@ -21,7 +21,7 @@ class Customer extends SoftDeleteEntity {
   email: string;
 }
 
-class CustomerCrudRepo extends QueryEnhancedSoftCrudRepository<Customer, number> {
+class CustomerCrudRepo extends QueryEnhancedSoftCrudRepository<Customer, typeof Customer.prototype.id> {
   constructor(
     entityClass: typeof Entity & {
       prototype: Customer;
@@ -45,5 +45,5 @@ describe('QueryEnhancedSoftCrudRepository', () => {
     });
   });
 
-  testSoftCrudRepository('QueryEnhancedSoftCrudRepository', CustomerCrudRepo, () => repo);
+  testSoftCrudRepository('QueryEnhancedSoftCrudRepository', () => repo);
 });

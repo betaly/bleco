@@ -1,5 +1,4 @@
-import {Constructor} from '@loopback/context';
-import {EntityNotFoundError, model, property} from '@loopback/repository';
+import {model, property} from '@loopback/repository';
 import {expect} from '@loopback/testlab';
 import {fail} from 'assert';
 
@@ -21,7 +20,7 @@ export class Customer extends SoftDeleteEntity {
 
 export function testSoftCrudRepository(
   name: string,
-  repoClass: Constructor<SoftCrudRepository<Customer, typeof Customer.prototype.id>>,
+  // repoClass: Constructor<SoftCrudRepository<Customer, typeof Customer.prototype.id>>,
   getRepo: () => SoftCrudRepository<Customer, typeof Customer.prototype.id>,
 ) {
   describe(`${name} Suite Tests`, () => {
@@ -512,9 +511,9 @@ export function testSoftCrudRepository(
         await repo.deleteHard(customer);
         try {
           await repo.findByIdIncludeSoftDelete(1);
-          fail();
+          fail('should not reach here');
         } catch (e) {
-          expect(e).to.be.instanceOf(EntityNotFoundError);
+          expect(e.message).to.be.equal('Entity not found: Customer with id 1');
         }
       });
     });
@@ -526,9 +525,9 @@ export function testSoftCrudRepository(
         await repo.deleteByIdHard(1);
         try {
           await repo.findByIdIncludeSoftDelete(1);
-          fail();
+          fail('should not reach here');
         } catch (e) {
-          expect(e).to.be.instanceOf(EntityNotFoundError);
+          expect(e.message).to.be.equal('Entity not found: Customer with id 1');
         }
       });
     });

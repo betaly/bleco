@@ -10,7 +10,7 @@ export async function givenDsAndRepo<T extends SoftCrudRepository<Customer, type
     id: '1',
     username: 'test',
   },
-) {
+): Promise<{ds: juggler.DataSource; repo: T}> {
   const ds: juggler.DataSource = new juggler.DataSource({
     name: 'db',
     connector: 'sqlite3s',
