@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.16](https://github.com/betaly/bleco/compare/@bleco/oidp@0.5.15...@bleco/oidp@0.5.16) (2024-01-18)
+
+**Note:** Version bump only for package @bleco/oidp
+
+
+
+
+
 ## [0.5.15](https://github.com/betaly/bleco/compare/@bleco/oidp@0.5.14...@bleco/oidp@0.5.15) (2023-12-02)
 
 **Note:** Version bump only for package @bleco/oidp
