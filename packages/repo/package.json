@@ -1,7 +1,7 @@
 {
   "name": "@bleco/repo",
   "description": "A loopback next repository enhancement extension",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
     "debug": "^4.3.7"
   },
   "devDependencies": {
-    "@bleco/boot": "^0.5.10",
+    "@bleco/boot": "^0.5.11",
     "@nutol/build": "^0.2.22",
     "@nutol/eslint-config": "^0.2.16",
     "@types/jest": "^29.5.13",

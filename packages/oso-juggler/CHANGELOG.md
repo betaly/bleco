@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.11](https://github.com/betaly/bleco/compare/@bleco/oso-juggler@0.5.10...@bleco/oso-juggler@0.5.11) (2024-09-24)
+
+**Note:** Version bump only for package @bleco/oso-juggler
+
+
+
+
+
 ## [0.5.10](https://github.com/betaly/bleco/compare/@bleco/oso-juggler@0.5.9...@bleco/oso-juggler@0.5.10) (2024-01-18)
 
 **Note:** Version bump only for package @bleco/oso-juggler

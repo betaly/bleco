@@ -1,7 +1,7 @@
 {
   "name": "@bleco/audit-log",
   "description": "A loopback-next audit Log extension",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

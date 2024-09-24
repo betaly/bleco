@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.7.11](https://github.com/betaly/bleco/compare/@bleco/config@0.7.10...@bleco/config@0.7.11) (2024-09-24)
+
+**Note:** Version bump only for package @bleco/config
+
+
+
+
+
 ## [0.7.10](https://github.com/betaly/bleco/compare/@bleco/config@0.7.9...@bleco/config@0.7.10) (2024-01-18)
 
 **Note:** Version bump only for package @bleco/config

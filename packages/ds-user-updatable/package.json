@@ -1,7 +1,7 @@
 {
   "name": "@bleco/ds-user-updatable",
   "description": "A loopback next extension for automatically adding and managing createdBy and updatedBy attributes to Model",
-  "version": "0.5.10",
+  "version": "0.5.11",
   "keywords": [],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,7 +21,7 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@bleco/mixin": "^0.5.9",
+    "@bleco/mixin": "^0.5.10",
     "@loopback/core": "^6.1.3",
     "@loopback/repository": "^7.0.6",
     "@loopback/rest": "^14.0.6",
