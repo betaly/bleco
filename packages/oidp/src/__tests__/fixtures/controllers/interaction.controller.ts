@@ -3,7 +3,7 @@ import {Response, RestBindings, api, get, post, requestBody} from '@loopback/res
 import {InteractionResults} from 'oidc-provider';
 
 import {OidpBindings} from '../../../keys';
-import {Interaction} from '../../../oidc';
+import {InteractionOperations} from '../../../oidc';
 import {OidcProvider} from '../../../types';
 import {InteractionDetails} from '../../../types/oidc.types';
 
@@ -18,7 +18,7 @@ export class InteractionController {
     @inject(OidpBindings.OIDC_PROVIDER)
     private readonly provider: OidcProvider,
     @inject(OidpBindings.INTERACTION)
-    private readonly interaction: Interaction,
+    private readonly interaction: InteractionOperations,
     @inject(RestBindings.Http.RESPONSE)
     private readonly response: Response,
   ) {}

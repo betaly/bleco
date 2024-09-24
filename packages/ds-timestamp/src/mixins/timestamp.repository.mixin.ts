@@ -72,7 +72,7 @@ export function TimestampRepositoryMixin<
       if (!options?.skipUpdatedAt) {
         data.updatedAt = new Date();
       }
-      const model = await this.findById(id, {fields: ['id', 'createdAt']} as FilterExcludingWhere<T>, options);
+      const model = await this.findById(id,  {fields: {id: true, createdAt: true}} as FilterExcludingWhere<T>, options);
       data.createdAt = model.createdAt;
       return super.replaceById(id, data, options);
     }

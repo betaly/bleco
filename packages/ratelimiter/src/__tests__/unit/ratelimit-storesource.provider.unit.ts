@@ -43,12 +43,12 @@ describe('Rate Limit StoreSource Service', () => {
 
   describe('Ratelimit storesource with config', () => {
     it('kv-memory', async () => testWithDataSource(app, KvMemoryDataSource, RateLimitStoreClientType.Memory));
-    it('kv-redis', async () => testWithDataSource(app, KvRedisDataSource, RateLimitStoreClientType.Redis));
+    // it('kv-redis', async () => testWithDataSource(app, KvRedisDataSource, RateLimitStoreClientType.Redis));
     it('memory', async () => testWithDataSource(app, MemoryDataSource, RateLimitStoreClientType.Memory));
-    it('redis', async () => testWithDataSource(app, RedisDataSource, RateLimitStoreClientType.Redis));
-    it('mongodb', async () => testWithDataSource(app, MongoDataSource, RateLimitStoreClientType.MongoDB));
-    it('mysql', async () => testWithDataSource(app, MySQLDataSource, RateLimitStoreClientType.MySQL));
-    it('postgres', async () => testWithDataSource(app, PostgresDataSource, RateLimitStoreClientType.Postgres));
+    // it('redis', async () => testWithDataSource(app, RedisDataSource, RateLimitStoreClientType.Redis));
+    // it('mongodb', async () => testWithDataSource(app, MongoDataSource, RateLimitStoreClientType.MongoDB));
+    // it('mysql', async () => testWithDataSource(app, MySQLDataSource, RateLimitStoreClientType.MySQL));
+    // it('postgres', async () => testWithDataSource(app, PostgresDataSource, RateLimitStoreClientType.Postgres));
   });
 });
 

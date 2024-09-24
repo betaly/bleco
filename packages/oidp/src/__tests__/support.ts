@@ -81,7 +81,10 @@ export function getUrlPath(url: string) {
 
 export function createCookieStore(name = 'test') {
   return {
-    save(items: string[]) {
+    save(items: string | string[]) {
+      if (typeof items === 'string') {
+        items = [items];
+      }
       if (items?.length) {
         cookie.save(items, name);
       }

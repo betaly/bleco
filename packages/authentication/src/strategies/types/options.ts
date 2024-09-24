@@ -31,6 +31,6 @@ export type ClientPassportStrategyOptions = ClientPassportStrategy.StrategyOptio
 export type LocalStrategyOptions = PassportLocal.IStrategyOptions | PassportLocal.IStrategyOptionsWithRequest;
 export type ResourceOwnerPasswordStrategyOptions = Oauth2ResourceOwnerPassword.StrategyOptionsWithRequestInterface;
 export type OtpStrategyOptions = Otp.StrategyOptions;
-export type SamlStrategyOptions = SamlStrategy.SamlConfig;
+export type SamlStrategyOptions = SamlStrategy.PassportSamlConfig;
 export type CognitoStrategyOptions = Cognito.StrategyOptions;
 export type Auth0StrategyOptions = Auth0Strategy.StrategyOption;

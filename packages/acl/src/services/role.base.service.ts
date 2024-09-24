@@ -1,10 +1,11 @@
-import {AnyObject, Entity, Filter, Options} from '@loopback/repository';
+import {Filter} from '@loopback/filter';
 import {QueryFilter} from 'loopback4-query';
 
 import {PolicyRegistry} from '../policies';
 import {RoleBaseRepository} from '../repositories/role.base.repository';
 import {TransactionFactory} from '../transactions';
 import {QueryWhereExcludingWhere} from '../types';
+import { Entity, Options, AnyObject } from '@loopback/repository';
 
 export class RoleBaseService<T extends Entity> {
   protected tf: TransactionFactory;

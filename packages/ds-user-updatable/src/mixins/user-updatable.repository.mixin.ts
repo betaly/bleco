@@ -130,7 +130,7 @@ export function UserUpdatableRepositoryMixin<U extends AnyObject = AnyObject>(
         if (!currentUser && throwIfNoUser) {
           throw new BErrors.Forbidden(InvalidCredentials);
         }
-        const model = await this.findById(id, {fields: ['id', 'createdBy']} as FilterExcludingWhere<T>, options);
+        const model = await this.findById(id, {fields: {id: true, createdBy: true}} as FilterExcludingWhere<T>, options);
         data.createdBy = model.createdBy;
         data.updatedBy = getUserId(currentUser);
         return super.replaceById(id, data, options);

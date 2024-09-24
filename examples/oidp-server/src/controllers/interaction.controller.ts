@@ -1,4 +1,4 @@
-import {Interaction, OidcProvider, OidpBindings} from '@bleco/oidp';
+import {InteractionOperations, OidcProvider, OidpBindings} from '@bleco/oidp';
 import {inject, service} from '@loopback/core';
 import {RequestContext, RestBindings, SchemaObject, api, get, post, requestBody} from '@loopback/rest';
 import {assert} from 'tily/assert';
@@ -39,7 +39,7 @@ export class InteractionController {
     @inject(OidpBindings.OIDC_PROVIDER)
     private readonly provider: OidcProvider,
     @inject(OidpBindings.INTERACTION)
-    private interaction: Interaction,
+    private interaction: InteractionOperations,
     @inject(RestBindings.Http.CONTEXT)
     private requestContext: RequestContext,
     @service(TemplatesService)

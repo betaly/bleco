@@ -4,7 +4,7 @@ import {AnyObject} from '@loopback/repository';
 import {Request} from '@loopback/rest';
 import {
   Profile,
-  SamlConfig,
+  PassportSamlConfig,
   Strategy,
   VerifiedCallback,
   VerifyWithoutRequest,
@@ -17,7 +17,7 @@ import {Strategies} from '../../keys';
 import {VerifyFunction} from '../../types';
 
 export interface SamlStrategyFactory {
-  (options: SamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy;
+  (options: PassportSamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy;
 }
 
 export class SamlStrategyFactoryProvider implements Provider<SamlStrategyFactory> {
@@ -30,7 +30,7 @@ export class SamlStrategyFactoryProvider implements Provider<SamlStrategyFactory
     return (options, verifier) => this.getSamlStrategyVerifier(options, verifier);
   }
 
-  getSamlStrategyVerifier(options: SamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy {
+  getSamlStrategyVerifier(options: PassportSamlConfig, verifierPassed?: VerifyFunction.SamlFn): Strategy {
     const verifyFn = verifierPassed ?? this.verifierSaml;
     let strategy;
     const func = async (req: Request, profile: Profile | null | undefined, cb: VerifiedCallback) => {

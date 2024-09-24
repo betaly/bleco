@@ -3,7 +3,7 @@ import OidcProvider, {InteractionResults} from 'oidc-provider';
 
 import {InteractionDetails} from '../types';
 
-export class Interaction {
+export class InteractionOperations {
   constructor(private provider: OidcProvider, private req: Request, private res: Response) {}
 
   details(): Promise<InteractionDetails> {

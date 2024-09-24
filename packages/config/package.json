@@ -21,23 +21,23 @@
     "jest": "jest"
   },
   "dependencies": {
-    "@boost/common": "^4.1.0",
-    "@boost/config": "^4.0.1",
+    "@boost/common": "^4",
+    "@boost/config": "^4",
     "@codexsoft/dotenv-flow": "^3.3.5",
-    "debug": "^4.3.4",
+    "debug": "^4.3.7",
     "deepmerge": "^4.3.1",
     "dotenv-parse-variables": "^2.0.0",
     "object-traversal": "^1.0.1",
     "popu": "^0.5.0",
-    "tily": "^2.22.8",
-    "tslib": "^2.6.2"
+    "tily": "^2.23.2",
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
-    "@loopback/testlab": "^6.1.5",
-    "@nutol/build": "^0.2.18",
-    "@nutol/eslint-config": "^0.2.13",
-    "@types/jest": "^29.5.11",
-    "@types/node": "^20.11.5",
+    "@loopback/testlab": "^7.0.6",
+    "@nutol/build": "^0.2.22",
+    "@nutol/eslint-config": "^0.2.16",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.6.1",
     "cross-env": "^7.0.3",
     "jest": "^29.7.0"
   },

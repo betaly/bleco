@@ -22,5 +22,5 @@ export function resolveStoreClientType(name: string): RateLimitStoreClientType |
 
 export function defaultKey(context: RequestContext): string {
   // By default, use the IP address to rate limit users.
-  return context.request.ip;
+  return context.request.ip ?? '0.0.0.0';
 }

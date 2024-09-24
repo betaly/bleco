@@ -1,6 +1,6 @@
 import * as AuthaStrategy from '@authajs/passport-autha';
 import {Context, Provider, inject} from '@loopback/core';
-import {SamlConfig} from '@node-saml/passport-saml';
+import {PassportSamlConfig} from '@node-saml/passport-saml';
 import {Strategy} from 'passport';
 import * as AppleStrategy from 'passport-apple';
 import * as AzureADAuthStrategy from 'passport-azure-ad';
@@ -139,7 +139,7 @@ export class AuthStrategyProvider implements Provider<Strategy | undefined> {
     } else if (name === STRATEGY.OTP) {
       return this.getOtpVerifier(this.metadata.options as Otp.StrategyOptions, verifier as VerifyFunction.OtpAuthFn);
     } else if (name === STRATEGY.SAML) {
-      return this.getSamlVerifier(this.metadata.options as SamlConfig, verifier as VerifyFunction.SamlFn);
+      return this.getSamlVerifier(this.metadata.options as PassportSamlConfig, verifier as VerifyFunction.SamlFn);
     } else if (name === STRATEGY.AUTHA) {
       return this.getAuthaVerifier(
         this.metadata.options as AuthaStrategy.StrategyOptions | AuthaStrategy.StrategyOptionsWithRequest,

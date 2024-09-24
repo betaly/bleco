@@ -3,9 +3,9 @@ import {Request, Response, RestBindings} from '@loopback/rest';
 import OidcProvider from 'oidc-provider';
 
 import {OidpBindings} from '../keys';
-import {Interaction} from '../oidc';
+import {InteractionOperations} from '../oidc';
 
-export class InteractionProvider implements Provider<Interaction> {
+export class InteractionProvider implements Provider<InteractionOperations> {
   constructor(
     @inject(OidpBindings.OIDC_PROVIDER)
     private provider: OidcProvider,
@@ -15,7 +15,7 @@ export class InteractionProvider implements Provider<Interaction> {
     private res: Response,
   ) {}
 
-  value(): Interaction {
-    return new Interaction(this.provider, this.req, this.res);
+  value(): InteractionOperations {
+    return new InteractionOperations(this.provider, this.req, this.res);
   }
 }
